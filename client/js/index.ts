@@ -4,23 +4,14 @@ import skyUrl from '../../statics/sky.png'
 import starUrl from '../../statics/star.png'
 import bombUrl from '../../statics/bomb.png'
 import fishUrl from '../../statics/fish.png'
-import { gameState, gameMethods } from '../../share/game'
+import { gameState, gameMethods, gameConfig } from '../../share/game'
 import { getLocalUserData } from './user'
-
-const socket = io.connect({
-  auth: {
-    ...getLocalUserData()
-  }
-})
-
-const canvasWidth = 800
-const canvasHeight = 600
-const playerVelocity = 300
+const methods = gameMethods('client')
 
 const config = {
   type: Phaser.AUTO,
-  width: canvasWidth,
-  height: canvasHeight,
+  width: gameConfig.canvasWidth,
+  height: gameConfig.canvasHeight,
   physics: {
     default: 'arcade',
     arcade: {
@@ -46,37 +37,35 @@ function preload() {
 }
 
 function create() {
-  this.add.image(canvasWidth / 2, canvasHeight / 2, 'sky')
-  cursors = this.input.keyboard.createCursorKeys()
-  this.input.keyboard.on(
-    'keydown', e => {
-      if (e.key === 'o') {
-        const x = canvasWidth * Math.random()
-        const y = canvasHeight * Math.random()
-        gameMethods.addPlayer({ x, y }, 'star', getLocalUserData().userId)
-      }
+  const socket = io.connect({
+    auth: {
+      ...getLocalUserData()
     }
-  )
+  })
+
+  socket.on('addPlayer', (pt, icon, id) => {
+    methods.addPlayer(pt, icon, id)
+  })
+
+  this.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'sky')
+  cursors = this.input.keyboard.createCursorKeys()
 }
 
 function update() {
   const velocity = { x: 0, y: 0 }
   if (cursors.left.isDown) {
-    velocity.x = -playerVelocity
+    velocity.x = -gameConfig.playerVelocity
   } else if (cursors.right.isDown) {
-    velocity.x = playerVelocity
+    velocity.x = gameConfig.playerVelocity
   } else {
     velocity.x = 0
   }
   if (cursors.up.isDown) {
-    velocity.y = -playerVelocity
+    velocity.y = -gameConfig.playerVelocity
   } else if (cursors.down.isDown) {
-    velocity.y = playerVelocity
+    velocity.y = gameConfig.playerVelocity
   } else {
     velocity.y = 0
   }
-  gameMethods.setPlayer(getLocalUserData().userId, { velocity })
+  methods.setPlayer(getLocalUserData().userId, { velocity })
 }
-
-
-export { socket }

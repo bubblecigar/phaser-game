@@ -1,5 +1,3 @@
-import { v4 } from 'uuid'
-
 interface Point {
   x: number,
   y: number
@@ -23,32 +21,46 @@ const gameState: GameState = {
   players: []
 }
 
+const gameConfig = {
+  canvasWidth: 800,
+  canvasHeight: 600,
+  playerVelocity: 300
+}
 
-const gameMethods = {
+const gameMethods = (env: 'client' | 'server') => ({
   addPlayer: (p: Point, icon: string, id: string): void => {
-    const scene = gameState.scene
-    if (!scene) {
-      console.log('not initialize')
-      return
-    }
-
     const playerAlreadyExist = gameState.players.some(player => player.id === id)
     if (playerAlreadyExist) {
       console.log('player already exist')
       return
     }
 
-    const phaserObject = scene.physics.add.image(p.x, p.y, icon)
-    phaserObject.setDepth(3)
-    phaserObject.setCollideWorldBounds(true)
-
     const player: Player = {
       id,
-      phaserObject,
+      phaserObject: null,
       position: p,
       velocity: { x: 0, y: 0 }
     }
     gameState.players.push(player)
+
+    if (env === 'client') {
+      const scene = gameState.scene
+      if (!scene) {
+        console.log('not initialize')
+        return
+      }
+      const phaserObject = scene.physics.add.image(p.x, p.y, icon)
+      phaserObject.setDepth(3)
+      phaserObject.setCollideWorldBounds(true)
+      player.phaserObject = phaserObject
+    }
+  },
+  removePlayer: (id: string) => {
+    gameState.players = gameState.players.filter(player => player.id !== id)
+
+    if (env === 'client') {
+      // remove object on canvas
+    }
   },
   setPlayer: (id: string, data: { position?: Point, velocity?: Velocity }): void => {
     const playerIndex = gameState.players.findIndex(player => player.id === id)
@@ -66,6 +78,6 @@ const gameMethods = {
       player.phaserObject.setVelocityY(player.velocity.y)
     }
   }
-}
+})
 
-export { gameState, gameMethods }
+export { gameConfig, gameState, gameMethods }

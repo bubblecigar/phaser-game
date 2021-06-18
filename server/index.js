@@ -3,8 +3,8 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-const game = require('../share/game.js')
-console.log('game:', game)
+const { gameMethods, gameConfig, gameState } = require('../share/game.js')
+const methods = gameMethods('server')
 
 const cwd = process.cwd()
 app.use('/', express.static(cwd + '/dist'));
@@ -15,11 +15,13 @@ server.listen(process.env.PORT || 8081, function () {
 
 io.on('connection', async function (socket) {
   let userData = socket.handshake.auth
-  console.log('userData:', userData)
-
+  const x = gameConfig.canvasWidth * Math.random()
+  const y = gameConfig.canvasHeight * Math.random()
+  methods.addPlayer({ x, y }, 'star', userData.userId)
+  io.emit('addPlayer', { x, y }, 'star', userData.userId)
 
   socket.on('disconnect', async function () {
-
+    methods.removePlayer(userData.userId)
   });
 
 });
