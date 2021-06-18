@@ -19,6 +19,7 @@ io.on('connection', async function (socket) {
   const y = gameConfig.canvasHeight * Math.random()
   methods.addPlayer({ x, y }, 'star', userData.userId)
   io.emit('addPlayer', { x, y }, 'star', userData.userId)
+  io.emit('syncPlayers', gameState.players)
 
   socket.on('disconnect', async function () {
     io.emit('removePlayer', userData.userId)
