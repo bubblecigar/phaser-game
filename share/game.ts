@@ -4,14 +4,9 @@ interface Point {
   x: number,
   y: number
 }
-interface Velocity {
-  x: number,
-  y: number
-}
 interface Player {
   id: string,
   position: Point,
-  velocity: Velocity,
   icon: string,
   phaserObject: any
 }
@@ -51,8 +46,6 @@ const gameMethods = (env: 'client' | 'server') => {
           if (env === 'client') {
             player.phaserObject.setX(player.position.x)
             player.phaserObject.setY(player.position.y)
-            player.phaserObject.setVelocityX(player.velocity.x)
-            player.phaserObject.setVelocityY(player.velocity.y)
           }
         }
       )
@@ -68,8 +61,7 @@ const gameMethods = (env: 'client' | 'server') => {
         id,
         icon,
         phaserObject: null,
-        position: p,
-        velocity: { x: 0, y: 0 }
+        position: p
       }
       gameState.players.push(player)
 
@@ -98,21 +90,24 @@ const gameMethods = (env: 'client' | 'server') => {
         player.phaserObject.destroy()
       }
     },
-    setPlayer: (id: string, data: { position?: Point, velocity?: Velocity }): void => {
-      const playerIndex = gameState.players.findIndex(player => player.id === id)
-      const player = gameState.players[playerIndex]
-      if (!player) return
-
+    getPlayer: (id: string): Player => {
+      return gameState.players.find(p => p.id === id)
+    },
+    movePlayer: (id: string, data: { position: Point }): null | Player => {
+      const player = methods.getPlayer(id)
+      if (!player) {
+        console.log('player not found')
+        return null
+      }
       if (data.position) {
         player.position = data.position
-        player.phaserObject.setX(data.position.x)
-        player.phaserObject.setY(data.position.y)
       }
-      if (data.velocity) {
-        player.velocity = data.velocity
-        player.phaserObject.setVelocityX(player.velocity.x)
-        player.phaserObject.setVelocityY(player.velocity.y)
+      if (env === 'client') {
+        player.phaserObject.setX(player.position.x)
+        player.phaserObject.setY(player.position.y)
+        player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
       }
+      return player
     }
   }
   return methods

@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import _ from 'lodash'
 import io from 'socket.io-client'
 import skyUrl from '../../statics/sky.png'
 import starUrl from '../../statics/star.png'
@@ -26,7 +27,7 @@ const config = {
 };
 
 new Phaser.Game(config)
-let cursors
+let cursors, socket
 
 function preload() {
   gameState.scene = this
@@ -37,7 +38,7 @@ function preload() {
 }
 
 function create() {
-  const socket = io.connect({
+  socket = io.connect({
     auth: {
       ...getLocalUserData()
     }
@@ -54,21 +55,29 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys()
 }
 
-function update() {
-  const velocity = { x: 0, y: 0 }
+function update(t, dt) {
+  const id = getLocalUserData().userId
+  const player = methods.getPlayer(id)
+  if (!player) return
+
+  const { x, y } = player.position
+  const newPosition = { x: 0, y: 0 }
   if (cursors.left.isDown) {
-    velocity.x = -gameConfig.playerVelocity
+    newPosition.x = x + -gameConfig.playerVelocity * dt / 1000
   } else if (cursors.right.isDown) {
-    velocity.x = gameConfig.playerVelocity
+    newPosition.x = x + gameConfig.playerVelocity * dt / 1000
   } else {
-    velocity.x = 0
+    newPosition.x = x
   }
   if (cursors.up.isDown) {
-    velocity.y = -gameConfig.playerVelocity
+    newPosition.y = y + -gameConfig.playerVelocity * dt / 1000
   } else if (cursors.down.isDown) {
-    velocity.y = gameConfig.playerVelocity
+    newPosition.y = y + gameConfig.playerVelocity * dt / 1000
   } else {
-    velocity.y = 0
+    newPosition.y = y
   }
-  methods.setPlayer(getLocalUserData().userId, { velocity })
+  methods.movePlayer(id, { position: newPosition })
+  socket.emit('move-player', _.omit(player, 'phaserObject'))
 }
+
+export { socket }

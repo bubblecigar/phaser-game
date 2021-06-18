@@ -42,8 +42,6 @@ var gameMethods = function (env) {
                 if (env === 'client') {
                     player.phaserObject.setX(player.position.x);
                     player.phaserObject.setY(player.position.y);
-                    player.phaserObject.setVelocityX(player.velocity.x);
-                    player.phaserObject.setVelocityY(player.velocity.y);
                 }
             });
         },
@@ -57,8 +55,7 @@ var gameMethods = function (env) {
                 id: id,
                 icon: icon,
                 phaserObject: null,
-                position: p,
-                velocity: { x: 0, y: 0 }
+                position: p
             };
             gameState.players.push(player);
             if (env === 'client') {
@@ -85,21 +82,24 @@ var gameMethods = function (env) {
                 player.phaserObject.destroy();
             }
         },
-        setPlayer: function (id, data) {
-            var playerIndex = gameState.players.findIndex(function (player) { return player.id === id; });
-            var player = gameState.players[playerIndex];
-            if (!player)
-                return;
+        getPlayer: function (id) {
+            return gameState.players.find(function (p) { return p.id === id; });
+        },
+        movePlayer: function (id, data) {
+            var player = methods.getPlayer(id);
+            if (!player) {
+                console.log('player not found');
+                return null;
+            }
             if (data.position) {
                 player.position = data.position;
-                player.phaserObject.setX(data.position.x);
-                player.phaserObject.setY(data.position.y);
             }
-            if (data.velocity) {
-                player.velocity = data.velocity;
-                player.phaserObject.setVelocityX(player.velocity.x);
-                player.phaserObject.setVelocityY(player.velocity.y);
+            if (env === 'client') {
+                player.phaserObject.setX(player.position.x);
+                player.phaserObject.setY(player.position.y);
+                player.position = { x: player.phaserObject.x, y: player.phaserObject.y };
             }
+            return player;
         }
     };
     return methods;
