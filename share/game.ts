@@ -32,16 +32,30 @@ const gameConfig = {
 
 const gameMethods = (env: 'client' | 'server') => {
   const methods = {
-    syncPlayers: (players: Player[]) => {
-      const missingPlayers = _.differenceBy(players, gameState.players, 'id')
-      const ghostPlayers = _.differenceBy(gameState.players, players, 'id')
-
+    syncPlayers: (_players: Player[]) => {
+      const missingPlayers = _.differenceBy(_players, gameState.players, 'id')
+      const ghostPlayers = _.differenceBy(gameState.players, _players, 'id')
       missingPlayers.forEach(player => {
         methods.addPlayer(player.position, player.icon, player.id)
       })
       ghostPlayers.forEach(player => {
         methods.removePlayer(player.id)
       })
+
+      gameState.players.forEach(
+        player => {
+          const index = _players.findIndex(p => p.id === player.id)
+          const _player = _players[index]
+          player = { ...player, ..._.omit(_player, 'phaserObject') }
+
+          if (env === 'client') {
+            player.phaserObject.setX(player.position.x)
+            player.phaserObject.setY(player.position.y)
+            player.phaserObject.setVelocityX(player.velocity.x)
+            player.phaserObject.setVelocityY(player.velocity.y)
+          }
+        }
+      )
     },
     addPlayer: (p: Point, icon: string, id: string): void => {
       const playerAlreadyExist = gameState.players.some(player => player.id === id)
@@ -83,9 +97,6 @@ const gameMethods = (env: 'client' | 'server') => {
       if (env === 'client') {
         player.phaserObject.destroy()
       }
-    },
-    syncPlayer: () => {
-
     },
     setPlayer: (id: string, data: { position?: Point, velocity?: Velocity }): void => {
       const playerIndex = gameState.players.findIndex(player => player.id === id)

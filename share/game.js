@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 exports.__esModule = true;
 exports.gameMethods = exports.gameState = exports.gameConfig = void 0;
 var lodash_1 = require("lodash");
@@ -15,14 +26,25 @@ var gameConfig = {
 exports.gameConfig = gameConfig;
 var gameMethods = function (env) {
     var methods = {
-        syncPlayers: function (players) {
-            var missingPlayers = lodash_1["default"].differenceBy(players, gameState.players, 'id');
-            var ghostPlayers = lodash_1["default"].differenceBy(gameState.players, players, 'id');
+        syncPlayers: function (_players) {
+            var missingPlayers = lodash_1["default"].differenceBy(_players, gameState.players, 'id');
+            var ghostPlayers = lodash_1["default"].differenceBy(gameState.players, _players, 'id');
             missingPlayers.forEach(function (player) {
                 methods.addPlayer(player.position, player.icon, player.id);
             });
             ghostPlayers.forEach(function (player) {
                 methods.removePlayer(player.id);
+            });
+            gameState.players.forEach(function (player) {
+                var index = _players.findIndex(function (p) { return p.id === player.id; });
+                var _player = _players[index];
+                player = __assign(__assign({}, player), lodash_1["default"].omit(_player, 'phaserObject'));
+                if (env === 'client') {
+                    player.phaserObject.setX(player.position.x);
+                    player.phaserObject.setY(player.position.y);
+                    player.phaserObject.setVelocityX(player.velocity.x);
+                    player.phaserObject.setVelocityY(player.velocity.y);
+                }
             });
         },
         addPlayer: function (p, icon, id) {
@@ -62,8 +84,6 @@ var gameMethods = function (env) {
             if (env === 'client') {
                 player.phaserObject.destroy();
             }
-        },
-        syncPlayer: function () {
         },
         setPlayer: function (id, data) {
             var playerIndex = gameState.players.findIndex(function (player) { return player.id === id; });
