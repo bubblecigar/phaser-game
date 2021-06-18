@@ -3,6 +3,9 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+const game = require('../share/game.js')
+console.log('game:', game)
+
 const cwd = process.cwd()
 app.use('/', express.static(cwd + '/dist'));
 

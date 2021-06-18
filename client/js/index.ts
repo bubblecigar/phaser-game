@@ -4,9 +4,9 @@ import skyUrl from '../../statics/sky.png'
 import starUrl from '../../statics/star.png'
 import bombUrl from '../../statics/bomb.png'
 import fishUrl from '../../statics/fish.png'
-import { gameState, gameMethods } from './game'
+import { gameState, gameMethods } from '../../share/game'
 import { getLocalUserData } from './user'
-console.log('hi')
+
 const socket = io.connect({
   auth: {
     ...getLocalUserData()
