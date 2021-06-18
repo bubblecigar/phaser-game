@@ -21,6 +21,7 @@ io.on('connection', async function (socket) {
   io.emit('addPlayer', { x, y }, 'star', userData.userId)
 
   socket.on('disconnect', async function () {
+    io.emit('removePlayer', userData.userId)
     methods.removePlayer(userData.userId)
   });
 

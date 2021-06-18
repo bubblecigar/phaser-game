@@ -56,10 +56,16 @@ const gameMethods = (env: 'client' | 'server') => ({
     }
   },
   removePlayer: (id: string) => {
+    const playerIndex = gameState.players.findIndex(player => player.id === id)
+    const player = gameState.players[playerIndex]
+    if (!player) {
+      console.log('no such player')
+      return
+    }
     gameState.players = gameState.players.filter(player => player.id !== id)
 
     if (env === 'client') {
-      // remove object on canvas
+      player.phaserObject.destroy()
     }
   },
   setPlayer: (id: string, data: { position?: Point, velocity?: Velocity }): void => {

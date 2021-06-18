@@ -42,10 +42,13 @@ function create() {
       ...getLocalUserData()
     }
   })
-
-  socket.on('addPlayer', (pt, icon, id) => {
-    methods.addPlayer(pt, icon, id)
-  })
+  Object.keys(methods).forEach(
+    method => {
+      socket.on(method, (...args) => {
+        methods[method](...args)
+      })
+    }
+  )
 
   this.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'sky')
   cursors = this.input.keyboard.createCursorKeys()

@@ -39,9 +39,15 @@ var gameMethods = function (env) { return ({
         }
     },
     removePlayer: function (id) {
+        var playerIndex = gameState.players.findIndex(function (player) { return player.id === id; });
+        var player = gameState.players[playerIndex];
+        if (!player) {
+            console.log('no such player');
+            return;
+        }
         gameState.players = gameState.players.filter(function (player) { return player.id !== id; });
         if (env === 'client') {
-            // remove object on canvas
+            player.phaserObject.destroy();
         }
     },
     setPlayer: function (id, data) {
