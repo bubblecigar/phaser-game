@@ -26,7 +26,7 @@ var gameConfig = {
 exports.gameConfig = gameConfig;
 var gameMethods = function (env) {
     var methods = {
-        syncPlayers: function (_players) {
+        syncOnlinePlayers: function (_players) {
             var missingPlayers = lodash_1["default"].differenceBy(_players, gameState.players, 'id');
             var ghostPlayers = lodash_1["default"].differenceBy(gameState.players, _players, 'id');
             missingPlayers.forEach(function (player) {

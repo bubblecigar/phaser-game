@@ -27,7 +27,7 @@ const gameConfig = {
 
 const gameMethods = (env: 'client' | 'server') => {
   const methods = {
-    syncPlayers: (_players: Player[]) => {
+    syncOnlinePlayers: (_players: Player[]) => {
       const missingPlayers = _.differenceBy(_players, gameState.players, 'id')
       const ghostPlayers = _.differenceBy(gameState.players, _players, 'id')
       missingPlayers.forEach(player => {

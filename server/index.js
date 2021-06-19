@@ -19,7 +19,7 @@ io.on('connection', async function (socket) {
   const y = gameConfig.canvasHeight * Math.random()
   methods.addPlayer({ x, y }, 'star', userData.userId)
   io.emit('addPlayer', { x, y }, 'star', userData.userId)
-  io.emit('syncPlayers', gameState.players)
+  io.emit('syncOnlinePlayers', gameState.players)
 
 
   socket.on('move-player', player => {
