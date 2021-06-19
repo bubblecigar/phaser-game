@@ -62,7 +62,8 @@ const gameMethods = (env: 'client' | 'server') => {
         id,
         icon,
         phaserObject: null,
-        position: p
+        position: p,
+        velocity: { x: 0, y: 0 }
       }
       gameState.players.push(player)
 
@@ -94,11 +95,11 @@ const gameMethods = (env: 'client' | 'server') => {
     getPlayer: (id: string): Player => {
       return gameState.players.find(p => p.id === id)
     },
-    movePlayer: (id: string, data: { velocity?: Point, position?: Point }): null | Player => {
+    movePlayer: (id: string, data: { velocity?: Point, position?: Point }): void => {
       const player = methods.getPlayer(id)
       if (!player) {
         console.log('player not found')
-        return null
+        return
       }
       if (data.position) {
         player.position = data.position
