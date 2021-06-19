@@ -11,13 +11,21 @@ interface Player {
   icon: string,
   phaserObject: any
 }
+interface Item {
+  builder: string,
+  position: Point,
+  icon: string,
+  phaserObject: any
+}
 interface GameState {
   scene: null | any,
-  players: Player[]
+  players: Player[],
+  items: Item[]
 }
 const gameState: GameState = {
   scene: null,
-  players: []
+  players: [],
+  items: []
 }
 
 const gameConfig = {
@@ -119,7 +127,31 @@ const gameMethods = (env: 'client' | 'server') => {
         player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
         player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y }
       }
-      return player
+    },
+    addItem: (builder: string, icon: string, type: 'block' | 'ground'): void => {
+      const player = methods.getPlayer(builder)
+      const item: Item = {
+        builder,
+        position: player.position,
+        icon,
+        phaserObject: null
+      }
+      if (env === 'client') {
+        const scene = gameState.scene
+        if (!scene) {
+          console.log('not initialize')
+          return
+        }
+        if (type === 'block') {
+          const phaserObject = scene.physics.add.staticImage(player.position.x, player.position.y, icon)
+          item.phaserObject = phaserObject
+          scene.physics.add.collider(player.phaserObject, item.phaserObject)
+        }
+        if (type === 'ground') {
+          const phaserObject = scene.add.image(player.position.x, player.position.y, icon)
+          item.phaserObject = phaserObject
+        }
+      }
     }
   }
   return methods

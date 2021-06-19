@@ -15,7 +15,8 @@ exports.gameMethods = exports.gameState = exports.gameConfig = void 0;
 var lodash_1 = require("lodash");
 var gameState = {
     scene: null,
-    players: []
+    players: [],
+    items: []
 };
 exports.gameState = gameState;
 var gameConfig = {
@@ -55,7 +56,8 @@ var gameMethods = function (env) {
                 id: id,
                 icon: icon,
                 phaserObject: null,
-                position: p
+                position: p,
+                velocity: { x: 0, y: 0 }
             };
             gameState.players.push(player);
             if (env === 'client') {
@@ -89,7 +91,7 @@ var gameMethods = function (env) {
             var player = methods.getPlayer(id);
             if (!player) {
                 console.log('player not found');
-                return null;
+                return;
             }
             if (data.position) {
                 player.position = data.position;
@@ -109,7 +111,31 @@ var gameMethods = function (env) {
                 player.position = { x: player.phaserObject.x, y: player.phaserObject.y };
                 player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y };
             }
-            return player;
+        },
+        addItem: function (builder, icon, type) {
+            var player = methods.getPlayer(builder);
+            var item = {
+                builder: builder,
+                position: player.position,
+                icon: icon,
+                phaserObject: null
+            };
+            if (env === 'client') {
+                var scene = gameState.scene;
+                if (!scene) {
+                    console.log('not initialize');
+                    return;
+                }
+                if (type === 'block') {
+                    var phaserObject = scene.physics.add.staticImage(player.position.x, player.position.y, icon);
+                    item.phaserObject = phaserObject;
+                    scene.physics.add.collider(player.phaserObject, item.phaserObject);
+                }
+                if (type === 'ground') {
+                    var phaserObject = scene.add.image(player.position.x, player.position.y, icon);
+                    item.phaserObject = phaserObject;
+                }
+            }
         }
     };
     return methods;

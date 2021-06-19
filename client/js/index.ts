@@ -53,6 +53,23 @@ function create() {
 
   this.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'sky')
   cursors = this.input.keyboard.createCursorKeys()
+  this.input.keyboard.on(
+    'keydown', e => {
+      switch (e.key) {
+        case 'z': {
+          methods.addItem(getLocalUserData().userId, 'bomb', 'ground')
+          break
+        }
+        case 'x': {
+          methods.addItem(getLocalUserData().userId, 'bomb', 'block')
+          break
+        }
+        default: {
+          // do nothing
+        }
+      }
+    }
+  )
 }
 
 function update(t, dt) {
