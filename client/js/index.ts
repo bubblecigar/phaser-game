@@ -60,23 +60,22 @@ function update(t, dt) {
   const player = methods.getPlayer(id)
   if (!player) return
 
-  const { x, y } = player.position
-  const newPosition = { x: 0, y: 0 }
+  const newVelocity = { x: 0, y: 0 }
   if (cursors.left.isDown) {
-    newPosition.x = x + -gameConfig.playerVelocity * dt / 1000
+    newVelocity.x = -gameConfig.playerVelocity
   } else if (cursors.right.isDown) {
-    newPosition.x = x + gameConfig.playerVelocity * dt / 1000
+    newVelocity.x = gameConfig.playerVelocity
   } else {
-    newPosition.x = x
+    newVelocity.x = 0
   }
   if (cursors.up.isDown) {
-    newPosition.y = y + -gameConfig.playerVelocity * dt / 1000
+    newVelocity.y = -gameConfig.playerVelocity
   } else if (cursors.down.isDown) {
-    newPosition.y = y + gameConfig.playerVelocity * dt / 1000
+    newVelocity.y = gameConfig.playerVelocity
   } else {
-    newPosition.y = y
+    newVelocity.y = 0
   }
-  methods.movePlayer(id, { position: newPosition })
+  methods.movePlayer(id, { velocity: newVelocity })
   socket.emit('move-player', _.omit(player, 'phaserObject'))
 }
 

@@ -6,6 +6,7 @@ interface Point {
 }
 interface Player {
   id: string,
+  velocity: Point,
   position: Point,
   icon: string,
   phaserObject: any
@@ -93,7 +94,7 @@ const gameMethods = (env: 'client' | 'server') => {
     getPlayer: (id: string): Player => {
       return gameState.players.find(p => p.id === id)
     },
-    movePlayer: (id: string, data: { position: Point }): null | Player => {
+    movePlayer: (id: string, data: { velocity?: Point, position?: Point }): null | Player => {
       const player = methods.getPlayer(id)
       if (!player) {
         console.log('player not found')
@@ -102,10 +103,20 @@ const gameMethods = (env: 'client' | 'server') => {
       if (data.position) {
         player.position = data.position
       }
+      if (data.velocity) {
+        player.velocity = data.velocity
+      }
       if (env === 'client') {
-        player.phaserObject.setX(player.position.x)
-        player.phaserObject.setY(player.position.y)
+        if (data.position) {
+          player.phaserObject.setX(player.position.x)
+          player.phaserObject.setY(player.position.y)
+        }
+        if (data.velocity) {
+          player.phaserObject.setVelocityX(player.velocity.x)
+          player.phaserObject.setVelocityY(player.velocity.y)
+        }
         player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
+        player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y }
       }
       return player
     }

@@ -94,10 +94,20 @@ var gameMethods = function (env) {
             if (data.position) {
                 player.position = data.position;
             }
+            if (data.velocity) {
+                player.velocity = data.velocity;
+            }
             if (env === 'client') {
-                player.phaserObject.setX(player.position.x);
-                player.phaserObject.setY(player.position.y);
+                if (data.position) {
+                    player.phaserObject.setX(player.position.x);
+                    player.phaserObject.setY(player.position.y);
+                }
+                if (data.velocity) {
+                    player.phaserObject.setVelocityX(player.velocity.x);
+                    player.phaserObject.setVelocityY(player.velocity.y);
+                }
                 player.position = { x: player.phaserObject.x, y: player.phaserObject.y };
+                player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y };
             }
             return player;
         }
