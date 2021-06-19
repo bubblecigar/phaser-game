@@ -23,7 +23,7 @@ io.on('connection', async function (socket) {
 
 
   socket.on('move-player', player => {
-    const data = { position: player.position }
+    const data = { position: player.position, velocity: player.velocity }
     methods.movePlayer(player.id, data)
     socket.broadcast.emit('movePlayer', player.id, data)
   })
