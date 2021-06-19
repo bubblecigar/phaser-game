@@ -84,9 +84,7 @@ var gameMethods = function (env) {
                 player.phaserObject.destroy();
             }
         },
-        getPlayer: function (id) {
-            return gameState.players.find(function (p) { return p.id === id; });
-        },
+        getPlayer: function (id) { return gameState.players.find(function (p) { return p.id === id; }); },
         movePlayer: function (id, data) {
             var player = methods.getPlayer(id);
             if (!player) {

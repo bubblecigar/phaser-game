@@ -100,9 +100,7 @@ const gameMethods = (env: 'client' | 'server') => {
         player.phaserObject.destroy()
       }
     },
-    getPlayer: (id: string): Player => {
-      return gameState.players.find(p => p.id === id)
-    },
+    getPlayer: (id: string): Player => gameState.players.find(p => p.id === id),
     movePlayer: (id: string, data: { velocity?: Point, position?: Point }): void => {
       const player = methods.getPlayer(id)
       if (!player) {
