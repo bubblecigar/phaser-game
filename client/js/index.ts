@@ -8,7 +8,9 @@ import bombUrl from '../statics/bomb.png'
 import fishUrl from '../statics/fish.png'
 import { gameState, gameMethods, gameConfig } from '../../share/game'
 import { getLocalUserData } from './user'
-const methods = gameMethods('client')({ ...getLocalUserData(), Phaser })
+
+const userId = getLocalUserData().userId
+const methods = gameMethods('client')({ userId, Phaser })
 
 const config = {
   type: Phaser.AUTO,
@@ -80,26 +82,25 @@ function create() {
 }
 
 function update(t, dt) {
-  const id = getLocalUserData().userId
-  const player = methods.getPlayer(id)
+  const player = methods.getPlayer(userId)
   if (!player) return
 
-  const newVelocity = { x: 0, y: 0 }
+  const _velocity = { x: 0, y: 0 }
   if (cursors.left.isDown) {
-    newVelocity.x = -gameConfig.playerVelocity
+    _velocity.x = -gameConfig.playerVelocity
   } else if (cursors.right.isDown) {
-    newVelocity.x = gameConfig.playerVelocity
+    _velocity.x = gameConfig.playerVelocity
   } else {
-    newVelocity.x = 0
+    _velocity.x = 0
   }
   if (cursors.up.isDown) {
-    newVelocity.y = -gameConfig.playerVelocity
+    _velocity.y = -gameConfig.playerVelocity
   } else if (cursors.down.isDown) {
-    newVelocity.y = gameConfig.playerVelocity
+    _velocity.y = gameConfig.playerVelocity
   } else {
-    newVelocity.y = 0
+    _velocity.y = 0
   }
-  methods.movePlayer(id, { velocity: newVelocity })
+  methods.movePlayer(userId, { velocity: _velocity })
   socket.emit('move-player', _.omit(player, 'phaserObject'))
 }
 
