@@ -20,6 +20,7 @@ io.on('connection', async function (socket) {
   methods.addPlayer({ x, y }, 'star', userData.userId)
   io.emit('addPlayer', { x, y }, 'star', userData.userId)
   io.emit('syncOnlinePlayers', gameState.players)
+  io.emit('syncItems', gameState.items)
 
 
   socket.on('move-player', player => {

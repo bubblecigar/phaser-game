@@ -41,12 +41,8 @@ const gameMethods = (env: 'client' | 'server') => variables => {
   const methods = {
     syncOnlinePlayers: (_players: Player[]) => {
       const missingPlayers = _.differenceBy(_players, gameState.players, 'id')
-      const ghostPlayers = _.differenceBy(gameState.players, _players, 'id')
       missingPlayers.forEach(player => {
         methods.addPlayer(player.position, player.icon, player.id)
-      })
-      ghostPlayers.forEach(player => {
-        methods.removePlayer(player.id)
       })
 
       gameState.players.forEach(
@@ -61,6 +57,12 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           }
         }
       )
+    },
+    syncItems: (_items: Item[]) => {
+      const missingItems = _.differenceBy(_items, gameState.items, 'id')
+      missingItems.forEach(item => {
+        methods.addItem(item)
+      })
     },
     addPlayer: (p: Point, icon: string, id: string): void => {
       const playerAlreadyExist = gameState.players.some(player => player.id === id)
@@ -140,6 +142,8 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         type,
         phaserObject: null
       }
+      gameState.items.push(item)
+
       if (env === 'client') {
         const scene = gameState.scene
         if (!scene) {
@@ -147,7 +151,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           return
         }
         if (type === 'block') {
-          const phaserObject = scene.physics.add.staticImage(builder.position.x, builder.position.y, icon)
+          const phaserObject = scene.physics.add.staticImage(position.x, position.y, icon)
           item.phaserObject = phaserObject
           const clientPlayer = methods.getPlayer(variables.userId)
           scene.physics.add.collider(clientPlayer.phaserObject, item.phaserObject)

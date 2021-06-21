@@ -29,12 +29,8 @@ var gameMethods = function (env) { return function (variables) {
     var methods = {
         syncOnlinePlayers: function (_players) {
             var missingPlayers = lodash_1["default"].differenceBy(_players, gameState.players, 'id');
-            var ghostPlayers = lodash_1["default"].differenceBy(gameState.players, _players, 'id');
             missingPlayers.forEach(function (player) {
                 methods.addPlayer(player.position, player.icon, player.id);
-            });
-            ghostPlayers.forEach(function (player) {
-                methods.removePlayer(player.id);
             });
             gameState.players.forEach(function (player) {
                 var index = _players.findIndex(function (p) { return p.id === player.id; });
@@ -44,6 +40,12 @@ var gameMethods = function (env) { return function (variables) {
                     player.phaserObject.setX(player.position.x);
                     player.phaserObject.setY(player.position.y);
                 }
+            });
+        },
+        syncItems: function (_items) {
+            var missingItems = lodash_1["default"].differenceBy(_items, gameState.items, 'id');
+            missingItems.forEach(function (item) {
+                methods.addItem(item);
             });
         },
         addPlayer: function (p, icon, id) {
@@ -121,6 +123,7 @@ var gameMethods = function (env) { return function (variables) {
                 type: type,
                 phaserObject: null
             };
+            gameState.items.push(item);
             if (env === 'client') {
                 var scene = gameState.scene;
                 if (!scene) {
@@ -128,7 +131,7 @@ var gameMethods = function (env) { return function (variables) {
                     return;
                 }
                 if (type === 'block') {
-                    var phaserObject = scene.physics.add.staticImage(builder.position.x, builder.position.y, icon);
+                    var phaserObject = scene.physics.add.staticImage(position.x, position.y, icon);
                     item.phaserObject = phaserObject;
                     var clientPlayer = methods.getPlayer(variables.userId);
                     scene.physics.add.collider(clientPlayer.phaserObject, item.phaserObject);
