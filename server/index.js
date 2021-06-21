@@ -26,7 +26,7 @@ io.on('connection', async function (socket) {
   }
   methods.addPlayer(player)
   io.emit('addPlayer', player)
-  io.emit('syncOnlinePlayers', gameState.players)
+  io.emit('syncPlayers', gameState.players)
   io.emit('syncItems', gameState.items)
 
 
