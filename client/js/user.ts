@@ -1,11 +1,16 @@
 import { v4 } from 'uuid'
 
 const localKey = 'farm-user'
-const defaultUserData = {
+
+interface User {
+  userId: string
+}
+
+const defaultUserData: User = {
   userId: v4()
 }
 
-const getLocalUserData = () => {
+const getLocalUserData = (): User => {
   try {
     const localUserData = localStorage.getItem(localKey)
     if (!localUserData) {
