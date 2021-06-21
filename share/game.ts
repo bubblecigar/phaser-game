@@ -42,7 +42,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
     syncOnlinePlayers: (_players: Player[]) => {
       const missingPlayers = _.differenceBy(_players, gameState.players, 'id')
       missingPlayers.forEach(player => {
-        methods.addPlayer(player.position, player.icon, player.id)
+        methods.addPlayer(player)
       })
 
       gameState.players.forEach(
@@ -64,7 +64,8 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         methods.addItem(item)
       })
     },
-    addPlayer: (p: Point, icon: string, id: string): void => {
+    addPlayer: (playerConstructor: Player): void => {
+      const { position, velocity, icon, id } = playerConstructor
       const playerAlreadyExist = gameState.players.some(player => player.id === id)
       if (playerAlreadyExist) {
         console.log('player already exist')
@@ -74,9 +75,9 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       const player: Player = {
         id,
         icon,
-        phaserObject: null,
-        position: p,
-        velocity: { x: 0, y: 0 }
+        position,
+        velocity,
+        phaserObject: null
       }
       gameState.players.push(player)
 
@@ -86,7 +87,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           console.log('not initialize')
           return
         }
-        const phaserObject = scene.physics.add.image(p.x, p.y, icon)
+        const phaserObject = scene.physics.add.image(position.x, position.y, icon)
         phaserObject.setDepth(3)
         phaserObject.setCollideWorldBounds(true)
         player.phaserObject = phaserObject

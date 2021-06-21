@@ -17,8 +17,15 @@ io.on('connection', async function (socket) {
   let userData = socket.handshake.auth
   const x = gameConfig.canvasWidth * Math.random()
   const y = gameConfig.canvasHeight * Math.random()
-  methods.addPlayer({ x, y }, 'star', userData.userId)
-  io.emit('addPlayer', { x, y }, 'star', userData.userId)
+  const player = {
+    id: userData.userId,
+    icon: 'star',
+    position: { x, y },
+    velocity: { x: 0, y: 0 },
+    phaserObject: null
+  }
+  methods.addPlayer(player)
+  io.emit('addPlayer', player)
   io.emit('syncOnlinePlayers', gameState.players)
   io.emit('syncItems', gameState.items)
 

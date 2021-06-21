@@ -30,7 +30,7 @@ var gameMethods = function (env) { return function (variables) {
         syncOnlinePlayers: function (_players) {
             var missingPlayers = lodash_1["default"].differenceBy(_players, gameState.players, 'id');
             missingPlayers.forEach(function (player) {
-                methods.addPlayer(player.position, player.icon, player.id);
+                methods.addPlayer(player);
             });
             gameState.players.forEach(function (player) {
                 var index = _players.findIndex(function (p) { return p.id === player.id; });
@@ -48,7 +48,8 @@ var gameMethods = function (env) { return function (variables) {
                 methods.addItem(item);
             });
         },
-        addPlayer: function (p, icon, id) {
+        addPlayer: function (playerConstructor) {
+            var position = playerConstructor.position, velocity = playerConstructor.velocity, icon = playerConstructor.icon, id = playerConstructor.id;
             var playerAlreadyExist = gameState.players.some(function (player) { return player.id === id; });
             if (playerAlreadyExist) {
                 console.log('player already exist');
@@ -57,9 +58,9 @@ var gameMethods = function (env) { return function (variables) {
             var player = {
                 id: id,
                 icon: icon,
-                phaserObject: null,
-                position: p,
-                velocity: { x: 0, y: 0 }
+                position: position,
+                velocity: velocity,
+                phaserObject: null
             };
             gameState.players.push(player);
             if (env === 'client') {
@@ -68,7 +69,7 @@ var gameMethods = function (env) { return function (variables) {
                     console.log('not initialize');
                     return;
                 }
-                var phaserObject = scene.physics.add.image(p.x, p.y, icon);
+                var phaserObject = scene.physics.add.image(position.x, position.y, icon);
                 phaserObject.setDepth(3);
                 phaserObject.setCollideWorldBounds(true);
                 player.phaserObject = phaserObject;
