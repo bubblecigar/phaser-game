@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { v4 } from 'uuid';
 
 interface Point {
   x: number,
@@ -12,9 +13,11 @@ interface Player {
   phaserObject: any
 }
 interface Item {
-  builder: string,
+  id: string,
+  builderId: string,
   position: Point,
   icon: string,
+  type: string,
   phaserObject: any
 }
 interface GameState {
@@ -34,7 +37,7 @@ const gameConfig = {
   playerVelocity: 300
 }
 
-const gameMethods = (env: 'client' | 'server') => {
+const gameMethods = (env: 'client' | 'server') => variables => {
   const methods = {
     syncOnlinePlayers: (_players: Player[]) => {
       const missingPlayers = _.differenceBy(_players, gameState.players, 'id')
@@ -126,12 +129,15 @@ const gameMethods = (env: 'client' | 'server') => {
         player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y }
       }
     },
-    addItem: (builder: string, icon: string, type: 'block' | 'ground'): void => {
-      const player = methods.getPlayer(builder)
+    addItem: (itemConstructor: Item): Item => {
+      const { builderId, id, icon, type, position } = itemConstructor
+      const builder = methods.getPlayer(builderId)
       const item: Item = {
-        builder,
-        position: player.position,
+        id,
+        builderId,
+        position,
         icon,
+        type,
         phaserObject: null
       }
       if (env === 'client') {
@@ -141,15 +147,17 @@ const gameMethods = (env: 'client' | 'server') => {
           return
         }
         if (type === 'block') {
-          const phaserObject = scene.physics.add.staticImage(player.position.x, player.position.y, icon)
+          const phaserObject = scene.physics.add.staticImage(builder.position.x, builder.position.y, icon)
           item.phaserObject = phaserObject
-          scene.physics.add.collider(player.phaserObject, item.phaserObject)
+          const clientPlayer = methods.getPlayer(variables.userId)
+          scene.physics.add.collider(clientPlayer.phaserObject, item.phaserObject)
         }
         if (type === 'ground') {
-          const phaserObject = scene.add.image(player.position.x, player.position.y, icon)
+          const phaserObject = scene.add.image(builder.position.x, builder.position.y, icon)
           item.phaserObject = phaserObject
         }
       }
+      return item
     }
   }
   return methods

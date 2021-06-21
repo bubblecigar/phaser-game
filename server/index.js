@@ -4,7 +4,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 const { gameMethods, gameConfig, gameState } = require('../share/game.js')
-const methods = gameMethods('server')
+const methods = gameMethods('server')()
 
 const cwd = process.cwd()
 app.use('/', express.static(cwd + '/dist'));
@@ -26,6 +26,11 @@ io.on('connection', async function (socket) {
     const data = { position: player.position, velocity: player.velocity }
     methods.movePlayer(player.id, data)
     socket.broadcast.emit('movePlayer', player.id, data)
+  })
+
+  socket.on('addItem', item => {
+    methods.addItem(item)
+    socket.broadcast.emit('addItem', item)
   })
 
   socket.on('disconnect', async function () {

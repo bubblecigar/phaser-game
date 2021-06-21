@@ -25,7 +25,7 @@ var gameConfig = {
     playerVelocity: 300
 };
 exports.gameConfig = gameConfig;
-var gameMethods = function (env) {
+var gameMethods = function (env) { return function (variables) {
     var methods = {
         syncOnlinePlayers: function (_players) {
             var missingPlayers = lodash_1["default"].differenceBy(_players, gameState.players, 'id');
@@ -110,12 +110,15 @@ var gameMethods = function (env) {
                 player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y };
             }
         },
-        addItem: function (builder, icon, type) {
-            var player = methods.getPlayer(builder);
+        addItem: function (itemConstructor) {
+            var builderId = itemConstructor.builderId, id = itemConstructor.id, icon = itemConstructor.icon, type = itemConstructor.type, position = itemConstructor.position;
+            var builder = methods.getPlayer(builderId);
             var item = {
-                builder: builder,
-                position: player.position,
+                id: id,
+                builderId: builderId,
+                position: position,
                 icon: icon,
+                type: type,
                 phaserObject: null
             };
             if (env === 'client') {
@@ -125,17 +128,19 @@ var gameMethods = function (env) {
                     return;
                 }
                 if (type === 'block') {
-                    var phaserObject = scene.physics.add.staticImage(player.position.x, player.position.y, icon);
+                    var phaserObject = scene.physics.add.staticImage(builder.position.x, builder.position.y, icon);
                     item.phaserObject = phaserObject;
-                    scene.physics.add.collider(player.phaserObject, item.phaserObject);
+                    var clientPlayer = methods.getPlayer(variables.userId);
+                    scene.physics.add.collider(clientPlayer.phaserObject, item.phaserObject);
                 }
                 if (type === 'ground') {
-                    var phaserObject = scene.add.image(player.position.x, player.position.y, icon);
+                    var phaserObject = scene.add.image(builder.position.x, builder.position.y, icon);
                     item.phaserObject = phaserObject;
                 }
             }
+            return item;
         }
     };
     return methods;
-};
+}; };
 exports.gameMethods = gameMethods;

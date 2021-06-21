@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import { v4 } from 'uuid';
 import _ from 'lodash'
 import io from 'socket.io-client'
 import skyUrl from '../../statics/sky.png'
@@ -7,7 +8,7 @@ import bombUrl from '../../statics/bomb.png'
 import fishUrl from '../../statics/fish.png'
 import { gameState, gameMethods, gameConfig } from '../../share/game'
 import { getLocalUserData } from './user'
-const methods = gameMethods('client')
+const methods = gameMethods('client')(getLocalUserData())
 
 const config = {
   type: Phaser.AUTO,
@@ -57,11 +58,17 @@ function create() {
     'keydown', e => {
       switch (e.key) {
         case 'z': {
-          methods.addItem(getLocalUserData().userId, 'bomb', 'ground')
-          break
-        }
-        case 'x': {
-          methods.addItem(getLocalUserData().userId, 'bomb', 'block')
+          const player = methods.getPlayer(getLocalUserData().userId)
+          const itemConstructor = {
+            builderId: player.id,
+            id: v4(),
+            icon: 'bomb',
+            type: 'block',
+            position: player.position,
+            phaserObject: null
+          }
+          const item = methods.addItem(itemConstructor)
+          socket.emit('addItem', _.omit(item, 'phaserObject'))
           break
         }
         default: {
