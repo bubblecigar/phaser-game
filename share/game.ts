@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import { v4 } from 'uuid';
 
 interface Point {
   x: number,
