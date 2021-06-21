@@ -8,7 +8,7 @@ import bombUrl from '../../statics/bomb.png'
 import fishUrl from '../../statics/fish.png'
 import { gameState, gameMethods, gameConfig } from '../../share/game'
 import { getLocalUserData } from './user'
-const methods = gameMethods('client')(getLocalUserData())
+const methods = gameMethods('client')({ ...getLocalUserData(), Phaser })
 
 const config = {
   type: Phaser.AUTO,
