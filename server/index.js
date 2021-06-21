@@ -2,9 +2,9 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-
 const { gameMethods, gameConfig, gameState } = require('../share/game.js')
-const methods = gameMethods('server')()
+
+const methods = gameMethods('server')({})
 
 const cwd = process.cwd()
 app.use('/', express.static(cwd + '/dist'));
