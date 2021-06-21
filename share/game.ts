@@ -91,6 +91,11 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         phaserObject.setDepth(3)
         phaserObject.setCollideWorldBounds(true)
         player.phaserObject = phaserObject
+
+        if (playerConstructor.id === variables.userId) {
+          const camera = scene.cameras.cameras[0]
+          camera.startFollow(player.phaserObject, false, 0.1, 0.1)
+        }
       }
     },
     removePlayer: (id: string) => {

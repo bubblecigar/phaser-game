@@ -73,6 +73,10 @@ var gameMethods = function (env) { return function (variables) {
                 phaserObject.setDepth(3);
                 phaserObject.setCollideWorldBounds(true);
                 player.phaserObject = phaserObject;
+                if (playerConstructor.id === variables.userId) {
+                    var camera = scene.cameras.cameras[0];
+                    camera.startFollow(player.phaserObject, false, 0.1, 0.1);
+                }
             }
         },
         removePlayer: function (id) {
