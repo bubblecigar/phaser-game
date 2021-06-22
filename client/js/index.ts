@@ -55,6 +55,7 @@ function create() {
   )
 
   this.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'sky')
+  this.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'fish')
   cursors = this.input.keyboard.createCursorKeys()
   this.input.keyboard.on(
     'keydown', e => {
