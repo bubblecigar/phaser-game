@@ -55,13 +55,14 @@ const registerSocketEvents = () => {
   )
 }
 
-function create() {
-  registerSocketEvents()
+const setUpBackground = scene => {
+  scene.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'sky')
+  scene.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'fish')
+}
 
-  this.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'sky')
-  this.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'fish')
-  cursors = this.input.keyboard.createCursorKeys()
-  this.input.keyboard.on(
+const registerInputEvents = scene => {
+  cursors = scene.input.keyboard.createCursorKeys()
+  scene.input.keyboard.on(
     'keydown', e => {
       switch (e.key) {
         case 'z': {
@@ -84,6 +85,13 @@ function create() {
       }
     }
   )
+}
+
+function create() {
+  registerSocketEvents()
+  registerInputEvents(this)
+
+  setUpBackground(this)
 }
 
 function update(t, dt) {
