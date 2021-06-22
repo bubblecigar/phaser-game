@@ -40,7 +40,7 @@ function preload() {
   this.load.image('fish', fishUrl);
 }
 
-function create() {
+const registerSocketEvents = () => {
   socket = io.connect({
     auth: {
       ...getLocalUserData()
@@ -53,6 +53,10 @@ function create() {
       })
     }
   )
+}
+
+function create() {
+  registerSocketEvents()
 
   this.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'sky')
   this.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'fish')
