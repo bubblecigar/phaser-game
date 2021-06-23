@@ -7,7 +7,7 @@ import starUrl from '../statics/star.png'
 import bombUrl from '../statics/bomb.png'
 import fishUrl from '../statics/fish.png'
 import tilesetUrl from '../statics/tile/tileset.png'
-import tilemapUrl from '../statics/tile/tutmap.json'
+import tilemapUrl from '../statics/tile/dungeon_map.json'
 import { gameState, gameMethods, gameConfig } from '../../share/game'
 import { getLocalUserData } from './user'
 
@@ -40,8 +40,8 @@ function preload() {
   this.load.image('star', starUrl);
   this.load.image('bomb', bombUrl);
   this.load.image('fish', fishUrl);
-  this.load.tilemapTiledJSON('map', tilemapUrl);
   this.load.image('tileset', tilesetUrl);
+  this.load.tilemapTiledJSON('map', tilemapUrl);
 }
 
 const registerSocketEvents = () => {
@@ -60,14 +60,11 @@ const registerSocketEvents = () => {
 }
 
 const setUpBackground = scene => {
-  scene.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'sky')
-  scene.add.image(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'fish')
-
   const map = scene.make.tilemap({ key: 'map' })
+  scene.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   const tileset = map.addTilesetImage('tileset')
-  const bgLayer = map.createLayer('bg_layer', tileset, gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2)
-  bgLayer.name = 'bg_layer'
-  const wallLayer = map.createLayer('wall_layer', tileset, gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2)
+  const backgroundLayer = map.createLayer('bg_layer', tileset, 0, 0)
+  const wallLayer = map.createLayer('wall_layer', tileset, 0, 0)
   wallLayer.name = 'wall_layer'
   map.setCollisionFromCollisionGroup();
 }
