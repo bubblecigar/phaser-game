@@ -15,8 +15,8 @@ server.listen(process.env.PORT || 8081, function () {
 
 io.on('connection', async function (socket) {
   let userData = socket.handshake.auth
-  const x = gameConfig.canvasWidth * Math.random()
-  const y = gameConfig.canvasHeight * Math.random()
+  const x = gameConfig.canvasWidth / 2
+  const y = gameConfig.canvasHeight / 2
   const player = {
     id: userData.userId,
     icon: 'star',

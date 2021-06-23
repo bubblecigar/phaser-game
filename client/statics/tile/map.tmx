@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="1" nextlayerid="10" nextobjectid="17">
+ <editorsettings>
+  <export target="tutmap.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" source="tileset.tsx"/>
+ <tileset firstgid="257" name="tileset" tilewidth="16" tileheight="16" tilecount="256" columns="16">
+  <image source="tileset.png" width="256" height="256"/>
+  <tile id="16">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="17">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="18">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+ </tileset>
+ <layer id="7" name="bg_layer" width="100" height="100">
+  <data encoding="csv">
+   <chunk x="-16" y="-16" width="16" height="16">
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,
+357,357,357,357,357,357,357,357,357,357,357,357,357,357,357,357
+</chunk>
+  </data>
+ </layer>
+ <layer id="8" name="wall_layer" width="100" height="100">
+  <data encoding="csv">
+   <chunk x="-16" y="-16" width="16" height="16">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,274,274,273,275,274,275,274,275,0,0,0,0,
+0,0,0,0,275,0,0,0,0,0,0,274,0,0,0,0,
+0,0,0,0,273,0,0,0,0,0,0,273,0,0,0,0,
+0,0,0,0,274,0,0,0,0,0,0,274,0,0,0,0,
+0,0,0,0,273,0,0,0,0,0,0,274,0,0,0,0,
+0,0,0,0,274,275,274,0,0,274,274,275,0,0,0,0,
+0,0,0,0,0,0,275,275,275,275,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</chunk>
+  </data>
+ </layer>
+ <objectgroup id="9" name="monster_layer">
+  <object id="13" gid="451" x="-111.166" y="-201.625" width="16" height="16">
+   <properties>
+    <property name="key" value="fire"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="14" gid="450" x="-52.9981" y="-141.262" width="16" height="16">
+   <properties>
+    <property name="key" value="water"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="15" gid="449" x="-177.017" y="-187.906" width="16" height="16">
+   <properties>
+    <property name="key" value="golem"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

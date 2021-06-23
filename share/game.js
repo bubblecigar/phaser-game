@@ -76,9 +76,9 @@ var gameMethods = function (env) { return function (variables) {
                 if (playerConstructor.id === variables.userId) {
                     var camera = scene.cameras.cameras[0];
                     camera.startFollow(player.phaserObject, false, 0.2, 0.2);
-                    var Phaser = variables.Phaser;
-                    var circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 130);
-                    var mask = new Phaser.Display.Masks.GeometryMask(scene, circle);
+                    var Phaser_1 = variables.Phaser;
+                    var circle = new Phaser_1.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 130);
+                    var mask = new Phaser_1.Display.Masks.GeometryMask(scene, circle);
                     camera.setMask(mask);
                 }
             }
