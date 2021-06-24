@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import { v4 } from 'uuid';
 import _ from 'lodash'
 import io from 'socket.io-client'
+import PhaserRaycaster from 'phaser-raycaster'
 import skyUrl from '../statics/sky.png'
 import starUrl from '../statics/star.png'
 import bombUrl from '../statics/bomb.png'
@@ -28,11 +29,20 @@ const config = {
     preload: preload,
     create: create,
     update: update
+  },
+  plugins: {
+    scene: [
+      {
+        key: 'PhaserRaycaster',
+        plugin: PhaserRaycaster,
+        mapping: 'raycasterPlugin'
+      }
+    ]
   }
 };
 
 new Phaser.Game(config)
-let cursors, socket
+let cursors, socket, graphics
 
 function preload() {
   gameState.scene = this
@@ -64,6 +74,7 @@ const setUpBackground = scene => {
   scene.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   const tileset = map.addTilesetImage('tileset')
   const backgroundLayer = map.createLayer('bg_layer', tileset, 0, 0)
+  backgroundLayer.name = 'bg_layer'
   const wallLayer = map.createLayer('wall_layer', tileset, 0, 0)
   wallLayer.name = 'wall_layer'
   map.setCollisionFromCollisionGroup();
@@ -96,16 +107,48 @@ const registerInputEvents = scene => {
   )
 }
 
+const registerRaycaster = scene => {
+  scene.raycaster = scene.raycasterPlugin.createRaycaster()
+  scene.ray = scene.raycaster.createRay({
+    origin: {
+      x: gameConfig.canvasWidth / 2,
+      y: gameConfig.canvasHeight / 2,
+    },
+    detectionRange: 400,
+    collisionRange: 0
+  })
+  const wallLayer = scene.children.getByName('wall_layer')
+  scene.raycaster.mapGameObjects(wallLayer, false, {
+    collisionTiles: [1, 2, 3]
+  })
+
+  const camera = scene.cameras.cameras[0]
+  graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0 } });
+  const cameraMask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
+  camera.setMask(cameraMask)
+}
+
 function create() {
   registerSocketEvents()
   registerInputEvents(this)
-
   setUpBackground(this)
+  registerRaycaster(this)
+}
+
+const computeFOV = (scene, position) => {
+  scene.ray.setOrigin(position.x, position.y)
+  const intersections = scene.ray.castCircle()
+  const tx = position.x - gameConfig.canvasWidth / 2
+  const ty = position.y - gameConfig.canvasHeight / 2
+  graphics.setPosition(-tx, -ty)
+  graphics.clear()
+  graphics.fillPoints(intersections)
 }
 
 function update(t, dt) {
   const player = methods.getPlayer(userId)
   if (!player) return
+  computeFOV(this, player.position)
 
   const _velocity = { x: 0, y: 0 }
   if (cursors.left.isDown) {
