@@ -10,7 +10,7 @@
     "fileStates": {
         "": {
             "scaleInDock": 1,
-            "scaleInEditor": 2.98
+            "scaleInEditor": 1.59
         },
         "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx": {
             "scaleInDock": 1,
@@ -36,11 +36,11 @@
             }
         },
         "/Users/roywang/Desktop/tile_trial/small_map.tmx": {
-            "scale": 1.3298,
-            "selectedLayer": 0,
+            "scale": 1.32,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 510.9790946006918,
-                "y": 361.33253120770036
+                "x": 510.2272727272727,
+                "y": 360.22727272727275
             }
         },
         "/Users/roywang/Desktop/tile_trial/small_map.tmx#tileset": {

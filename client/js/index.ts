@@ -8,7 +8,7 @@ import starUrl from '../statics/star.png'
 import bombUrl from '../statics/bomb.png'
 import fishUrl from '../statics/fish.png'
 import tilesetUrl from '../statics/tile/tileset.png'
-import tilemapUrl from '../statics/tile/dungeon_map.json'
+import tilemapUrl from '../statics/tile/small_map.json'
 import { gameState, gameMethods, gameConfig } from '../../share/game'
 import { getLocalUserData } from './user'
 
@@ -114,7 +114,6 @@ const registerRaycaster = scene => {
       x: gameConfig.canvasWidth / 2,
       y: gameConfig.canvasHeight / 2,
     },
-    detectionRange: 400,
     collisionRange: 0
   })
   const wallLayer = scene.children.getByName('wall_layer')
@@ -122,10 +121,13 @@ const registerRaycaster = scene => {
     collisionTiles: [1, 2, 3]
   })
 
-  const camera = scene.cameras.cameras[0]
-  graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0 } });
-  const cameraMask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
-  camera.setMask(cameraMask)
+  graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0 } })
+  const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
+  mask.setInvertAlpha()
+  const fow = scene.add.graphics({ fillStyle: { color: 0x000000, alpha: 1 } })
+  fow.setDepth(100)
+  fow.setMask(mask);
+  fow.fillRect(0, 0, gameConfig.canvasWidth, gameConfig.canvasHeight)
 }
 
 function create() {
@@ -138,9 +140,6 @@ function create() {
 const computeFOV = (scene, position) => {
   scene.ray.setOrigin(position.x, position.y)
   const intersections = scene.ray.castCircle()
-  const tx = position.x - gameConfig.canvasWidth / 2
-  const ty = position.y - gameConfig.canvasHeight / 2
-  graphics.setPosition(-tx, -ty)
   graphics.clear()
   graphics.fillPoints(intersections)
 }
