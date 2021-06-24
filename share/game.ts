@@ -93,10 +93,9 @@ const gameMethods = (env: 'client' | 'server') => variables => {
 
         if (playerConstructor.id === variables.userId) {
           const camera = scene.cameras.cameras[0]
-          camera.startFollow(player.phaserObject, false, 0.2, 0.2)
-          camera.roundPixels = true
+          camera.startFollow(player.phaserObject, true, 0.2, 0.2)
           const Phaser = variables.Phaser
-          const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 230)
+          const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 180)
           const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
           camera.setMask(mask)
           const wallLayer = scene.children.getByName('wall_layer')
