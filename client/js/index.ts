@@ -144,11 +144,7 @@ const computeFOV = (scene, position) => {
   graphics.fillPoints(intersections)
 }
 
-function update(t, dt) {
-  const player = methods.getPlayer(userId)
-  if (!player) return
-  computeFOV(this, player.position)
-
+const movePlayer = player => {
   const _velocity = { x: 0, y: 0 }
   if (cursors.left.isDown) {
     _velocity.x = -gameConfig.playerVelocity
@@ -166,6 +162,13 @@ function update(t, dt) {
   }
   methods.movePlayer(userId, { velocity: _velocity })
   socket.emit('move-player', _.omit(player, 'phaserObject'))
+}
+
+function update(t, dt) {
+  const player = methods.getPlayer(userId)
+  if (!player) return
+  computeFOV(this, player.position)
+  movePlayer(player)
 }
 
 export { socket }
