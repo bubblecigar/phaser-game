@@ -43,6 +43,7 @@ const config = {
 
 new Phaser.Game(config)
 let cursors, socket, graphics
+let raycastingObjects = []
 
 function preload() {
   gameState.scene = this
@@ -78,8 +79,18 @@ const setUpBackground = scene => {
   const wallLayer = map.createLayer('wall_layer', tileset, 0, 0)
   wallLayer.name = 'wall_layer'
   map.setCollisionFromCollisionGroup();
-}
 
+  const raycastingLayer = map.objects.find(objectLayer => objectLayer.name === 'raycasting_layer')
+  raycastingLayer.objects.forEach(
+    object => {
+      if (object.rectangle) {
+        const rectangle = scene.add.rectangle(object.x, object.y, object.width, object.height)
+        rectangle.setOrigin(0, 0)
+        raycastingObjects.push(rectangle)
+      }
+    }
+  )
+}
 const registerInputEvents = scene => {
   cursors = scene.input.keyboard.createCursorKeys()
   scene.input.keyboard.on(
@@ -113,21 +124,17 @@ const registerRaycaster = scene => {
     origin: {
       x: gameConfig.canvasWidth / 2,
       y: gameConfig.canvasHeight / 2,
-    },
-    collisionRange: 0
+    }
   })
-  const wallLayer = scene.children.getByName('wall_layer')
-  scene.raycaster.mapGameObjects(wallLayer, false, {
-    collisionTiles: [1, 2, 3]
-  })
+  scene.raycaster.mapGameObjects(raycastingObjects)
 
   graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0 } })
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
   mask.setInvertAlpha()
   const fow = scene.add.graphics({ fillStyle: { color: 0x000000, alpha: 1 } })
-  fow.setDepth(100)
+  fow.setDepth(10)
   fow.setMask(mask);
-  fow.fillRect(0, 0, gameConfig.canvasWidth, gameConfig.canvasHeight)
+  fow.fillRect(-10, -10, gameConfig.canvasWidth + 20, gameConfig.canvasHeight + 20)
 }
 
 function create() {
