@@ -47,8 +47,9 @@ const config = {
 };
 
 new Phaser.Game(config)
-let cursors, socket, graphics
+let cursors, socket, graphics, renderTexture
 let raycastingObjects = []
+let layers = []
 
 function preload() {
   gameState.scene = this
@@ -82,8 +83,10 @@ const setUpBackground = scene => {
   const tileset = map.addTilesetImage('tileset')
   const backgroundLayer = map.createLayer('bg_layer', tileset, 0, 0)
   backgroundLayer.name = 'bg_layer'
+  layers.push(backgroundLayer)
   const wallLayer = map.createLayer('wall_layer', tileset, 0, 0)
   wallLayer.name = 'wall_layer'
+  layers.push(wallLayer)
   map.setCollisionFromCollisionGroup();
 
   const raycastingLayer = map.objects.find(objectLayer => objectLayer.name === 'raycasting_layer')
@@ -128,7 +131,7 @@ const registerInputEvents = scene => {
   )
 }
 
-const registerRaycaster = scene => {
+const registerFOVmask = scene => {
   scene.raycaster = scene.raycasterPlugin.createRaycaster()
   scene.ray = scene.raycaster.createRay({
     origin: {
@@ -137,21 +140,27 @@ const registerRaycaster = scene => {
     }
   })
   scene.raycaster.mapGameObjects(raycastingObjects)
-
-  graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0 } })
+  graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.05 } })
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
   mask.setInvertAlpha()
-  const fow = scene.add.graphics({ fillStyle: { color: 0x000000, alpha: 1 } })
-  fow.setDepth(10)
-  fow.setMask(mask);
-  fow.fillRect(-10, -10, gameConfig.canvasWidth + 20, gameConfig.canvasHeight + 20)
+  return mask
+}
+
+const registerBackgroundRenderer = (scene, mask) => {
+  renderTexture = scene.add.renderTexture(0, 0, gameConfig.canvasWidth + 16, gameConfig.canvasHeight + 16);
+  renderTexture.setDepth(100)
+  renderTexture.setMask(mask);
+  renderTexture.clear()
+  renderTexture.draw(layers)
 }
 
 function create() {
   registerSocketEvents()
   registerInputEvents(this)
   setUpBackground(this)
-  registerRaycaster(this)
+  const mask = registerFOVmask(this)
+  registerBackgroundRenderer(this, mask)
+
 
   this.anims.create({
     key: 'idle',
