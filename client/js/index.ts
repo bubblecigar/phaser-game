@@ -142,7 +142,7 @@ const registerFOVmask = scene => {
     }
   })
   scene.raycaster.mapGameObjects(raycastingObjects)
-  graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.03 } })
+  graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.1 } })
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
   mask.setInvertAlpha()
   return mask
