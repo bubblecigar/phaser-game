@@ -69,17 +69,20 @@ var gameMethods = function (env) { return function (variables) {
                     console.log('not initialize');
                     return;
                 }
-                var phaserObject = scene.physics.add.image(position.x, position.y, icon);
+                var phaserObject = scene.physics.add.sprite(position.x, position.y, 'bomb');
+                phaserObject.play('idle');
                 phaserObject.setDepth(3);
                 phaserObject.setCollideWorldBounds(true);
                 player.phaserObject = phaserObject;
                 if (playerConstructor.id === variables.userId) {
                     var camera = scene.cameras.cameras[0];
-                    camera.startFollow(player.phaserObject, false, 0.2, 0.2);
-                    var Phaser_1 = variables.Phaser;
-                    var circle = new Phaser_1.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 130);
-                    var mask = new Phaser_1.Display.Masks.GeometryMask(scene, circle);
+                    camera.startFollow(player.phaserObject, true, 0.2, 0.2);
+                    var Phaser = variables.Phaser;
+                    var circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 180);
+                    var mask = new Phaser.Display.Masks.GeometryMask(scene, circle);
                     camera.setMask(mask);
+                    var wallLayer = scene.children.getByName('wall_layer');
+                    scene.physics.add.collider(player.phaserObject, wallLayer);
                 }
             }
         },

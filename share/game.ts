@@ -86,7 +86,8 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           console.log('not initialize')
           return
         }
-        const phaserObject = scene.physics.add.image(position.x, position.y, icon)
+        const phaserObject = scene.physics.add.sprite(position.x, position.y, 'bomb')
+        phaserObject.play('idle')
         phaserObject.setDepth(3)
         phaserObject.setCollideWorldBounds(true)
         player.phaserObject = phaserObject
