@@ -155,7 +155,7 @@ function create() {
 
   this.anims.create({
     key: 'idle',
-    frames: this.anims.generateFrameNumbers('zoombie_sprite', { frames: [1, 2, 3, 4, 5, 6, 7, 8] }),
+    frames: this.anims.generateFrameNumbers('zoombie_sprite', { frames: [0, 1, 2, 3, 4, 5, 6, 7] }),
     frameRate: 8,
     repeat: -1
   });
