@@ -20,6 +20,10 @@ const config = {
   type: Phaser.AUTO,
   width: gameConfig.canvasWidth,
   height: gameConfig.canvasHeight,
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH
+  },
   physics: {
     default: 'arcade',
     arcade: {
@@ -110,6 +114,10 @@ const registerInputEvents = scene => {
           }
           const item = methods.addItem(itemConstructor)
           socket.emit('addItem', _.omit(item, 'phaserObject'))
+          break
+        }
+        case 'w': {
+          scene.scale.toggleFullscreen();
           break
         }
         default: {
