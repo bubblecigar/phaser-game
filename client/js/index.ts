@@ -20,6 +20,7 @@ const config = {
   type: Phaser.AUTO,
   width: gameConfig.canvasWidth,
   height: gameConfig.canvasHeight,
+  pixelArt: true,
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
@@ -141,14 +142,14 @@ const registerFOVmask = scene => {
     }
   })
   scene.raycaster.mapGameObjects(raycastingObjects)
-  graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.05 } })
+  graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.03 } })
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
   mask.setInvertAlpha()
   return mask
 }
 
 const registerBackgroundRenderer = (scene, mask, map) => {
-  renderTexture = scene.add.renderTexture(0, 0, map.widthInPixels, map.heightInPixels);
+  renderTexture = scene.add.renderTexture(0, 0, map.widthInPixels, map.heightInPixels)
   renderTexture.setDepth(100)
   renderTexture.setMask(mask);
   renderTexture.clear()
