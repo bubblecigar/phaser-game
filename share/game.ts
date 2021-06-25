@@ -99,7 +99,6 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
           const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
           camera.setMask(mask)
-          camera.setZoom(2)
           const wallLayer = scene.children.getByName('wall_layer')
           scene.physics.add.collider(player.phaserObject, wallLayer)
         }
