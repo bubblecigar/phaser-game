@@ -99,6 +99,7 @@ const setUpBackground = scene => {
       }
     }
   )
+  return map
 }
 const registerInputEvents = scene => {
   cursors = scene.input.keyboard.createCursorKeys()
@@ -146,8 +147,8 @@ const registerFOVmask = scene => {
   return mask
 }
 
-const registerBackgroundRenderer = (scene, mask) => {
-  renderTexture = scene.add.renderTexture(0, 0, gameConfig.canvasWidth + 16, gameConfig.canvasHeight + 16);
+const registerBackgroundRenderer = (scene, mask, map) => {
+  renderTexture = scene.add.renderTexture(0, 0, map.widthInPixels, map.heightInPixels);
   renderTexture.setDepth(100)
   renderTexture.setMask(mask);
   renderTexture.clear()
@@ -157,9 +158,9 @@ const registerBackgroundRenderer = (scene, mask) => {
 function create() {
   registerSocketEvents()
   registerInputEvents(this)
-  setUpBackground(this)
+  const map = setUpBackground(this)
   const mask = registerFOVmask(this)
-  registerBackgroundRenderer(this, mask)
+  registerBackgroundRenderer(this, mask, map)
 
 
   this.anims.create({

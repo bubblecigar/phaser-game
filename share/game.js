@@ -20,8 +20,8 @@ var gameState = {
 };
 exports.gameState = gameState;
 var gameConfig = {
-    canvasWidth: 800,
-    canvasHeight: 600,
+    canvasWidth: 400,
+    canvasHeight: 300,
     playerVelocity: 300
 };
 exports.gameConfig = gameConfig;
@@ -77,6 +77,7 @@ var gameMethods = function (env) { return function (variables) {
                 if (playerConstructor.id === variables.userId) {
                     var camera = scene.cameras.cameras[0];
                     camera.startFollow(player.phaserObject, true, 0.2, 0.2);
+                    camera.setZoom(1);
                     var Phaser = variables.Phaser;
                     var circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 150);
                     var mask = new Phaser.Display.Masks.GeometryMask(scene, circle);

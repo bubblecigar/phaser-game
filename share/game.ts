@@ -31,8 +31,8 @@ const gameState: GameState = {
 }
 
 const gameConfig = {
-  canvasWidth: 800,
-  canvasHeight: 600,
+  canvasWidth: 400,
+  canvasHeight: 300,
   playerVelocity: 300
 }
 
@@ -95,6 +95,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         if (playerConstructor.id === variables.userId) {
           const camera = scene.cameras.cameras[0]
           camera.startFollow(player.phaserObject, true, 0.2, 0.2)
+          camera.setZoom(1)
           const Phaser = variables.Phaser
           const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 150)
           const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
