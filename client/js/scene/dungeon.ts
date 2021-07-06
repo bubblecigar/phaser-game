@@ -144,6 +144,8 @@ function create() {
       charactors[char].create(this)
     }
   )
+
+  socket.emit('init-player')
 }
 
 const computeFOV = (scene, position) => {
