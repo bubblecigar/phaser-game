@@ -13,7 +13,7 @@ const userId = getLocalUserData().userId
 
 let methods
 let cursors
-let graphics, renderTexture
+let graphics
 
 function preload() {
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
@@ -104,11 +104,12 @@ const setUpFOVmask = (scene, layer) => {
 }
 
 const setUpBackgroundRenderer = (scene, mask, map, layers) => {
-  renderTexture = scene.add.renderTexture(0, 0, map.widthInPixels, map.heightInPixels)
+  const renderTexture = scene.add.renderTexture(0, 0, map.widthInPixels, map.heightInPixels)
   renderTexture.setDepth(10)
   renderTexture.setMask(mask);
   renderTexture.clear()
   renderTexture.draw(layers)
+  return renderTexture
 }
 
 const setUpBackground = scene => {
