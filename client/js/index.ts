@@ -9,9 +9,9 @@ import bombUrl from '../statics/bomb.png'
 import fishUrl from '../statics/fish.png'
 import tilesetUrl from '../statics/tile/tileset.png'
 import tilemapUrl from '../statics/tile/small_map.json'
-import zoombieSpriteUrl from '../statics/tile/anim_sprite/zoombie.png'
 import { gameState, gameMethods, gameConfig } from '../../share/game'
 import { getLocalUserData } from './user'
+import { giantZombie } from './charactor'
 
 const userId = getLocalUserData().userId
 const methods = gameMethods('client')({ userId, Phaser })
@@ -59,7 +59,7 @@ function preload() {
   this.load.image('bomb', bombUrl);
   this.load.image('fish', fishUrl);
   this.load.image('tileset', tilesetUrl);
-  this.load.spritesheet('zoombie_sprite', zoombieSpriteUrl, { frameWidth: 16, frameHeight: 16 });
+  giantZombie.preload(this)
   this.load.tilemapTiledJSON('map', tilemapUrl);
 }
 
@@ -163,13 +163,7 @@ function create() {
   const mask = registerFOVmask(this)
   registerBackgroundRenderer(this, mask, map)
 
-
-  this.anims.create({
-    key: 'idle',
-    frames: this.anims.generateFrameNumbers('zoombie_sprite', { frames: [0, 1, 2, 3, 4, 5, 6, 7] }),
-    frameRate: 8,
-    repeat: -1
-  });
+  giantZombie.create(this)
 }
 
 const computeFOV = (scene, position) => {
