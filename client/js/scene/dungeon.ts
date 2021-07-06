@@ -8,7 +8,7 @@ import bombUrl from '../../statics/bomb.png'
 import fishUrl from '../../statics/fish.png'
 import tilesetUrl from '../../statics/tile/tileset.png'
 import tilemapUrl from '../../statics/tile/small_map.json'
-import { gameState, gameMethods, gameConfig } from '../../../share/game'
+import { gameMethods, gameConfig } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactor'
 
@@ -19,8 +19,8 @@ const scene = {
   create,
   update
 }
-
-let cursors, socket, graphics, renderTexture, methods
+let methods
+let cursors, socket, graphics, renderTexture
 let raycastingObjects = []
 let layers = []
 
