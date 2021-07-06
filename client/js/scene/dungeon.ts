@@ -102,7 +102,10 @@ const registerFOVmask = scene => {
       y: gameConfig.canvasHeight / 2,
     }
   })
-  scene.raycaster.mapGameObjects(raycastingObjects)
+  const wallLayer = layers.find(l => l.name === 'wall_layer')
+  scene.raycaster.mapGameObjects(wallLayer, false, {
+    collisionTiles: [17, 18, 19]
+  })
   graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.1 } })
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
   mask.setInvertAlpha()
@@ -111,7 +114,7 @@ const registerFOVmask = scene => {
 
 const registerBackgroundRenderer = (scene, mask, map) => {
   renderTexture = scene.add.renderTexture(0, 0, map.widthInPixels, map.heightInPixels)
-  renderTexture.setDepth(100)
+  renderTexture.setDepth(10)
   renderTexture.setMask(mask);
   renderTexture.clear()
   renderTexture.draw(layers)
