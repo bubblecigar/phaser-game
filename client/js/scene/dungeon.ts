@@ -22,7 +22,7 @@ function preload() {
   this.load.tilemapTiledJSON('map', tilemapUrl);
   Object.keys(charactors).forEach(
     char => {
-      charactors[char].preload(this)
+      charactors[char].preloadAssets(this)
     }
   )
 }
@@ -125,7 +125,7 @@ function create() {
 
   Object.keys(charactors).forEach(
     char => {
-      charactors[char].create(this)
+      charactors[char].createAnims(this)
     }
   )
 

@@ -3,8 +3,8 @@ import demonSpriteUrl from '../statics/tile/anim_sprite/big_demon.png'
 
 export interface Charactor {
   key: string,
-  preload(arg: any): void,
-  create(arg: any): void,
+  preloadAssets(arg: any): void,
+  createAnims(arg: any): void,
   addToScene(arg: any, x: number, y: number): object,
   animations: {
     idle: string,
@@ -25,10 +25,10 @@ const getCharString = (char: string) => ({
 const gzStr = getCharString('giant_zombie')
 export const giantZombie: Charactor = {
   key: 'giant_zombie',
-  preload: scene => {
+  preloadAssets: scene => {
     scene.load.spritesheet(gzStr.sprite, zoombieSpriteUrl, { frameWidth: 32, frameHeight: 34 })
   },
-  create: scene => {
+  createAnims: scene => {
     scene.anims.create({
       key: gzStr.animations.idle,
       frames: scene.anims.generateFrameNumbers(gzStr.sprite, { frames: [0, 1, 2, 3] }),
@@ -61,10 +61,10 @@ export const giantZombie: Charactor = {
 const gdStr = getCharString('giant_demon')
 export const giantDemon: Charactor = {
   key: 'giant_zombie',
-  preload: scene => {
+  preloadAssets: scene => {
     scene.load.spritesheet(gdStr.sprite, demonSpriteUrl, { frameWidth: 32, frameHeight: 34 })
   },
-  create: scene => {
+  createAnims: scene => {
     scene.anims.create({
       key: gdStr.animations.idle,
       frames: scene.anims.generateFrameNumbers(gdStr.sprite, { frames: [0, 1, 2, 3] }),
