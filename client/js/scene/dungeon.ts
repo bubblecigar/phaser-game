@@ -14,11 +14,6 @@ import socket from '../socket'
 
 const userId = getLocalUserData().userId
 
-const scene = {
-  preload,
-  create,
-  update
-}
 let methods
 let cursors, graphics, renderTexture
 let raycastingObjects = []
@@ -181,4 +176,8 @@ function update(t, dt) {
   movePlayer(player)
 }
 
-export default scene
+export default {
+  preload,
+  create,
+  update
+}
