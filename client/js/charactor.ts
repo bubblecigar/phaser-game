@@ -45,3 +45,5 @@ export const giantZombie: Charactor = {
     move: 'giant_zombie_move'
   }
 }
+
+export default { giantZombie }

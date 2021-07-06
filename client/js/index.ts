@@ -11,10 +11,9 @@ import tilesetUrl from '../statics/tile/tileset.png'
 import tilemapUrl from '../statics/tile/small_map.json'
 import { gameState, gameMethods, gameConfig } from '../../share/game'
 import { getLocalUserData } from './user'
-import { giantZombie } from './charactor'
+import charactors from './charactor'
 
 const userId = getLocalUserData().userId
-const charactors = { giantZombie }
 const methods = gameMethods('client')({ userId, Phaser, charactors })
 
 const config = {
@@ -60,8 +59,12 @@ function preload() {
   this.load.image('bomb', bombUrl);
   this.load.image('fish', fishUrl);
   this.load.image('tileset', tilesetUrl);
-  giantZombie.preload(this)
   this.load.tilemapTiledJSON('map', tilemapUrl);
+  Object.keys(charactors).forEach(
+    char => {
+      charactors[char].preload(this)
+    }
+  )
 }
 
 const registerSocketEvents = () => {
@@ -164,7 +167,11 @@ function create() {
   const mask = registerFOVmask(this)
   registerBackgroundRenderer(this, mask, map)
 
-  giantZombie.create(this)
+  Object.keys(charactors).forEach(
+    char => {
+      charactors[char].create(this)
+    }
+  )
 }
 
 const computeFOV = (scene, position) => {
