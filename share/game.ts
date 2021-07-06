@@ -87,7 +87,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           return
         }
         const phaserObject = scene.physics.add.sprite(position.x, position.y, 'bomb')
-        phaserObject.play('idle')
+        phaserObject.play('giant_zombie_idle')
         phaserObject.setDepth(3)
         phaserObject.setCollideWorldBounds(true)
         player.phaserObject = phaserObject
@@ -124,6 +124,10 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         console.log('player not found')
         return
       }
+      const changeDirection = !(
+        data.velocity.x === player.velocity.x
+        && data.velocity.y === player.velocity.y
+      )
       if (data.position) {
         player.position = data.position
       }
@@ -141,6 +145,18 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         }
         player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
         player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y }
+        if (changeDirection) {
+          if (player.velocity.x === 0 && player.velocity.y === 0) {
+            player.phaserObject.play('giant_zombie_idle')
+          } else {
+            player.phaserObject.play('giant_zombie_move')
+            if (player.velocity.x >= 0) {
+              player.phaserObject.setFlipX(false)
+            } else {
+              player.phaserObject.setFlipX(true)
+            }
+          }
+        }
       }
     },
     addItem: (itemConstructor: Item): Item => {
