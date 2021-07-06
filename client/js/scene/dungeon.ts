@@ -12,7 +12,8 @@ import socket from '../socket'
 const userId = getLocalUserData().userId
 
 let methods
-let cursors, graphics, renderTexture
+let cursors
+let graphics, renderTexture
 let raycastingObjects = []
 let layers = []
 
