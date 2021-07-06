@@ -85,7 +85,7 @@ const registerInputEvents = scene => {
   )
 }
 
-const registerFOVmask = (scene, layer) => {
+const setUpFOVmask = (scene, layer) => {
   scene.raycaster = scene.raycasterPlugin.createRaycaster()
   scene.ray = scene.raycaster.createRay({
     origin: {
@@ -116,7 +116,7 @@ function create() {
   const map = setUpMap(this)
   const tileset = setUpTileset(map)
   const layers = setUpLayer(map, tileset)
-  const mask = registerFOVmask(this, layers[1])
+  const mask = setUpFOVmask(this, layers[1])
   setUpBackgroundRenderer(this, mask, map, layers)
 
   Object.keys(charactors).forEach(
