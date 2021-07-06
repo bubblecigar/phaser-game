@@ -49,7 +49,7 @@ var gameMethods = function (env) { return function (variables) {
             });
         },
         addPlayer: function (playerConstructor) {
-            var position = playerConstructor.position, velocity = playerConstructor.velocity, icon = playerConstructor.icon, id = playerConstructor.id;
+            var position = playerConstructor.position, velocity = playerConstructor.velocity, charactorKey = playerConstructor.charactorKey, id = playerConstructor.id;
             var playerAlreadyExist = gameState.players.some(function (player) { return player.id === id; });
             if (playerAlreadyExist) {
                 console.log('player already exist');
@@ -57,7 +57,7 @@ var gameMethods = function (env) { return function (variables) {
             }
             var player = {
                 id: id,
-                icon: icon,
+                charactorKey: charactorKey,
                 position: position,
                 velocity: velocity,
                 phaserObject: null
@@ -69,11 +69,8 @@ var gameMethods = function (env) { return function (variables) {
                     console.log('not initialize');
                     return;
                 }
-                var phaserObject = scene.physics.add.sprite(position.x, position.y, 'bomb');
-                phaserObject.play('idle');
-                phaserObject.setDepth(3);
-                phaserObject.setCollideWorldBounds(true);
-                player.phaserObject = phaserObject;
+                var charactor = variables.charactors[player.charactorKey];
+                player.phaserObject = charactor.addToScene(scene);
                 if (playerConstructor.id === variables.userId) {
                     var camera = scene.cameras.cameras[0];
                     camera.startFollow(player.phaserObject, true, 0.2, 0.2);
@@ -105,6 +102,8 @@ var gameMethods = function (env) { return function (variables) {
                 console.log('player not found');
                 return;
             }
+            var changeDirection = !(data.velocity.x === player.velocity.x
+                && data.velocity.y === player.velocity.y);
             if (data.position) {
                 player.position = data.position;
             }
@@ -122,6 +121,20 @@ var gameMethods = function (env) { return function (variables) {
                 }
                 player.position = { x: player.phaserObject.x, y: player.phaserObject.y };
                 player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y };
+                if (changeDirection) {
+                    if (player.velocity.x === 0 && player.velocity.y === 0) {
+                        player.phaserObject.play(variables.charactors[player.charactorKey].animations.idle);
+                    }
+                    else {
+                        player.phaserObject.play(variables.charactors[player.charactorKey].animations.move);
+                        if (player.velocity.x >= 0) {
+                            player.phaserObject.setFlipX(false);
+                        }
+                        else {
+                            player.phaserObject.setFlipX(true);
+                        }
+                    }
+                }
             }
         },
         addItem: function (itemConstructor) {

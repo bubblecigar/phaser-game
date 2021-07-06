@@ -3,14 +3,14 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "/Users/roywang/Desktop/tile_trial/small_map.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
             "scaleInDock": 1,
-            "scaleInEditor": 1.59
+            "scaleInEditor": 1.83
         },
         "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx": {
             "scaleInDock": 1,
@@ -36,19 +36,23 @@
             }
         },
         "/Users/roywang/Desktop/tile_trial/small_map.tmx": {
-            "scale": 1.32,
-            "selectedLayer": 2,
+            "scale": 1.42,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 510.2272727272727,
-                "y": 360.22727272727275
+                "x": 470.774647887324,
+                "y": 377.81690140845075
             }
         },
         "/Users/roywang/Desktop/tile_trial/small_map.tmx#tileset": {
-            "scaleInDock": 1
+            "scaleInDock": 1.8472
         },
         "/Users/roywang/Desktop/tile_trial/tileset.tsx": {
             "scaleInDock": 1.5572,
             "scaleInEditor": 2.72
+        },
+        "hhh.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.83
         },
         "map.tmx": {
             "scale": 2.56,
@@ -76,9 +80,13 @@
     "map.tileWidth": 16,
     "map.width": 50,
     "openFiles": [
+        "/Users/roywang/Desktop/tile_trial/small_map.tmx",
+        "hhh.tsx"
     ],
     "project": "tile_project.tiled-project",
     "recentFiles": [
+        "hhh.tsx",
+        "/Users/roywang/Desktop/tile_trial/small_map.tmx",
         "/Users/roywang/Desktop/tile_trial/dungeon_map.tmx",
         "/Users/roywang/Desktop/tile_trial/tileset.tsx",
         "map.tmx",
