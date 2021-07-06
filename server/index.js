@@ -19,7 +19,7 @@ io.on('connection', async function (socket) {
   const y = gameConfig.canvasHeight / 2
   const player = {
     id: userData.userId,
-    charactorKey: 'giantZombie',
+    charactorKey: 'giantDemon',
     position: { x, y },
     velocity: { x: 0, y: 0 },
     phaserObject: null
