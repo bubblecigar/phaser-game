@@ -57,4 +57,40 @@ export const giantZombie: Charactor = {
   }
 }
 
-export default { giantZombie }
+
+const gdStr = getCharString('giant_demon')
+export const giantDemon: Charactor = {
+  key: 'giant_zombie',
+  preload: scene => {
+    scene.load.spritesheet(gdStr.sprite, demonSpriteUrl, { frameWidth: 32, frameHeight: 34 })
+  },
+  create: scene => {
+    scene.anims.create({
+      key: gdStr.animations.idle,
+      frames: scene.anims.generateFrameNumbers(gdStr.sprite, { frames: [0, 1, 2, 3] }),
+      frameRate: 8,
+      repeat: -1
+    })
+    scene.anims.create({
+      key: gdStr.animations.move,
+      frames: scene.anims.generateFrameNumbers(gdStr.sprite, { frames: [4, 5, 6, 7] }),
+      frameRate: 8,
+      repeat: -1
+    });
+  },
+  addToScene: (scene, x, y) => {
+    const phaserObject = scene.physics.add.sprite(x, y)
+    phaserObject.body.setSize(16, 24)
+    phaserObject.body.setOffset(8, 10)
+    phaserObject.play(gdStr.animations.idle)
+    phaserObject.setDepth(3)
+    phaserObject.setCollideWorldBounds(true)
+    return phaserObject
+  },
+  animations: {
+    idle: gdStr.animations.idle,
+    move: gdStr.animations.move
+  }
+}
+
+export default { giantZombie, giantDemon }
