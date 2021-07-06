@@ -1,10 +1,7 @@
 import Phaser from 'phaser'
 import { v4 } from 'uuid';
 import _ from 'lodash'
-import skyUrl from '../../statics/sky.png'
-import starUrl from '../../statics/star.png'
 import bombUrl from '../../statics/bomb.png'
-import fishUrl from '../../statics/fish.png'
 import tilesetUrl from '../../statics/tile/tileset.png'
 import tilemapUrl from '../../statics/tile/small_map.json'
 import { gameMethods, gameConfig } from '../../../share/game'
@@ -21,10 +18,7 @@ let layers = []
 
 function preload() {
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
-  this.load.image('sky', skyUrl);
-  this.load.image('star', starUrl);
   this.load.image('bomb', bombUrl);
-  this.load.image('fish', fishUrl);
   this.load.image('tileset', tilesetUrl);
   this.load.tilemapTiledJSON('map', tilemapUrl);
   Object.keys(charactors).forEach(
