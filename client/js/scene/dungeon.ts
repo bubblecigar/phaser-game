@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import { v4 } from 'uuid';
 import _ from 'lodash'
-import io from 'socket.io-client'
 import skyUrl from '../../statics/sky.png'
 import starUrl from '../../statics/star.png'
 import bombUrl from '../../statics/bomb.png'
