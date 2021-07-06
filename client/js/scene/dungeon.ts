@@ -110,14 +110,18 @@ const setUpBackgroundRenderer = (scene, mask, map, layers) => {
   renderTexture.draw(layers)
 }
 
+const setUpBackground = scene => {
+  const map = setUpMap(scene)
+  const tileset = setUpTileset(map)
+  const layers = setUpLayer(map, tileset)
+  const mask = setUpFOVmask(scene, layers[1])
+  setUpBackgroundRenderer(scene, mask, map, layers)
+}
+
 function create() {
   registerSocketEvents()
   registerInputEvents(this)
-  const map = setUpMap(this)
-  const tileset = setUpTileset(map)
-  const layers = setUpLayer(map, tileset)
-  const mask = setUpFOVmask(this, layers[1])
-  setUpBackgroundRenderer(this, mask, map, layers)
+  setUpBackground(this)
 
   Object.keys(charactors).forEach(
     char => {
