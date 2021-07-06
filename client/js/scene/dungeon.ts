@@ -13,7 +13,6 @@ import { getLocalUserData } from '../user'
 import charactors from '../charactor'
 
 const userId = getLocalUserData().userId
-const methods = gameMethods('client')({ userId, Phaser, charactors })
 
 const scene = {
   preload,
@@ -21,12 +20,12 @@ const scene = {
   update
 }
 
-let cursors, socket, graphics, renderTexture
+let cursors, socket, graphics, renderTexture, methods
 let raycastingObjects = []
 let layers = []
 
 function preload() {
-  gameState.scene = this
+  methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
   this.load.image('sky', skyUrl);
   this.load.image('star', starUrl);
   this.load.image('bomb', bombUrl);

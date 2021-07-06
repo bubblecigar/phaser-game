@@ -20,12 +20,10 @@ interface Item {
   phaserObject: any
 }
 interface GameState {
-  scene: null | any,
   players: Player[],
   items: Item[]
 }
 const gameState: GameState = {
-  scene: null,
   players: [],
   items: []
 }
@@ -81,7 +79,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       gameState.players.push(player)
 
       if (env === 'client') {
-        const scene = gameState.scene
+        const scene = variables.scene
         if (!scene) {
           console.log('not initialize')
           return
@@ -170,7 +168,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       gameState.items.push(item)
 
       if (env === 'client') {
-        const scene = gameState.scene
+        const scene = variables.scene
         if (!scene) {
           console.log('not initialize')
           return
