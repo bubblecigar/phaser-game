@@ -1,4 +1,5 @@
 import zoombieSpriteUrl from '../statics/tile/anim_sprite/big_zoombie.png'
+import demonSpriteUrl from '../statics/tile/anim_sprite/big_demon.png'
 
 export interface Charactor {
   key: string,
@@ -12,21 +13,31 @@ export interface Charactor {
   }
 }
 
+const getCharString = (char: string) => ({
+  sprite: `${char}_sprite`,
+  animations: {
+    idle: `${char}_idle`,
+    move: `${char}_move`,
+    hit: `${char}_hit`
+  }
+})
+
+const gzStr = getCharString('giant_zombie')
 export const giantZombie: Charactor = {
-  key: 'giantZombie',
+  key: 'giant_zombie',
   preload: scene => {
-    scene.load.spritesheet('zoombie_sprite', zoombieSpriteUrl, { frameWidth: 32, frameHeight: 34 })
+    scene.load.spritesheet(gzStr.sprite, zoombieSpriteUrl, { frameWidth: 32, frameHeight: 34 })
   },
   create: scene => {
     scene.anims.create({
-      key: 'giant_zombie_idle',
-      frames: scene.anims.generateFrameNumbers('zoombie_sprite', { frames: [0, 1, 2, 3] }),
+      key: gzStr.animations.idle,
+      frames: scene.anims.generateFrameNumbers(gzStr.sprite, { frames: [0, 1, 2, 3] }),
       frameRate: 8,
       repeat: -1
     })
     scene.anims.create({
-      key: 'giant_zombie_move',
-      frames: scene.anims.generateFrameNumbers('zoombie_sprite', { frames: [4, 5, 6, 7] }),
+      key: gzStr.animations.move,
+      frames: scene.anims.generateFrameNumbers(gzStr.sprite, { frames: [4, 5, 6, 7] }),
       frameRate: 8,
       repeat: -1
     });
@@ -35,14 +46,14 @@ export const giantZombie: Charactor = {
     const phaserObject = scene.physics.add.sprite(x, y)
     phaserObject.body.setSize(16, 24)
     phaserObject.body.setOffset(8, 10)
-    phaserObject.play(giantZombie.animations.idle)
+    phaserObject.play(gzStr.animations.idle)
     phaserObject.setDepth(3)
     phaserObject.setCollideWorldBounds(true)
     return phaserObject
   },
   animations: {
-    idle: 'giant_zombie_idle',
-    move: 'giant_zombie_move'
+    idle: gzStr.animations.idle,
+    move: gzStr.animations.move
   }
 }
 
