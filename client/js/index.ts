@@ -14,7 +14,8 @@ import { getLocalUserData } from './user'
 import { giantZombie } from './charactor'
 
 const userId = getLocalUserData().userId
-const methods = gameMethods('client')({ userId, Phaser })
+const charactors = { giantZombie }
+const methods = gameMethods('client')({ userId, Phaser, charactors })
 
 const config = {
   type: Phaser.AUTO,

@@ -8,7 +8,7 @@ interface Player {
   id: string,
   velocity: Point,
   position: Point,
-  icon: string,
+  charactorKey: string,
   phaserObject: any
 }
 interface Item {
@@ -64,7 +64,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       })
     },
     addPlayer: (playerConstructor: Player): void => {
-      const { position, velocity, icon, id } = playerConstructor
+      const { position, velocity, charactorKey, id } = playerConstructor
       const playerAlreadyExist = gameState.players.some(player => player.id === id)
       if (playerAlreadyExist) {
         console.log('player already exist')
@@ -73,7 +73,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
 
       const player: Player = {
         id,
-        icon,
+        charactorKey,
         position,
         velocity,
         phaserObject: null
@@ -86,11 +86,8 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           console.log('not initialize')
           return
         }
-        const phaserObject = scene.physics.add.sprite(position.x, position.y, 'bomb')
-        phaserObject.play('giant_zombie_idle')
-        phaserObject.setDepth(3)
-        phaserObject.setCollideWorldBounds(true)
-        player.phaserObject = phaserObject
+        const charactor = variables.charactors[player.charactorKey]
+        player.phaserObject = charactor.addToScene(scene)
 
         if (playerConstructor.id === variables.userId) {
           const camera = scene.cameras.cameras[0]
@@ -147,9 +144,9 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y }
         if (changeDirection) {
           if (player.velocity.x === 0 && player.velocity.y === 0) {
-            player.phaserObject.play('giant_zombie_idle')
+            player.phaserObject.play(variables.charactors[player.charactorKey].animations.idle)
           } else {
-            player.phaserObject.play('giant_zombie_move')
+            player.phaserObject.play(variables.charactors[player.charactorKey].animations.move)
             if (player.velocity.x >= 0) {
               player.phaserObject.setFlipX(false)
             } else {

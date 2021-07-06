@@ -1,6 +1,6 @@
 import zoombieSpriteUrl from '../statics/tile/anim_sprite/big_zoombie.png'
 
-interface Charactor {
+export interface Charactor {
   key: string,
   preload(arg: any): void,
   create(arg: any): void,
@@ -13,7 +13,7 @@ interface Charactor {
 }
 
 export const giantZombie: Charactor = {
-  key: 'giant_zombie',
+  key: 'giantZombie',
   preload: scene => {
     scene.load.spritesheet('zoombie_sprite', zoombieSpriteUrl, { frameWidth: 32, frameHeight: 34 })
   },
@@ -35,7 +35,7 @@ export const giantZombie: Charactor = {
     const phaserObject = scene.physics.add.sprite(x, y)
     phaserObject.body.setSize(16, 24)
     phaserObject.body.setOffset(8, 10)
-    phaserObject.play('idle')
+    phaserObject.play(giantZombie.animations.idle)
     phaserObject.setDepth(3)
     phaserObject.setCollideWorldBounds(true)
     return phaserObject
