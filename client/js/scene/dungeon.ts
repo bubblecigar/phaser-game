@@ -37,16 +37,22 @@ const registerSocketEvents = () => {
   )
 }
 
-const setUpBackground = scene => {
+const setUpMap = scene => {
   const map = scene.make.tilemap({ key: 'map' })
   scene.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+  return map
+}
+const setUpTileset = map => {
   const tileset = map.addTilesetImage('tileset')
+  return tileset
+}
+const setUpLayer = (map, tileset) => {
   const backgroundLayer = map.createLayer('bg_layer', tileset, 0, 0)
   backgroundLayer.name = 'bg_layer'
   const wallLayer = map.createLayer('wall_layer', tileset, 0, 0)
   wallLayer.name = 'wall_layer'
-  map.setCollisionFromCollisionGroup();
-  return { map, layers: [backgroundLayer, wallLayer] }
+  map.setCollisionFromCollisionGroup()
+  return [backgroundLayer, wallLayer]
 }
 const registerInputEvents = scene => {
   cursors = scene.input.keyboard.createCursorKeys()
@@ -107,7 +113,9 @@ const registerBackgroundRenderer = (scene, mask, map, layers) => {
 function create() {
   registerSocketEvents()
   registerInputEvents(this)
-  const { map, layers } = setUpBackground(this)
+  const map = setUpMap(this)
+  const tileset = setUpTileset(map)
+  const layers = setUpLayer(map, tileset)
   const mask = registerFOVmask(this, layers[1])
   registerBackgroundRenderer(this, mask, map, layers)
 
