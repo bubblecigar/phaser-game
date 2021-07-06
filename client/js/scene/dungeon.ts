@@ -50,17 +50,6 @@ const setUpBackground = scene => {
   wallLayer.name = 'wall_layer'
   layers.push(wallLayer)
   map.setCollisionFromCollisionGroup();
-
-  const raycastingLayer = map.objects.find(objectLayer => objectLayer.name === 'raycasting_layer')
-  raycastingLayer.objects.forEach(
-    object => {
-      if (object.rectangle) {
-        const rectangle = scene.add.rectangle(object.x, object.y, object.width, object.height)
-        rectangle.setOrigin(0, 0)
-        raycastingObjects.push(rectangle)
-      }
-    }
-  )
   return map
 }
 const registerInputEvents = scene => {
