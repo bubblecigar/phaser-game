@@ -11,6 +11,7 @@ import tilemapUrl from '../../statics/tile/small_map.json'
 import { gameMethods, gameConfig } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactor'
+import socket from '../socket'
 
 const userId = getLocalUserData().userId
 
@@ -20,7 +21,7 @@ const scene = {
   update
 }
 let methods
-let cursors, socket, graphics, renderTexture
+let cursors, graphics, renderTexture
 let raycastingObjects = []
 let layers = []
 
@@ -40,11 +41,6 @@ function preload() {
 }
 
 const registerSocketEvents = () => {
-  socket = io.connect({
-    auth: {
-      ...getLocalUserData()
-    }
-  })
   Object.keys(methods).forEach(
     method => {
       socket.on(method, (...args) => {

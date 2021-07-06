@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import _ from 'lodash'
 import PhaserRaycaster from 'phaser-raycaster'
 import { gameConfig } from '../../share/game'
+import './socket'
 import dungeonScene from './scene/dungeon'
 
 const game = new Phaser.Game({
