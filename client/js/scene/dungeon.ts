@@ -14,7 +14,6 @@ const userId = getLocalUserData().userId
 let methods
 let cursors
 let graphics, renderTexture
-let layers = []
 
 function preload() {
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
@@ -44,12 +43,10 @@ const setUpBackground = scene => {
   const tileset = map.addTilesetImage('tileset')
   const backgroundLayer = map.createLayer('bg_layer', tileset, 0, 0)
   backgroundLayer.name = 'bg_layer'
-  layers.push(backgroundLayer)
   const wallLayer = map.createLayer('wall_layer', tileset, 0, 0)
   wallLayer.name = 'wall_layer'
-  layers.push(wallLayer)
   map.setCollisionFromCollisionGroup();
-  return map
+  return { map, layers: [backgroundLayer, wallLayer] }
 }
 const registerInputEvents = scene => {
   cursors = scene.input.keyboard.createCursorKeys()
@@ -82,7 +79,7 @@ const registerInputEvents = scene => {
   )
 }
 
-const registerFOVmask = scene => {
+const registerFOVmask = (scene, layer) => {
   scene.raycaster = scene.raycasterPlugin.createRaycaster()
   scene.ray = scene.raycaster.createRay({
     origin: {
@@ -90,8 +87,7 @@ const registerFOVmask = scene => {
       y: gameConfig.canvasHeight / 2,
     }
   })
-  const wallLayer = layers.find(l => l.name === 'wall_layer')
-  scene.raycaster.mapGameObjects(wallLayer, false, {
+  scene.raycaster.mapGameObjects(layer, false, {
     collisionTiles: [17, 18, 19]
   })
   graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.1 } })
@@ -100,7 +96,7 @@ const registerFOVmask = scene => {
   return mask
 }
 
-const registerBackgroundRenderer = (scene, mask, map) => {
+const registerBackgroundRenderer = (scene, mask, map, layers) => {
   renderTexture = scene.add.renderTexture(0, 0, map.widthInPixels, map.heightInPixels)
   renderTexture.setDepth(10)
   renderTexture.setMask(mask);
@@ -111,9 +107,9 @@ const registerBackgroundRenderer = (scene, mask, map) => {
 function create() {
   registerSocketEvents()
   registerInputEvents(this)
-  const map = setUpBackground(this)
-  const mask = registerFOVmask(this)
-  registerBackgroundRenderer(this, mask, map)
+  const { map, layers } = setUpBackground(this)
+  const mask = registerFOVmask(this, layers[1])
+  registerBackgroundRenderer(this, mask, map, layers)
 
   Object.keys(charactors).forEach(
     char => {
