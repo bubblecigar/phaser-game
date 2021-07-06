@@ -195,8 +195,11 @@ const movePlayer = player => {
   } else {
     _velocity.y = 0
   }
+  const changeDirection = !_.isEqual(_velocity, player.velocity)
   methods.movePlayer(userId, { velocity: _velocity })
-  socket.emit('move-player', _.omit(player, 'phaserObject'))
+  if (changeDirection) {
+    socket.emit('move-player', _.omit(player, 'phaserObject'))
+  }
 }
 
 function update(t, dt) {
