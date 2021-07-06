@@ -102,7 +102,7 @@ const registerFOVmask = (scene, layer) => {
   return mask
 }
 
-const registerBackgroundRenderer = (scene, mask, map, layers) => {
+const setUpBackgroundRenderer = (scene, mask, map, layers) => {
   renderTexture = scene.add.renderTexture(0, 0, map.widthInPixels, map.heightInPixels)
   renderTexture.setDepth(10)
   renderTexture.setMask(mask);
@@ -117,7 +117,7 @@ function create() {
   const tileset = setUpTileset(map)
   const layers = setUpLayer(map, tileset)
   const mask = registerFOVmask(this, layers[1])
-  registerBackgroundRenderer(this, mask, map, layers)
+  setUpBackgroundRenderer(this, mask, map, layers)
 
   Object.keys(charactors).forEach(
     char => {
