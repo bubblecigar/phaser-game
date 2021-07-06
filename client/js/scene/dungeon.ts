@@ -172,7 +172,8 @@ const movePlayer = player => {
   }
   const changeDirection = !_.isEqual(_velocity, player.velocity)
   methods.movePlayer(userId, { velocity: _velocity })
-  if (changeDirection) {
+  const isBlocked = !player.phaserObject.body.blocked.none
+  if (changeDirection || isBlocked) {
     socket.emit('move-player', _.omit(player, 'phaserObject'))
   }
 }
