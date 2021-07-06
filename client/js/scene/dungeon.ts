@@ -2,12 +2,12 @@ import Phaser from 'phaser'
 import { v4 } from 'uuid';
 import _ from 'lodash'
 import bombUrl from '../../statics/bomb.png'
-import tilesetUrl from '../../statics/tile/tileset.png'
-import tilemapUrl from '../../statics/tile/small_map.json'
 import { gameMethods, gameConfig } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactor'
 import socket from '../socket'
+import tilesetUrl from '../../statics/tile/tileset.png'
+import tilemapUrl from '../../statics/tile/small_map.json'
 
 const userId = getLocalUserData().userId
 
