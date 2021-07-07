@@ -194,9 +194,23 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       }
       return item
     },
+    removeItem: (id: string) => {
+      const itemIndex = gameState.items.findIndex(item => item.id === id)
+      const item = gameState.items[itemIndex]
+      if (!item) {
+        console.log('no such item')
+        return
+      }
+      gameState.items = gameState.items.filter(item => item.id !== id)
+
+      if (env === 'client') {
+        item.phaserObject.destroy()
+      }
+    },
     interact: (player: Player, item: Item) => {
       console.log(player)
       console.log(item)
+      methods.removeItem(item.id)
     }
   }
   return methods

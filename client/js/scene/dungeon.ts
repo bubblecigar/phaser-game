@@ -88,8 +88,7 @@ const registerInputEvents = scene => {
           break
         }
         case 'z': {
-
-          const getNearestReachableItem = (position, items = gameState.items) => {
+          const getNearestReachableItem = (position, items = gameState.items): false | PlayerItem => {
             let reachable = false
             const nearestItem = _.minBy(items, item => {
               const distance = Phaser.Math.Distance.BetweenPoints(item.position, position)
@@ -102,7 +101,8 @@ const registerInputEvents = scene => {
           const player: Player = methods.getPlayer(getLocalUserData().userId)
           const interactableItem = getNearestReachableItem(player.position)
           if (!interactableItem) return
-          methods.interact(player, interactableItem)
+          socket.emit('removeItem', interactableItem.id)
+          methods.removeItem(interactableItem.id)
           break
         }
         case 'x': {
