@@ -9,7 +9,7 @@ import socket, { registerSocketEvents } from '../socket'
 import tilesetUrl from '../../statics/tile/tileset.png'
 import dungeonMapUrl from '../../statics/tile/small_map.json'
 import roomMapUrl from '../../statics/tile/room_map.json'
-import background from './backgroundSetUp'
+import FOV from './FOV'
 
 export interface MapConfig {
   mapKey: string,
@@ -131,7 +131,7 @@ const registerInputEvents = scene => {
 
 function create() {
   registerInputEvents(this)
-  background.create(this, mapConfig)
+  FOV.create(this, mapConfig)
 
   Object.keys(charactors).forEach(
     char => {
@@ -176,7 +176,7 @@ const movePlayer = (player: Player) => {
 function update(t, dt) {
   const player = methods.getPlayer(userId)
   if (!player) return
-  background.update(this, player.position)
+  FOV.update(this, player.position)
   movePlayer(player)
 }
 

@@ -50,7 +50,6 @@ const setUpBackgroundRenderer = (scene, mask, map, layers) => {
 
 const createBackground = (scene, config: MapConfig) => {
   const { mapKey, tilesetKey, collisionTiles } = config
-  console.log(scene, config)
   const map = setUpMap(scene, mapKey)
   const tileset = setUpTileset(map, tilesetKey)
   const layers = setUpLayer(map, tileset)
@@ -65,9 +64,9 @@ const updateBackground = (scene, position) => {
   graphics.fillPoints(intersections)
 }
 
-const background = {
+const FOV = {
   create: createBackground,
   update: updateBackground
 }
 
-export default background
+export default FOV
