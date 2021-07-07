@@ -162,10 +162,11 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       }
     },
     addItem: (itemConstructor: PlayerItem): PlayerItem => {
-      const { builderId, id, icon, type, position } = itemConstructor
+      const { builderId, id, key, icon, type, position } = itemConstructor
       const builder = methods.getPlayer(builderId)
       const item: PlayerItem = {
         id,
+        key,
         builderId,
         position,
         icon,

@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import { v4 } from 'uuid';
 import _ from 'lodash'
 import bombUrl from '../../statics/bomb.png'
-import { gameMethods, gameConfig, gameState, Player, Item } from '../../../share/game'
+import { gameMethods, gameConfig, gameState, Player, PlayerItem, Item } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactor'
 import socket, { registerSocketEvents } from '../socket'
@@ -105,15 +105,16 @@ const registerInputEvents = scene => {
         }
         case 'x': {
           const player: Player = methods.getPlayer(getLocalUserData().userId)
-          const itemConstructor = {
+          const itemConstructor: PlayerItem = {
             builderId: player.id,
+            key: 'player-bomb',
             id: v4(),
             icon: 'bomb',
             type: 'block',
             position: player.position,
             phaserObject: null
           }
-          const item = methods.addItem(itemConstructor)
+          const item: PlayerItem = methods.addItem(itemConstructor)
           socket.emit('addItem', _.omit(item, 'phaserObject'))
           break
         }
