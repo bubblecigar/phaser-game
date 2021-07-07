@@ -14,8 +14,8 @@ const userId = getLocalUserData().userId
 
 let methods
 let cursors
-let graphics, renderTexture
-let map
+let graphics
+let mapConfig
 
 interface MapConfig {
   mapKey: string,
