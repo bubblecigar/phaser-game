@@ -8,4 +8,16 @@ const socket = io.connect({
   }
 })
 
+
+const registerSocketEvents = methods => {
+  Object.keys(methods).forEach(
+    method => {
+      socket.on(method, (...args) => {
+        methods[method](...args)
+      })
+    }
+  )
+}
+
 export default socket
+export { registerSocketEvents }

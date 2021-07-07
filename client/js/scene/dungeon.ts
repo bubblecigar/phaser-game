@@ -5,7 +5,7 @@ import bombUrl from '../../statics/bomb.png'
 import { gameMethods, gameConfig } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactor'
-import socket from '../socket'
+import socket, { registerSocketEvents } from '../socket'
 import tilesetUrl from '../../statics/tile/tileset.png'
 import dungeonMapUrl from '../../statics/tile/small_map.json'
 import roomMapUrl from '../../statics/tile/room_map.json'
@@ -43,7 +43,7 @@ const roomMapConfig: MapConfig = {
 function init(data) {
   mapConfig = data.mapConfig || roomMapConfig
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
-  registerSocketEvents()
+  registerSocketEvents(methods)
 }
 
 function preload() {
@@ -55,16 +55,6 @@ function preload() {
   Object.keys(charactors).forEach(
     char => {
       charactors[char].preloadAssets(this)
-    }
-  )
-}
-
-const registerSocketEvents = () => {
-  Object.keys(methods).forEach(
-    method => {
-      socket.on(method, (...args) => {
-        methods[method](...args)
-      })
     }
   )
 }
