@@ -19,7 +19,7 @@ interface MapConfig {
   collisionTiles: number[]
 }
 
-interface StaticItem extends Item {
+interface MapItem extends Item {
 
 }
 
@@ -30,7 +30,7 @@ let methods
 let cursors
 let graphics
 let mapConfig
-
+let mapItems: MapItem[] = []
 
 const dungeonMapConfig: MapConfig = {
   mapKey: 'dungeon',
@@ -49,6 +49,7 @@ const roomMapConfig: MapConfig = {
 
 function init(data) {
   mapConfig = data.mapConfig || roomMapConfig
+  mapItems = []
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
   registerSocketEvents(methods)
 }
