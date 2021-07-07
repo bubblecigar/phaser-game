@@ -10,12 +10,6 @@ import tilesetUrl from '../../statics/tile/tileset.png'
 import dungeonMapUrl from '../../statics/tile/small_map.json'
 import roomMapUrl from '../../statics/tile/room_map.json'
 
-const userId = getLocalUserData().userId
-
-let methods
-let cursors
-let graphics
-let mapConfig
 
 interface MapConfig {
   mapKey: string,
@@ -28,6 +22,14 @@ interface MapConfig {
 interface StaticItem extends Item {
 
 }
+
+
+const userId = getLocalUserData().userId
+
+let methods
+let cursors
+let graphics
+let mapConfig
 
 
 const dungeonMapConfig: MapConfig = {
