@@ -199,6 +199,7 @@ function update(t, dt) {
 }
 
 export default {
+  key: 'dungeon',
   preload,
   create,
   update
