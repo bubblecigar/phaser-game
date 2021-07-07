@@ -82,6 +82,18 @@ const registerInputEvents = scene => {
           scene.scale.toggleFullscreen();
           break
         }
+        case 'x': {
+          methods.init()
+          const mapConfig: MapConfig = dungeonMapConfig
+          scene.scene.restart({ mapConfig })
+          break
+        }
+        case 'c': {
+          methods.init()
+          const mapConfig: MapConfig = roomMapConfig
+          scene.scene.restart({ mapConfig })
+          break
+        }
         default: {
           // do nothing
         }

@@ -36,6 +36,10 @@ const gameConfig = {
 
 const gameMethods = (env: 'client' | 'server') => variables => {
   const methods = {
+    init: () => {
+      gameState.players = []
+      gameState.items = []
+    },
     syncPlayers: (_players: Player[]) => {
       const missingPlayers = _.differenceBy(_players, gameState.players, 'id')
       missingPlayers.forEach(player => {
