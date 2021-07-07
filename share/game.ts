@@ -189,6 +189,10 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         }
       }
       return item
+    },
+    interact: (player: Player, item: Item) => {
+      console.log(player)
+      console.log(item)
     }
   }
   return methods

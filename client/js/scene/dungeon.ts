@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import { v4 } from 'uuid';
 import _ from 'lodash'
 import bombUrl from '../../statics/bomb.png'
-import { gameMethods, gameConfig } from '../../../share/game'
+import { gameMethods, gameConfig, gameState } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactor'
 import socket, { registerSocketEvents } from '../socket'
@@ -64,20 +64,6 @@ const registerInputEvents = scene => {
   scene.input.keyboard.on(
     'keydown', e => {
       switch (e.key) {
-        case 'q': {
-          const player = methods.getPlayer(getLocalUserData().userId)
-          const itemConstructor = {
-            builderId: player.id,
-            id: v4(),
-            icon: 'bomb',
-            type: 'block',
-            position: player.position,
-            phaserObject: null
-          }
-          const item = methods.addItem(itemConstructor)
-          socket.emit('addItem', _.omit(item, 'phaserObject'))
-          break
-        }
         case 'w': {
           scene.scale.toggleFullscreen();
           break
@@ -92,6 +78,38 @@ const registerInputEvents = scene => {
           methods.init()
           const mapConfig: MapConfig = roomMapConfig
           scene.scene.restart({ mapConfig })
+          break
+        }
+        case 'z': {
+
+          const getNearestReachableItem = (position, items = gameState.items) => {
+            let reachable = false
+            const nearestItem = _.minBy(items, item => {
+              const distance = Phaser.Math.Distance.BetweenPoints(item.position, position)
+              if (distance < 30) { reachable = true }
+              return distance
+            })
+            return reachable && nearestItem
+          }
+
+          const player = methods.getPlayer(getLocalUserData().userId)
+          const interactableItem = getNearestReachableItem(player.position)
+          if (!interactableItem) return
+          methods.interact(player, interactableItem)
+          break
+        }
+        case 'x': {
+          const player = methods.getPlayer(getLocalUserData().userId)
+          const itemConstructor = {
+            builderId: player.id,
+            id: v4(),
+            icon: 'bomb',
+            type: 'block',
+            position: player.position,
+            phaserObject: null
+          }
+          const item = methods.addItem(itemConstructor)
+          socket.emit('addItem', _.omit(item, 'phaserObject'))
           break
         }
         default: {
