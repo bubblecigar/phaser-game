@@ -7,19 +7,46 @@ import { getLocalUserData } from '../user'
 import charactors from '../charactor'
 import socket from '../socket'
 import tilesetUrl from '../../statics/tile/tileset.png'
-import tilemapUrl from '../../statics/tile/small_map.json'
+import dungeonMapUrl from '../../statics/tile/small_map.json'
+import roomMapUrl from '../../statics/tile/room_map.json'
 
 const userId = getLocalUserData().userId
 
 let methods
 let cursors
-let graphics
+let graphics, renderTexture
+let map
+
+interface MapConfig {
+  mapKey: string,
+  mapUrl: string,
+  tilesetKey: string,
+  tilesetUrl: string,
+  collisionTiles: number[]
+}
+
+const dungeonMapConfig: MapConfig = {
+  mapKey: 'dungeon',
+  mapUrl: dungeonMapUrl,
+  tilesetKey: 'tileset',
+  tilesetUrl: tilesetUrl,
+  collisionTiles: [17, 18, 19]
+}
+const roomMapConfig: MapConfig = {
+  mapKey: 'room',
+  mapUrl: roomMapUrl,
+  tilesetKey: 'tileset',
+  tilesetUrl: tilesetUrl,
+  collisionTiles: [17, 18, 19]
+}
 
 function preload() {
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
   this.load.image('bomb', bombUrl);
-  this.load.image('tileset', tilesetUrl);
-  this.load.tilemapTiledJSON('map', tilemapUrl);
+  this.load.image(dungeonMapConfig.tilesetKey, dungeonMapConfig.tilesetUrl);
+  this.load.tilemapTiledJSON(dungeonMapConfig.mapKey, dungeonMapConfig.mapUrl);
+  this.load.image(roomMapConfig.tilesetKey, roomMapConfig.tilesetUrl);
+  this.load.tilemapTiledJSON(roomMapConfig.mapKey, roomMapConfig.mapUrl);
   Object.keys(charactors).forEach(
     char => {
       charactors[char].preloadAssets(this)
@@ -68,13 +95,13 @@ const registerInputEvents = scene => {
   )
 }
 
-const setUpMap = scene => {
-  const map = scene.make.tilemap({ key: 'map' })
+const setUpMap = (scene, key) => {
+  const map = scene.make.tilemap({ key })
   scene.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   return map
 }
-const setUpTileset = map => {
-  const tileset = map.addTilesetImage('tileset')
+const setUpTileset = (map, key) => {
+  const tileset = map.addTilesetImage(key)
   return tileset
 }
 const setUpLayer = (map, tileset) => {
@@ -86,7 +113,7 @@ const setUpLayer = (map, tileset) => {
   return [backgroundLayer, wallLayer]
 }
 
-const setUpFOVmask = (scene, layer) => {
+const setUpFOVmask = (scene, layer, collisionTiles) => {
   scene.raycaster = scene.raycasterPlugin.createRaycaster()
   scene.ray = scene.raycaster.createRay({
     origin: {
@@ -94,9 +121,7 @@ const setUpFOVmask = (scene, layer) => {
       y: gameConfig.canvasHeight / 2,
     }
   })
-  scene.raycaster.mapGameObjects(layer, false, {
-    collisionTiles: [17, 18, 19]
-  })
+  scene.raycaster.mapGameObjects(layer, false, { collisionTiles })
   graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.1 } })
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
   mask.setInvertAlpha()
@@ -112,18 +137,19 @@ const setUpBackgroundRenderer = (scene, mask, map, layers) => {
   return renderTexture
 }
 
-const setUpBackground = scene => {
-  const map = setUpMap(scene)
-  const tileset = setUpTileset(map)
+const setUpBackground = (scene, config: MapConfig) => {
+  const { mapKey, tilesetKey, collisionTiles } = config
+  map = setUpMap(scene, mapKey)
+  const tileset = setUpTileset(map, tilesetKey)
   const layers = setUpLayer(map, tileset)
-  const mask = setUpFOVmask(scene, layers[1])
+  const mask = setUpFOVmask(scene, layers[1], collisionTiles)
   setUpBackgroundRenderer(scene, mask, map, layers)
 }
 
 function create() {
   registerSocketEvents()
   registerInputEvents(this)
-  setUpBackground(this)
+  setUpBackground(this, roomMapConfig)
 
   Object.keys(charactors).forEach(
     char => {
