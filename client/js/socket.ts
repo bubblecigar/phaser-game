@@ -8,15 +8,20 @@ const socket = io.connect({
   }
 })
 
-
+let registered = false
 const registerSocketEvents = methods => {
-  Object.keys(methods).forEach(
-    method => {
-      socket.on(method, (...args) => {
-        methods[method](...args)
-      })
-    }
-  )
+  if (registered) {
+    return // only register once
+  } else {
+    Object.keys(methods).forEach(
+      method => {
+        socket.on(method, (...args) => {
+          methods[method](...args)
+        })
+      }
+    )
+    registered = true
+  }
 }
 
 export default socket
