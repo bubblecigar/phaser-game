@@ -40,8 +40,13 @@ const roomMapConfig: MapConfig = {
   collisionTiles: [17, 18, 19]
 }
 
-function preload() {
+function init(data) {
+  mapConfig = data.mapConfig || roomMapConfig
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
+  registerSocketEvents()
+}
+
+function preload() {
   this.load.image('bomb', bombUrl);
   this.load.image(dungeonMapConfig.tilesetKey, dungeonMapConfig.tilesetUrl);
   this.load.tilemapTiledJSON(dungeonMapConfig.mapKey, dungeonMapConfig.mapUrl);
@@ -139,7 +144,7 @@ const setUpBackgroundRenderer = (scene, mask, map, layers) => {
 
 const setUpBackground = (scene, config: MapConfig) => {
   const { mapKey, tilesetKey, collisionTiles } = config
-  map = setUpMap(scene, mapKey)
+  const map = setUpMap(scene, mapKey)
   const tileset = setUpTileset(map, tilesetKey)
   const layers = setUpLayer(map, tileset)
   const mask = setUpFOVmask(scene, layers[1], collisionTiles)
@@ -147,9 +152,8 @@ const setUpBackground = (scene, config: MapConfig) => {
 }
 
 function create() {
-  registerSocketEvents()
   registerInputEvents(this)
-  setUpBackground(this, roomMapConfig)
+  setUpBackground(this, mapConfig)
 
   Object.keys(charactors).forEach(
     char => {
@@ -200,6 +204,7 @@ function update(t, dt) {
 
 export default {
   key: 'dungeon',
+  init,
   preload,
   create,
   update
