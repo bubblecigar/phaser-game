@@ -28,7 +28,6 @@ const userId = getLocalUserData().userId
 
 let methods
 let cursors
-let graphics
 let mapConfig
 let mapItems: MapItem[] = []
 
