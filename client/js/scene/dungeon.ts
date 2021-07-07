@@ -142,13 +142,6 @@ function create() {
   socket.emit('init-player')
 }
 
-const computeFOV = (scene, position) => {
-  scene.ray.setOrigin(position.x, position.y)
-  const intersections = scene.ray.castCircle()
-  graphics.clear()
-  graphics.fillPoints(intersections)
-}
-
 const movePlayer = (player: Player) => {
   const _velocity = { x: 0, y: 0 }
   if (cursors.left.isDown) {

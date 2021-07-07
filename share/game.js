@@ -141,10 +141,11 @@ var gameMethods = function (env) { return function (variables) {
             }
         },
         addItem: function (itemConstructor) {
-            var builderId = itemConstructor.builderId, id = itemConstructor.id, icon = itemConstructor.icon, type = itemConstructor.type, position = itemConstructor.position;
+            var builderId = itemConstructor.builderId, id = itemConstructor.id, key = itemConstructor.key, icon = itemConstructor.icon, type = itemConstructor.type, position = itemConstructor.position;
             var builder = methods.getPlayer(builderId);
             var item = {
                 id: id,
+                key: key,
                 builderId: builderId,
                 position: position,
                 icon: icon,
@@ -170,6 +171,10 @@ var gameMethods = function (env) { return function (variables) {
                 }
             }
             return item;
+        },
+        interact: function (player, item) {
+            console.log(player);
+            console.log(item);
         }
     };
     return methods;

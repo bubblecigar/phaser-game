@@ -17,8 +17,8 @@ io.on('connection', async function (socket) {
   const userData = socket.handshake.auth
 
   socket.on('init-player', () => {
-    const x = gameConfig.canvasWidth / 2
-    const y = gameConfig.canvasHeight / 2
+    const x = gameConfig.canvasWidth * 2 / 3
+    const y = gameConfig.canvasHeight * 2 / 3
     const player = {
       id: userData.userId,
       charactorKey: 'giantDemon',
