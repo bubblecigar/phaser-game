@@ -1,8 +1,8 @@
-repository:
+# repository:
 https://github.com/bubblecigar/phaser-game
 
-deploy:
+# deploy:
 git push heroku master
 
-production:
+# production:
 https://farmer-game-123.herokuapp.com/
