@@ -64,7 +64,7 @@ const registerInputEvents = scene => {
   scene.input.keyboard.on(
     'keydown', e => {
       switch (e.key) {
-        case 'z': {
+        case 'q': {
           const player = methods.getPlayer(getLocalUserData().userId)
           const itemConstructor = {
             builderId: player.id,
@@ -82,13 +82,13 @@ const registerInputEvents = scene => {
           scene.scale.toggleFullscreen();
           break
         }
-        case 'x': {
+        case 'a': {
           methods.init()
           const mapConfig: MapConfig = dungeonMapConfig
           scene.scene.restart({ mapConfig })
           break
         }
-        case 'c': {
+        case 's': {
           methods.init()
           const mapConfig: MapConfig = roomMapConfig
           scene.scene.restart({ mapConfig })
