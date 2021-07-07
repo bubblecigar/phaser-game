@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import { v4 } from 'uuid';
 import _ from 'lodash'
 import bombUrl from '../../statics/bomb.png'
-import { gameMethods, gameConfig, gameState } from '../../../share/game'
+import { gameMethods, gameConfig, gameState, Player, Item } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactor'
 import socket, { registerSocketEvents } from '../socket'
@@ -24,6 +24,11 @@ interface MapConfig {
   tilesetUrl: string,
   collisionTiles: number[]
 }
+
+interface StaticItem extends Item {
+
+}
+
 
 const dungeonMapConfig: MapConfig = {
   mapKey: 'dungeon',
@@ -92,14 +97,14 @@ const registerInputEvents = scene => {
             return reachable && nearestItem
           }
 
-          const player = methods.getPlayer(getLocalUserData().userId)
+          const player: Player = methods.getPlayer(getLocalUserData().userId)
           const interactableItem = getNearestReachableItem(player.position)
           if (!interactableItem) return
           methods.interact(player, interactableItem)
           break
         }
         case 'x': {
-          const player = methods.getPlayer(getLocalUserData().userId)
+          const player: Player = methods.getPlayer(getLocalUserData().userId)
           const itemConstructor = {
             builderId: player.id,
             id: v4(),
@@ -192,7 +197,7 @@ const computeFOV = (scene, position) => {
   graphics.fillPoints(intersections)
 }
 
-const movePlayer = player => {
+const movePlayer = (player: Player) => {
   const _velocity = { x: 0, y: 0 }
   if (cursors.left.isDown) {
     _velocity.x = -gameConfig.playerVelocity
