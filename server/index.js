@@ -42,6 +42,11 @@ io.on('connection', async function (socket) {
     methods.addItem(item)
     socket.broadcast.emit('addItem', item)
   })
+  socket.on('removeItem', id => {
+    methods.removeItem(id)
+    socket.broadcast.emit('removeItem', id)
+  })
+
 
   socket.on('disconnect', async function () {
     io.emit('removePlayer', userData.userId)

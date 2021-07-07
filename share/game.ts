@@ -207,10 +207,10 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         item.phaserObject.destroy()
       }
     },
-    interact: (player: Player, item: Item) => {
-      console.log(player)
-      console.log(item)
-      methods.removeItem(item.id)
+    interact: (player: Player, item: Item, action = 'default') => {
+      if (item.key === 'player-bomb' && action === 'default') {
+        methods.removeItem(item.id)
+      }
     }
   }
   return methods
