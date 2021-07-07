@@ -1,27 +1,30 @@
 import _ from 'lodash'
 
-interface Point {
+export interface Point {
   x: number,
   y: number
 }
-interface Player {
+export interface Player {
   id: string,
   velocity: Point,
   position: Point,
   charactorKey: string,
   phaserObject: any
 }
-interface Item {
+export interface Item {
   id: string,
-  builderId: string,
+  key: string,
   position: Point,
   icon: string,
-  type: string,
   phaserObject: any
 }
-interface GameState {
+export interface PlayerItem extends Item {
+  builderId: string,
+  type: string
+}
+export interface GameState {
   players: Player[],
-  items: Item[]
+  items: PlayerItem[]
 }
 const gameState: GameState = {
   players: [],
@@ -59,7 +62,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         }
       )
     },
-    syncItems: (_items: Item[]) => {
+    syncItems: (_items: PlayerItem[]) => {
       const missingItems = _.differenceBy(_items, gameState.items, 'id')
       missingItems.forEach(item => {
         methods.addItem(item)
@@ -158,10 +161,10 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         }
       }
     },
-    addItem: (itemConstructor: Item): Item => {
+    addItem: (itemConstructor: PlayerItem): PlayerItem => {
       const { builderId, id, icon, type, position } = itemConstructor
       const builder = methods.getPlayer(builderId)
-      const item: Item = {
+      const item: PlayerItem = {
         id,
         builderId,
         position,
