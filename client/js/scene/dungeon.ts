@@ -128,15 +128,7 @@ const registerInputEvents = scene => {
   )
 }
 
-function create() {
-  registerInputEvents(this)
-  FOV.create(this, mapConfig)
-
-  Object.keys(charactors).forEach(
-    char => {
-      charactors[char].createAnims(this)
-    }
-  )
+const createPlayer = () => {
   const x = gameConfig.canvasWidth * 2 / 3
   const y = gameConfig.canvasHeight * 2 / 3
   const player = {
@@ -148,6 +140,19 @@ function create() {
   }
   methods.addPlayer(player)
   socket.emit('init-player', player)
+}
+
+function create() {
+  registerInputEvents(this)
+  FOV.create(this, mapConfig)
+
+  Object.keys(charactors).forEach(
+    char => {
+      charactors[char].createAnims(this)
+    }
+  )
+
+  createPlayer()
 }
 
 const movePlayer = (player: Player) => {
