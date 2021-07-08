@@ -11,6 +11,9 @@ export interface Player {
   charactorKey: string,
   phaserObject: any
 }
+export interface Monster extends Player {
+
+}
 export interface Item {
   id: string,
   key: string,
@@ -24,11 +27,13 @@ export interface PlayerItem extends Item {
 }
 export interface GameState {
   players: Player[],
-  items: PlayerItem[]
+  items: PlayerItem[],
+  monsters: Monster[]
 }
 const gameState: GameState = {
   players: [],
-  items: []
+  items: [],
+  monsters: []
 }
 
 const gameConfig = {
@@ -100,8 +105,10 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
           const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
           camera.setMask(mask)
-          const wallLayer = scene.children.getByName('wall_layer')
-          scene.physics.add.collider(player.phaserObject, wallLayer)
+          const tilmaplayers = scene.children.list.filter(c => c.isTilemap)
+          tilmaplayers.forEach(
+            layer => scene.physics.add.collider(player.phaserObject, layer)
+          )
         }
       }
     },

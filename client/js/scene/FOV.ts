@@ -15,17 +15,17 @@ const setUpTileset = (map, key) => {
   return tileset
 }
 const setUpLayer = (map, tileset) => {
-  const backgroundLayer = map.createLayer('bg_layer', tileset, 0, 0)
-  backgroundLayer.name = 'bg_layer'
-  const userLayer = map.createBlankLayer('user_layer', tileset)
-  userLayer.name = 'user_layer'
-  const wallLayer = map.createLayer('wall_layer', tileset, 0, 0)
-  wallLayer.name = 'wall_layer'
-  map.setCollisionFromCollisionGroup()
-  return [backgroundLayer, wallLayer, userLayer]
+  const layers = []
+  map.layers.forEach(layer => {
+    const l = map.createLayer(layer.name, tileset, 0, 0)
+    l.name = layer.name
+    l.setCollisionFromCollisionGroup()
+    layers.push(l)
+  })
+  return layers
 }
 
-const setUpFOVmask = (scene, layer, collisionTiles) => {
+const setUpFOVmask = (scene, layers, collisionTiles) => {
   scene.raycaster = scene.raycasterPlugin.createRaycaster()
   scene.ray = scene.raycaster.createRay({
     origin: {
@@ -33,7 +33,11 @@ const setUpFOVmask = (scene, layer, collisionTiles) => {
       y: gameConfig.canvasHeight / 2,
     }
   })
-  scene.raycaster.mapGameObjects(layer, false, { collisionTiles })
+  layers.forEach(
+    l => {
+      scene.raycaster.mapGameObjects(l, false, { collisionTiles })
+    }
+  )
   graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.1 } })
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
   mask.setInvertAlpha()
@@ -55,7 +59,7 @@ const createBackground = (scene, config: MapConfig) => {
   const map = setUpMap(scene, mapKey)
   const tileset = setUpTileset(map, tilesetKey)
   const layers = setUpLayer(map, tileset)
-  const mask = setUpFOVmask(scene, layers[1], collisionTiles)
+  const mask = setUpFOVmask(scene, layers, collisionTiles)
   setUpBackgroundRenderer(scene, mask, map, layers)
   return map
 }

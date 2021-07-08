@@ -7,7 +7,7 @@ import { getLocalUserData } from '../user'
 import charactors from '../charactor'
 import socket, { registerSocketEvents } from '../socket'
 import tilesetUrl from '../../statics/tile/tileset.png'
-import dungeonMapUrl from '../../statics/tile/small_map.json'
+import dungeonMapUrl from '../../statics/tile/dungeon_map.json'
 import roomMapUrl from '../../statics/tile/room_map.json'
 import FOV from './FOV'
 
@@ -37,7 +37,7 @@ const dungeonMapConfig: MapConfig = {
   mapUrl: dungeonMapUrl,
   tilesetKey: 'tileset',
   tilesetUrl: tilesetUrl,
-  collisionTiles: [17, 18, 19]
+  collisionTiles: [1, 2, 3, 17, 18, 19]
 }
 const roomMapConfig: MapConfig = {
   mapKey: 'room',
