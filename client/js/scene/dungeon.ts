@@ -125,6 +125,10 @@ const registerInputEvents = scene => {
           const userLayer = map.getLayer('user_layer').tilemapLayer
           const tileXY = map.worldToTileXY(x, y)
           userLayer.putTilesAt([Math.floor(Math.random() * 100)], tileXY.x, tileXY.y)
+          player.phaserObject.play({
+            key: charactors[player.charactorKey].animations.hit,
+            repeat: 0
+          })
           break
         }
         default: {
@@ -140,7 +144,7 @@ const createPlayer = () => {
   const y = map.heightInPixels / 2
   const player = {
     id: userId,
-    charactorKey: 'giantDemon',
+    charactorKey: 'lizardFemale',
     position: { x, y },
     velocity: { x: 0, y: 0 },
     phaserObject: null

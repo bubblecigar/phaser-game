@@ -1,5 +1,6 @@
 import zoombieSpriteUrl from '../statics/tile/anim_sprite/big_zoombie.png'
 import demonSpriteUrl from '../statics/tile/anim_sprite/big_demon.png'
+import lizardFemaleSpriteUrl from '../statics/tile/anim_sprite/female_lizard.png'
 
 export interface Charactor {
   key: string,
@@ -93,4 +94,47 @@ export const giantDemon: Charactor = {
   }
 }
 
-export default { giantZombie, giantDemon }
+const flzStr = getCharString('lizard_female')
+export const lizardFemale: Charactor = {
+  key: 'lizard_female',
+  preloadAssets: scene => {
+    scene.load.spritesheet(flzStr.sprite, lizardFemaleSpriteUrl, { frameWidth: 16, frameHeight: 28 })
+  },
+  createAnims: scene => {
+    scene.anims.create({
+      key: flzStr.animations.idle,
+      frames: scene.anims.generateFrameNumbers(flzStr.sprite, { frames: [1, 2, 3, 4] }),
+      frameRate: 8,
+      repeat: -1
+    })
+    scene.anims.create({
+      key: flzStr.animations.move,
+      frames: scene.anims.generateFrameNumbers(flzStr.sprite, { frames: [5, 6, 7, 8] }),
+      frameRate: 8,
+      repeat: -1
+    })
+    scene.anims.create({
+      key: flzStr.animations.hit,
+      frames: scene.anims.generateFrameNumbers(flzStr.sprite, { frames: [1, 0, 1] }),
+      frameRate: 8,
+      repeat: -1
+    });
+  },
+  addToScene: (scene, x, y) => {
+    const phaserObject = scene.physics.add.sprite(x, y)
+    phaserObject.body.setSize(16, 16)
+    phaserObject.body.setOffset(0, 10)
+    phaserObject.play(flzStr.animations.idle)
+    phaserObject.setDepth(3)
+    phaserObject.setCollideWorldBounds(true)
+    return phaserObject
+  },
+  animations: {
+    idle: flzStr.animations.idle,
+    move: flzStr.animations.move,
+    hit: flzStr.animations.hit
+  }
+}
+
+
+export default { giantZombie, giantDemon, lizardFemale }
