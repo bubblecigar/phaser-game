@@ -137,8 +137,17 @@ function create() {
       charactors[char].createAnims(this)
     }
   )
-
-  socket.emit('init-player')
+  const x = gameConfig.canvasWidth * 2 / 3
+  const y = gameConfig.canvasHeight * 2 / 3
+  const player = {
+    id: userId,
+    charactorKey: 'giantDemon',
+    position: { x, y },
+    velocity: { x: 0, y: 0 },
+    phaserObject: null
+  }
+  methods.addPlayer(player)
+  socket.emit('init-player', player)
 }
 
 const movePlayer = (player: Player) => {

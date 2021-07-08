@@ -16,16 +16,7 @@ server.listen(process.env.PORT || 8081, function () {
 io.on('connection', async function (socket) {
   const userData = socket.handshake.auth
 
-  socket.on('init-player', () => {
-    const x = gameConfig.canvasWidth * 2 / 3
-    const y = gameConfig.canvasHeight * 2 / 3
-    const player = {
-      id: userData.userId,
-      charactorKey: 'giantDemon',
-      position: { x, y },
-      velocity: { x: 0, y: 0 },
-      phaserObject: null
-    }
+  socket.on('init-player', (player) => {
     methods.addPlayer(player)
     io.emit('addPlayer', player)
     io.emit('syncPlayers', gameState.players)
