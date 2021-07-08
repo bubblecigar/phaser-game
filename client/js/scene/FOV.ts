@@ -17,10 +17,12 @@ const setUpTileset = (map, key) => {
 const setUpLayer = (map, tileset) => {
   const backgroundLayer = map.createLayer('bg_layer', tileset, 0, 0)
   backgroundLayer.name = 'bg_layer'
+  const userLayer = map.createBlankLayer('user_layer', tileset)
+  userLayer.name = 'user_layer'
   const wallLayer = map.createLayer('wall_layer', tileset, 0, 0)
   wallLayer.name = 'wall_layer'
   map.setCollisionFromCollisionGroup()
-  return [backgroundLayer, wallLayer]
+  return [backgroundLayer, wallLayer, userLayer]
 }
 
 const setUpFOVmask = (scene, layer, collisionTiles) => {

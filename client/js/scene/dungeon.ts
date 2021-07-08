@@ -119,6 +119,14 @@ const registerInputEvents = scene => {
           socket.emit('addItem', _.omit(item, 'phaserObject'))
           break
         }
+        case 'c': {
+          const player: Player = methods.getPlayer(getLocalUserData().userId)
+          const { x, y } = player.position
+          const userLayer = map.getLayer('user_layer').tilemapLayer
+          const tileXY = map.worldToTileXY(x, y)
+          userLayer.putTilesAt([Math.floor(Math.random() * 100)], tileXY.x, tileXY.y)
+          break
+        }
         default: {
           // do nothing
         }
