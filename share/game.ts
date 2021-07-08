@@ -75,7 +75,6 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         console.log('player already exist')
         return
       }
-
       const player: Player = {
         id,
         charactorKey,
@@ -92,7 +91,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           return
         }
         const charactor = variables.charactors[player.charactorKey]
-        player.phaserObject = charactor.addToScene(scene)
+        player.phaserObject = charactor.addToScene(scene, position.x, position.y)
 
         if (playerConstructor.id === variables.userId) {
           const camera = scene.cameras.cameras[0]
