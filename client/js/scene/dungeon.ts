@@ -55,11 +55,9 @@ function init(data) {
 }
 
 function preload() {
-  this.load.image('bomb', bombUrl);
-  this.load.image(dungeonMapConfig.tilesetKey, dungeonMapConfig.tilesetUrl);
-  this.load.tilemapTiledJSON(dungeonMapConfig.mapKey, dungeonMapConfig.mapUrl);
-  this.load.image(roomMapConfig.tilesetKey, roomMapConfig.tilesetUrl);
-  this.load.tilemapTiledJSON(roomMapConfig.mapKey, roomMapConfig.mapUrl);
+  this.load.image('bomb', bombUrl)
+  this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
+  this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
   Object.keys(charactors).forEach(
     char => {
       charactors[char].preloadAssets(this)
