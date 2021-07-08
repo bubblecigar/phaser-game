@@ -55,6 +55,7 @@ const createBackground = (scene, config: MapConfig) => {
   const layers = setUpLayer(map, tileset)
   const mask = setUpFOVmask(scene, layers[1], collisionTiles)
   setUpBackgroundRenderer(scene, mask, map, layers)
+  return map
 }
 
 const updateBackground = (scene, position) => {

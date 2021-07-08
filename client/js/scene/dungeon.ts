@@ -29,6 +29,7 @@ const userId = getLocalUserData().userId
 let methods
 let cursors
 let mapConfig
+let map
 let mapItems: MapItem[] = []
 
 const dungeonMapConfig: MapConfig = {
@@ -47,7 +48,7 @@ const roomMapConfig: MapConfig = {
 }
 
 function init(data) {
-  mapConfig = data.mapConfig || roomMapConfig
+  mapConfig = data.mapConfig || dungeonMapConfig
   mapItems = []
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
   registerSocketEvents(methods)
@@ -129,8 +130,8 @@ const registerInputEvents = scene => {
 }
 
 const createPlayer = () => {
-  const x = gameConfig.canvasWidth * 2 / 3
-  const y = gameConfig.canvasHeight * 2 / 3
+  const x = map.widthInPixels / 2
+  const y = map.heightInPixels / 2
   const player = {
     id: userId,
     charactorKey: 'giantDemon',
@@ -144,7 +145,7 @@ const createPlayer = () => {
 
 function create() {
   registerInputEvents(this)
-  FOV.create(this, mapConfig)
+  map = FOV.create(this, mapConfig)
 
   Object.keys(charactors).forEach(
     char => {
