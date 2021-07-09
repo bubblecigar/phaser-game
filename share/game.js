@@ -15,13 +15,14 @@ exports.gameMethods = exports.gameState = exports.gameConfig = void 0;
 var lodash_1 = require("lodash");
 var gameState = {
     players: [],
-    items: []
+    items: [],
+    monsters: []
 };
 exports.gameState = gameState;
 var gameConfig = {
     canvasWidth: 400,
     canvasHeight: 300,
-    playerVelocity: 150
+    playerVelocity: 3
 };
 exports.gameConfig = gameConfig;
 var gameMethods = function (env) { return function (variables) {
@@ -73,7 +74,7 @@ var gameMethods = function (env) { return function (variables) {
                     return;
                 }
                 var charactor = variables.charactors[player.charactorKey];
-                player.phaserObject = charactor.addToScene(scene);
+                player.phaserObject = charactor.addToScene(scene, position.x, position.y);
                 if (playerConstructor.id === variables.userId) {
                     var camera = scene.cameras.cameras[0];
                     camera.startFollow(player.phaserObject, true, 0.2, 0.2);
@@ -81,8 +82,6 @@ var gameMethods = function (env) { return function (variables) {
                     var circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100);
                     var mask = new Phaser.Display.Masks.GeometryMask(scene, circle);
                     camera.setMask(mask);
-                    var wallLayer = scene.children.getByName('wall_layer');
-                    scene.physics.add.collider(player.phaserObject, wallLayer);
                 }
             }
         },
@@ -159,22 +158,28 @@ var gameMethods = function (env) { return function (variables) {
                     console.log('not initialize');
                     return;
                 }
-                if (type === 'block') {
-                    var phaserObject = scene.physics.add.staticImage(position.x, position.y, icon);
-                    item.phaserObject = phaserObject;
-                    var clientPlayer = methods.getPlayer(variables.userId);
-                    scene.physics.add.collider(clientPlayer.phaserObject, item.phaserObject);
-                }
-                if (type === 'ground') {
-                    var phaserObject = scene.add.image(builder.position.x, builder.position.y, icon);
-                    item.phaserObject = phaserObject;
-                }
+                var phaserObject = scene.matter.add.image(position.x, position.y, icon, undefined, { isStatic: true });
+                item.phaserObject = phaserObject;
             }
             return item;
         },
-        interact: function (player, item) {
-            console.log(player);
-            console.log(item);
+        removeItem: function (id) {
+            var itemIndex = gameState.items.findIndex(function (item) { return item.id === id; });
+            var item = gameState.items[itemIndex];
+            if (!item) {
+                console.log('no such item');
+                return;
+            }
+            gameState.items = gameState.items.filter(function (item) { return item.id !== id; });
+            if (env === 'client') {
+                item.phaserObject.destroy();
+            }
+        },
+        interact: function (player, item, action) {
+            if (action === void 0) { action = 'default'; }
+            if (item.key === 'player-bomb' && action === 'default') {
+                methods.removeItem(item.id);
+            }
         }
     };
     return methods;
