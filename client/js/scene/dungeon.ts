@@ -7,10 +7,12 @@ import { getLocalUserData } from '../user'
 import charactors from '../charactor'
 import socket, { registerSocketEvents } from '../socket'
 import tilesetUrl from '../../statics/tile/tileset.png'
-import ghostTileSetUrl from '../../statics/tile/ghost_tileset.png'
 import dungeonMapUrl from '../../statics/tile/dungeon_map.json'
 import roomMapUrl from '../../statics/tile/room_map.json'
+import ghostTileSetUrl from '../../statics/tile/ghost_tileset.png'
 import ghostRoomUrl from '../../statics/tile/ghost_room.json'
+import tinyTileSetUrl from '../../statics/tile/tinyroom.png'
+import tinyRoomUrl from '../../statics/tile/tiny_map.json'
 import FOV from './FOV'
 import charactor from '../charactor';
 
@@ -47,10 +49,10 @@ const roomMapConfig: MapConfig = {
   tilesetUrl: tilesetUrl
 }
 const ghostRoomConfig: MapConfig = {
-  mapKey: 'ghost_room',
-  mapUrl: ghostRoomUrl,
-  tilesetKey: 'Tileset_Large',
-  tilesetUrl: ghostTileSetUrl
+  mapKey: 'tiny_room',
+  mapUrl: tinyRoomUrl,
+  tilesetKey: 'tinyroom',
+  tilesetUrl: tinyTileSetUrl
 }
 
 function init(data) {

@@ -10,7 +10,7 @@
     "fileStates": {
         "": {
             "scaleInDock": 1,
-            "scaleInEditor": 1.97
+            "scaleInEditor": 3.65
         },
         "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx": {
             "scaleInDock": 1,
@@ -26,6 +26,20 @@
         },
         "/Users/roywang/Desktop/tile_trial/dungeon_map.tmx#tileset": {
             "scaleInDock": 1.7418
+        },
+        "/Users/roywang/Desktop/tile_trial/ghost_room.tmx": {
+            "scale": 1.8,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 385.27777777777777,
+                "y": 225.83333333333337
+            }
+        },
+        "/Users/roywang/Desktop/tile_trial/ghost_room.tmx#Tileset_Large": {
+            "scaleInDock": 2.5901
+        },
+        "/Users/roywang/Desktop/tile_trial/ghost_room.tmx#tinyroom": {
+            "scaleInDock": 3.215
         },
         "/Users/roywang/Desktop/tile_trial/mapp.tmx": {
             "scale": 2.84,
@@ -92,7 +106,7 @@
         }
     },
     "last.exportedFilePath": "/Users/roywang/Desktop/typeScript/client/statics/tile",
-    "last.imagePath": "/Users/roywang/Desktop/typeScript/client/statics/tile/Package",
+    "last.imagePath": "/Users/roywang/Desktop/typeScript/client/statics/tile",
     "map.fixedSize": true,
     "map.height": 40,
     "map.lastUsedExportFilter": "JSON map files (*.json)",
@@ -104,6 +118,7 @@
     ],
     "project": "tile_project.tiled-project",
     "recentFiles": [
+        "/Users/roywang/Desktop/tile_trial/ghost_room.tmx",
         "/Users/roywang/Desktop/tile_trial/small_map.tmx",
         "/Users/roywang/Desktop/tile_trial/dungeon_map.tmx",
         "/Users/roywang/Desktop/tile_trial/tileset_test.tsx",
