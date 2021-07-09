@@ -19,6 +19,9 @@ const setUpLayer = (map, tileset) => {
   map.layers.forEach(layer => {
     const l = map.createLayer(layer.name, tileset, 0, 0)
     l.name = layer.name
+    if (l.name === 'roof_layer') {
+      l.visible = false
+    }
     l.setCollisionFromCollisionGroup()
     map.scene.matter.world.convertTilemapLayer(l)
     layers.push(l)
@@ -40,7 +43,11 @@ const setUpFOVmask = (scene, map) => {
   if (fov_layer.objects) {
     fov_layer.objects.forEach(
       object => {
-        if (object.rectangle) {
+        if (object.polygon) {
+          const polygon = scene.add.polygon(object.x, object.y, object.polygon)
+          polygon.setOrigin(0, 0)
+          fovObjects.push(polygon)
+        } else if (object.rectangle) {
           const { x, y, width, height } = object
           const rect = scene.add.rectangle(x, y, width, height)
           rect.setOrigin(0, 0)
@@ -63,6 +70,7 @@ const setUpBackgroundRenderer = (scene, mask, map, layers) => {
   renderTexture.setMask(mask);
   renderTexture.clear()
   renderTexture.fill('#000000', 1)
+  renderTexture.setTint(0x666666)
   renderTexture.draw(layers)
   return renderTexture
 }
