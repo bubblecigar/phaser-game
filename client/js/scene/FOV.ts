@@ -26,7 +26,7 @@ const setUpLayer = (map, tileset) => {
   return layers
 }
 
-const setUpFOVmask = (scene, layers, collisionTiles) => {
+const setUpFOVmask = (scene) => {
   scene.raycaster = scene.raycasterPlugin.createRaycaster()
   scene.ray = scene.raycaster.createRay({
     origin: {
