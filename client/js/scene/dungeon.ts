@@ -7,8 +7,10 @@ import { getLocalUserData } from '../user'
 import charactors from '../charactor'
 import socket, { registerSocketEvents } from '../socket'
 import tilesetUrl from '../../statics/tile/tileset.png'
+import ghostTileSetUrl from '../../statics/tile/ghost_tileset.png'
 import dungeonMapUrl from '../../statics/tile/dungeon_map.json'
 import roomMapUrl from '../../statics/tile/room_map.json'
+import ghostRoomUrl from '../../statics/tile/ghost_room.json'
 import FOV from './FOV'
 import charactor from '../charactor';
 
@@ -16,8 +18,7 @@ export interface MapConfig {
   mapKey: string,
   mapUrl: string,
   tilesetKey: string,
-  tilesetUrl: string,
-  collisionTiles: number[]
+  tilesetUrl: string
 }
 
 interface MapItem extends Item {
@@ -37,19 +38,23 @@ const dungeonMapConfig: MapConfig = {
   mapKey: 'dungeon',
   mapUrl: dungeonMapUrl,
   tilesetKey: 'tileset',
-  tilesetUrl: tilesetUrl,
-  collisionTiles: [1, 2, 3, 17, 18, 19]
+  tilesetUrl: tilesetUrl
 }
 const roomMapConfig: MapConfig = {
   mapKey: 'room',
   mapUrl: roomMapUrl,
   tilesetKey: 'tileset',
-  tilesetUrl: tilesetUrl,
-  collisionTiles: [17, 18, 19]
+  tilesetUrl: tilesetUrl
+}
+const ghostRoomConfig: MapConfig = {
+  mapKey: 'ghost_room',
+  mapUrl: ghostRoomUrl,
+  tilesetKey: 'Tileset_Large',
+  tilesetUrl: ghostTileSetUrl
 }
 
 function init(data) {
-  mapConfig = data.mapConfig || dungeonMapConfig
+  mapConfig = data.mapConfig || ghostRoomConfig
   mapItems = []
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
   registerSocketEvents(methods)
