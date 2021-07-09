@@ -55,11 +55,11 @@ const setUpBackgroundRenderer = (scene, mask, map, layers) => {
 }
 
 const createBackground = (scene, config: MapConfig) => {
-  const { mapKey, tilesetKey, collisionTiles } = config
+  const { mapKey, tilesetKey } = config
   const map = setUpMap(scene, mapKey)
   const tileset = setUpTileset(map, tilesetKey)
   const layers = setUpLayer(map, tileset)
-  const mask = setUpFOVmask(scene, layers, collisionTiles)
+  const mask = setUpFOVmask(scene)
   setUpBackgroundRenderer(scene, mask, map, layers)
   return map
 }
