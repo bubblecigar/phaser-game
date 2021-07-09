@@ -52,7 +52,7 @@ export const giantZombie: Charactor = {
     })
     phaserObject.setOrigin(0.5, 0.6)
     phaserObject.setFixedRotation()
-
+    phaserObject.setCollisionGroup(-1)
     phaserObject.play(gzStr.animations.idle)
     phaserObject.setDepth(3)
     return phaserObject
@@ -93,7 +93,7 @@ export const giantDemon: Charactor = {
     })
     phaserObject.setOrigin(0.5, 0.6)
     phaserObject.setFixedRotation()
-
+    phaserObject.setCollisionGroup(-1)
     phaserObject.play(gdStr.animations.idle)
     phaserObject.setDepth(3)
     return phaserObject
@@ -139,7 +139,7 @@ export const lizardFemale: Charactor = {
     })
     phaserObject.setOrigin(0.5, 0.7)
     phaserObject.setFixedRotation()
-
+    phaserObject.setCollisionGroup(-1)
     phaserObject.play(flzStr.animations.idle)
     phaserObject.setDepth(3)
     return phaserObject
