@@ -10,6 +10,7 @@ import tilesetUrl from '../../statics/tile/tileset.png'
 import dungeonMapUrl from '../../statics/tile/dungeon_map.json'
 import roomMapUrl from '../../statics/tile/room_map.json'
 import FOV from './FOV'
+import charactor from '../charactor';
 
 export interface MapConfig {
   mapKey: string,
@@ -142,9 +143,10 @@ const registerInputEvents = scene => {
 const createPlayer = () => {
   const x = map.widthInPixels / 2
   const y = map.heightInPixels / 2
+  const randomCharactorKey = Object.keys(charactor)[Math.floor(Math.random() * 10) % (Object.keys(charactor).length)]
   const player = {
     id: userId,
-    charactorKey: 'lizardFemale',
+    charactorKey: randomCharactorKey,
     position: { x, y },
     velocity: { x: 0, y: 0 },
     phaserObject: null

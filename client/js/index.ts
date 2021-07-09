@@ -15,9 +15,15 @@ const game = new Phaser.Game({
     autoCenter: Phaser.Scale.CENTER_BOTH
   },
   physics: {
-    default: 'arcade',
-    arcade: {
-      debug: false
+    default: 'matter',
+    matter: {
+      gravity: {
+        y: 0
+      },
+      debug: {
+        showBody: true,
+        showStaticBody: true
+      }
     }
   },
   scene: [dungeonScene],

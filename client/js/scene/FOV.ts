@@ -7,7 +7,7 @@ let graphics
 
 const setUpMap = (scene, key) => {
   const map = scene.make.tilemap({ key })
-  scene.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+  scene.matter.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   return map
 }
 const setUpTileset = (map, key) => {
@@ -20,6 +20,7 @@ const setUpLayer = (map, tileset) => {
     const l = map.createLayer(layer.name, tileset, 0, 0)
     l.name = layer.name
     l.setCollisionFromCollisionGroup()
+    map.scene.matter.world.convertTilemapLayer(l)
     layers.push(l)
   })
   return layers
@@ -33,11 +34,10 @@ const setUpFOVmask = (scene, layers, collisionTiles) => {
       y: gameConfig.canvasHeight / 2,
     }
   })
-  layers.forEach(
-    l => {
-      scene.raycaster.mapGameObjects(l, false, { collisionTiles })
-    }
-  )
+  scene.ray.enablePhysics('matter')
+  const matterBodies = scene.matter.getMatterBodies()
+  scene.raycaster.mapGameObjects(matterBodies)
+
   graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.1 } })
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
   mask.setInvertAlpha()

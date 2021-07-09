@@ -44,12 +44,17 @@ export const giantZombie: Charactor = {
     });
   },
   addToScene: (scene, x, y) => {
-    const phaserObject = scene.physics.add.sprite(x, y)
-    phaserObject.body.setSize(16, 24)
-    phaserObject.body.setOffset(8, 10)
+    const phaserObject = scene.matter.add.sprite(x, y)
+    phaserObject.setBody({
+      type: 'rectangle',
+      width: 16,
+      height: 30
+    })
+    phaserObject.setOrigin(0.5, 0.6)
+    phaserObject.setFixedRotation()
+
     phaserObject.play(gzStr.animations.idle)
     phaserObject.setDepth(3)
-    phaserObject.setCollideWorldBounds(true)
     return phaserObject
   },
   animations: {
@@ -80,12 +85,17 @@ export const giantDemon: Charactor = {
     });
   },
   addToScene: (scene, x, y) => {
-    const phaserObject = scene.physics.add.sprite(x, y)
-    phaserObject.body.setSize(16, 24)
-    phaserObject.body.setOffset(8, 10)
+    const phaserObject = scene.matter.add.sprite(x, y)
+    phaserObject.setBody({
+      type: 'rectangle',
+      width: 16,
+      height: 30
+    })
+    phaserObject.setOrigin(0.5, 0.6)
+    phaserObject.setFixedRotation()
+
     phaserObject.play(gdStr.animations.idle)
     phaserObject.setDepth(3)
-    phaserObject.setCollideWorldBounds(true)
     return phaserObject
   },
   animations: {
@@ -121,12 +131,17 @@ export const lizardFemale: Charactor = {
     });
   },
   addToScene: (scene, x, y) => {
-    const phaserObject = scene.physics.add.sprite(x, y)
-    phaserObject.body.setSize(16, 16)
-    phaserObject.body.setOffset(0, 10)
+    const phaserObject = scene.matter.add.sprite(x, y)
+    phaserObject.setBody({
+      type: 'rectangle',
+      width: 16,
+      height: 16
+    })
+    phaserObject.setOrigin(0.5, 0.7)
+    phaserObject.setFixedRotation()
+
     phaserObject.play(flzStr.animations.idle)
     phaserObject.setDepth(3)
-    phaserObject.setCollideWorldBounds(true)
     return phaserObject
   },
   animations: {

@@ -39,7 +39,7 @@ const gameState: GameState = {
 const gameConfig = {
   canvasWidth: 400,
   canvasHeight: 300,
-  playerVelocity: 150
+  playerVelocity: 3
 }
 
 const gameMethods = (env: 'client' | 'server') => variables => {
@@ -105,10 +105,6 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
           const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
           camera.setMask(mask)
-          const tilmaplayers = scene.children.list.filter(c => c.isTilemap)
-          tilmaplayers.forEach(
-            layer => scene.physics.add.collider(player.phaserObject, layer)
-          )
         }
       }
     },
@@ -187,16 +183,8 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           console.log('not initialize')
           return
         }
-        if (type === 'block') {
-          const phaserObject = scene.physics.add.staticImage(position.x, position.y, icon)
-          item.phaserObject = phaserObject
-          const clientPlayer = methods.getPlayer(variables.userId)
-          scene.physics.add.collider(clientPlayer.phaserObject, item.phaserObject)
-        }
-        if (type === 'ground') {
-          const phaserObject = scene.add.image(builder.position.x, builder.position.y, icon)
-          item.phaserObject = phaserObject
-        }
+        const phaserObject = scene.matter.add.image(position.x, position.y, icon, undefined, { isStatic: true })
+        item.phaserObject = phaserObject
       }
       return item
     },
