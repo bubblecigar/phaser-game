@@ -99,7 +99,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         player.phaserObject = charactor.addToScene(scene, position.x, position.y)
 
         if (playerConstructor.id === variables.userId) {
-          const camera = scene.cameras.cameras[0]
+          const camera = scene.cameras.main
           camera.startFollow(player.phaserObject, true, 0.2, 0.2)
           const Phaser = variables.Phaser
           const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
