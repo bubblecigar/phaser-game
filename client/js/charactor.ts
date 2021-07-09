@@ -23,6 +23,27 @@ const getCharString = (char: string) => ({
   }
 })
 
+interface CharConfig {
+  size: { width: number, height: number },
+  origin: { x: number, y: number },
+  animKey: string
+}
+const configToScene = (config: CharConfig) => (scene, x, y) => {
+  const { size, origin, animKey } = config
+  const phaserObject = scene.matter.add.sprite(x, y)
+  phaserObject.setBody({
+    type: 'rectangle',
+    width: size.width,
+    height: size.height
+  })
+  phaserObject.setOrigin(origin.x, origin.y)
+  phaserObject.setFixedRotation()
+  phaserObject.setCollisionGroup(-1)
+  phaserObject.play(animKey)
+  phaserObject.setDepth(3)
+  return phaserObject
+}
+
 const gzStr = getCharString('giant_zombie')
 export const giantZombie: Charactor = {
   key: 'giant_zombie',
@@ -43,20 +64,11 @@ export const giantZombie: Charactor = {
       repeat: -1
     });
   },
-  addToScene: (scene, x, y) => {
-    const phaserObject = scene.matter.add.sprite(x, y)
-    phaserObject.setBody({
-      type: 'rectangle',
-      width: 16,
-      height: 30
-    })
-    phaserObject.setOrigin(0.5, 0.6)
-    phaserObject.setFixedRotation()
-    phaserObject.setCollisionGroup(-1)
-    phaserObject.play(gzStr.animations.idle)
-    phaserObject.setDepth(3)
-    return phaserObject
-  },
+  addToScene: configToScene({
+    size: { width: 16, height: 30 },
+    origin: { x: 0.5, y: 0.6 },
+    animKey: gzStr.animations.idle
+  }),
   animations: {
     idle: gzStr.animations.idle,
     move: gzStr.animations.move
@@ -84,20 +96,11 @@ export const giantDemon: Charactor = {
       repeat: -1
     });
   },
-  addToScene: (scene, x, y) => {
-    const phaserObject = scene.matter.add.sprite(x, y)
-    phaserObject.setBody({
-      type: 'rectangle',
-      width: 16,
-      height: 30
-    })
-    phaserObject.setOrigin(0.5, 0.6)
-    phaserObject.setFixedRotation()
-    phaserObject.setCollisionGroup(-1)
-    phaserObject.play(gdStr.animations.idle)
-    phaserObject.setDepth(3)
-    return phaserObject
-  },
+  addToScene: configToScene({
+    size: { width: 16, height: 30 },
+    origin: { x: 0.5, y: 0.6 },
+    animKey: gdStr.animations.idle
+  }),
   animations: {
     idle: gdStr.animations.idle,
     move: gdStr.animations.move
@@ -130,20 +133,11 @@ export const lizardFemale: Charactor = {
       repeat: -1
     });
   },
-  addToScene: (scene, x, y) => {
-    const phaserObject = scene.matter.add.sprite(x, y)
-    phaserObject.setBody({
-      type: 'rectangle',
-      width: 16,
-      height: 16
-    })
-    phaserObject.setOrigin(0.5, 0.7)
-    phaserObject.setFixedRotation()
-    phaserObject.setCollisionGroup(-1)
-    phaserObject.play(flzStr.animations.idle)
-    phaserObject.setDepth(3)
-    return phaserObject
-  },
+  addToScene: configToScene({
+    size: { width: 16, height: 16 },
+    origin: { x: 0.5, y: 0.7 },
+    animKey: flzStr.animations.idle
+  }),
   animations: {
     idle: flzStr.animations.idle,
     move: flzStr.animations.move,
