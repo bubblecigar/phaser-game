@@ -26,7 +26,7 @@ const setUpLayer = (map, tileset) => {
   return layers
 }
 
-const setUpFOVmask = (scene) => {
+const setUpFOVmask = (scene, map) => {
   scene.raycaster = scene.raycasterPlugin.createRaycaster()
   scene.ray = scene.raycaster.createRay({
     origin: {
@@ -34,9 +34,22 @@ const setUpFOVmask = (scene) => {
       y: gameConfig.canvasHeight / 2,
     }
   })
-  scene.ray.enablePhysics('matter')
-  const matterBodies = scene.matter.getMatterBodies()
-  scene.raycaster.mapGameObjects(matterBodies)
+
+  const fov_layer = map.objects[0]
+  const fovObjects = []
+  if (fov_layer.objects) {
+    fov_layer.objects.forEach(
+      object => {
+        if (object.rectangle) {
+          const { x, y, width, height } = object
+          const rect = scene.add.rectangle(x, y, width, height)
+          rect.setOrigin(0, 0)
+          fovObjects.push(rect)
+        }
+      }
+    )
+  }
+  scene.raycaster.mapGameObjects(fovObjects)
 
   graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.1 } })
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
@@ -59,7 +72,7 @@ const createBackground = (scene, config: MapConfig) => {
   const map = setUpMap(scene, mapKey)
   const tileset = setUpTileset(map, tilesetKey)
   const layers = setUpLayer(map, tileset)
-  const mask = setUpFOVmask(scene)
+  const mask = setUpFOVmask(scene, map)
   setUpBackgroundRenderer(scene, mask, map, layers)
   return map
 }
