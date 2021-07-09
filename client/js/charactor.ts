@@ -30,7 +30,11 @@ interface CharConfig {
 }
 const configToScene = (config: CharConfig) => (scene, x, y) => {
   const { size, origin, animKey } = config
-  const phaserObject = scene.matter.add.sprite(x, y)
+  const phaserObject = scene.matter.add.sprite(x, y, undefined, undefined, {
+    friction: 0,
+    frictionStatic: 0,
+    frictionAir: 0,
+  })
   phaserObject.setBody({
     type: 'rectangle',
     width: size.width,
