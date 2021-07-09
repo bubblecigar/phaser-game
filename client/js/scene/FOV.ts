@@ -38,9 +38,9 @@ const setUpFOVmask = (scene, map) => {
     }
   })
 
-  const fov_layer = map.objects[0]
+  const fov_layer = map.objects.find(o => o.name === 'fov_layer')
   const fovObjects = []
-  if (fov_layer.objects) {
+  if (fov_layer && fov_layer.objects) {
     fov_layer.objects.forEach(
       object => {
         if (object.polygon) {
