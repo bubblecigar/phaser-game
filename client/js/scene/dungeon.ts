@@ -94,6 +94,12 @@ const registerInputEvents = scene => {
           scene.scene.restart({ mapConfig })
           break
         }
+        case 'd': {
+          methods.init()
+          const mapConfig: MapConfig = ghostRoomConfig
+          scene.scene.restart({ mapConfig })
+          break
+        }
         case 'z': {
           const getNearestReachableItem = (position, items = gameState.items): false | PlayerItem => {
             let reachable = false
@@ -148,8 +154,10 @@ const registerInputEvents = scene => {
 }
 
 const createPlayer = () => {
-  const x = map.widthInPixels / 2
-  const y = map.heightInPixels / 2
+  const item_layer = map.objects.find(o => o.name === 'item_layer')
+  const spawnPoint = item_layer ? item_layer.objects.find(o => o.name === 'spawn_point') : { x: map.widthInPixels / 2, y: map.heightInPixels / 2 }
+  const x = spawnPoint.x
+  const y = spawnPoint.y
   const randomCharactorKey = Object.keys(charactor)[Math.floor(Math.random() * 10) % (Object.keys(charactor).length)]
   const player = {
     id: userId,
