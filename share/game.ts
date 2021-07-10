@@ -28,12 +28,10 @@ export interface PlayerItem extends Item {
   type: string
 }
 export interface GameState {
-  scene: 'room' | 'dungeon',
   players: Player[],
   items: PlayerItem[]
 }
 const gameState: GameState = {
-  scene: 'room',
   players: [],
   items: []
 }
@@ -54,30 +52,35 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       methods.syncPlayers(gameState.players)
       methods.syncItems(gameState.items)
     },
-    syncPlayers: (_players: Player[]) => {
-      const missingPlayers = _.differenceBy(_players, gameState.players, 'id')
-      missingPlayers.forEach(player => {
-        methods.addPlayer(player)
-      })
-
-      gameState.players.forEach(
-        player => {
-          const index = _players.findIndex(p => p.id === player.id)
-          const _player = _players[index]
-          player = { ...player, ..._.omit(_player, 'phaserObject') }
-
-          if (env === 'client') {
-            player.phaserObject.setX(player.position.x)
-            player.phaserObject.setY(player.position.y)
+    syncPlayers: (players: Player[]) => {
+      if (env === 'client') {
+        gameState.players.forEach(
+          player => {
+            methods.removePlayer(player.id)
           }
-        }
-      )
+        )
+        gameState.players = []
+        players.forEach(
+          player => {
+            methods.addPlayer(player)
+          }
+        )
+      }
     },
-    syncItems: (_items: PlayerItem[]) => {
-      const missingItems = _.differenceBy(_items, gameState.items, 'id')
-      missingItems.forEach(item => {
-        methods.addItem(item)
-      })
+    syncItems: (items: PlayerItem[]) => {
+      if (env === 'client') {
+        gameState.items.forEach(
+          item => {
+            methods.removeItem(item.id)
+          }
+        )
+        gameState.items = []
+        items.forEach(
+          item => {
+            methods.addItem(item)
+          }
+        )
+      }
     },
     addPlayer: (playerConstructor: Player): void => {
       const { position, velocity, charactorKey, id } = playerConstructor
@@ -133,7 +136,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
     movePlayer: (id: string, data: { velocity?: Point, position?: Point }): void => {
       const player = methods.getPlayer(id)
       if (!player) {
-        // console.log('player not found')
+        console.log('player not found')
         return
       }
       const changeDirection = !(
