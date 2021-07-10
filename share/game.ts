@@ -9,7 +9,9 @@ export interface Player {
   velocity: Point,
   position: Point,
   charactorKey: string,
-  phaserObject: any
+  phaserObject: any,
+  health: number,
+  items: Item[]
 }
 export interface Monster extends Player {
 
@@ -85,6 +87,8 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         charactorKey,
         position,
         velocity,
+        health: 100,
+        items: [],
         phaserObject: null
       }
       gameState.players.push(player)
@@ -100,7 +104,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
 
         if (playerConstructor.id === variables.userId) {
           const camera = scene.cameras.main
-          camera.startFollow(player.phaserObject, true, 0.2, 0.2)
+          camera.startFollow(player.phaserObject, true, 0.5, 0.5)
           const Phaser = variables.Phaser
           const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
           const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
@@ -125,7 +129,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
     movePlayer: (id: string, data: { velocity?: Point, position?: Point }): void => {
       const player = methods.getPlayer(id)
       if (!player) {
-        console.log('player not found')
+        // console.log('player not found')
         return
       }
       const changeDirection = !(

@@ -4,6 +4,7 @@ import PhaserRaycaster from 'phaser-raycaster'
 import { gameConfig } from '../../share/game'
 import './socket'
 import dungeonScene from './scene/dungeon'
+import GUIScene from './scene/GUI'
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -26,7 +27,7 @@ const game = new Phaser.Game({
       }
     }
   },
-  scene: [dungeonScene],
+  scene: [dungeonScene, GUIScene],
   plugins: {
     scene: [
       {

@@ -73,6 +73,18 @@ function preload() {
 
 const registerInputEvents = scene => {
   cursors = scene.input.keyboard.createCursorKeys()
+  scene.input.keyboard.on('keyup', e => {
+    switch (e.key) {
+      case ' ': {
+        const player: Player = methods.getPlayer(getLocalUserData().userId)
+        scene.scene.launch('GUI', { player });
+        break
+      }
+      default: {
+        // do nothing
+      }
+    }
+  })
   scene.input.keyboard.on(
     'keydown', e => {
       switch (e.key) {
@@ -131,25 +143,8 @@ const registerInputEvents = scene => {
           socket.emit('addItem', _.omit(item, 'phaserObject'))
           break
         }
-        case 'c': {
-          // throw weapon
-          const player: Player = methods.getPlayer(getLocalUserData().userId)
-          const hitAnims = charactors[player.charactorKey].animations.hit
-          if (hitAnims) {
-            player.phaserObject.play({
-              key: hitAnims,
-              repeat: 0
-            })
-          }
-          const bullet = scene.matter.add.image(player.position.x, player.position.y, 'bomb', undefined, { 
-            shape: 'circle'
-          })
-          bullet.setCollisionGroup(-1)
-          bullet.setAngularVelocity(0.1)
-          bullet.applyForceFrom(player.position, {x:0.002, y:0.001});
-          setTimeout(() => {
-            bullet.destroy()
-          }, 1000);
+        case ' ': {
+          scene.scene.stop('GUI')
           break
         }
         default: {
@@ -188,6 +183,8 @@ function create() {
   )
 
   createPlayer()
+  const player: Player = methods.getPlayer(getLocalUserData().userId)
+  this.scene.launch('GUI', { player });
 }
 
 const movePlayer = (player: Player) => {
