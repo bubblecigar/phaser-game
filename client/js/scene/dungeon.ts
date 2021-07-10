@@ -9,8 +9,6 @@ import socket, { registerSocketEvents } from '../socket'
 import tilesetUrl from '../../statics/tile/tileset.png'
 import dungeonMapUrl from '../../statics/tile/dungeon_map.json'
 import roomMapUrl from '../../statics/tile/room_map.json'
-import ghostTileSetUrl from '../../statics/tile/ghost_tileset.png'
-import ghostRoomUrl from '../../statics/tile/ghost_room.json'
 import tinyTileSetUrl from '../../statics/tile/tinyroom.png'
 import tinyRoomUrl from '../../statics/tile/tiny_map.json'
 import FOV from './FOV'
@@ -133,18 +131,27 @@ const registerInputEvents = scene => {
           socket.emit('addItem', _.omit(item, 'phaserObject'))
           break
         }
-        // case 'c': {
-        //   const player: Player = methods.getPlayer(getLocalUserData().userId)
-        //   const { x, y } = player.position
-        //   const userLayer = map.getLayer('user_layer').tilemapLayer
-        //   const tileXY = map.worldToTileXY(x, y)
-        //   userLayer.putTilesAt([Math.floor(Math.random() * 100)], tileXY.x, tileXY.y)
-        //   player.phaserObject.play({
-        //     key: charactors[player.charactorKey].animations.hit,
-        //     repeat: 0
-        //   })
-        //   break
-        // }
+        case 'c': {
+          // throw weapon
+          const player: Player = methods.getPlayer(getLocalUserData().userId)
+          const hitAnims = charactors[player.charactorKey].animations.hit
+          if (hitAnims) {
+            player.phaserObject.play({
+              key: hitAnims,
+              repeat: 0
+            })
+          }
+          const bullet = scene.matter.add.image(player.position.x, player.position.y, 'bomb', undefined, { 
+            shape: 'circle'
+          })
+          bullet.setCollisionGroup(-1)
+          bullet.setAngularVelocity(0.1)
+          bullet.applyForceFrom(player.position, {x:0.002, y:0.001});
+          setTimeout(() => {
+            bullet.destroy()
+          }, 1000);
+          break
+        }
         default: {
           // do nothing
         }
