@@ -18,9 +18,8 @@ io.on('connection', async function (socket) {
 
   socket.on('init-player', (player) => {
     methods.addPlayer(player)
-    io.emit('addPlayer', player)
-    io.emit('syncPlayers', gameState.players)
-    io.emit('syncItems', gameState.items)
+    socket.broadcast.emit('addPlayer', player)
+    io.to(socket.id).emit('emitGameStateFromServer', gameState)
   })
 
   socket.on('move-player', player => {

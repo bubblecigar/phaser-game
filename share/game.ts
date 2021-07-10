@@ -28,14 +28,14 @@ export interface PlayerItem extends Item {
   type: string
 }
 export interface GameState {
+  scene: 'room' | 'dungeon',
   players: Player[],
-  items: PlayerItem[],
-  monsters: Monster[]
+  items: PlayerItem[]
 }
 const gameState: GameState = {
+  scene: 'room',
   players: [],
-  items: [],
-  monsters: []
+  items: []
 }
 
 const gameConfig = {
@@ -49,6 +49,10 @@ const gameMethods = (env: 'client' | 'server') => variables => {
     init: () => {
       gameState.players = []
       gameState.items = []
+    },
+    emitGameStateFromServer: (gameState: GameState) => {
+      methods.syncPlayers(gameState.players)
+      methods.syncItems(gameState.items)
     },
     syncPlayers: (_players: Player[]) => {
       const missingPlayers = _.differenceBy(_players, gameState.players, 'id')
