@@ -52,9 +52,12 @@ const ghostRoomConfig: MapConfig = {
   tilesetKey: 'tinyroom',
   tilesetUrl: tinyTileSetUrl
 }
+const mapConfigs = {
+  dungeonMapConfig, roomMapConfig, ghostRoomConfig
+}
 
 function init(data) {
-  mapConfig = data.mapConfig || ghostRoomConfig
+  mapConfig = mapConfigs[data.mapConfigKey] || ghostRoomConfig
   mapItems = []
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
   registerSocketEvents(methods)
@@ -92,22 +95,10 @@ const registerInputEvents = scene => {
           scene.scale.toggleFullscreen();
           break
         }
-        case 'a': {
-          methods.init()
-          const mapConfig: MapConfig = dungeonMapConfig
-          scene.scene.restart({ mapConfig })
-          break
-        }
         case 's': {
-          methods.init()
-          const mapConfig: MapConfig = roomMapConfig
-          scene.scene.restart({ mapConfig })
-          break
-        }
-        case 'd': {
-          methods.init()
-          const mapConfig: MapConfig = ghostRoomConfig
-          scene.scene.restart({ mapConfig })
+          const randomMapConfigKey = Object.keys(mapConfigs)[Math.floor(Math.random() * 10) % (Object.keys(mapConfigs).length)]
+          methods.syncMap(randomMapConfigKey)
+          socket.emit('syncMap', randomMapConfigKey)
           break
         }
         case 'z': {
@@ -209,7 +200,7 @@ const movePlayer = (player: Player) => {
 
 function update(t, dt) {
   const player = methods.getPlayer(userId)
-  if (!player) return
+  if (!player || !player.phaserObject) return
   FOV.update(this, player.position)
   movePlayer(player)
 }

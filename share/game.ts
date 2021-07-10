@@ -28,10 +28,12 @@ export interface PlayerItem extends Item {
   type: string
 }
 export interface GameState {
+  mapConfigKey: String,
   players: Player[],
   items: PlayerItem[]
 }
 const gameState: GameState = {
+  mapConfigKey: '',
   players: [],
   items: []
 }
@@ -51,6 +53,13 @@ const gameMethods = (env: 'client' | 'server') => variables => {
     emitGameStateFromServer: (gameState: GameState) => {
       methods.syncPlayers(gameState.players)
       methods.syncItems(gameState.items)
+    },
+    syncMap: (mapConfigKey: String) => {
+      gameState.mapConfigKey = mapConfigKey
+      if (env === 'client') {
+        methods.init()
+        variables.scene.scene.restart({ mapConfigKey })
+      }
     },
     syncPlayers: (players: Player[]) => {
       if (env === 'client') {

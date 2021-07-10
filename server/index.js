@@ -18,8 +18,7 @@ io.on('connection', async function (socket) {
 
   socket.on('init-player', (player) => {
     methods.addPlayer(player)
-    socket.broadcast.emit('addPlayer', player)
-    io.to(socket.id).emit('emitGameStateFromServer', gameState)
+    io.emit('emitGameStateFromServer', gameState)
   })
 
   socket.on('move-player', player => {
@@ -28,6 +27,10 @@ io.on('connection', async function (socket) {
     socket.broadcast.emit('movePlayer', player.id, data)
   })
 
+  socket.on('syncMap', mapConfigKey => {
+    methods.syncMap(mapConfigKey)
+    socket.broadcast.emit('syncMap', mapConfigKey)
+  })
   socket.on('addItem', item => {
     methods.addItem(item)
     socket.broadcast.emit('addItem', item)
