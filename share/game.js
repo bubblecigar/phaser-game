@@ -1,22 +1,10 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 exports.__esModule = true;
 exports.gameMethods = exports.gameState = exports.gameConfig = void 0;
-var lodash_1 = require("lodash");
 var gameState = {
+    mapConfigKey: '',
     players: [],
-    items: [],
-    monsters: []
+    items: []
 };
 exports.gameState = gameState;
 var gameConfig = {
@@ -31,26 +19,38 @@ var gameMethods = function (env) { return function (variables) {
             gameState.players = [];
             gameState.items = [];
         },
-        syncPlayers: function (_players) {
-            var missingPlayers = lodash_1["default"].differenceBy(_players, gameState.players, 'id');
-            missingPlayers.forEach(function (player) {
-                methods.addPlayer(player);
-            });
-            gameState.players.forEach(function (player) {
-                var index = _players.findIndex(function (p) { return p.id === player.id; });
-                var _player = _players[index];
-                player = __assign(__assign({}, player), lodash_1["default"].omit(_player, 'phaserObject'));
-                if (env === 'client') {
-                    player.phaserObject.setX(player.position.x);
-                    player.phaserObject.setY(player.position.y);
-                }
-            });
+        emitGameStateFromServer: function (gameState) {
+            methods.syncPlayers(gameState.players);
+            methods.syncItems(gameState.items);
         },
-        syncItems: function (_items) {
-            var missingItems = lodash_1["default"].differenceBy(_items, gameState.items, 'id');
-            missingItems.forEach(function (item) {
-                methods.addItem(item);
-            });
+        syncMap: function (mapConfigKey) {
+            gameState.mapConfigKey = mapConfigKey;
+            if (env === 'client') {
+                methods.init();
+                variables.scene.scene.restart({ mapConfigKey: mapConfigKey });
+            }
+        },
+        syncPlayers: function (players) {
+            if (env === 'client') {
+                gameState.players.forEach(function (player) {
+                    methods.removePlayer(player.id);
+                });
+                gameState.players = [];
+                players.forEach(function (player) {
+                    methods.addPlayer(player);
+                });
+            }
+        },
+        syncItems: function (items) {
+            if (env === 'client') {
+                gameState.items.forEach(function (item) {
+                    methods.removeItem(item.id);
+                });
+                gameState.items = [];
+                items.forEach(function (item) {
+                    methods.addItem(item);
+                });
+            }
         },
         addPlayer: function (playerConstructor) {
             var position = playerConstructor.position, velocity = playerConstructor.velocity, charactorKey = playerConstructor.charactorKey, id = playerConstructor.id;
@@ -60,10 +60,13 @@ var gameMethods = function (env) { return function (variables) {
                 return;
             }
             var player = {
+                interface: 'Player',
                 id: id,
                 charactorKey: charactorKey,
                 position: position,
                 velocity: velocity,
+                health: 100,
+                items: [],
                 phaserObject: null
             };
             gameState.players.push(player);
@@ -75,9 +78,10 @@ var gameMethods = function (env) { return function (variables) {
                 }
                 var charactor = variables.charactors[player.charactorKey];
                 player.phaserObject = charactor.addToScene(scene, position.x, position.y);
+                player.phaserObject.setData(player);
                 if (playerConstructor.id === variables.userId) {
-                    var camera = scene.cameras.cameras[0];
-                    camera.startFollow(player.phaserObject, true, 0.2, 0.2);
+                    var camera = scene.cameras.main;
+                    camera.startFollow(player.phaserObject, true, 0.5, 0.5);
                     var Phaser = variables.Phaser;
                     var circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100);
                     var mask = new Phaser.Display.Masks.GeometryMask(scene, circle);
@@ -143,6 +147,7 @@ var gameMethods = function (env) { return function (variables) {
             var builderId = itemConstructor.builderId, id = itemConstructor.id, key = itemConstructor.key, icon = itemConstructor.icon, type = itemConstructor.type, position = itemConstructor.position;
             var builder = methods.getPlayer(builderId);
             var item = {
+                interface: 'PlayerItem',
                 id: id,
                 key: key,
                 builderId: builderId,
@@ -160,6 +165,7 @@ var gameMethods = function (env) { return function (variables) {
                 }
                 var phaserObject = scene.matter.add.image(position.x, position.y, icon, undefined, { isStatic: true });
                 item.phaserObject = phaserObject;
+                item.phaserObject.setData(item);
             }
             return item;
         },
