@@ -122,6 +122,7 @@ const registerInputEvents = scene => {
         case 'x': {
           const player: Player = methods.getPlayer(getLocalUserData().userId)
           const itemConstructor: PlayerItem = {
+            interface: 'PlayerItem',
             builderId: player.id,
             key: 'player-bomb',
             id: v4(),
@@ -175,7 +176,7 @@ function create() {
 
   createPlayer()
   const player: Player = methods.getPlayer(getLocalUserData().userId)
-  this.scene.launch('GUI', { player });
+  this.scene.launch('GUI', { player })
 }
 
 const movePlayer = (player: Player) => {

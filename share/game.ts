@@ -5,6 +5,7 @@ export interface Point {
   y: number
 }
 export interface Player {
+  interface: 'Player',
   id: string,
   velocity: Point,
   position: Point,
@@ -17,13 +18,15 @@ export interface Monster extends Player {
 
 }
 export interface Item {
+  interface: 'Item',
   id: string,
   key: string,
   position: Point,
   icon: string,
   phaserObject: any
 }
-export interface PlayerItem extends Item {
+export interface PlayerItem extends Omit<Item, 'interface'> {
+  interface: 'PlayerItem',
   builderId: string,
   type: string
 }
@@ -99,6 +102,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         return
       }
       const player: Player = {
+        interface: 'Player',
         id,
         charactorKey,
         position,
@@ -188,6 +192,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       const { builderId, id, key, icon, type, position } = itemConstructor
       const builder = methods.getPlayer(builderId)
       const item: PlayerItem = {
+        interface: 'PlayerItem',
         id,
         key,
         builderId,
