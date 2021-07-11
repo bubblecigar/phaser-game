@@ -200,9 +200,9 @@ const gameMethods = (env: 'client' | 'server') => variables => {
             player.phaserObject.play(variables.charactors[player.charactorKey].animsConfig.idle.key)
           } else {
             player.phaserObject.play(variables.charactors[player.charactorKey].animsConfig.move.key)
-            if (player.velocity.x >= 0) {
+            if (player.velocity.x > 0) {
               player.phaserObject.setFlipX(false)
-            } else {
+            } else if (player.velocity.x < 0) {
               player.phaserObject.setFlipX(true)
             }
           }
