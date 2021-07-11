@@ -156,18 +156,20 @@ function create() {
 }
 
 const movePlayer = (player: Player) => {
+  const char = charactors[player.charactorKey]
+  const velocity = char.velocity
   const _velocity = { x: 0, y: 0 }
   if (cursors.left.isDown) {
-    _velocity.x = -gameConfig.playerVelocity
+    _velocity.x = -velocity
   } else if (cursors.right.isDown) {
-    _velocity.x = gameConfig.playerVelocity
+    _velocity.x = velocity
   } else {
     _velocity.x = 0
   }
   if (cursors.up.isDown) {
-    _velocity.y = -gameConfig.playerVelocity
+    _velocity.y = -velocity
   } else if (cursors.down.isDown) {
-    _velocity.y = gameConfig.playerVelocity
+    _velocity.y = velocity
   } else {
     _velocity.y = 0
   }

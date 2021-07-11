@@ -4,6 +4,7 @@ import lizardFemale from './lizardFemale'
 import elfFemale from './elfFemale'
 import elfMale from './elfMale'
 import chort from './chort'
+import orge from './orge'
 
 export interface AnimConfig {
   key: string,
@@ -34,5 +35,18 @@ export interface Charactor {
   }
 }
 
+const charactors = { orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
 
-export default { chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
+Object.keys(charactors).forEach(
+  key => {
+    const char = charactors[key]
+    const weight = char.matterConfig.size.width * char.matterConfig.size.height
+    if (weight > 500) {
+      char.velocity = 1
+    } else {
+      char.velocity = 2 + Math.round((500 - weight) / 100)
+    }
+  }
+)
+
+export default charactors
