@@ -44,6 +44,12 @@ const setUpFOVmask = (scene, map) => {
           const polygon = scene.add.polygon(object.x, object.y, object.polygon)
           polygon.setOrigin(0, 0)
           fovObjects.push(polygon)
+
+          const sensor = scene.matter.add.fromVertices(object.x, object.y, object.polygon, { isSensor: true, isStatic: true })
+          scene.matter.alignBody(sensor, object.x, object.y, Phaser.Display.Align.TOP_LEFT)
+          const nullGameObject = new Phaser.GameObjects.GameObject(scene, 'null')
+          const sensorGameObj = scene.matter.add.gameObject(nullGameObject, sensor)
+          sensorGameObj.setData({ interface: 'fov-sensor' })
         } else if (object.rectangle) {
           const { x, y, width, height } = object
           const rect = scene.add.rectangle(x, y, width, height)
