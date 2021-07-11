@@ -8,7 +8,6 @@ import charactors from '../charactor'
 import socket, { registerSocketEvents } from '../socket'
 import mapConfigs from './mapConfigs'
 import FOV from './FOV'
-import charactor from '../charactor';
 import registerWorldEvents from './WorldEvents';
 
 interface MapItem extends Item {
@@ -118,7 +117,7 @@ const createPlayer = () => {
   const spawnPoint = item_layer ? item_layer.objects.find(o => o.name === 'spawn_point') : { x: map.widthInPixels / 2, y: map.heightInPixels / 2 }
   const x = spawnPoint.x
   const y = spawnPoint.y
-  const randomCharactorKey = Object.keys(charactor)[Math.floor(Math.random() * 10) % (Object.keys(charactor).length)]
+  const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * 10) % (Object.keys(charactors).length)]
   const player = {
     id: userId,
     charactorKey: randomCharactorKey,
