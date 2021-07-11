@@ -43,8 +43,7 @@ const gameState: GameState = {
 
 const gameConfig = {
   canvasWidth: 400,
-  canvasHeight: 300,
-  playerVelocity: 3
+  canvasHeight: 300
 }
 
 const gameMethods = (env: 'client' | 'server') => variables => {
