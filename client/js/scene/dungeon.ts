@@ -13,7 +13,7 @@ import tinyTileSetUrl from '../../statics/tile/tinyroom.png'
 import tinyRoomUrl from '../../statics/tile/tiny_map.json'
 import FOV from './FOV'
 import charactor from '../charactor';
-import registerWorlEvents from './WorldEvents';
+import registerWorldEvents from './WorldEvents';
 
 export interface MapConfig {
   mapKey: string,
@@ -62,7 +62,7 @@ function init(data) {
   mapItems = []
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
   registerSocketEvents(methods)
-  registerWorlEvents(this)
+  registerWorldEvents(this)
 }
 
 function preload() {
