@@ -19,9 +19,6 @@ const setUpLayer = (map, tileset) => {
   map.layers.forEach(layer => {
     const l = map.createLayer(layer.name, tileset, 0, 0)
     l.name = layer.name
-    if (l.name === 'roof_layer') {
-      l.visible = false
-    }
     l.setCollisionFromCollisionGroup()
     map.scene.matter.world.convertTilemapLayer(l)
     layers.push(l)
