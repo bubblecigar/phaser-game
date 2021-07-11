@@ -120,8 +120,29 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           return
         }
         const charactor = variables.charactors[player.charactorKey]
-        player.phaserObject = charactor.addToScene(scene, position.x, position.y)
-        player.phaserObject.setData(player)
+        const { size, origin } = charactor.matterConfig
+        const { x, y } = player.position
+        const Bodies = variables.Phaser.Physics.Matter.Matter.Bodies
+        const rect = Bodies.rectangle(x, y, size.width, size.height)
+        const sensor = Bodies.circle(x, y, 1, { isSensor: true, label: 'body-sensor' })
+        const compound = variables.Phaser.Physics.Matter.Matter.Body.create({
+          parts: [sensor, rect],
+          inertia: Infinity
+        })
+
+        const phaserObject = scene.matter.add.sprite(x, y, undefined, undefined, {
+          friction: 0,
+          frictionStatic: 0,
+          frictionAir: 0,
+        })
+        phaserObject.setExistingBody(compound)
+        phaserObject.setOrigin(origin.x, origin.y)
+        phaserObject.setCollisionGroup(-1)
+        phaserObject.play(charactor.animsConfig.idle.key)
+        phaserObject.setDepth(3)
+        phaserObject.setData(player)
+
+        player.phaserObject = phaserObject
 
         if (playerConstructor.id === variables.userId) {
           const camera = scene.cameras.main
@@ -176,9 +197,9 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y }
         if (changeDirection) {
           if (player.velocity.x === 0 && player.velocity.y === 0) {
-            player.phaserObject.play(variables.charactors[player.charactorKey].animations.idle)
+            player.phaserObject.play(variables.charactors[player.charactorKey].animsConfig.idle.key)
           } else {
-            player.phaserObject.play(variables.charactors[player.charactorKey].animations.move)
+            player.phaserObject.play(variables.charactors[player.charactorKey].animsConfig.move.key)
             if (player.velocity.x >= 0) {
               player.phaserObject.setFlipX(false)
             } else {

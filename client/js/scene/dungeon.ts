@@ -4,7 +4,7 @@ import _ from 'lodash'
 import bombUrl from '../../statics/bomb.png'
 import { gameMethods, gameConfig, gameState, Player, PlayerItem, Item } from '../../../share/game'
 import { getLocalUserData } from '../user'
-import charactors from '../charactor'
+import charactors from '../charactors/Charactors'
 import socket, { registerSocketEvents } from '../socket'
 import mapConfigs from './mapConfigs'
 import FOV from './FOV'
@@ -33,8 +33,9 @@ function preload() {
   this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
   this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
   Object.keys(charactors).forEach(
-    char => {
-      charactors[char].preloadAssets(this)
+    key => {
+      const char = charactors[key]
+      this.load.spritesheet(char.spritesheetConfig.spritesheetKey, char.spritesheetConfig.spritesheetUrl, char.spritesheetConfig.options)
     }
   )
 }
@@ -133,8 +134,19 @@ function create() {
   map = FOV.create(this, mapConfig)
 
   Object.keys(charactors).forEach(
-    char => {
-      charactors[char].createAnims(this)
+    key => {
+      const char = charactors[key]
+      Object.keys(char.animsConfig).forEach(
+        _key => {
+          const animConfig = char.animsConfig[_key]
+          this.anims.create({
+            key: animConfig.key,
+            frames: this.anims.generateFrameNumbers(char.spritesheetConfig.spritesheetKey, { frames: animConfig.frames }),
+            frameRate: 8,
+            repeat: -1
+          })
+        }
+      )
     }
   )
 
