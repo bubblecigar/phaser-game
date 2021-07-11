@@ -30,18 +30,21 @@ interface CharConfig {
 }
 const configToScene = (config: CharConfig) => (scene, x, y) => {
   const { size, origin, animKey } = config
+  const Bodies = Phaser.Physics.Matter.Matter.Bodies
+  const rect = Bodies.rectangle(x, y, size.width, size.height)
+  const sensor = Bodies.circle(x, y, 1, { isSensor: true, label: 'body-sensor' })
+  const compound = Phaser.Physics.Matter.Matter.Body.create({
+    parts: [sensor, rect],
+    inertia: Infinity
+  })
+
   const phaserObject = scene.matter.add.sprite(x, y, undefined, undefined, {
     friction: 0,
     frictionStatic: 0,
     frictionAir: 0,
   })
-  phaserObject.setBody({
-    type: 'rectangle',
-    width: size.width,
-    height: size.height
-  })
+  phaserObject.setExistingBody(compound)
   phaserObject.setOrigin(origin.x, origin.y)
-  phaserObject.setFixedRotation()
   phaserObject.setCollisionGroup(-1)
   phaserObject.play(animKey)
   phaserObject.setDepth(3)
