@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import itemCellUrl from '../../statics/item_cell.png'
-import charactor from '../charactor';
-import { gameMethods, gameConfig, gameState, Player, PlayerItem, Item } from '../../../share/game'
+import { gameConfig, Item } from '../../../share/game'
 
 let data
 
