@@ -1,4 +1,4 @@
-import demonSpriteUrl from '../../statics/tile/anim_sprite/big_demon.png'
+import zombieSpriteUrl from '../../statics/tile/anim_sprite/big_zoombie.png'
 import { Charactor } from './Charactors'
 
 const createCharactor = (key, spritesheetUrl): Charactor => ({
@@ -27,4 +27,4 @@ const createCharactor = (key, spritesheetUrl): Charactor => ({
   }
 })
 
-export default createCharactor('giant_demon', demonSpriteUrl)
+export default createCharactor('giant_zombie', zombieSpriteUrl)
