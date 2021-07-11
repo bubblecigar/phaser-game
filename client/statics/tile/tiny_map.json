@@ -173,7 +173,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -193,6 +193,78 @@
                  "width":0,
                  "x":497.209063061427,
                  "y":403.334534508076
+                }, 
+                {
+                 "gid":251,
+                 "height":16,
+                 "id":5,
+                 "name":"red_potion",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"red_potion"
+                        }],
+                 "rotation":0,
+                 "type":"heal",
+                 "visible":true,
+                 "width":16,
+                 "x":319.330146807784,
+                 "y":265.340389211335
+                }, 
+                {
+                 "gid":256,
+                 "height":16,
+                 "id":6,
+                 "name":"big_blue_potion",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"big_blue_potion"
+                        }],
+                 "rotation":0,
+                 "type":"heal",
+                 "visible":true,
+                 "width":16,
+                 "x":466.137931034483,
+                 "y":429.645612837146
+                }, 
+                {
+                 "gid":224,
+                 "height":16,
+                 "id":7,
+                 "name":"big_red_potion",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"big_red_potion"
+                        }],
+                 "rotation":0,
+                 "type":"heal",
+                 "visible":true,
+                 "width":16,
+                 "x":501.55957664732,
+                 "y":427.938545578696
+                }, 
+                {
+                 "gid":99,
+                 "height":16,
+                 "id":8,
+                 "name":"black_bomb",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"black_bomb"
+                        }],
+                 "rotation":0,
+                 "type":"damage",
+                 "visible":true,
+                 "width":16,
+                 "x":368.835097302834,
+                 "y":280.703994537385
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -201,7 +273,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":5,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.0",
@@ -553,6 +625,19 @@
                      "y":0
                     }
                 }],
+         "tilewidth":16
+        }, 
+        {
+         "columns":16,
+         "firstgid":36,
+         "image":"tileset.png",
+         "imageheight":256,
+         "imagewidth":256,
+         "margin":0,
+         "name":"tileset",
+         "spacing":0,
+         "tilecount":256,
+         "tileheight":16,
          "tilewidth":16
         }],
  "tilewidth":16,
