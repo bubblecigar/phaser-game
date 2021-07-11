@@ -1,7 +1,9 @@
 import giantDemon from './giantDemon'
 import giantZombie from './giantZombie'
 import lizardFemale from './lizardFemale'
-
+import elfFemale from './elfFemale'
+import elfMale from './elfMale'
+import chort from './chort'
 
 export interface AnimConfig {
   key: string,
@@ -33,4 +35,4 @@ export interface Charactor {
 }
 
 
-export default { giantDemon, giantZombie, lizardFemale }
+export default { chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
