@@ -117,6 +117,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         }
         const charactor = variables.charactors[player.charactorKey]
         player.phaserObject = charactor.addToScene(scene, position.x, position.y)
+        player.phaserObject.setData(player)
 
         if (playerConstructor.id === variables.userId) {
           const camera = scene.cameras.main
@@ -205,6 +206,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         }
         const phaserObject = scene.matter.add.image(position.x, position.y, icon, undefined, { isStatic: true })
         item.phaserObject = phaserObject
+        item.phaserObject.setData(item)
       }
       return item
     },
