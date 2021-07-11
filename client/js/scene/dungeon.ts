@@ -15,7 +15,6 @@ interface MapItem extends Item {
 
 }
 
-
 const userId = getLocalUserData().userId
 
 let methods
