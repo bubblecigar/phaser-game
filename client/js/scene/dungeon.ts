@@ -6,21 +6,10 @@ import { gameMethods, gameConfig, gameState, Player, PlayerItem, Item } from '..
 import { getLocalUserData } from '../user'
 import charactors from '../charactor'
 import socket, { registerSocketEvents } from '../socket'
-import tilesetUrl from '../../statics/tile/tileset.png'
-import dungeonMapUrl from '../../statics/tile/dungeon_map.json'
-import roomMapUrl from '../../statics/tile/room_map.json'
-import tinyTileSetUrl from '../../statics/tile/tinyroom.png'
-import tinyRoomUrl from '../../statics/tile/tiny_map.json'
+import mapConfigs from './mapConfigs'
 import FOV from './FOV'
 import charactor from '../charactor';
 import registerWorldEvents from './WorldEvents';
-
-export interface MapConfig {
-  mapKey: string,
-  mapUrl: string,
-  tilesetKey: string,
-  tilesetUrl: string
-}
 
 interface MapItem extends Item {
 
@@ -31,35 +20,11 @@ const userId = getLocalUserData().userId
 
 let methods
 let cursors
-let mapConfig
+let mapConfig = mapConfigs['ghostRoomConfig']
 let map
-let mapItems: MapItem[] = []
-
-const dungeonMapConfig: MapConfig = {
-  mapKey: 'dungeon',
-  mapUrl: dungeonMapUrl,
-  tilesetKey: 'tileset',
-  tilesetUrl: tilesetUrl
-}
-const roomMapConfig: MapConfig = {
-  mapKey: 'room',
-  mapUrl: roomMapUrl,
-  tilesetKey: 'tileset',
-  tilesetUrl: tilesetUrl
-}
-const ghostRoomConfig: MapConfig = {
-  mapKey: 'tiny_room',
-  mapUrl: tinyRoomUrl,
-  tilesetKey: 'tinyroom',
-  tilesetUrl: tinyTileSetUrl
-}
-const mapConfigs = {
-  dungeonMapConfig, roomMapConfig, ghostRoomConfig
-}
 
 function init(data) {
-  mapConfig = mapConfigs[data.mapConfigKey] || ghostRoomConfig
-  mapItems = []
+  mapConfig = mapConfigs[data.mapConfigKey] || mapConfigs['ghostRoomConfig']
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
   registerSocketEvents(methods)
   registerWorldEvents(this)
