@@ -19,11 +19,11 @@ const userId = getLocalUserData().userId
 
 let methods
 let cursors
-let mapConfig = mapConfigs['ghostRoomConfig']
+let mapConfig = mapConfigs['waitingRoomConfig']
 let map
 
 function init(data) {
-  mapConfig = mapConfigs[data.mapConfigKey] || mapConfigs['ghostRoomConfig']
+  mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
   methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
   registerSocketEvents(methods)
   registerWorldEvents(this)
@@ -126,7 +126,6 @@ const createPlayer = () => {
     velocity: { x: 0, y: 0 },
     phaserObject: null
   }
-  methods.addPlayer(player)
   socket.emit('init-player', player)
 }
 

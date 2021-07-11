@@ -3,6 +3,7 @@ import dungeonMapUrl from '../../statics/tile/dungeon_map.json'
 import roomMapUrl from '../../statics/tile/room_map.json'
 import tinyTileSetUrl from '../../statics/tile/tinyroom.png'
 import tinyRoomUrl from '../../statics/tile/tiny_map.json'
+import waitingRoomUrl from '../../statics/tile/waitingRoom.json'
 
 export interface MapConfig {
   mapKey: string,
@@ -29,5 +30,11 @@ const ghostRoomConfig: MapConfig = {
   tilesetKey: 'tinyroom',
   tilesetUrl: tinyTileSetUrl
 }
+const waitingRoomConfig: MapConfig = {
+  mapKey: 'waitingRoom',
+  mapUrl: waitingRoomUrl,
+  tilesetKey: 'tinyroom',
+  tilesetUrl: tinyTileSetUrl
+}
 
-export default { dungeonMapConfig, roomMapConfig, ghostRoomConfig }
+export default { dungeonMapConfig, roomMapConfig, ghostRoomConfig, waitingRoomConfig }
