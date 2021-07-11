@@ -37,15 +37,14 @@ const registerWorlEvents = scene => {
     if (!dataA || !dataB) {
       return
     }
-    const user = getLocalUserData()
-    const userIsA = dataA.id === user.userId
-    const userIsB = dataB.id === user.userId
-    const userInvolved = userIsA || userIsB
-    if (userInvolved) {
-      const userBody = userIsA ? bodyA : bodyB
-      const userData = userIsA ? dataA : dataB
-      const targetBody = userIsA ? bodyB : bodyA
-      const targetData = userIsA ? dataB : dataA
+    const playerIsA = dataA.interface === 'Player'
+    const playerIsB = dataB.interface === 'Player'
+    const playerInvolved = playerIsA || playerIsB
+    if (playerInvolved) {
+      const userBody = playerIsA ? bodyA : bodyB
+      const userData = playerIsA ? dataA : dataB
+      const targetBody = playerIsA ? bodyB : bodyA
+      const targetData = playerIsA ? dataB : dataA
       playerInteraction(scene, userBody, userData, targetBody, targetData)
     }
   })
