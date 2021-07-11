@@ -5,7 +5,6 @@ import { gameConfig } from '../../share/game'
 import './socket'
 import dungeonScene from './scene/dungeon'
 import GUIScene from './scene/GUI'
-import PhaserMatterCollisionPlugin from "phaser-matter-collision-plugin";
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -35,11 +34,6 @@ const game = new Phaser.Game({
         key: 'PhaserRaycaster',
         plugin: PhaserRaycaster,
         mapping: 'raycasterPlugin'
-      },
-      {
-        plugin: PhaserMatterCollisionPlugin,
-        key: "matterCollision",
-        mapping: "matterCollision"
       }
     ]
   }
