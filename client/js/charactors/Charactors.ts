@@ -35,7 +35,8 @@ export interface Charactor {
     origin: {
       x: number, y: number
     }
-  }
+  },
+  velocity?: number
 }
 
 const charactors = { tinyZombie, wizzardMale, knightFemale, orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
@@ -43,6 +44,7 @@ const charactors = { tinyZombie, wizzardMale, knightFemale, orge, chort, giantDe
 Object.keys(charactors).forEach(
   key => {
     const char = charactors[key]
+    if (char.velocity) return
     const weight = char.matterConfig.size.width * char.matterConfig.size.height
     if (weight > 500) {
       char.velocity = 1
