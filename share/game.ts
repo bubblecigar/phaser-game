@@ -152,25 +152,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         console.log('player already exist')
         return
       }
-      const player: Player = new Proxy({
-        interface: 'Player',
-        ...playerConstructor,
-        phaserObject: null
-      }, {
-        set: (target, property, value): boolean => {
-          target[property] = value
-          if (property === 'coins' || property === 'health') {
-            if (target[property] > 10) {
-              target[property] = 10
-            }
-            if (target[property] < 0) {
-              target[property] = 0
-            }
-            variables.EventEmitter.emit('UPDATE_GUI', target)
-          }
-          return true
-        }
-      })
+      const player: Player = playerConstructor
       gameState.players.push(player)
 
       if (env === 'client') {
