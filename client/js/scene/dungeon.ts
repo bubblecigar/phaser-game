@@ -94,12 +94,19 @@ const registerInputEvents = scene => {
           const itemConstructor: Item = {
             interface: 'Item',
             id: v4(),
-            itemKey: 'coin',
+            itemKey: 'arrow',
             position: player.position,
+            velocity: { x: (Math.random() - 0.5) * 3, y: (Math.random() - 0.5) * 3 },
             phaserObject: null
           }
           const item: Item = methods.addItem(itemConstructor)
           socket.emit('addItem', _.omit(item, 'phaserObject'))
+          setTimeout(
+            () => {
+              socket.emit('removeItem', item.id)
+              methods.removeItem(item.id)
+            }, 1000
+          )
           break
         }
         case 'c': {

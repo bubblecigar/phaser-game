@@ -23,6 +23,7 @@ export interface Item {
   id: string,
   itemKey: string,
   position: Point,
+  velocity: Point,
   phaserObject: any
 }
 export interface GameState {
@@ -90,6 +91,11 @@ const createItemMatter = (variables, itemConstructor: Item) => {
   phaserObject.setOrigin(origin.x, origin.y)
   phaserObject.setSensor(true)
   phaserObject.setData(itemConstructor)
+  phaserObject.setVelocityX(itemConstructor.velocity.x)
+  phaserObject.setVelocityY(itemConstructor.velocity.y)
+  const angle = Math.atan2(itemConstructor.velocity.y, itemConstructor.velocity.x)
+  const degree = 90 + 180 * angle / Math.PI
+  phaserObject.setAngle(degree)
 
   return phaserObject
 }
@@ -227,12 +233,13 @@ const gameMethods = (env: 'client' | 'server') => variables => {
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
     addItem: (itemConstructor: Item): Item => {
-      const { id, position, itemKey } = itemConstructor
+      const { id, position, itemKey, velocity } = itemConstructor
       const item: Item = {
         interface: 'Item',
         id,
         position,
         itemKey,
+        velocity,
         phaserObject: null
       }
       gameState.items.push(item)
@@ -272,6 +279,10 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       switch (item.itemKey) {
         case 'coin': {
           player.coins++
+          break
+        }
+        case 'arrow': {
+          player.health -= 5
           break
         }
         default: {

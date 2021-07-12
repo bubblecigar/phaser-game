@@ -36,6 +36,26 @@ const getPlayerTargetArray = (bodyA, bodyB): false | [any, any, any, any] => {
     : [bodyB, dataB, bodyA, dataA]
 }
 
+const getItemTargetArray = (bodyA, bodyB): false | [any, any, any, any] => {
+  const dataA = bodyA?.gameObject?.data?.getAll()
+  const dataB = bodyB?.gameObject?.data?.getAll()
+
+  const itemData = dataA?.interface === 'Item'
+    ? dataA
+    : (
+      dataB?.interface === 'Item'
+        ? dataB
+        : null
+    )
+  if (!itemData) {
+    return false
+  }
+  return itemData === dataA
+    ? [bodyA, dataA, bodyB, dataB]
+    : [bodyB, dataB, bodyA, dataA]
+}
+
+
 const registerWorlEvents = (scene, methods) => {
   scene.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
     const playerTargetArray = getPlayerTargetArray(bodyA, bodyB)
@@ -61,9 +81,20 @@ const registerWorlEvents = (scene, methods) => {
           methods.removeItem(targetData.id)
         }
       }
+    } else {
+      const itemTargetArray = getItemTargetArray(bodyA, bodyB)
+      if (itemTargetArray) {
+        const [itemBody, itemData, targetBody, targetData] = itemTargetArray
+        if (
+          targetBody.label === 'tile' &&
+          itemData.interface === 'Item'
+        ) {
+          methods.removeItem(itemData.id)
+        }
+      }
     }
-
   })
+
   scene.matter.world.on('collisionend', function (event, bodyA, bodyB) {
     const playerTargetArray = getPlayerTargetArray(bodyA, bodyB)
     if (playerTargetArray) { // player involved
