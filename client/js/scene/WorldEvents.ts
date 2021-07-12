@@ -1,5 +1,6 @@
 import { getLocalUserData } from '../user'
 import socket from '../socket'
+import _ from 'lodash'
 
 let cameraMask
 
@@ -52,12 +53,9 @@ const registerWorlEvents = (scene, methods) => {
         playerBody.label === 'player-body' &&
         targetData.interface === 'Item'
       ) {
-        if (targetData.itemKey === 'coin') {
-          methods.removeItem(targetData.id)
-          if (isUser) {
-            socket.emit('removeItem', targetData.id)
-          }
-        }
+        const _itemData = _.omit(targetData, 'phaserObject')
+        methods.collectItem(playerData.id, _itemData)
+        socket.emit('collectItem', playerData.id, _itemData)
       }
     }
 

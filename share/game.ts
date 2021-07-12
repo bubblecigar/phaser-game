@@ -12,7 +12,8 @@ export interface Player {
   charactorKey: string,
   phaserObject: any,
   health: number,
-  items: Item[]
+  items: Item[],
+  coins: number
 }
 export interface Monster extends Player {
 
@@ -158,6 +159,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         position,
         velocity,
         health: 100,
+        coins: 0,
         items: [],
         phaserObject: null
       }
@@ -234,6 +236,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         }
       }
     },
+    getItem: (id: string): Item => gameState.items.find(p => p.id === id),
     addItem: (itemConstructor: Item): Item => {
       const { id, position, itemKey } = itemConstructor
       const item: Item = {
@@ -270,6 +273,25 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       if (env === 'client') {
         item.phaserObject.destroy()
       }
+    },
+    collectItem: (playerId: string, item: Item) => {
+      const player = methods.getPlayer(playerId)
+      if (!player) {
+        console.log('no player for collectItem')
+        return
+      }
+      if (playerId === variables.userId) { // receiver
+        switch (item.itemKey) {
+          case 'coin': {
+            player.coins++
+            break
+          }
+          default: {
+            console.log('unhandled itemKey')
+          }
+        }
+      }
+      methods.removeItem(item.id)
     },
     interact: (player: Player, item: Item, action = 'default') => {
       console.log(player)
