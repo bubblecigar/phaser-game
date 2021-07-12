@@ -121,6 +121,10 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         )
       }
     },
+    setPlayer: (playerConstructor: Player): void => {
+      methods.removePlayer(playerConstructor.id)
+      methods.addPlayer(playerConstructor)
+    },
     addPlayer: (playerConstructor: Player): void => {
       const { position, velocity, charactorKey, id } = playerConstructor
       const playerAlreadyExist = gameState.players.some(player => player.id === id)

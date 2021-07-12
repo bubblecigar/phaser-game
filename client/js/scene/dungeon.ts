@@ -101,6 +101,14 @@ const registerInputEvents = scene => {
           socket.emit('addItem', _.omit(item, 'phaserObject'))
           break
         }
+        case 'c': {
+          const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * 10) % (Object.keys(charactors).length)]
+          const player: Player = methods.getPlayer(getLocalUserData().userId)
+          const _player: Player = _.omit(_.clone(player), 'phaserObject')
+          _player.charactorKey = randomCharactorKey
+          methods.setPlayer(_player)
+          socket.emit('setPlayer', _player)
+        }
         case ' ': {
           scene.scene.stop('GUI')
           break
