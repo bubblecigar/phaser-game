@@ -17,7 +17,7 @@ const item: Item = {
     type: 'rectangle',
     size: {
       width: 4,
-      height: 32
+      height: 20
     },
     origin: {
       x: 0.5, y: 0.5
