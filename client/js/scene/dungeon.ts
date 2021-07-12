@@ -129,7 +129,7 @@ const createPlayer = () => {
   const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * 10) % (Object.keys(charactors).length)]
   const player = {
     id: userId,
-    charactorKey: randomCharactorKey,
+    charactorKey: 'tinyZombie',
     position: { x, y },
     velocity: { x: 0, y: 0 },
     phaserObject: null

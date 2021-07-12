@@ -3,14 +3,14 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "anim.tsx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
             "scaleInDock": 2.4261,
-            "scaleInEditor": 3.01
+            "scaleInEditor": 4.15
         },
         "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx": {
             "scaleInDock": 1,
@@ -99,6 +99,10 @@
         "/Users/roywang/Desktop/tile_trial/tiny_map.tmx#tinyroom": {
             "scaleInDock": 3.189
         },
+        "anim.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.7421
+        },
         "hhh.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1.83
@@ -144,15 +148,18 @@
             "scaleInDock": 1
         },
         "waitingRoom.tmx": {
-            "scale": 4.18,
-            "selectedLayer": 0,
+            "scale": 1.85,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 172.84688995215313,
-                "y": 161.36363636363637
+                "x": 174.8648648648648,
+                "y": 188.37837837837836
             }
         },
+        "waitingRoom.tmx#anim": {
+            "scaleInDock": 1.3083
+        },
         "waitingRoom.tmx#tileset": {
-            "scaleInDock": 3
+            "scaleInDock": 1.6263
         },
         "waitingRoom.tmx#tinyroom": {
             "scaleInDock": 3
@@ -168,10 +175,12 @@
     "map.tileWidth": 16,
     "map.width": 20,
     "openFiles": [
+        "anim.tsx"
     ],
     "project": "tile_project.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "anim.tsx",
         "waitingRoom.tmx",
         "waitingRoom.json",
         "tiny_map.json",
@@ -182,13 +191,13 @@
         "/Users/roywang/Desktop/tile_trial/tileset_test.tsx",
         "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx",
         "/Users/roywang/Desktop/tile_trial/room_map.tmx",
-        "hhh.tsx",
-        "/Users/roywang/Desktop/tile_trial/tileset.tsx"
+        "hhh.tsx"
     ],
     "tileset.embedInMap": true,
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
-        "height": 16,
-        "width": 16
-    }
+        "height": 32,
+        "width": 32
+    },
+    "tileset.type": 0
 }

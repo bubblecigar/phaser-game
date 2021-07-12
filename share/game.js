@@ -140,6 +140,10 @@ var gameMethods = function (env) { return function (variables) {
             if (env === 'client') {
                 player.phaserObject.setVelocityX(player.velocity.x);
                 player.phaserObject.setVelocityY(player.velocity.y);
+                if (player.id !== variables.userId) {
+                    player.phaserObject.setX(player.position.x);
+                    player.phaserObject.setY(player.position.y);
+                }
                 player.position = { x: player.phaserObject.x, y: player.phaserObject.y };
                 player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y };
                 if (changeDirection) {

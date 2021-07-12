@@ -5,6 +5,9 @@ import elfFemale from './elfFemale'
 import elfMale from './elfMale'
 import chort from './chort'
 import orge from './orge'
+import wizzardMale from './wizzardMale'
+import knightFemale from './knightFemale'
+import tinyZombie from './tinyZombie'
 
 export interface AnimConfig {
   key: string,
@@ -35,7 +38,7 @@ export interface Charactor {
   }
 }
 
-const charactors = { orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
+const charactors = { tinyZombie, wizzardMale, knightFemale, orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
 
 Object.keys(charactors).forEach(
   key => {
