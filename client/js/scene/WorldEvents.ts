@@ -1,8 +1,9 @@
 import { getLocalUserData } from '../user'
+import socket from '../socket'
 
 let cameraMask
 
-const fovInteraction = (scene, userBody, userData, targetBody, targetData) => {
+const updateCamera = (scene, userBody, userData, targetBody, targetData) => {
   const isOverlap = scene.matter.overlap(userBody, targetBody.parent.parts)
   const camera = scene.cameras.main
   if (isOverlap) {
@@ -34,18 +35,28 @@ const getPlayerTargetArray = (bodyA, bodyB): false | [any, any, any, any] => {
     : [bodyB, dataB, bodyA, dataA]
 }
 
-const registerWorlEvents = scene => {
+const registerWorlEvents = (scene, methods) => {
   scene.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
     const playerTargetArray = getPlayerTargetArray(bodyA, bodyB)
     if (playerTargetArray) {
       const [playerBody, playerData, targetBody, targetData] = playerTargetArray
       const isUser = playerData.id === getLocalUserData().userId
-      if (isUser) {
-        if (
-          playerBody.label === 'body-sensor' &&
-          targetData.interface === 'fov-sensor'
-        ) {
-          fovInteraction(scene, ...playerTargetArray)
+      if (
+        isUser &&
+        playerBody.label === 'body-sensor' &&
+        targetData.interface === 'fov-sensor'
+      ) {
+        updateCamera(scene, ...playerTargetArray)
+      }
+      if (
+        playerBody.label === 'player-body' &&
+        targetData.interface === 'Item'
+      ) {
+        if (targetData.itemKey === 'coin') {
+          methods.removeItem(targetData.id)
+          if (isUser) {
+            socket.emit('removeItem', targetData.id)
+          }
         }
       }
     }

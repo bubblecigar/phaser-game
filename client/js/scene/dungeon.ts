@@ -25,7 +25,7 @@ function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
   methods = gameMethods('client')({ userId, Phaser, charactors, items, scene: this })
   registerSocketEvents(methods)
-  registerWorldEvents(this)
+  registerWorldEvents(this, methods)
 }
 
 function preload() {

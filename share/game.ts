@@ -46,7 +46,7 @@ const createPlayerMatter = (variables, player: Player) => {
   const { size, origin } = charactor.matterConfig
   const { x, y } = player.position
   const Bodies = variables.Phaser.Physics.Matter.Matter.Bodies
-  const rect = Bodies.rectangle(x, y, size.width, size.height)
+  const rect = Bodies.rectangle(x, y, size.width, size.height, { label: 'player-body' })
   const sensor = Bodies.circle(x, y, 1, { isSensor: true, label: 'body-sensor' })
   const compound = variables.Phaser.Physics.Matter.Matter.Body.create({
     parts: [sensor, rect],
@@ -208,6 +208,10 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       player.velocity = _player.velocity
 
       if (env === 'client') {
+        if (!player.phaserObject) {
+          console.log('player not initialized')
+          return
+        }
         player.phaserObject.setVelocityX(player.velocity.x)
         player.phaserObject.setVelocityY(player.velocity.y)
         if (player.id !== variables.userId) {
