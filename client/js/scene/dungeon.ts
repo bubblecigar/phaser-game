@@ -50,8 +50,7 @@ const registerInputEvents = scene => {
   scene.input.keyboard.on('keyup', e => {
     switch (e.key) {
       case ' ': {
-        const player: Player = methods.getPlayer(getLocalUserData().userId)
-        scene.scene.launch('GUI', { player });
+        scene.scene.launch('GUI');
         break
       }
       default: {
@@ -110,6 +109,7 @@ const registerInputEvents = scene => {
           _player.charactorKey = randomCharactorKey
           methods.setPlayer(_player)
           socket.emit('setPlayer', _player)
+          break
         }
         case ' ': {
           scene.scene.stop('GUI')
@@ -176,8 +176,7 @@ function create() {
   )
 
   createPlayer()
-  const player: Player = methods.getPlayer(getLocalUserData().userId)
-  this.scene.launch('GUI', { player })
+  this.scene.launch('GUI')
 }
 
 const movePlayer = (player: Player) => {
