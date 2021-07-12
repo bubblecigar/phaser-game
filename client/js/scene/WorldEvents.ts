@@ -2,18 +2,14 @@ import { getLocalUserData } from '../user'
 
 let cameraMask
 
-const userInteraction = (scene, userBody, userData, targetBody, targetData) => {
-  const isPlayerSensor = userBody.label === 'body-sensor'
-  const triggerIndoorSensor = targetData.interface === 'fov-sensor'
-  if (isPlayerSensor && triggerIndoorSensor) {
-    const isOverlap = scene.matter.overlap(userBody, targetBody.parent.parts)
-    const camera = scene.cameras.main
-    if (isOverlap) {
-      cameraMask = camera.mask || cameraMask
-      camera.clearMask()
-    } else {
-      camera.setMask(cameraMask)
-    }
+const fovInteraction = (scene, userBody, userData, targetBody, targetData) => {
+  const isOverlap = scene.matter.overlap(userBody, targetBody.parent.parts)
+  const camera = scene.cameras.main
+  if (isOverlap) {
+    cameraMask = camera.mask || cameraMask
+    camera.clearMask()
+  } else {
+    camera.setMask(cameraMask)
   }
 }
 
@@ -45,7 +41,12 @@ const registerWorlEvents = scene => {
       const [playerBody, playerData, targetBody, targetData] = playerTargetArray
       const isUser = playerData.id === getLocalUserData().userId
       if (isUser) {
-        userInteraction(scene, ...playerTargetArray)
+        if (
+          playerBody.label === 'body-sensor' &&
+          targetData.interface === 'fov-sensor'
+        ) {
+          fovInteraction(scene, ...playerTargetArray)
+        }
       }
     }
 
@@ -56,7 +57,12 @@ const registerWorlEvents = scene => {
       const [playerBody, playerData, targetBody, targetData] = playerTargetArray
       const isUser = playerData.id === getLocalUserData().userId
       if (isUser) {
-        userInteraction(scene, ...playerTargetArray)
+        if (
+          playerBody.label === 'body-sensor' &&
+          targetData.interface === 'fov-sensor'
+        ) {
+          fovInteraction(scene, ...playerTargetArray)
+        }
       }
     }
   }
