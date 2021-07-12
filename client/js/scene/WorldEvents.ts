@@ -3,9 +3,10 @@ import { getLocalUserData } from '../user'
 let cameraMask
 
 const playerInteraction = (scene, userBody, userData, targetBody, targetData) => {
-  const isUserSensor = userBody.label === 'body-sensor'
+  const isPlayerSensor = userBody.label === 'body-sensor'
   const triggerIndoorSensor = targetData.interface === 'fov-sensor'
-  if (isUserSensor && triggerIndoorSensor) {
+  const isPlayer = userData.id === getLocalUserData().userId
+  if (isPlayer && isPlayerSensor && triggerIndoorSensor) {
     const isOverlap = scene.matter.overlap(userBody, targetBody.parent.parts)
     const camera = scene.cameras.main
     if (isOverlap) {
