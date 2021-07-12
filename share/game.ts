@@ -46,6 +46,34 @@ const gameConfig = {
   canvasHeight: 300
 }
 
+const createPlayerMatter = (variables, player: Player) => {
+  const { scene, charactors } = variables
+  const charactor = charactors[player.charactorKey]
+  const { size, origin } = charactor.matterConfig
+  const { x, y } = player.position
+  const Bodies = variables.Phaser.Physics.Matter.Matter.Bodies
+  const rect = Bodies.rectangle(x, y, size.width, size.height)
+  const sensor = Bodies.circle(x, y, 1, { isSensor: true, label: 'body-sensor' })
+  const compound = variables.Phaser.Physics.Matter.Matter.Body.create({
+    parts: [sensor, rect],
+    inertia: Infinity
+  })
+
+  const phaserObject = scene.matter.add.sprite(x, y, undefined, undefined, {
+    friction: 0,
+    frictionStatic: 0,
+    frictionAir: 0,
+  })
+  phaserObject.setExistingBody(compound)
+  phaserObject.setOrigin(origin.x, origin.y)
+  phaserObject.setCollisionGroup(-1)
+  phaserObject.play(charactor.animsConfig.idle.key)
+  phaserObject.setDepth(3)
+  phaserObject.setData(player)
+
+  return phaserObject
+}
+
 const gameMethods = (env: 'client' | 'server') => variables => {
   const methods = {
     init: () => {
@@ -118,30 +146,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           console.log('not initialize')
           return
         }
-        const charactor = variables.charactors[player.charactorKey]
-        const { size, origin } = charactor.matterConfig
-        const { x, y } = player.position
-        const Bodies = variables.Phaser.Physics.Matter.Matter.Bodies
-        const rect = Bodies.rectangle(x, y, size.width, size.height)
-        const sensor = Bodies.circle(x, y, 1, { isSensor: true, label: 'body-sensor' })
-        const compound = variables.Phaser.Physics.Matter.Matter.Body.create({
-          parts: [sensor, rect],
-          inertia: Infinity
-        })
-
-        const phaserObject = scene.matter.add.sprite(x, y, undefined, undefined, {
-          friction: 0,
-          frictionStatic: 0,
-          frictionAir: 0,
-        })
-        phaserObject.setExistingBody(compound)
-        phaserObject.setOrigin(origin.x, origin.y)
-        phaserObject.setCollisionGroup(-1)
-        phaserObject.play(charactor.animsConfig.idle.key)
-        phaserObject.setDepth(3)
-        phaserObject.setData(player)
-
-        player.phaserObject = phaserObject
+        player.phaserObject = createPlayerMatter(variables, player)
 
         if (playerConstructor.id === variables.userId) {
           const camera = scene.cameras.main
