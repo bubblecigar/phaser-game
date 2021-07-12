@@ -2,11 +2,10 @@ import { getLocalUserData } from '../user'
 
 let cameraMask
 
-const playerInteraction = (scene, userBody, userData, targetBody, targetData) => {
+const userInteraction = (scene, userBody, userData, targetBody, targetData) => {
   const isPlayerSensor = userBody.label === 'body-sensor'
   const triggerIndoorSensor = targetData.interface === 'fov-sensor'
-  const isPlayer = userData.id === getLocalUserData().userId
-  if (isPlayer && isPlayerSensor && triggerIndoorSensor) {
+  if (isPlayerSensor && triggerIndoorSensor) {
     const isOverlap = scene.matter.overlap(userBody, targetBody.parent.parts)
     const camera = scene.cameras.main
     if (isOverlap) {
@@ -18,42 +17,49 @@ const playerInteraction = (scene, userBody, userData, targetBody, targetData) =>
   }
 }
 
-const registerWorlEvents = scene => {
-  scene.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
-    const dataA = bodyA?.gameObject?.data?.getAll()
-    const dataB = bodyB?.gameObject?.data?.getAll()
-    if (!dataA || !dataB) {
-      return
-    }
-    const playerIsA = dataA.interface === 'Player'
-    const playerIsB = dataB.interface === 'Player'
-    const playerInvolved = playerIsA || playerIsB
-    if (playerInvolved) {
-      const userBody = playerIsA ? bodyA : bodyB
-      const userData = playerIsA ? dataA : dataB
-      const targetBody = playerIsA ? bodyB : bodyA
-      const targetData = playerIsA ? dataB : dataA
-      playerInteraction(scene, userBody, userData, targetBody, targetData)
-    }
-  })
-  scene.matter.world.on('collisionend', function (event, bodyA, bodyB) {
-    const dataA = bodyA?.gameObject?.data?.getAll()
-    const dataB = bodyB?.gameObject?.data?.getAll()
-    if (!dataA || !dataB) {
-      return
-    }
-    const playerIsA = dataA.interface === 'Player'
-    const playerIsB = dataB.interface === 'Player'
-    const playerInvolved = playerIsA || playerIsB
-    if (playerInvolved) {
-      const userBody = playerIsA ? bodyA : bodyB
-      const userData = playerIsA ? dataA : dataB
-      const targetBody = playerIsA ? bodyB : bodyA
-      const targetData = playerIsA ? dataB : dataA
-      playerInteraction(scene, userBody, userData, targetBody, targetData)
-    }
-  })
+const getPlayerTargetArray = (bodyA, bodyB): false | [any, any, any, any] => {
+  const dataA = bodyA?.gameObject?.data?.getAll()
+  const dataB = bodyB?.gameObject?.data?.getAll()
+  if (!dataA || !dataB) {
+    return false
+  }
+  const playerData = dataA.interface === 'Player'
+    ? dataA
+    : (
+      dataB.interface === 'Player'
+        ? dataB
+        : null
+    )
+  if (!playerData) {
+    return false
+  }
+  return playerData === dataA
+    ? [bodyA, dataA, bodyB, dataB]
+    : [bodyB, dataB, bodyA, dataA]
 }
 
+const registerWorlEvents = scene => {
+  scene.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
+    const playerTargetArray = getPlayerTargetArray(bodyA, bodyB)
+    if (playerTargetArray) {
+      const [playerBody, playerData, targetBody, targetData] = playerTargetArray
+      const isUser = playerData.id === getLocalUserData().userId
+      if (isUser) {
+        userInteraction(scene, ...playerTargetArray)
+      }
+    }
+
+  })
+  scene.matter.world.on('collisionend', function (event, bodyA, bodyB) {
+    const playerTargetArray = getPlayerTargetArray(bodyA, bodyB)
+    if (playerTargetArray) { // player involved
+      const [playerBody, playerData, targetBody, targetData] = playerTargetArray
+      const isUser = playerData.id === getLocalUserData().userId
+      if (isUser) {
+        userInteraction(scene, ...playerTargetArray)
+      }
+    }
+  }
+}
 
 export default registerWorlEvents
