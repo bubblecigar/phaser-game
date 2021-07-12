@@ -279,7 +279,6 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           console.log('unhandled itemKey')
         }
       }
-      console.log(player.coins)
       methods.removeItem(item.id)
     },
     interact: (player: Player, item: Item, action = 'default') => {
