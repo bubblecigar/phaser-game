@@ -63,10 +63,10 @@ const createHealthBar = (scene, x, y) => {
   const text = scene.add.text(x + 1, y, 'hp', { fontSize: 8 })
   text.setOrigin(0, 0)
 
-  maximumBar = scene.add.rectangle(x, y, 60, 8, 0xDDDDDD)
-  maximumBar.setOrigin(1, 0.5)
-  currentBar = scene.add.rectangle(x - 1, y, 40, 6, 0xda4e38)
-  currentBar.setOrigin(1, 0.5)
+  maximumBar = scene.add.rectangle(x, y, 60, 6, 0xDDDDDD)
+  maximumBar.setOrigin(1, 1)
+  currentBar = scene.add.rectangle(x - 1, y, 40, 4, 0xda4e38)
+  currentBar.setOrigin(1, 1)
 }
 
 const showHealthBar = (current, maximum) => {
