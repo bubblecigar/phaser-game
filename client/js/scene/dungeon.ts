@@ -8,7 +8,8 @@ import items from '../items/Items'
 import socket, { registerSocketEvents } from '../socket'
 import mapConfigs from './mapConfigs'
 import FOV from './FOV'
-import registerWorldEvents from './WorldEvents';
+import registerWorldEvents from './WorldEvents'
+import EventEmitter from './EventEmitter'
 
 interface MapItem extends Item {
 
@@ -23,7 +24,7 @@ let map
 
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
-  methods = gameMethods('client')({ userId, Phaser, charactors, items, scene: this })
+  methods = gameMethods('client')({ userId, Phaser, charactors, items, scene: this, EventEmitter: EventEmitter.getInstance() })
   registerSocketEvents(methods)
   registerWorldEvents(this, methods)
 }

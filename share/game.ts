@@ -152,7 +152,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         console.log('player already exist')
         return
       }
-      const player: Player = {
+      const player: Player = new Proxy({
         interface: 'Player',
         id,
         charactorKey,
@@ -162,7 +162,21 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         coins: 0,
         items: [],
         phaserObject: null
-      }
+      }, {
+        set: (target, property, value): boolean => {
+          target[property] = value
+          if (property === 'coins') {
+            if (target[property] > 10) {
+              target[property] = 10
+            }
+            if (target[property] < 0) {
+              target[property] = 0
+            }
+            variables.EventEmitter.emit('UPDATE_GUI', target)
+          }
+          return true
+        }
+      })
       gameState.players.push(player)
 
       if (env === 'client') {
