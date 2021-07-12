@@ -5,7 +5,7 @@ import { getLocalUserData } from '../user'
 import items from '../items/Items'
 import charactors from '../charactors/Charactors'
 
-let scene, coinGroup
+let scene, coinGroup, maximumBar, currentBar
 
 function preload() {
   scene = this
@@ -54,6 +54,26 @@ function create() {
   const coinY = gameConfig.canvasHeight - padding
   createCoinGroup(this, coinX, coinY)
 
+  const healthX = gameConfig.canvasWidth - padding
+  const healthY = gameConfig.canvasHeight - padding
+  createHealthBar(this, healthX, healthY)
+}
+
+const createHealthBar = (scene, x, y) => {
+  const text = scene.add.text(x + 1, y, 'hp', { fontSize: 8 })
+  text.setOrigin(0, 0)
+
+  maximumBar = scene.add.rectangle(x, y, 60, 8, 0xDDDDDD)
+  maximumBar.setOrigin(1, 0.5)
+  currentBar = scene.add.rectangle(x - 1, y, 40, 6, 0xda4e38)
+  currentBar.setOrigin(1, 0.5)
+}
+
+const showHealthBar = (current, maximum) => {
+  maximumBar.width = maximum
+  maximumBar.setOrigin(1, 0.5)
+  currentBar.width = current - 2
+  currentBar.setOrigin(1, 0.5)
 }
 
 const createCoinGroup = (scene, x, y) => {
@@ -74,7 +94,7 @@ function update(t, dt) {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (!player) return
   showCoinCount(player.coins)
-
+  showHealthBar(player.health, player.health)
 }
 
 export default {
