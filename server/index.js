@@ -16,6 +16,13 @@ server.listen(process.env.PORT || 8081, function () {
 io.on('connection', async function (socket) {
   const userData = socket.handshake.auth
 
+  for (let method of Object.keys(methods)) {
+    socket.on(method, (...args) => {
+      methods[method](...args)
+      socket.broadcast.emit(method, ...args)
+    })
+  }
+
   socket.on('init-player', (player) => {
     methods.addPlayer(player)
     io.emit('emitGameStateFromServer', gameState)
@@ -26,20 +33,6 @@ io.on('connection', async function (socket) {
     methods.movePlayer(player.id, data)
     socket.broadcast.emit('movePlayer', player.id, data)
   })
-
-  socket.on('syncMap', mapConfigKey => {
-    methods.syncMap(mapConfigKey)
-    socket.broadcast.emit('syncMap', mapConfigKey)
-  })
-  socket.on('addItem', item => {
-    methods.addItem(item)
-    socket.broadcast.emit('addItem', item)
-  })
-  socket.on('removeItem', id => {
-    methods.removeItem(id)
-    socket.broadcast.emit('removeItem', id)
-  })
-
 
   socket.on('disconnect', async function () {
     io.emit('removePlayer', userData.userId)
