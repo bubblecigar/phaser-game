@@ -20,6 +20,7 @@ export interface Monster extends Player {
 export interface Item {
   interface: 'Item',
   id: string,
+  itemKey: string,
   key: string,
   position: Point,
   icon: string,
@@ -212,7 +213,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       }
     },
     addItem: (itemConstructor: PlayerItem): PlayerItem => {
-      const { builderId, id, key, icon, type, position } = itemConstructor
+      const { builderId, id, key, icon, type, position, itemKey } = itemConstructor
       const builder = methods.getPlayer(builderId)
       const item: PlayerItem = {
         interface: 'PlayerItem',
@@ -220,6 +221,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         key,
         builderId,
         position,
+        itemKey,
         icon,
         type,
         phaserObject: null

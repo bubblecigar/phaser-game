@@ -94,6 +94,7 @@ const registerInputEvents = scene => {
             id: v4(),
             icon: 'bomb',
             type: 'block',
+            itemKey: 'bomb',
             position: player.position,
             phaserObject: null
           }
