@@ -143,29 +143,23 @@ const gameMethods = (env: 'client' | 'server') => variables => {
     },
     setPlayer: (playerConstructor: Player): void => {
       methods.removePlayer(playerConstructor.id)
+
       methods.addPlayer(playerConstructor)
     },
     addPlayer: (playerConstructor: Player): void => {
-      const { position, velocity, charactorKey, id } = playerConstructor
-      const playerAlreadyExist = gameState.players.some(player => player.id === id)
+      const playerAlreadyExist = gameState.players.some(player => player.id === playerConstructor.id)
       if (playerAlreadyExist) {
         console.log('player already exist')
         return
       }
       const player: Player = new Proxy({
         interface: 'Player',
-        id,
-        charactorKey,
-        position,
-        velocity,
-        health: 100,
-        coins: 0,
-        items: [],
+        ...playerConstructor,
         phaserObject: null
       }, {
         set: (target, property, value): boolean => {
           target[property] = value
-          if (property === 'coins') {
+          if (property === 'coins' || property === 'health') {
             if (target[property] > 10) {
               target[property] = 10
             }
