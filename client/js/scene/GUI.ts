@@ -54,7 +54,6 @@ function create() {
   const coinX = padding
   const coinY = gameConfig.canvasHeight - padding
   createCoinGroup(this, coinX, coinY)
-
 }
 
 const createCoinGroup = (scene, x, y) => {
