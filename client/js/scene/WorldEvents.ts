@@ -54,8 +54,12 @@ const registerWorlEvents = (scene, methods) => {
         targetData.interface === 'Item'
       ) {
         const _itemData = _.omit(targetData, 'phaserObject')
-        methods.collectItem(playerData.id, _itemData)
-        socket.emit('collectItem', playerData.id, _itemData)
+        if (isUser) {
+          methods.collectItem(playerData.id, _itemData)
+          socket.emit('collectItem', playerData.id, _itemData)
+        } else {
+          methods.removeItem(targetData.id)
+        }
       }
     }
 

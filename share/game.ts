@@ -270,17 +270,16 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         console.log('no player for collectItem')
         return
       }
-      if (playerId === variables.userId) { // receiver
-        switch (item.itemKey) {
-          case 'coin': {
-            player.coins++
-            break
-          }
-          default: {
-            console.log('unhandled itemKey')
-          }
+      switch (item.itemKey) {
+        case 'coin': {
+          player.coins++
+          break
+        }
+        default: {
+          console.log('unhandled itemKey')
         }
       }
+      console.log(player.coins)
       methods.removeItem(item.id)
     },
     interact: (player: Player, item: Item, action = 'default') => {
