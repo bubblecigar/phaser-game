@@ -128,13 +128,15 @@ const createPlayer = () => {
   const spawnPoint = item_layer ? item_layer.objects.find(o => o.name === 'spawn_point') : { x: map.widthInPixels / 2, y: map.heightInPixels / 2 }
   const x = spawnPoint.x
   const y = spawnPoint.y
+  const initCharactor = 'tinyZombie'
+  const initHealth = charactors[initCharactor].maxHealth
   const player: Player = {
     interface: 'Player',
     id: userId,
-    charactorKey: 'tinyZombie',
+    charactorKey: initCharactor,
     position: { x, y },
     velocity: { x: 0, y: 0 },
-    health: 100,
+    health: initHealth,
     coins: 0,
     items: [],
     phaserObject: null

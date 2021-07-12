@@ -36,7 +36,8 @@ export interface Charactor {
       x: number, y: number
     }
   },
-  velocity?: number
+  velocity?: number,
+  maxHealth?: number
 }
 
 const charactors = { tinyZombie, wizzardMale, knightFemale, orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
@@ -44,12 +45,16 @@ const charactors = { tinyZombie, wizzardMale, knightFemale, orge, chort, giantDe
 Object.keys(charactors).forEach(
   key => {
     const char = charactors[key]
-    if (char.velocity) return
     const weight = char.matterConfig.size.width * char.matterConfig.size.height
-    if (weight > 500) {
-      char.velocity = 1
-    } else {
-      char.velocity = 2 + Math.round((500 - weight) / 100)
+    if (!char.velocity) {
+      if (weight > 500) {
+        char.velocity = 1
+      } else {
+        char.velocity = 2 + Math.round((500 - weight) / 100)
+      }
+    }
+    if (!char.weight) {
+      char.maxHealth = Math.round(weight / 5)
     }
   }
 )

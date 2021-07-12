@@ -143,7 +143,6 @@ const gameMethods = (env: 'client' | 'server') => variables => {
     },
     setPlayer: (playerConstructor: Player): void => {
       methods.removePlayer(playerConstructor.id)
-
       methods.addPlayer(playerConstructor)
     },
     addPlayer: (playerConstructor: Player): void => {

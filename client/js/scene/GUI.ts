@@ -94,7 +94,8 @@ function update(t, dt) {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (!player) return
   showCoinCount(player.coins)
-  showHealthBar(player.health, player.health)
+  const maximumHealth = charactors[player.charactorKey].maxHealth
+  showHealthBar(player.health, maximumHealth)
 }
 
 export default {
