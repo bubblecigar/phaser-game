@@ -183,7 +183,7 @@ const movePlayer = (player: Player) => {
   }
   const _player = _.clone(player)
   _player.velocity = _velocity
-  methods.movePlayer(_player)
+  methods.movePlayer(_.omit(_player, 'position'))
   socket.emit('movePlayer', _.omit(player, 'phaserObject'))
 }
 
