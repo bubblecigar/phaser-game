@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import { v4 } from 'uuid';
 import _ from 'lodash'
 import bombUrl from '../../statics/bomb.png'
-import { gameMethods, gameConfig, gameState, Player, PlayerItem, Item } from '../../../share/game'
+import { gameMethods, gameState, Player, PlayerItem, Item } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/Charactors'
 import socket, { registerSocketEvents } from '../socket'
@@ -126,7 +126,6 @@ const createPlayer = () => {
   const spawnPoint = item_layer ? item_layer.objects.find(o => o.name === 'spawn_point') : { x: map.widthInPixels / 2, y: map.heightInPixels / 2 }
   const x = spawnPoint.x
   const y = spawnPoint.y
-  const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * 10) % (Object.keys(charactors).length)]
   const player = {
     id: userId,
     charactorKey: 'tinyZombie',
