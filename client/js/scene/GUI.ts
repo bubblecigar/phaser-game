@@ -46,27 +46,34 @@ function create() {
     }
   )
 
-  addItemCell(gameConfig.canvasWidth / 2 - 16, gameConfig.canvasHeight - 32, 0)
-  addItemCell(gameConfig.canvasWidth / 2 - 16, gameConfig.canvasHeight - 32, 1)
-  addItemCell(gameConfig.canvasWidth / 2 - 16, gameConfig.canvasHeight - 32, 2)
+  const padding = 32
+  addItemCell(gameConfig.canvasWidth / 2 - 16, gameConfig.canvasHeight - padding, 0)
+  addItemCell(gameConfig.canvasWidth / 2 - 16, gameConfig.canvasHeight - padding, 1)
+  addItemCell(gameConfig.canvasWidth / 2 - 16, gameConfig.canvasHeight - padding, 2)
 
-  const x = 32
-  const y = gameConfig.canvasHeight - 32
+  const coinX = padding
+  const coinY = gameConfig.canvasHeight - padding
+  createCoinGroup(this, coinX, coinY)
+
+}
+
+const createCoinGroup = (scene, x, y) => {
   coinGroup = scene.add.group({ classType: Phaser.GameObjects.Sprite })
   for (let i = 0; i < 10; i++) {
     coinGroup.add(scene.add.sprite(x + 10 * i, y))
   }
   coinGroup.playAnimation(items.coin.animsConfig.idle.key, 0)
   coinGroup.setVisible(false)
+
+  const emitter = EventEmitter.getInstance()
+  emitter.on('UPDATE_GUI', (data) => {
+    coinGroup.setVisible(true)
+    coinGroup.setVisible(false, data.coins, 1)
+  })
 }
-const emitter = EventEmitter.getInstance()
-emitter.on('UPDATE_GUI', (data) => {
-  updateCoinGUI(data.coins)
-})
-const updateCoinGUI = (count) => {
-  coinGroup.setVisible(true)
-  coinGroup.setVisible(false, count, 1)
-}
+
+
+
 
 
 function update(t, dt) {
