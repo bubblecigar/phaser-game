@@ -72,7 +72,7 @@ const registerWorlEvents = (scene, methods) => {
           playerBody.label === 'body-sensor' &&
           targetData.interface === 'fov-sensor'
         ) {
-          fovInteraction(scene, ...playerTargetArray)
+          updateCamera(scene, ...playerTargetArray)
         }
       }
     }
