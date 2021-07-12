@@ -172,31 +172,21 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       }
     },
     getPlayer: (id: string): Player => gameState.players.find(p => p.id === id),
-    movePlayer: (id: string, data: { velocity?: Point, position?: Point }): void => {
-      const player = methods.getPlayer(id)
+    movePlayer: (_player: Player): void => {
+      const player = methods.getPlayer(_player.id)
       if (!player) {
-        console.log('player not found')
         return
       }
       const changeDirection = !(
-        data.velocity.x === player.velocity.x
-        && data.velocity.y === player.velocity.y
+        _player.velocity.x === player.velocity.x
+        && _player.velocity.y === player.velocity.y
       )
-      if (data.position) {
-        player.position = data.position
-      }
-      if (data.velocity) {
-        player.velocity = data.velocity
-      }
+      player.position = _player.position
+      player.velocity = _player.velocity
+
       if (env === 'client') {
-        if (data.position) {
-          player.phaserObject.setX(player.position.x)
-          player.phaserObject.setY(player.position.y)
-        }
-        if (data.velocity) {
-          player.phaserObject.setVelocityX(player.velocity.x)
-          player.phaserObject.setVelocityY(player.velocity.y)
-        }
+        player.phaserObject.setVelocityX(player.velocity.x)
+        player.phaserObject.setVelocityY(player.velocity.y)
         player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
         player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y }
         if (changeDirection) {

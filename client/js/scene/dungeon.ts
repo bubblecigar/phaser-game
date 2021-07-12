@@ -173,8 +173,10 @@ const movePlayer = (player: Player) => {
   } else {
     _velocity.y = 0
   }
-  methods.movePlayer(userId, { velocity: _velocity })
-  socket.emit('move-player', _.omit(player, 'phaserObject'))
+  const _player = _.clone(player)
+  _player.velocity = _velocity
+  methods.movePlayer(_.omit(_player, 'position'))
+  socket.emit('movePlayer', _.omit(player, 'phaserObject'))
 }
 
 function update(t, dt) {

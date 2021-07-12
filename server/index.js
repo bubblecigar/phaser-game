@@ -28,12 +28,6 @@ io.on('connection', async function (socket) {
     io.emit('emitGameStateFromServer', gameState)
   })
 
-  socket.on('move-player', player => {
-    const data = { position: player.position, velocity: player.velocity }
-    methods.movePlayer(player.id, data)
-    socket.broadcast.emit('movePlayer', player.id, data)
-  })
-
   socket.on('disconnect', async function () {
     io.emit('removePlayer', userData.userId)
     methods.removePlayer(userData.userId)
