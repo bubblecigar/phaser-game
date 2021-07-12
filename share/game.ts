@@ -21,15 +21,8 @@ export interface Item {
   interface: 'Item',
   id: string,
   itemKey: string,
-  key: string,
   position: Point,
-  icon: string,
   phaserObject: any
-}
-export interface PlayerItem extends Omit<Item, 'interface'> {
-  interface: 'PlayerItem',
-  builderId: string,
-  type: string
 }
 export interface GameState {
   mapConfigKey: String,
@@ -238,14 +231,12 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       }
     },
     addItem: (itemConstructor: Item): Item => {
-      const { id, key, icon, position, itemKey } = itemConstructor
+      const { id, position, itemKey } = itemConstructor
       const item: Item = {
         interface: 'Item',
         id,
-        key,
         position,
         itemKey,
-        icon,
         phaserObject: null
       }
       gameState.items.push(item)
@@ -277,9 +268,8 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       }
     },
     interact: (player: Player, item: Item, action = 'default') => {
-      if (item.key === 'player-bomb' && action === 'default') {
-        methods.removeItem(item.id)
-      }
+      console.log(player)
+      console.log(item)
     }
   }
   return methods

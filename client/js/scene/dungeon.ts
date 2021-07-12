@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import { v4 } from 'uuid';
 import _ from 'lodash'
-import { gameMethods, gameState, Player, PlayerItem, Item } from '../../../share/game'
+import { gameMethods, gameState, Player, Item } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/Charactors'
 import items from '../items/Items'
@@ -73,7 +73,7 @@ const registerInputEvents = scene => {
           break
         }
         case 'z': {
-          const getNearestReachableItem = (position, items = gameState.items): false | PlayerItem => {
+          const getNearestReachableItem = (position, items = gameState.items): false | Item => {
             let reachable = false
             const nearestItem = _.minBy(items, item => {
               const distance = Phaser.Math.Distance.BetweenPoints(item.position, position)
@@ -92,18 +92,14 @@ const registerInputEvents = scene => {
         }
         case 'x': {
           const player: Player = methods.getPlayer(getLocalUserData().userId)
-          const itemConstructor: PlayerItem = {
-            interface: 'PlayerItem',
-            builderId: player.id,
-            key: 'player-bomb',
+          const itemConstructor: Item = {
+            interface: 'Item',
             id: v4(),
-            icon: 'coin',
-            type: 'block',
             itemKey: 'coin',
             position: player.position,
             phaserObject: null
           }
-          const item: PlayerItem = methods.addItem(itemConstructor)
+          const item: Item = methods.addItem(itemConstructor)
           socket.emit('addItem', _.omit(item, 'phaserObject'))
           break
         }
