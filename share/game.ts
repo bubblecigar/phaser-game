@@ -34,7 +34,7 @@ export interface PlayerItem extends Omit<Item, 'interface'> {
 export interface GameState {
   mapConfigKey: String,
   players: Player[],
-  items: PlayerItem[]
+  items: Item[]
 }
 const gameState: GameState = {
   mapConfigKey: '',
@@ -75,6 +75,31 @@ const createPlayerMatter = (variables, player: Player) => {
   return phaserObject
 }
 
+const createItemMatter = (variables, itemConstructor: Item) => {
+  const { scene, items } = variables
+  const item = items[itemConstructor.itemKey]
+  const { size, origin } = item.matterConfig
+  const { x, y } = itemConstructor.position
+  const Bodies = variables.Phaser.Physics.Matter.Matter.Bodies
+  let body
+  if (item.matterConfig.type === 'circle') {
+    body = Bodies.circle(x, y, size.radius)
+  } else if (item.matterConfig.type === 'rectangle') {
+    body = Bodies.rectangle(x, y, size.width, size.height)
+  } else {
+    return // creation fail
+  }
+
+  const phaserObject = scene.matter.add.sprite(x, y)
+  phaserObject.setExistingBody(body)
+  phaserObject.play(item.animsConfig.idle.key)
+  phaserObject.setOrigin(origin.x, origin.y)
+  phaserObject.setSensor(true)
+  phaserObject.setData(itemConstructor)
+
+  return phaserObject
+}
+
 const gameMethods = (env: 'client' | 'server') => variables => {
   const methods = {
     init: () => {
@@ -107,7 +132,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         )
       }
     },
-    syncItems: (items: PlayerItem[]) => {
+    syncItems: (items: Item[]) => {
       if (env === 'client') {
         gameState.items.forEach(
           item => {
@@ -212,18 +237,15 @@ const gameMethods = (env: 'client' | 'server') => variables => {
         }
       }
     },
-    addItem: (itemConstructor: PlayerItem): PlayerItem => {
-      const { builderId, id, key, icon, type, position, itemKey } = itemConstructor
-      const builder = methods.getPlayer(builderId)
-      const item: PlayerItem = {
-        interface: 'PlayerItem',
+    addItem: (itemConstructor: Item): Item => {
+      const { id, key, icon, position, itemKey } = itemConstructor
+      const item: Item = {
+        interface: 'Item',
         id,
         key,
-        builderId,
         position,
         itemKey,
         icon,
-        type,
         phaserObject: null
       }
       gameState.items.push(item)
@@ -234,7 +256,8 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           console.log('not initialize')
           return
         }
-        const phaserObject = scene.matter.add.image(position.x, position.y, icon, undefined, { isStatic: true })
+
+        const phaserObject = createItemMatter(variables, itemConstructor)
         item.phaserObject = phaserObject
         item.phaserObject.setData(item)
       }

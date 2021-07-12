@@ -5,6 +5,7 @@ import bombUrl from '../../statics/bomb.png'
 import { gameMethods, gameState, Player, PlayerItem, Item } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/Charactors'
+import items from '../items/Items'
 import socket, { registerSocketEvents } from '../socket'
 import mapConfigs from './mapConfigs'
 import FOV from './FOV'
@@ -23,7 +24,7 @@ let map
 
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
-  methods = gameMethods('client')({ userId, Phaser, charactors, scene: this })
+  methods = gameMethods('client')({ userId, Phaser, charactors, items, scene: this })
   registerSocketEvents(methods)
   registerWorldEvents(this)
 }
@@ -36,6 +37,12 @@ function preload() {
     key => {
       const char = charactors[key]
       this.load.spritesheet(char.spritesheetConfig.spritesheetKey, char.spritesheetConfig.spritesheetUrl, char.spritesheetConfig.options)
+    }
+  )
+  Object.keys(items).forEach(
+    key => {
+      const item = items[key]
+      this.load.spritesheet(item.spritesheetConfig.spritesheetKey, item.spritesheetConfig.spritesheetUrl, item.spritesheetConfig.options)
     }
   )
 }
@@ -92,9 +99,9 @@ const registerInputEvents = scene => {
             builderId: player.id,
             key: 'player-bomb',
             id: v4(),
-            icon: 'bomb',
+            icon: 'coin',
             type: 'block',
-            itemKey: 'bomb',
+            itemKey: 'coin',
             position: player.position,
             phaserObject: null
           }
@@ -150,6 +157,22 @@ function create() {
           this.anims.create({
             key: animConfig.key,
             frames: this.anims.generateFrameNumbers(char.spritesheetConfig.spritesheetKey, { frames: animConfig.frames }),
+            frameRate: 8,
+            repeat: -1
+          })
+        }
+      )
+    }
+  )
+  Object.keys(items).forEach(
+    key => {
+      const item = items[key]
+      Object.keys(item.animsConfig).forEach(
+        _key => {
+          const animConfig = item.animsConfig[_key]
+          this.anims.create({
+            key: animConfig.key,
+            frames: this.anims.generateFrameNumbers(item.spritesheetConfig.spritesheetKey, { frames: animConfig.frames }),
             frameRate: 8,
             repeat: -1
           })
