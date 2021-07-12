@@ -1,4 +1,5 @@
 import coin from './coin'
+import arrow from './arrow'
 
 export interface AnimConfig {
   key: string,
@@ -28,6 +29,6 @@ export interface Item {
   }
 }
 
-const items = { coin }
+const items = { coin, arrow }
 
 export default items

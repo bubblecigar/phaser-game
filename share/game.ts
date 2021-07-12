@@ -84,9 +84,9 @@ const createItemMatter = (variables, itemConstructor: Item) => {
     return // creation fail
   }
 
-  const phaserObject = scene.matter.add.sprite(x, y)
+  const phaserObject = scene.matter.add.sprite(x, y, item.spritesheetConfig.spritesheetKey)
   phaserObject.setExistingBody(body)
-  phaserObject.play(item.animsConfig.idle.key)
+  item.animsConfig.idle && phaserObject.play(item.animsConfig.idle.key)
   phaserObject.setOrigin(origin.x, origin.y)
   phaserObject.setSensor(true)
   phaserObject.setData(itemConstructor)
