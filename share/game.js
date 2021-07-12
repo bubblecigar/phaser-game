@@ -9,10 +9,34 @@ var gameState = {
 exports.gameState = gameState;
 var gameConfig = {
     canvasWidth: 400,
-    canvasHeight: 300,
-    playerVelocity: 3
+    canvasHeight: 300
 };
 exports.gameConfig = gameConfig;
+var createPlayerMatter = function (variables, player) {
+    var scene = variables.scene, charactors = variables.charactors;
+    var charactor = charactors[player.charactorKey];
+    var _a = charactor.matterConfig, size = _a.size, origin = _a.origin;
+    var _b = player.position, x = _b.x, y = _b.y;
+    var Bodies = variables.Phaser.Physics.Matter.Matter.Bodies;
+    var rect = Bodies.rectangle(x, y, size.width, size.height);
+    var sensor = Bodies.circle(x, y, 1, { isSensor: true, label: 'body-sensor' });
+    var compound = variables.Phaser.Physics.Matter.Matter.Body.create({
+        parts: [sensor, rect],
+        inertia: Infinity
+    });
+    var phaserObject = scene.matter.add.sprite(x, y, undefined, undefined, {
+        friction: 0,
+        frictionStatic: 0,
+        frictionAir: 0
+    });
+    phaserObject.setExistingBody(compound);
+    phaserObject.setOrigin(origin.x, origin.y);
+    phaserObject.setCollisionGroup(-1);
+    phaserObject.play(charactor.animsConfig.idle.key);
+    phaserObject.setDepth(3);
+    phaserObject.setData(player);
+    return phaserObject;
+};
 var gameMethods = function (env) { return function (variables) {
     var methods = {
         init: function () {
@@ -52,6 +76,10 @@ var gameMethods = function (env) { return function (variables) {
                 });
             }
         },
+        setPlayer: function (playerConstructor) {
+            methods.removePlayer(playerConstructor.id);
+            methods.addPlayer(playerConstructor);
+        },
         addPlayer: function (playerConstructor) {
             var position = playerConstructor.position, velocity = playerConstructor.velocity, charactorKey = playerConstructor.charactorKey, id = playerConstructor.id;
             var playerAlreadyExist = gameState.players.some(function (player) { return player.id === id; });
@@ -76,9 +104,7 @@ var gameMethods = function (env) { return function (variables) {
                     console.log('not initialize');
                     return;
                 }
-                var charactor = variables.charactors[player.charactorKey];
-                player.phaserObject = charactor.addToScene(scene, position.x, position.y);
-                player.phaserObject.setData(player);
+                player.phaserObject = createPlayerMatter(variables, player);
                 if (playerConstructor.id === variables.userId) {
                     var camera = scene.cameras.main;
                     camera.startFollow(player.phaserObject, true, 0.5, 0.5);
@@ -102,41 +128,30 @@ var gameMethods = function (env) { return function (variables) {
             }
         },
         getPlayer: function (id) { return gameState.players.find(function (p) { return p.id === id; }); },
-        movePlayer: function (id, data) {
-            var player = methods.getPlayer(id);
+        movePlayer: function (_player) {
+            var player = methods.getPlayer(_player.id);
             if (!player) {
-                console.log('player not found');
                 return;
             }
-            var changeDirection = !(data.velocity.x === player.velocity.x
-                && data.velocity.y === player.velocity.y);
-            if (data.position) {
-                player.position = data.position;
-            }
-            if (data.velocity) {
-                player.velocity = data.velocity;
-            }
+            var changeDirection = !(_player.velocity.x === player.velocity.x
+                && _player.velocity.y === player.velocity.y);
+            player.position = _player.position;
+            player.velocity = _player.velocity;
             if (env === 'client') {
-                if (data.position) {
-                    player.phaserObject.setX(player.position.x);
-                    player.phaserObject.setY(player.position.y);
-                }
-                if (data.velocity) {
-                    player.phaserObject.setVelocityX(player.velocity.x);
-                    player.phaserObject.setVelocityY(player.velocity.y);
-                }
+                player.phaserObject.setVelocityX(player.velocity.x);
+                player.phaserObject.setVelocityY(player.velocity.y);
                 player.position = { x: player.phaserObject.x, y: player.phaserObject.y };
                 player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y };
                 if (changeDirection) {
                     if (player.velocity.x === 0 && player.velocity.y === 0) {
-                        player.phaserObject.play(variables.charactors[player.charactorKey].animations.idle);
+                        player.phaserObject.play(variables.charactors[player.charactorKey].animsConfig.idle.key);
                     }
                     else {
-                        player.phaserObject.play(variables.charactors[player.charactorKey].animations.move);
-                        if (player.velocity.x >= 0) {
+                        player.phaserObject.play(variables.charactors[player.charactorKey].animsConfig.move.key);
+                        if (player.velocity.x > 0) {
                             player.phaserObject.setFlipX(false);
                         }
-                        else {
+                        else if (player.velocity.x < 0) {
                             player.phaserObject.setFlipX(true);
                         }
                     }
