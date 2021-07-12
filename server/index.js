@@ -16,17 +16,17 @@ server.listen(process.env.PORT || 8081, function () {
 io.on('connection', async function (socket) {
   const userData = socket.handshake.auth
 
+  socket.on('init-player', (player) => {
+    methods.addPlayer(player)
+    io.emit('emitGameStateFromServer', gameState)
+  })
+
   for (let method of Object.keys(methods)) {
     socket.on(method, (...args) => {
       methods[method](...args)
       socket.broadcast.emit(method, ...args)
     })
   }
-
-  socket.on('init-player', (player) => {
-    methods.addPlayer(player)
-    io.emit('emitGameStateFromServer', gameState)
-  })
 
   socket.on('disconnect', async function () {
     io.emit('removePlayer', userData.userId)
