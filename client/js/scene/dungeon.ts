@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import { v4 } from 'uuid';
 import _ from 'lodash'
-import bombUrl from '../../statics/bomb.png'
 import { gameMethods, gameState, Player, PlayerItem, Item } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/Charactors'
@@ -30,7 +29,6 @@ function init(data) {
 }
 
 function preload() {
-  this.load.image('bomb', bombUrl)
   this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
   this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
   Object.keys(charactors).forEach(
