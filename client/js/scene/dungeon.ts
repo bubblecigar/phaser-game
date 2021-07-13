@@ -100,7 +100,9 @@ const registerAimingTarget = scene => {
     if (force > 3) { force = 3 }
     const vx = dx * force / l
     const vy = dy * force / l
-    const bullet = items.arrow
+    const charactor = charactors[player.charactorKey]
+    const bullet = items[charactor.bullet]
+    if (!bullet) { return }
     const itemConstructor: Bullet = {
       interface: 'Bullet',
       id: v4(),
