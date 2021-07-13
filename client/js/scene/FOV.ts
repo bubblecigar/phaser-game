@@ -20,7 +20,7 @@ const setUpLayer = (map, tileset) => {
     const l = map.createLayer(layer.name, tileset, 0, 0)
     l.name = layer.name
     l.setCollisionFromCollisionGroup()
-    map.scene.matter.world.convertTilemapLayer(l, { label: 'tile' })
+    map.scene.matter.world.convertTilemapLayer(l)
     layers.push(l)
   })
   return layers

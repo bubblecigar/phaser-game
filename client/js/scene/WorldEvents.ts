@@ -84,7 +84,7 @@ const registerWorlEvents = (scene, methods) => {
       if (bulletTargetArray) {
         const [bulletBody, bulletData, targetBody, targetData] = bulletTargetArray
         if (
-          targetBody.label === 'tile' &&
+          targetBody.gameObject?.tile &&
           bulletData.interface === 'Bullet'
         ) {
           bulletData.phaserObject.destroy()
