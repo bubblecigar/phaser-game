@@ -49,27 +49,24 @@ Object.keys(charactors).forEach(
     const char = charactors[key]
     const weight = char.matterConfig.size.width * char.matterConfig.size.height
     if (char.velocity === undefined) {
-      if (weight > 500) {
+      if (weight > 450) {
         char.velocity = 1
       } else {
-        char.velocity = 2 + Math.round((500 - weight) / 100)
+        char.velocity = 2
       }
     }
     if (char.maxHealth === undefined) {
       char.maxHealth = Math.round(weight / 5)
     }
     if (char.bullet === undefined) {
-      char.bullet = 'arrow'
       if (weight < 200) {
         // no bullet
       } else if (weight < 300) {
-        //dagger
-      } else if (weight < 400) {
-        // arrow
-      } else if (weight < 500) {
-        //
+        char.bullet = 'dagger'
+      } else if (weight < 450) {
+        char.bullet = 'arrow'
       } else {
-        // giant
+        char.bullet = 'hammer'
       }
     }
   }

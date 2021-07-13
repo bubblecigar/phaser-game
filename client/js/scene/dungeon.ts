@@ -92,6 +92,11 @@ const registerAimingTarget = scene => {
     aim.setVelocityY(0)
 
     const player: Player = methods.getPlayer(getLocalUserData().userId)
+    const charactor = charactors[player.charactorKey]
+    const bulletKey = charactor.bullet
+    const bullet = items[bulletKey]
+    if (!bullet) { return }
+
     const dx = aim.x - player.position.x
     const dy = aim.y - player.position.y
     const l = Math.sqrt(dx * dx + dy * dy)
@@ -100,9 +105,7 @@ const registerAimingTarget = scene => {
     if (force > 3) { force = 3 }
     const vx = dx * force / l
     const vy = dy * force / l
-    const charactor = charactors[player.charactorKey]
-    const bullet = items[charactor.bullet]
-    if (!bullet) { return }
+
     const itemConstructor: Bullet = {
       interface: 'Bullet',
       id: v4(),
