@@ -33,22 +33,6 @@ const registerInputEvents = (scene, methods) => {
           socket.emit('syncMap', randomMapConfigKey)
           break
         }
-        case 'x': {
-          const player: Player = methods.getPlayer(getLocalUserData().userId)
-          const bullet = items.arrow
-          const itemConstructor: Bullet = {
-            interface: 'Bullet',
-            id: v4(),
-            itemKey: bullet.key,
-            damage: bullet.damage,
-            position: player.position,
-            velocity: { x: (Math.random() - 0.5) * 3, y: (Math.random() - 0.5) * 3 },
-            phaserObject: null
-          }
-          methods.shootInClient(itemConstructor)
-          socket.emit('shootInClient', itemConstructor)
-          break
-        }
         case 'c': {
           const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * 10) % (Object.keys(charactors).length)]
           const player: Player = methods.getPlayer(getLocalUserData().userId)
