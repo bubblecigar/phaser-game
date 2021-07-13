@@ -74,6 +74,44 @@ const createPlayerMatter = (variables, player: Player) => {
   return phaserObject
 }
 
+const createBulletMatter = (variables, bulletConstructor: Bullet) => {
+  const { scene, items } = variables
+  const bullet = items[bulletConstructor.itemKey]
+  const { size, origin } = bullet.matterConfig
+  const { x, y } = bulletConstructor.position
+  const Bodies = variables.Phaser.Physics.Matter.Matter.Bodies
+  let body
+  if (bullet.matterConfig.type === 'circle') {
+    body = Bodies.circle(x, y, size.radius)
+  } else if (bullet.matterConfig.type === 'rectangle') {
+    body = Bodies.rectangle(x, y, size.width, size.height)
+  } else {
+    return // creation fail
+  }
+
+  const phaserObject = scene.matter.add.sprite(x, y, bullet.spritesheetConfig.spritesheetKey)
+  phaserObject.setExistingBody(body)
+  bullet.animsConfig.idle && phaserObject.play(bullet.animsConfig.idle.key)
+  phaserObject.setOrigin(origin.x, origin.y)
+  phaserObject.setSensor(true)
+  phaserObject.setData({ ...bulletConstructor, phaserObject })
+  phaserObject.setVelocityX(bulletConstructor.velocity.x)
+  phaserObject.setVelocityY(bulletConstructor.velocity.y)
+  const angle = Math.atan2(bulletConstructor.velocity.y, bulletConstructor.velocity.x)
+  const degree = 90 + 180 * angle / Math.PI
+  phaserObject.setAngle(degree)
+
+  if (bullet.angularVelocity) {
+    phaserObject.setAngularVelocity(bullet.angularVelocity)
+  }
+  setTimeout(
+    () => bulletConstructor.phaserObject.destroy()
+    , bullet.duration || 1000
+  )
+
+  return phaserObject
+}
+
 const createItemMatter = (variables, itemConstructor: Item | Bullet) => {
   const { scene, items } = variables
   const item = items[itemConstructor.itemKey]
@@ -236,7 +274,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       }
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
-    shootInClient: (bulletConstructor: Bullet, duration = 1000) => {
+    shootInClient: (bulletConstructor: Bullet) => {
       if (env === 'client') {
         const scene = variables.scene
         if (!scene) {
@@ -244,12 +282,7 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           return
         }
 
-        bulletConstructor.phaserObject = createItemMatter(variables, bulletConstructor)
-        bulletConstructor.phaserObject.setData(bulletConstructor)
-        setTimeout(
-          () => bulletConstructor.phaserObject.destroy()
-          , duration
-        )
+        bulletConstructor.phaserObject = createBulletMatter(variables, bulletConstructor)
       }
     },
     onHit: (playerId: string, bullet: Bullet) => {
