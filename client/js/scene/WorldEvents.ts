@@ -107,7 +107,7 @@ const registerWorlEvents = (scene, methods) => {
         }
       }
     }
-  }
+  })
 }
 
 export default registerWorlEvents
