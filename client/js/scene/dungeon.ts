@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
+import { v4 } from 'uuid'
 import _ from 'lodash'
-import { gameMethods, Player } from '../../../share/game'
+import { gameMethods, Player, Point, Bullet } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/Charactors'
 import items from '../items/Items'
@@ -9,12 +10,15 @@ import mapConfigs from './mapConfigs'
 import FOV from './FOV'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
+import targetUrl from '../../statics/tile/target.png'
 
 const userId = getLocalUserData().userId
 
 let methods
 let cursors
-let mapConfig = mapConfigs['waitingRoomConfig']
+let space
+let aim
+let mapConfig = mapConfigs['ghostRoomConfig']
 let map
 
 function init(data) {
@@ -25,6 +29,7 @@ function init(data) {
 }
 
 function preload() {
+  this.load.image('target', targetUrl)
   this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
   this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
   Object.keys(charactors).forEach(
@@ -62,8 +67,57 @@ const createPlayer = () => {
   socket.emit('init-player', player)
 }
 
+const registerAimingTarget = scene => {
+  aim = scene.matter.add.image(400, 400, 'target', undefined, { isSensor: true })
+  aim.setCollisionGroup(-1)
+  aim.setVisible(false)
+  aim.setDepth(11)
+  aim.setFixedRotation()
+  aim.setAngularVelocity(0.1)
+
+  space = scene.input.keyboard.addKey('space')
+  space.on('down', () => {
+    // aim
+    const player = methods.getPlayer(getLocalUserData().userId)
+    if (!player) return
+    aim.setAngularVelocity(0.1)
+    aim.setVisible(true)
+    aim.setX(player.position.x)
+    aim.setY(player.position.y)
+  })
+  space.on('up', () => {
+    // fire
+    aim.setVisible(false)
+    aim.setVelocityX(0)
+    aim.setVelocityY(0)
+
+    const player: Player = methods.getPlayer(getLocalUserData().userId)
+    const dx = aim.x - player.position.x
+    const dy = aim.y - player.position.y
+    const l = Math.sqrt(dx * dx + dy * dy)
+    let force = l / 10
+    if (force < 1) { return }
+    if (force > 3) { force = 3 }
+    const vx = dx * force / l
+    const vy = dy * force / l
+    const bullet = items.arrow
+    const itemConstructor: Bullet = {
+      interface: 'Bullet',
+      id: v4(),
+      itemKey: bullet.key,
+      damage: bullet.damage,
+      position: player.position,
+      velocity: { x: vx, y: vy },
+      phaserObject: null
+    }
+    methods.shootInClient(itemConstructor)
+    socket.emit('shootInClient', itemConstructor)
+  })
+}
+
 function create() {
   cursors = this.input.keyboard.createCursorKeys()
+  registerAimingTarget(this)
   registerInputEvents(this, methods)
   map = FOV.create(this, mapConfig)
 
@@ -122,10 +176,18 @@ const movePlayer = (player: Player) => {
   } else {
     _velocity.y = 0
   }
-  const _player = _.clone(player)
-  _player.velocity = _velocity
-  methods.movePlayer(_.omit(_player, 'position'))
-  socket.emit('movePlayer', _.omit(player, 'phaserObject'))
+
+  const _player = _.omit(_.clone(player), 'phaserObject')
+  if (space.isDown) {
+    aim.setVelocityX(_velocity.x)
+    aim.setVelocityY(_velocity.y)
+    _player.velocity = { x: 0, y: 0 }
+  } else {
+    _player.velocity = _velocity
+  }
+
+  methods.movePlayer(_player)
+  socket.emit('movePlayer', _player)
 }
 
 function update(t, dt) {

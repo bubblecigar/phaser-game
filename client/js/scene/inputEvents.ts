@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { v4 } from 'uuid';
+import { v4 } from 'uuid'
 import _ from 'lodash'
 import { Player, Bullet } from '../../../share/game'
 import { getLocalUserData } from '../user'

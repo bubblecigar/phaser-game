@@ -305,10 +305,6 @@ const gameMethods = (env: 'client' | 'server') => variables => {
           player.coins++
           break
         }
-        case 'arrow': {
-          player.health -= 5
-          break
-        }
         default: {
           console.log('unhandled itemKey')
         }
