@@ -68,7 +68,7 @@ const createPlayer = () => {
 }
 
 const registerAimingTarget = scene => {
-  aim = scene.matter.add.image(400, 400, 'target', undefined, { isSensor: true })
+  aim = scene.matter.add.image(0, 0, 'target', undefined, { isSensor: true })
   aim.setCollisionGroup(-1)
   aim.setVisible(false)
   aim.setDepth(11)
