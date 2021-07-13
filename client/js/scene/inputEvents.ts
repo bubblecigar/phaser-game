@@ -9,17 +9,6 @@ import socket from '../socket'
 import mapConfigs from './mapConfigs'
 
 const registerInputEvents = (scene, methods) => {
-  scene.input.keyboard.on('keyup', e => {
-    switch (e.key) {
-      case ' ': {
-        // stop aiming
-        break
-      }
-      default: {
-        // do nothing
-      }
-    }
-  })
   scene.input.keyboard.on(
     'keydown', e => {
       switch (e.key) {
@@ -40,10 +29,6 @@ const registerInputEvents = (scene, methods) => {
           _player.charactorKey = randomCharactorKey
           methods.setPlayer(_player)
           socket.emit('setPlayer', _player)
-          break
-        }
-        case ' ': {
-          // on aim
           break
         }
         default: {
