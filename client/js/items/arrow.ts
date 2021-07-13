@@ -1,8 +1,8 @@
-import { Item } from './Items'
+import { Bullet } from './Items'
 import spriteUrl from '../../statics/tile/anim_sprite/weapon_arrow.png'
 
 const key = 'arrow'
-const item: Item = {
+const item: Bullet = {
   key,
   spritesheetConfig: {
     spritesheetKey: `${key}_sprite`,
@@ -22,7 +22,8 @@ const item: Item = {
     origin: {
       x: 0.5, y: 0.5
     }
-  }
+  },
+  damage: 5
 }
 
 export default item

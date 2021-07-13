@@ -36,21 +36,21 @@ const getPlayerTargetArray = (bodyA, bodyB): false | [any, any, any, any] => {
     : [bodyB, dataB, bodyA, dataA]
 }
 
-const getItemTargetArray = (bodyA, bodyB): false | [any, any, any, any] => {
+const getBulletTargetArray = (bodyA, bodyB): false | [any, any, any, any] => {
   const dataA = bodyA?.gameObject?.data?.getAll()
   const dataB = bodyB?.gameObject?.data?.getAll()
 
-  const itemData = dataA?.interface === 'Item'
+  const bulletData = dataA?.interface === 'Bullet'
     ? dataA
     : (
-      dataB?.interface === 'Item'
+      dataB?.interface === 'Bullet'
         ? dataB
         : null
     )
-  if (!itemData) {
+  if (!bulletData) {
     return false
   }
-  return itemData === dataA
+  return bulletData === dataA
     ? [bodyA, dataA, bodyB, dataB]
     : [bodyB, dataB, bodyA, dataA]
 }
@@ -71,25 +71,23 @@ const registerWorlEvents = (scene, methods) => {
       }
       if (
         playerBody.label === 'player-body' &&
-        targetData.interface === 'Item'
+        targetData.interface === 'Bullet'
       ) {
-        const _itemData = _.omit(targetData, 'phaserObject')
         if (isUser) {
-          methods.collectItem(playerData.id, _itemData)
-          socket.emit('collectItem', playerData.id, _itemData)
-        } else {
-          methods.removeItem(targetData.id)
+          methods.onHit(playerData.id, targetData)
+          socket.emit('onHit', playerData.id, _.omit(targetData, 'phaserObject'))
         }
+        targetData.phaserObject.destroy()
       }
     } else {
-      const itemTargetArray = getItemTargetArray(bodyA, bodyB)
-      if (itemTargetArray) {
-        const [itemBody, itemData, targetBody, targetData] = itemTargetArray
+      const bulletTargetArray = getBulletTargetArray(bodyA, bodyB)
+      if (bulletTargetArray) {
+        const [bulletBody, bulletData, targetBody, targetData] = bulletTargetArray
         if (
           targetBody.label === 'tile' &&
-          itemData.interface === 'Item'
+          bulletData.interface === 'Bullet'
         ) {
-          methods.removeItem(itemData.id)
+          bulletData.phaserObject.destroy()
         }
       }
     }

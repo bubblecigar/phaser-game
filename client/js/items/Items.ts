@@ -29,6 +29,10 @@ export interface Item {
   }
 }
 
+export interface Bullet extends Item {
+  damage: number
+}
+
 const items = { coin, arrow }
 
 export default items

@@ -26,6 +26,10 @@ export interface Item {
   velocity: Point,
   phaserObject: any
 }
+export interface Bullet extends Omit<Item, 'interface'> {
+  interface: 'Bullet',
+  damage: number
+}
 export interface GameState {
   mapConfigKey: String,
   players: Player[],
@@ -70,7 +74,7 @@ const createPlayerMatter = (variables, player: Player) => {
   return phaserObject
 }
 
-const createItemMatter = (variables, itemConstructor: Item) => {
+const createItemMatter = (variables, itemConstructor: Item | Bullet) => {
   const { scene, items } = variables
   const item = items[itemConstructor.itemKey]
   const { size, origin } = item.matterConfig
@@ -232,6 +236,27 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       }
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
+    shootInClient: (bulletConstructor: Bullet, duration = 1000) => {
+      if (env === 'client') {
+        const scene = variables.scene
+        if (!scene) {
+          console.log('not initialize')
+          return
+        }
+
+        bulletConstructor.phaserObject = createItemMatter(variables, bulletConstructor)
+        bulletConstructor.phaserObject.setData(bulletConstructor)
+        setTimeout(
+          () => bulletConstructor.phaserObject.destroy()
+          , duration
+        )
+      }
+    },
+    onHit: (playerId: string, bullet: Bullet) => {
+      const player = methods.getPlayer(playerId)
+      console.log(bullet)
+      player.health -= bullet.damage
+    },
     addItem: (itemConstructor: Item): Item => {
       const { id, position, itemKey, velocity } = itemConstructor
       const item: Item = {
