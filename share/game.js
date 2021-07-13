@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 exports.__esModule = true;
 exports.gameMethods = exports.gameState = exports.gameConfig = void 0;
 var gameState = {
@@ -18,7 +29,7 @@ var createPlayerMatter = function (variables, player) {
     var _a = charactor.matterConfig, size = _a.size, origin = _a.origin;
     var _b = player.position, x = _b.x, y = _b.y;
     var Bodies = variables.Phaser.Physics.Matter.Matter.Bodies;
-    var rect = Bodies.rectangle(x, y, size.width, size.height);
+    var rect = Bodies.rectangle(x, y, size.width, size.height, { label: 'player-body' });
     var sensor = Bodies.circle(x, y, 1, { isSensor: true, label: 'body-sensor' });
     var compound = variables.Phaser.Physics.Matter.Matter.Body.create({
         parts: [sensor, rect],
@@ -35,6 +46,68 @@ var createPlayerMatter = function (variables, player) {
     phaserObject.play(charactor.animsConfig.idle.key);
     phaserObject.setDepth(3);
     phaserObject.setData(player);
+    return phaserObject;
+};
+var createBulletMatter = function (variables, bulletConstructor) {
+    var scene = variables.scene, items = variables.items;
+    var bullet = items[bulletConstructor.itemKey];
+    var _a = bullet.matterConfig, size = _a.size, origin = _a.origin;
+    var _b = bulletConstructor.position, x = _b.x, y = _b.y;
+    var Bodies = variables.Phaser.Physics.Matter.Matter.Bodies;
+    var body;
+    if (bullet.matterConfig.type === 'circle') {
+        body = Bodies.circle(x, y, size.radius);
+    }
+    else if (bullet.matterConfig.type === 'rectangle') {
+        body = Bodies.rectangle(x, y, size.width, size.height);
+    }
+    else {
+        return; // creation fail
+    }
+    var phaserObject = scene.matter.add.sprite(x, y, bullet.spritesheetConfig.spritesheetKey);
+    phaserObject.setExistingBody(body);
+    bullet.animsConfig.idle && phaserObject.play(bullet.animsConfig.idle.key);
+    phaserObject.setOrigin(origin.x, origin.y);
+    phaserObject.setSensor(true);
+    phaserObject.setData(__assign(__assign({}, bulletConstructor), { phaserObject: phaserObject }));
+    phaserObject.setVelocityX(bulletConstructor.velocity.x);
+    phaserObject.setVelocityY(bulletConstructor.velocity.y);
+    var angle = Math.atan2(bulletConstructor.velocity.y, bulletConstructor.velocity.x);
+    var degree = 90 + 180 * angle / Math.PI;
+    phaserObject.setAngle(degree);
+    if (bullet.angularVelocity) {
+        phaserObject.setAngularVelocity(bullet.angularVelocity);
+    }
+    setTimeout(function () { return bulletConstructor.phaserObject.destroy(); }, bullet.duration || 1000);
+    return phaserObject;
+};
+var createItemMatter = function (variables, itemConstructor) {
+    var scene = variables.scene, items = variables.items;
+    var item = items[itemConstructor.itemKey];
+    var _a = item.matterConfig, size = _a.size, origin = _a.origin;
+    var _b = itemConstructor.position, x = _b.x, y = _b.y;
+    var Bodies = variables.Phaser.Physics.Matter.Matter.Bodies;
+    var body;
+    if (item.matterConfig.type === 'circle') {
+        body = Bodies.circle(x, y, size.radius);
+    }
+    else if (item.matterConfig.type === 'rectangle') {
+        body = Bodies.rectangle(x, y, size.width, size.height);
+    }
+    else {
+        return; // creation fail
+    }
+    var phaserObject = scene.matter.add.sprite(x, y, item.spritesheetConfig.spritesheetKey);
+    phaserObject.setExistingBody(body);
+    item.animsConfig.idle && phaserObject.play(item.animsConfig.idle.key);
+    phaserObject.setOrigin(origin.x, origin.y);
+    phaserObject.setSensor(true);
+    phaserObject.setData(itemConstructor);
+    phaserObject.setVelocityX(itemConstructor.velocity.x);
+    phaserObject.setVelocityY(itemConstructor.velocity.y);
+    var angle = Math.atan2(itemConstructor.velocity.y, itemConstructor.velocity.x);
+    var degree = 90 + 180 * angle / Math.PI;
+    phaserObject.setAngle(degree);
     return phaserObject;
 };
 var gameMethods = function (env) { return function (variables) {
@@ -81,22 +154,12 @@ var gameMethods = function (env) { return function (variables) {
             methods.addPlayer(playerConstructor);
         },
         addPlayer: function (playerConstructor) {
-            var position = playerConstructor.position, velocity = playerConstructor.velocity, charactorKey = playerConstructor.charactorKey, id = playerConstructor.id;
-            var playerAlreadyExist = gameState.players.some(function (player) { return player.id === id; });
+            var playerAlreadyExist = gameState.players.some(function (player) { return player.id === playerConstructor.id; });
             if (playerAlreadyExist) {
                 console.log('player already exist');
                 return;
             }
-            var player = {
-                interface: 'Player',
-                id: id,
-                charactorKey: charactorKey,
-                position: position,
-                velocity: velocity,
-                health: 100,
-                items: [],
-                phaserObject: null
-            };
+            var player = playerConstructor;
             gameState.players.push(player);
             if (env === 'client') {
                 var scene = variables.scene;
@@ -138,6 +201,10 @@ var gameMethods = function (env) { return function (variables) {
             player.position = _player.position;
             player.velocity = _player.velocity;
             if (env === 'client') {
+                if (!player.phaserObject) {
+                    console.log('player not initialized');
+                    return;
+                }
                 player.phaserObject.setVelocityX(player.velocity.x);
                 player.phaserObject.setVelocityY(player.velocity.y);
                 if (player.id !== variables.userId) {
@@ -162,17 +229,34 @@ var gameMethods = function (env) { return function (variables) {
                 }
             }
         },
+        getItem: function (id) { return gameState.items.find(function (p) { return p.id === id; }); },
+        shootInClient: function (bulletConstructor) {
+            if (env === 'client') {
+                var scene = variables.scene;
+                if (!scene) {
+                    console.log('not initialize');
+                    return;
+                }
+                bulletConstructor.phaserObject = createBulletMatter(variables, bulletConstructor);
+            }
+        },
+        onHit: function (playerId, bullet) {
+            var player = methods.getPlayer(playerId);
+            player.health -= bullet.damage;
+            if (player.health <= 0) {
+                player.health = 0;
+                var ghostCharactor = __assign(__assign({}, player), { charactorKey: 'skull', velocity: { x: 0, y: 0 }, phaserObject: null, health: 0, items: [], coins: 0 });
+                methods.setPlayer(ghostCharactor);
+            }
+        },
         addItem: function (itemConstructor) {
-            var builderId = itemConstructor.builderId, id = itemConstructor.id, key = itemConstructor.key, icon = itemConstructor.icon, type = itemConstructor.type, position = itemConstructor.position;
-            var builder = methods.getPlayer(builderId);
+            var id = itemConstructor.id, position = itemConstructor.position, itemKey = itemConstructor.itemKey, velocity = itemConstructor.velocity;
             var item = {
-                interface: 'PlayerItem',
+                interface: 'Item',
                 id: id,
-                key: key,
-                builderId: builderId,
                 position: position,
-                icon: icon,
-                type: type,
+                itemKey: itemKey,
+                velocity: velocity,
                 phaserObject: null
             };
             gameState.items.push(item);
@@ -182,7 +266,7 @@ var gameMethods = function (env) { return function (variables) {
                     console.log('not initialize');
                     return;
                 }
-                var phaserObject = scene.matter.add.image(position.x, position.y, icon, undefined, { isStatic: true });
+                var phaserObject = createItemMatter(variables, itemConstructor);
                 item.phaserObject = phaserObject;
                 item.phaserObject.setData(item);
             }
@@ -200,11 +284,27 @@ var gameMethods = function (env) { return function (variables) {
                 item.phaserObject.destroy();
             }
         },
+        collectItem: function (playerId, item) {
+            var player = methods.getPlayer(playerId);
+            if (!player) {
+                console.log('no player for collectItem');
+                return;
+            }
+            switch (item.itemKey) {
+                case 'coin': {
+                    player.coins++;
+                    break;
+                }
+                default: {
+                    console.log('unhandled itemKey');
+                }
+            }
+            methods.removeItem(item.id);
+        },
         interact: function (player, item, action) {
             if (action === void 0) { action = 'default'; }
-            if (item.key === 'player-bomb' && action === 'default') {
-                methods.removeItem(item.id);
-            }
+            console.log(player);
+            console.log(item);
         }
     };
     return methods;
