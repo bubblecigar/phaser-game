@@ -8,6 +8,7 @@ import orge from './orge'
 import wizzardMale from './wizzardMale'
 import knightFemale from './knightFemale'
 import tinyZombie from './tinyZombie'
+import skull from './skull'
 
 export interface AnimConfig {
   key: string,
@@ -40,20 +41,20 @@ export interface Charactor {
   maxHealth?: number
 }
 
-const charactors = { tinyZombie, wizzardMale, knightFemale, orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
+const charactors = { skull, tinyZombie, wizzardMale, knightFemale, orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
 
 Object.keys(charactors).forEach(
   key => {
     const char = charactors[key]
     const weight = char.matterConfig.size.width * char.matterConfig.size.height
-    if (!char.velocity) {
+    if (char.velocity === undefined) {
       if (weight > 500) {
         char.velocity = 1
       } else {
         char.velocity = 2 + Math.round((500 - weight) / 100)
       }
     }
-    if (!char.weight) {
+    if (char.maxHealth === undefined) {
       char.maxHealth = Math.round(weight / 5)
     }
   }

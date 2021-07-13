@@ -255,6 +255,19 @@ const gameMethods = (env: 'client' | 'server') => variables => {
     onHit: (playerId: string, bullet: Bullet) => {
       const player = methods.getPlayer(playerId)
       player.health -= bullet.damage
+      if (player.health <= 0) {
+        player.health = 0
+        const ghostCharactor: Player = {
+          ...player,
+          charactorKey: 'skull',
+          velocity: { x: 0, y: 0 },
+          phaserObject: null,
+          health: 0,
+          items: [],
+          coins: 0
+        }
+        methods.setPlayer(ghostCharactor)
+      }
     },
     addItem: (itemConstructor: Item): Item => {
       const { id, position, itemKey, velocity } = itemConstructor
