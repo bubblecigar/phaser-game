@@ -254,7 +254,6 @@ const gameMethods = (env: 'client' | 'server') => variables => {
     },
     onHit: (playerId: string, bullet: Bullet) => {
       const player = methods.getPlayer(playerId)
-      console.log(bullet)
       player.health -= bullet.damage
     },
     addItem: (itemConstructor: Item): Item => {
