@@ -1,29 +1,29 @@
 import { Bullet } from './Items'
-import spriteUrl from '../../statics/tile/anim_sprite/weapon_arrow.png'
+import spriteUrl from '../../statics/tile/anim_sprite/weapon_knife.png'
 
-const key = 'arrow'
+const key = 'dagger'
 const item: Bullet = {
   key,
   spritesheetConfig: {
     spritesheetKey: `${key}_sprite`,
     spritesheetUrl: spriteUrl,
     options: {
-      frameWidth: 7,
-      frameHeight: 21
+      frameWidth: 6,
+      frameHeight: 13
     }
   },
   animsConfig: {},
   matterConfig: {
     type: 'rectangle',
     size: {
-      width: 4,
-      height: 20
+      width: 6,
+      height: 13
     },
     origin: {
       x: 0.5, y: 0.5
     }
   },
-  damage: 5
+  damage: 3
 }
 
 export default item

@@ -1,5 +1,7 @@
 import coin from './coin'
 import arrow from './arrow'
+import dagger from './dagger'
+import hammer from './hammer'
 
 export interface AnimConfig {
   key: string,
@@ -30,9 +32,11 @@ export interface Item {
 }
 
 export interface Bullet extends Item {
-  damage: number
+  damage: number,
+  duration?: number,
+  angularVelocity?: number
 }
 
-const items = { coin, arrow }
+const items = { coin, hammer, arrow, dagger }
 
 export default items
