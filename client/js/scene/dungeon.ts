@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
-import { v4 } from 'uuid';
 import _ from 'lodash'
-import { gameMethods, gameState, Player, Item } from '../../../share/game'
+import { gameMethods, Player } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/Charactors'
 import items from '../items/Items'
@@ -10,10 +9,6 @@ import mapConfigs from './mapConfigs'
 import FOV from './FOV'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
-
-interface MapItem extends Item {
-
-}
 
 const userId = getLocalUserData().userId
 
