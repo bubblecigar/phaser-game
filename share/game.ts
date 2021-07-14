@@ -274,15 +274,18 @@ const gameMethods = (env: 'client' | 'server') => variables => {
       }
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
-    shootInClient: (bulletConstructor: Bullet) => {
+    shootInClient: (bulletConstructors: Bullet[]) => {
       if (env === 'client') {
         const scene = variables.scene
         if (!scene) {
           console.log('not initialize')
           return
         }
-
-        bulletConstructor.phaserObject = createBulletMatter(variables, bulletConstructor)
+        bulletConstructors.forEach(
+          bulletConstructor => {
+            bulletConstructor.phaserObject = createBulletMatter(variables, bulletConstructor)
+          }
+        )
       }
     },
     onHit: (playerId: string, bullet: Bullet) => {

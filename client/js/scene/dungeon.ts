@@ -110,8 +110,8 @@ const registerAimingTarget = scene => {
       velocity: { x: 2 * dx / l, y: 2 * dy / l },
       phaserObject: null
     }
-    methods.shootInClient(itemConstructor)
-    socket.emit('shootInClient', itemConstructor)
+    methods.shootInClient([itemConstructor])
+    socket.emit('shootInClient', [itemConstructor])
   })
 }
 
