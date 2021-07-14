@@ -58,17 +58,18 @@ Object.keys(charactors).forEach(
     if (char.maxHealth === undefined) {
       char.maxHealth = Math.round(weight / 5)
     }
-    if (char.bullet === undefined) {
-      if (weight < 200) {
-        // no bullet
-      } else if (weight < 300) {
-        char.bullet = 'dagger'
-      } else if (weight < 450) {
-        char.bullet = 'arrow'
-      } else {
-        char.bullet = 'hammer'
-      }
-    }
+    char.bullet = 'dagger'
+    // if (char.bullet === undefined) {
+    // if (weight < 200) {
+    //   // no bullet
+    // } else if (weight < 300) {
+    //   char.bullet = 'dagger'
+    // } else if (weight < 450) {
+    //   char.bullet = 'arrow'
+    // } else {
+    //   char.bullet = 'hammer'
+    // }
+    // }
   }
 )
 

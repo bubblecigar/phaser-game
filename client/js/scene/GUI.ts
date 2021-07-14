@@ -2,8 +2,8 @@ import _ from 'lodash'
 import itemCellUrl from '../../statics/item_cell.png'
 import { gameConfig, gameState } from '../../../share/game'
 import { getLocalUserData } from '../user'
-import items from '../items/Items'
-import charactors from '../charactors/Charactors'
+import items from '../items/index'
+import charactors from '../charactors/index'
 
 let scene, coinGroup, maximumBar, currentBar
 
