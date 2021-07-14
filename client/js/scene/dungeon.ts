@@ -100,7 +100,14 @@ const registerAimingTarget = scene => {
         bulletDuration: 1000,
         bulletSpeedModifier: 1.5,
         bulletAngularVelocity: 0.2,
-        consectiveShoot: 3
+        consectiveShoot: 3,
+        directions: {
+          front: true,
+          back: false,
+          side: false,
+          frontDiagnals: false,
+          backDiagnals: false
+        }
       }
     )
   })
@@ -132,11 +139,41 @@ const fire = (
     phaserObject: null
   })
 
-  const bullet = createBullet(defaultBulletKey, skills)
-  const backBullet = createBullet(defaultBulletKey, skills)
-  backBullet.velocity = new Phaser.Math.Vector2(backBullet.velocity.x, backBullet.velocity.y).rotate(Math.PI)
-
-  const bullets = [bullet, backBullet]
+  const bullets = []
+  const directions = skills.directions
+  if (directions.front) {
+    const bullet = createBullet(defaultBulletKey, skills)
+    bullets.push(bullet)
+  }
+  if (directions.back) {
+    const bullet = createBullet(defaultBulletKey, skills)
+    bullet.velocity = new Phaser.Math.Vector2(bullet.velocity.x, bullet.velocity.y).rotate(Math.PI)
+    bullets.push(bullet)
+  }
+  if (directions.side) {
+    const bulletR = createBullet(defaultBulletKey, skills)
+    bulletR.velocity = new Phaser.Math.Vector2(bulletR.velocity.x, bulletR.velocity.y).rotate(Math.PI / 2)
+    bullets.push(bulletR)
+    const bulletL = createBullet(defaultBulletKey, skills)
+    bulletL.velocity = new Phaser.Math.Vector2(bulletL.velocity.x, bulletL.velocity.y).rotate(-Math.PI / 2)
+    bullets.push(bulletL)
+  }
+  if (directions.frontDiagnals) {
+    const bulletR = createBullet(defaultBulletKey, skills)
+    bulletR.velocity = new Phaser.Math.Vector2(bulletR.velocity.x, bulletR.velocity.y).rotate(Math.PI / 4)
+    bullets.push(bulletR)
+    const bulletL = createBullet(defaultBulletKey, skills)
+    bulletL.velocity = new Phaser.Math.Vector2(bulletL.velocity.x, bulletL.velocity.y).rotate(-Math.PI / 4)
+    bullets.push(bulletL)
+  }
+  if (directions.backDiagnals) {
+    const bulletR = createBullet(defaultBulletKey, skills)
+    bulletR.velocity = new Phaser.Math.Vector2(bulletR.velocity.x, bulletR.velocity.y).rotate(Math.PI * 3 / 4)
+    bullets.push(bulletR)
+    const bulletL = createBullet(defaultBulletKey, skills)
+    bulletL.velocity = new Phaser.Math.Vector2(bulletL.velocity.x, bulletL.velocity.y).rotate(-Math.PI * 3 / 4)
+    bullets.push(bulletL)
+  }
 
   methods.shootInClient(bullets)
   socket.emit('shootInClient', bullets)
