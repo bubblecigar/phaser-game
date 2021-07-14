@@ -1,5 +1,7 @@
 export interface Skills {
   bulletDamage: number,
-  bulletSpeedModifier?: number,
-  bulletAngularVelocity?: number
+  bulletDuration: number,
+  bulletAngularVelocity: number,
+  bulletSpeedModifier: number,
+  consectiveShoot: number
 }

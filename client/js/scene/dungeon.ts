@@ -92,48 +92,62 @@ const registerAimingTarget = scene => {
     aim.setVelocityX(0)
     aim.setVelocityY(0)
 
-    const player: Player = methods.getPlayer(getLocalUserData().userId)
-
     fire(
-      player.position,
-      { x: aim.x, y: aim.y },
+      scene,
       ['dagger'],
       {
         bulletDamage: 3,
+        bulletDuration: 1000,
         bulletSpeedModifier: 1.5,
-        bulletAngularVelocity: 0.2
-      })
+        bulletAngularVelocity: 0.2,
+        consectiveShoot: 3
+      }
+    )
   })
 }
 
 const fire = (
-  playerPosition: { x: number, y: number },
-  aimPosition: { x: number, y: number },
+  scene,
   bulletKeys: string[],
-  skills: Skills) => {
-  const dx = aimPosition.x - playerPosition.x
-  const dy = aimPosition.y - playerPosition.y
+  skills: Skills
+) => {
+  const player = methods.getPlayer(userId)
+  const dx = aim.x - player.position.x
+  const dy = aim.y - player.position.y
   const l = Math.sqrt(dx * dx + dy * dy)
   const nx = dx / l
   const ny = dy / l
+  const defaultBulletKey = bulletKeys[0]
 
-  const defaultBullet = items[bulletKeys[0]]
-  const defaultBulletConstructor: Bullet = {
+  const createBullet = (bulletKey: string, skills: Skills): Bullet => ({
     interface: 'Bullet',
     id: v4(),
-    itemKey: defaultBullet.key,
+    itemKey: bulletKey,
     damage: skills.bulletDamage,
-    position: playerPosition,
-    velocity: { x: nx, y: ny },
-    angularVelocity: 0.5,
+    position: player.position,
+    velocity: { x: nx * skills.bulletSpeedModifier, y: ny * skills.bulletSpeedModifier },
+    angularVelocity: skills.bulletAngularVelocity,
+    duration: skills.bulletDuration,
     phaserObject: null
+  })
+
+  const bullet = createBullet(defaultBulletKey, skills)
+  const backBullet = createBullet(defaultBulletKey, skills)
+  backBullet.velocity = new Phaser.Math.Vector2(backBullet.velocity.x, backBullet.velocity.y).rotate(Math.PI)
+
+  const bullets = [bullet, backBullet]
+
+  methods.shootInClient(bullets)
+  socket.emit('shootInClient', bullets)
+  if (skills.consectiveShoot > 0) {
+    skills.consectiveShoot -= 1
+    scene.time.delayedCall(
+      300,
+      () => fire(scene, bulletKeys, skills),
+      null,
+      scene
+    )
   }
-  if (skills.bulletSpeedModifier) {
-    defaultBulletConstructor.velocity.x *= skills.bulletSpeedModifier
-    defaultBulletConstructor.velocity.y *= skills.bulletSpeedModifier
-  }
-  methods.shootInClient([defaultBulletConstructor])
-  socket.emit('shootInClient', [defaultBulletConstructor])
 }
 
 function create() {

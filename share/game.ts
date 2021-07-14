@@ -28,7 +28,9 @@ export interface Item {
 }
 export interface Bullet extends Omit<Item, 'interface'> {
   interface: 'Bullet',
-  damage: number
+  damage: number,
+  angularVelocity: number,
+  duration: number
 }
 export interface GameState {
   mapConfigKey: String,
@@ -101,12 +103,14 @@ const createBulletMatter = (variables, bulletConstructor: Bullet) => {
   const degree = 90 + 180 * angle / Math.PI
   phaserObject.setAngle(degree)
 
-  if (bullet.angularVelocity) {
-    phaserObject.setAngularVelocity(bullet.angularVelocity)
+  if (bulletConstructor.angularVelocity) {
+    phaserObject.setAngularVelocity(bulletConstructor.angularVelocity)
   }
-  setTimeout(
-    () => bulletConstructor.phaserObject.destroy()
-    , bullet.duration || 1000
+  scene.time.delayedCall(
+    bulletConstructor.duration,
+    () => bulletConstructor.phaserObject.destroy(),
+    null,
+    scene
   )
 
   return phaserObject
