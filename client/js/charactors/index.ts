@@ -38,8 +38,7 @@ export interface Charactor {
     }
   },
   velocity?: number,
-  maxHealth?: number,
-  bullet?: string
+  maxHealth?: number
 }
 
 const charactors = { skull, tinyZombie, wizzardMale, knightFemale, orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
@@ -58,18 +57,6 @@ Object.keys(charactors).forEach(
     if (char.maxHealth === undefined) {
       char.maxHealth = Math.round(weight / 5)
     }
-    char.bullet = 'dagger'
-    // if (char.bullet === undefined) {
-    // if (weight < 200) {
-    //   // no bullet
-    // } else if (weight < 300) {
-    //   char.bullet = 'dagger'
-    // } else if (weight < 450) {
-    //   char.bullet = 'arrow'
-    // } else {
-    //   char.bullet = 'hammer'
-    // }
-    // }
   }
 )
 

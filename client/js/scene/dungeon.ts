@@ -93,15 +93,11 @@ const registerAimingTarget = scene => {
     aim.setVelocityY(0)
 
     const player: Player = methods.getPlayer(getLocalUserData().userId)
-    const charactor = charactors[player.charactorKey]
-    const bulletKey = charactor.bullet
-    const bullet = items[bulletKey]
-    if (!bullet) { return }
 
     fire(
       player.position,
       { x: aim.x, y: aim.y },
-      [bulletKey],
+      ['dagger'],
       {
         bulletDamage: 3,
         bulletSpeedModifier: 1.5,
