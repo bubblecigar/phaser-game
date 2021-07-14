@@ -5,7 +5,7 @@ import { gameMethods, Player, Point, Bullet } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
 import items from '../items/index'
-import { createBulletsOfOneShot } from '../skills/index'
+import { castSkill, Skill } from '../skills/index'
 import socket, { registerSocketEvents } from '../socket'
 import mapConfigs from '../maps/mapConfigs'
 import FOV from './FOV'
@@ -94,26 +94,27 @@ const registerAimingTarget = scene => {
     aim.setVelocityX(0)
     aim.setVelocityY(0)
 
-    const bullets = createBulletsOfOneShot(
-      player,
-      { x: aim.x, y: aim.y },
-      {
-        bulletKey: 'dagger',
-        bulletDamage: 3,
-        bulletDuration: 1000,
-        bulletSpeedModifier: 1.5,
-        bulletAngularVelocity: 0.2,
-        directions: {
-          front: true,
-          back: false,
-          side: false,
-          frontDiagnals: false,
-          backDiagnals: false
-        }
+    const shotConfig = {
+      bulletKey: 'dagger',
+      bulletDamage: 3,
+      bulletDuration: 1000,
+      bulletSpeedModifier: 1.5,
+      bulletAngularVelocity: 0.2,
+      directions: {
+        front: true,
+        back: true,
+        side: true,
+        frontDiagnals: true,
+        backDiagnals: true
       }
-    )
-    methods.shootInClient(bullets)
-    socket.emit('shootInClient', bullets)
+    }
+    const skill: Skill = {
+      key: 'dagger storm',
+      shotConfigs: [_.clone(shotConfig), _.clone(shotConfig), _.clone(shotConfig)],
+      shotIntervals: [200, 400]
+    }
+    castSkill(player, skill, aim, scene, methods)
+
   })
 }
 
