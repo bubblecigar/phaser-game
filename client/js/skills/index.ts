@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import { v4 } from 'uuid'
 import _ from 'lodash'
-import { Bullet, Player, Point } from '../../../share/game'
+import { Bullet, Player, Point, Abilities } from '../../../share/game'
 import socket from '../socket'
 
 interface Directions {
@@ -20,6 +20,21 @@ export interface ShootConfig {
   bulletSpeedModifier: number,
   directions: Directions
 }
+
+const createBaseShotConfig = () => ({
+  bulletKey: 'dagger',
+  bulletDamage: 3,
+  bulletDuration: 1000,
+  bulletSpeedModifier: 1,
+  bulletAngularVelocity: 0,
+  directions: {
+    front: true,
+    back: false,
+    side: false,
+    frontDiagnals: false,
+    backDiagnals: false
+  }
+})
 
 export const createBulletsOfOneShot = (player: Player, aim: Point, ShootConfig: ShootConfig): Bullet[] => {
   const dx = aim.x - player.position.x
@@ -107,32 +122,6 @@ export const castSkill = (player: Player, skill: Skill, aim: Point, scene, metho
   )
 }
 
-const createBaseShotConfig = () => ({
-  bulletKey: 'dagger',
-  bulletDamage: 3,
-  bulletDuration: 1000,
-  bulletSpeedModifier: 1,
-  bulletAngularVelocity: 0,
-  directions: {
-    front: true,
-    back: false,
-    side: false,
-    frontDiagnals: false,
-    backDiagnals: false
-  }
-})
-
-export interface Abilities {
-  doubleDamage?: boolean,
-  bulletDuration?: boolean,
-  bulletSpeed?: boolean,
-  bulletRotate?: boolean,
-  backShooting?: boolean,
-  sideShooting?: boolean,
-  frontSplit?: boolean,
-  backSplit?: boolean,
-  consectiveShooting: number | undefined
-}
 
 export const createSkill = (weapon: string, abilities: Abilities): Skill => {
   const baseShotConfig = createBaseShotConfig()
@@ -148,7 +137,8 @@ export const createSkill = (weapon: string, abilities: Abilities): Skill => {
 
   const shotConfigs = []
   const shotIntervals = []
-  for (let i = 0; i < abilities.consectiveShooting; i++) {
+  const waves = abilities.consectiveShooting || 1
+  for (let i = 0; i < waves; i++) {
     shotConfigs.push(_.clone(baseShotConfig))
     shotIntervals.push(300 + i * 100)
   }
@@ -156,6 +146,6 @@ export const createSkill = (weapon: string, abilities: Abilities): Skill => {
   return {
     shotConfigs,
     shotIntervals,
-    coolDown: 0
+    coolDown: 3
   }
 }

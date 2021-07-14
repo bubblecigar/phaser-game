@@ -4,6 +4,19 @@ export interface Point {
   x: number,
   y: number
 }
+
+export interface Abilities {
+  doubleDamage?: boolean,
+  bulletDuration?: boolean,
+  bulletSpeed?: boolean,
+  bulletRotate?: boolean,
+  backShooting?: boolean,
+  sideShooting?: boolean,
+  frontSplit?: boolean,
+  backSplit?: boolean,
+  consectiveShooting?: number
+}
+
 export interface Player {
   interface: 'Player',
   id: string,
@@ -13,10 +26,8 @@ export interface Player {
   phaserObject: any,
   health: number,
   items: Item[],
+  abilities: Abilities,
   coins: number
-}
-export interface Monster extends Player {
-
 }
 export interface Item {
   interface: 'Item',

@@ -16,11 +16,13 @@ import targetUrl from '../../statics/tile/target.png'
 const userId = getLocalUserData().userId
 
 let methods
+
+let mapConfig = mapConfigs['ghostRoomConfig']
+let map
+
 let cursors
 let space
 let aim
-let mapConfig = mapConfigs['ghostRoomConfig']
-let map
 
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
@@ -63,6 +65,7 @@ const createPlayer = () => {
     health: initHealth,
     coins: 0,
     items: [],
+    abilities: {},
     phaserObject: null
   }
   socket.emit('init-player', player)
