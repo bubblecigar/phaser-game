@@ -100,11 +100,6 @@ const registerAimingTarget = scene => {
     const dx = aim.x - player.position.x
     const dy = aim.y - player.position.y
     const l = Math.sqrt(dx * dx + dy * dy)
-    let force = l / 10
-    if (force < 1) { return }
-    if (force > 3) { force = 3 }
-    const vx = dx * force / l
-    const vy = dy * force / l
 
     const itemConstructor: Bullet = {
       interface: 'Bullet',
@@ -112,7 +107,7 @@ const registerAimingTarget = scene => {
       itemKey: bullet.key,
       damage: bullet.damage,
       position: player.position,
-      velocity: { x: vx, y: vy },
+      velocity: { x: 2 * dx / l, y: 2 * dy / l },
       phaserObject: null
     }
     methods.shootInClient(itemConstructor)
