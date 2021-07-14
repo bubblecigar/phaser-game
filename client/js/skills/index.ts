@@ -1,4 +1,5 @@
-export interface Skills {
+export interface shootConfig {
+  bulletKey: string,
   bulletDamage: number,
   bulletDuration: number,
   bulletAngularVelocity: number,
