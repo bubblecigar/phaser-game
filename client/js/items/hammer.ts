@@ -22,10 +22,7 @@ const item: Bullet = {
     origin: {
       x: 0.5, y: 0.5
     }
-  },
-  damage: 10,
-  angularVelocity: 0.1,
-  duration: 2000
+  }
 }
 
 export default item

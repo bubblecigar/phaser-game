@@ -5,6 +5,7 @@ import { gameMethods, Player, Point, Bullet } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
 import items from '../items/index'
+import { Skills } from '../skills/index'
 import socket, { registerSocketEvents } from '../socket'
 import mapConfigs from './mapConfigs'
 import FOV from './FOV'
@@ -97,22 +98,46 @@ const registerAimingTarget = scene => {
     const bullet = items[bulletKey]
     if (!bullet) { return }
 
-    const dx = aim.x - player.position.x
-    const dy = aim.y - player.position.y
-    const l = Math.sqrt(dx * dx + dy * dy)
-
-    const itemConstructor: Bullet = {
-      interface: 'Bullet',
-      id: v4(),
-      itemKey: bullet.key,
-      damage: bullet.damage,
-      position: player.position,
-      velocity: { x: 2 * dx / l, y: 2 * dy / l },
-      phaserObject: null
-    }
-    methods.shootInClient([itemConstructor])
-    socket.emit('shootInClient', [itemConstructor])
+    fire(
+      player.position,
+      { x: aim.x, y: aim.y },
+      [bulletKey],
+      {
+        bulletDamage: 3,
+        bulletSpeedModifier: 1.5,
+        bulletAngularVelocity: 0.2
+      })
   })
+}
+
+const fire = (
+  playerPosition: { x: number, y: number },
+  aimPosition: { x: number, y: number },
+  bulletKeys: string[],
+  skills: Skills) => {
+  const dx = aimPosition.x - playerPosition.x
+  const dy = aimPosition.y - playerPosition.y
+  const l = Math.sqrt(dx * dx + dy * dy)
+  const nx = dx / l
+  const ny = dy / l
+
+  const defaultBullet = items[bulletKeys[0]]
+  const defaultBulletConstructor: Bullet = {
+    interface: 'Bullet',
+    id: v4(),
+    itemKey: defaultBullet.key,
+    damage: skills.bulletDamage,
+    position: playerPosition,
+    velocity: { x: nx, y: ny },
+    angularVelocity: 0.5,
+    phaserObject: null
+  }
+  if (skills.bulletSpeedModifier) {
+    defaultBulletConstructor.velocity.x *= skills.bulletSpeedModifier
+    defaultBulletConstructor.velocity.y *= skills.bulletSpeedModifier
+  }
+  methods.shootInClient([defaultBulletConstructor])
+  socket.emit('shootInClient', [defaultBulletConstructor])
 }
 
 function create() {

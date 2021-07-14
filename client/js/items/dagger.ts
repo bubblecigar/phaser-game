@@ -22,8 +22,7 @@ const item: Bullet = {
     origin: {
       x: 0.5, y: 0.5
     }
-  },
-  damage: 3
+  }
 }
 
 export default item

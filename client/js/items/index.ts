@@ -32,9 +32,7 @@ export interface Item {
 }
 
 export interface Bullet extends Item {
-  damage: number,
-  duration?: number,
-  angularVelocity?: number
+
 }
 
 const items = { coin, hammer, arrow, dagger }
