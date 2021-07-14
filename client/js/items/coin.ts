@@ -1,4 +1,4 @@
-import { Item } from './Items'
+import { Item } from '.'
 import spriteUrl from '../../statics/tile/anim_sprite/coin.png'
 
 const key = 'coin'

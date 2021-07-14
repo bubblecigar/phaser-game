@@ -1,4 +1,4 @@
-import { Bullet } from './Items'
+import { Bullet } from '.'
 import spriteUrl from '../../statics/tile/anim_sprite/weapon_knife.png'
 
 const key = 'dagger'

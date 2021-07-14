@@ -1,4 +1,4 @@
-import { Charactor } from './Charactors'
+import { Charactor } from '.'
 import SpriteUrl from '../../statics/tile/anim_sprite/wizzard_male.png'
 
 const key = 'wizzard_male'

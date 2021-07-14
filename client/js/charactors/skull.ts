@@ -1,4 +1,4 @@
-import { Charactor } from './Charactors'
+import { Charactor } from '.'
 import SpriteUrl from '../../statics/tile/skull.png'
 
 const key = 'skull'

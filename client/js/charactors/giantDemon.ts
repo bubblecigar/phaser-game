@@ -1,5 +1,5 @@
 import demonSpriteUrl from '../../statics/tile/anim_sprite/big_demon.png'
-import { Charactor } from './Charactors'
+import { Charactor } from '.'
 
 const createCharactor = (key, spritesheetUrl): Charactor => ({
   key,

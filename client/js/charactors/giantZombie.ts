@@ -1,5 +1,5 @@
 import zombieSpriteUrl from '../../statics/tile/anim_sprite/big_zoombie.png'
-import { Charactor } from './Charactors'
+import { Charactor } from '.'
 
 const createCharactor = (key, spritesheetUrl): Charactor => ({
   key,

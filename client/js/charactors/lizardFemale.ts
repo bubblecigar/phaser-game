@@ -1,4 +1,4 @@
-import { Charactor } from './Charactors'
+import { Charactor } from '.'
 import lizardFemaleSpriteUrl from '../../statics/tile/anim_sprite/female_lizard.png'
 
 const key = 'lizard_female'
