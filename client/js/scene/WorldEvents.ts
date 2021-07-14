@@ -74,8 +74,13 @@ const registerWorlEvents = (scene, methods) => {
         targetData.interface === 'Bullet'
       ) {
         if (isUser) {
-          methods.onHit(playerData.id, targetData)
-          socket.emit('onHit', playerData.id, _.omit(targetData, 'phaserObject'))
+          if (playerData.id === targetData.builderId) {
+            // your own bullet, do nothing
+            return
+          } else {
+            methods.onHit(playerData.id, targetData)
+            socket.emit('onHit', playerData.id, _.omit(targetData, 'phaserObject'))
+          }
         }
         targetData.phaserObject.destroy()
       }

@@ -121,6 +121,7 @@ const fire = (
 
   const createBullet = (bulletKey: string, skills: Skills): Bullet => ({
     interface: 'Bullet',
+    builderId: player.id,
     id: v4(),
     itemKey: bulletKey,
     damage: skills.bulletDamage,
@@ -139,6 +140,7 @@ const fire = (
 
   methods.shootInClient(bullets)
   socket.emit('shootInClient', bullets)
+
   if (skills.consectiveShoot > 0) {
     skills.consectiveShoot -= 1
     scene.time.delayedCall(

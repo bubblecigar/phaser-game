@@ -28,6 +28,7 @@ export interface Item {
 }
 export interface Bullet extends Omit<Item, 'interface'> {
   interface: 'Bullet',
+  builderId: string,
   damage: number,
   angularVelocity: number,
   duration: number
