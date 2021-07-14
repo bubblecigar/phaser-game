@@ -65,7 +65,7 @@ const createPlayer = () => {
     health: initHealth,
     coins: 0,
     items: [],
-    abilities: {},
+    abilities: { consectiveShooting: 1 },
     phaserObject: null
   }
   socket.emit('init-player', player)
@@ -97,7 +97,7 @@ const registerAimingTarget = scene => {
     aim.setVelocityX(0)
     aim.setVelocityY(0)
 
-    const skill = createSkill('dagger', { consectiveShooting: 3, bulletRotate: true })
+    const skill = createSkill('dagger', player.abilities)
     castSkill(player, skill, aim, scene, methods)
   })
 }
@@ -147,7 +147,9 @@ function create() {
 
 const movePlayer = (player: Player) => {
   const char = charactors[player.charactorKey]
-  const velocity = char.velocity
+  const charVelocity = char.velocity
+  const aimVelocity = 3
+  const velocity = space.isDown ? aimVelocity : charVelocity
   const _velocity = { x: 0, y: 0 }
   if (cursors.left.isDown) {
     _velocity.x = -velocity
