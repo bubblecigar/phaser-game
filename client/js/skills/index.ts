@@ -4,19 +4,21 @@ import _ from 'lodash'
 import { Bullet, Player, Point } from '../../../share/game'
 import socket from '../socket'
 
+interface Directions {
+  front: boolean,
+  back: boolean,
+  side: boolean,
+  frontDiagnals: boolean,
+  backDiagnals: boolean
+}
+
 export interface ShootConfig {
   bulletKey: string,
   bulletDamage: number,
   bulletDuration: number,
   bulletAngularVelocity: number,
   bulletSpeedModifier: number,
-  directions: {
-    front: boolean,
-    back: boolean,
-    side: boolean,
-    frontDiagnals: boolean,
-    backDiagnals: boolean
-  }
+  directions: Directions
 }
 
 export const createBulletsOfOneShot = (player: Player, aim: Point, ShootConfig: ShootConfig): Bullet[] => {
@@ -79,9 +81,9 @@ export const createBulletsOfOneShot = (player: Player, aim: Point, ShootConfig: 
 }
 
 export interface Skill {
-  key: string,
   shotConfigs: ShootConfig[],
-  shotIntervals: number[]
+  shotIntervals: number[],
+  coolDown: number
 }
 
 export const castSkill = (player: Player, skill: Skill, aim: Point, scene, methods) => {
@@ -103,4 +105,57 @@ export const castSkill = (player: Player, skill: Skill, aim: Point, scene, metho
     null,
     scene
   )
+}
+
+const createBaseShotConfig = () => ({
+  bulletKey: 'dagger',
+  bulletDamage: 3,
+  bulletDuration: 1000,
+  bulletSpeedModifier: 1,
+  bulletAngularVelocity: 0,
+  directions: {
+    front: true,
+    back: false,
+    side: false,
+    frontDiagnals: false,
+    backDiagnals: false
+  }
+})
+
+export interface Abilities {
+  doubleDamage?: boolean,
+  bulletDuration?: boolean,
+  bulletSpeed?: boolean,
+  bulletRotate?: boolean,
+  backShooting?: boolean,
+  sideShooting?: boolean,
+  frontSplit?: boolean,
+  backSplit?: boolean,
+  consectiveShooting: number | undefined
+}
+
+export const createSkill = (weapon: string, abilities: Abilities): Skill => {
+  const baseShotConfig = createBaseShotConfig()
+  baseShotConfig.bulletKey = weapon
+  if (abilities.doubleDamage) { baseShotConfig.bulletDamage *= 2 }
+  if (abilities.bulletDuration) { baseShotConfig.bulletDuration *= 2 }
+  if (abilities.bulletSpeed) { baseShotConfig.bulletSpeedModifier = 1.3 }
+  if (abilities.bulletRotate) { baseShotConfig.bulletAngularVelocity = 0.2 }
+  if (abilities.backShooting) { baseShotConfig.directions.back = true }
+  if (abilities.frontSplit) { baseShotConfig.directions.frontDiagnals = true }
+  if (abilities.sideShooting) { baseShotConfig.directions.side = true }
+  if (abilities.backSplit) { baseShotConfig.directions.backDiagnals = true }
+
+  const shotConfigs = []
+  const shotIntervals = []
+  for (let i = 0; i < abilities.consectiveShooting; i++) {
+    shotConfigs.push(_.clone(baseShotConfig))
+    shotIntervals.push(300 + i * 100)
+  }
+
+  return {
+    shotConfigs,
+    shotIntervals,
+    coolDown: 0
+  }
 }
