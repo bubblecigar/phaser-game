@@ -1,4 +1,4 @@
-export interface shootConfig {
+export interface ShootConfig {
   bulletKey: string,
   bulletDamage: number,
   bulletDuration: number,

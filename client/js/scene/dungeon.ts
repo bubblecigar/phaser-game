@@ -5,7 +5,7 @@ import { gameMethods, Player, Point, Bullet } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
 import items from '../items/index'
-import { shootConfig } from '../skills/index'
+import { ShootConfig } from '../skills/index'
 import socket, { registerSocketEvents } from '../socket'
 import mapConfigs from '../maps/mapConfigs'
 import FOV from './FOV'
@@ -115,7 +115,7 @@ const registerAimingTarget = scene => {
 
 const fire = (
   scene,
-  shootConfig: shootConfig
+  ShootConfig: ShootConfig
 ) => {
   const player = methods.getPlayer(userId)
   const dx = aim.x - player.position.x
@@ -124,51 +124,51 @@ const fire = (
   const nx = dx / l
   const ny = dy / l
 
-  const createBullet = (shootConfig: shootConfig): Bullet => ({
+  const createBullet = (ShootConfig: ShootConfig): Bullet => ({
     interface: 'Bullet',
     builderId: player.id,
     id: v4(),
-    itemKey: shootConfig.bulletKey,
-    damage: shootConfig.bulletDamage,
+    itemKey: ShootConfig.bulletKey,
+    damage: ShootConfig.bulletDamage,
     position: player.position,
-    velocity: { x: nx * shootConfig.bulletSpeedModifier, y: ny * shootConfig.bulletSpeedModifier },
-    angularVelocity: shootConfig.bulletAngularVelocity,
-    duration: shootConfig.bulletDuration,
+    velocity: { x: nx * ShootConfig.bulletSpeedModifier, y: ny * ShootConfig.bulletSpeedModifier },
+    angularVelocity: ShootConfig.bulletAngularVelocity,
+    duration: ShootConfig.bulletDuration,
     phaserObject: null
   })
 
   const bullets = []
-  const directions = shootConfig.directions
+  const directions = ShootConfig.directions
   if (directions.front) {
-    const bullet = createBullet(shootConfig)
+    const bullet = createBullet(ShootConfig)
     bullets.push(bullet)
   }
   if (directions.back) {
-    const bullet = createBullet(shootConfig)
+    const bullet = createBullet(ShootConfig)
     bullet.velocity = new Phaser.Math.Vector2(bullet.velocity.x, bullet.velocity.y).rotate(Math.PI)
     bullets.push(bullet)
   }
   if (directions.side) {
-    const bulletR = createBullet(shootConfig)
+    const bulletR = createBullet(ShootConfig)
     bulletR.velocity = new Phaser.Math.Vector2(bulletR.velocity.x, bulletR.velocity.y).rotate(Math.PI / 2)
     bullets.push(bulletR)
-    const bulletL = createBullet(shootConfig)
+    const bulletL = createBullet(ShootConfig)
     bulletL.velocity = new Phaser.Math.Vector2(bulletL.velocity.x, bulletL.velocity.y).rotate(-Math.PI / 2)
     bullets.push(bulletL)
   }
   if (directions.frontDiagnals) {
-    const bulletR = createBullet(shootConfig)
+    const bulletR = createBullet(ShootConfig)
     bulletR.velocity = new Phaser.Math.Vector2(bulletR.velocity.x, bulletR.velocity.y).rotate(Math.PI / 4)
     bullets.push(bulletR)
-    const bulletL = createBullet(shootConfig)
+    const bulletL = createBullet(ShootConfig)
     bulletL.velocity = new Phaser.Math.Vector2(bulletL.velocity.x, bulletL.velocity.y).rotate(-Math.PI / 4)
     bullets.push(bulletL)
   }
   if (directions.backDiagnals) {
-    const bulletR = createBullet(shootConfig)
+    const bulletR = createBullet(ShootConfig)
     bulletR.velocity = new Phaser.Math.Vector2(bulletR.velocity.x, bulletR.velocity.y).rotate(Math.PI * 3 / 4)
     bullets.push(bulletR)
-    const bulletL = createBullet(shootConfig)
+    const bulletL = createBullet(ShootConfig)
     bulletL.velocity = new Phaser.Math.Vector2(bulletL.velocity.x, bulletL.velocity.y).rotate(-Math.PI * 3 / 4)
     bullets.push(bulletL)
   }
@@ -176,11 +176,11 @@ const fire = (
   methods.shootInClient(bullets)
   socket.emit('shootInClient', bullets)
 
-  if (shootConfig.consectiveShoot > 0) {
-    shootConfig.consectiveShoot -= 1
+  if (ShootConfig.consectiveShoot > 0) {
+    ShootConfig.consectiveShoot -= 1
     scene.time.delayedCall(
       300,
-      () => fire(scene, shootConfig),
+      () => fire(scene, ShootConfig),
       null,
       scene
     )
