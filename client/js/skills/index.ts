@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import { v4 } from 'uuid'
 import _ from 'lodash'
-import { Bullet } from '../../../share/game'
+import { Bullet, Player, Point } from '../../../share/game'
 
 export interface ShootConfig {
   bulletKey: string,
@@ -18,7 +18,7 @@ export interface ShootConfig {
   }
 }
 
-export const createBulletsOfOneShot = (player, aim, ShootConfig: ShootConfig) => {
+export const createBulletsOfOneShot = (player: Player, aim: Point, ShootConfig: ShootConfig) => {
   const dx = aim.x - player.position.x
   const dy = aim.y - player.position.y
   const l = Math.sqrt(dx * dx + dy * dy)

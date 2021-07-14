@@ -89,21 +89,20 @@ const registerAimingTarget = scene => {
   space.on('up', () => {
     // fire
     const player = methods.getPlayer(getLocalUserData().userId)
-    if (!player) return
+    if (!player || !aim) return
     aim.setVisible(false)
     aim.setVelocityX(0)
     aim.setVelocityY(0)
 
     const bullets = createBulletsOfOneShot(
       player,
-      aim,
+      { x: aim.x, y: aim.y },
       {
         bulletKey: 'dagger',
         bulletDamage: 3,
         bulletDuration: 1000,
         bulletSpeedModifier: 1.5,
         bulletAngularVelocity: 0.2,
-        consectiveShoot: 1,
         directions: {
           front: true,
           back: false,
