@@ -73,14 +73,14 @@ const registerWorlEvents = (scene, methods) => {
         playerBody.label === 'player-body' &&
         targetData.interface === 'Bullet'
       ) {
+        if (playerData.id === targetData.builderId) {
+          // player own the bullet, do nothing
+          return
+        }
         if (isUser) {
-          if (playerData.id === targetData.builderId) {
-            // your own bullet, do nothing
-            return
-          } else {
-            methods.onHit(playerData.id, targetData)
-            socket.emit('onHit', playerData.id, _.omit(targetData, 'phaserObject'))
-          }
+          methods.onHit(playerData.id, targetData)
+          socket.emit('onHit', playerData.id, _.omit(targetData, 'phaserObject'))
+          scene.cameras.main.shake(100, 0.01)
         }
         targetData.phaserObject.destroy()
       }
