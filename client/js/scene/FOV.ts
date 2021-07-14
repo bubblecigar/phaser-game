@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import _ from 'lodash'
 import { gameConfig } from '../../../share/game'
-import { MapConfig } from './dungeon'
+import { MapConfig } from './mapConfigs'
 
 let graphics
 
