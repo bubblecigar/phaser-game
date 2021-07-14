@@ -1,12 +1,9 @@
-import Phaser from 'phaser'
-import { v4 } from 'uuid'
 import _ from 'lodash'
-import { Player, Bullet } from '../../../share/game'
+import { Player } from '../../../share/game'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
-import items from '../items/index'
 import socket from '../socket'
-import mapConfigs from './mapConfigs'
+import mapConfigs from '../maps/mapConfigs'
 
 const registerInputEvents = (scene, methods) => {
   scene.input.keyboard.on(
