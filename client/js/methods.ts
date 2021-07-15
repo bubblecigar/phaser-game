@@ -101,8 +101,6 @@ const createItemMatter = (variables, itemConstructor: Item | Bullet) => {
   return phaserObject
 }
 
-const env = 'client'
-
 const gameMethods = variables => {
   const methods = {
     init: () => {
@@ -115,40 +113,34 @@ const gameMethods = variables => {
     },
     syncMap: (mapConfigKey: String) => {
       gameState.mapConfigKey = mapConfigKey
-      if (env === 'client') {
-        methods.init()
-        variables.scene.scene.restart({ mapConfigKey })
-      }
+      methods.init()
+      variables.scene.scene.restart({ mapConfigKey })
     },
     syncPlayers: (players: Player[]) => {
-      if (env === 'client') {
-        gameState.players.forEach(
-          player => {
-            methods.removePlayer(player.id)
-          }
-        )
-        gameState.players = []
-        players.forEach(
-          player => {
-            methods.addPlayer(player)
-          }
-        )
-      }
+      gameState.players.forEach(
+        player => {
+          methods.removePlayer(player.id)
+        }
+      )
+      gameState.players = []
+      players.forEach(
+        player => {
+          methods.addPlayer(player)
+        }
+      )
     },
     syncItems: (items: Item[]) => {
-      if (env === 'client') {
-        gameState.items.forEach(
-          item => {
-            methods.removeItem(item.id)
-          }
-        )
-        gameState.items = []
-        items.forEach(
-          item => {
-            methods.addItem(item)
-          }
-        )
-      }
+      gameState.items.forEach(
+        item => {
+          methods.removeItem(item.id)
+        }
+      )
+      gameState.items = []
+      items.forEach(
+        item => {
+          methods.addItem(item)
+        }
+      )
     },
     setPlayer: (playerConstructor: Player): void => {
       methods.removePlayer(playerConstructor.id)
@@ -163,22 +155,20 @@ const gameMethods = variables => {
       const player: Player = playerConstructor
       gameState.players.push(player)
 
-      if (env === 'client') {
-        const scene = variables.scene
-        if (!scene) {
-          console.log('not initialize')
-          return
-        }
-        player.phaserObject = createPlayerMatter(variables, player)
+      const scene = variables.scene
+      if (!scene) {
+        console.log('not initialize')
+        return
+      }
+      player.phaserObject = createPlayerMatter(variables, player)
 
-        if (playerConstructor.id === variables.userId) {
-          const camera = scene.cameras.main
-          camera.startFollow(player.phaserObject, true, 0.5, 0.5)
-          const Phaser = variables.Phaser
-          const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
-          const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
-          camera.setMask(mask)
-        }
+      if (playerConstructor.id === variables.userId) {
+        const camera = scene.cameras.main
+        camera.startFollow(player.phaserObject, true, 0.5, 0.5)
+        const Phaser = variables.Phaser
+        const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
+        const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
+        camera.setMask(mask)
       }
     },
     removePlayer: (id: string) => {
@@ -190,9 +180,7 @@ const gameMethods = variables => {
       }
       gameState.players = gameState.players.filter(player => player.id !== id)
 
-      if (env === 'client') {
-        player.phaserObject.destroy()
-      }
+      player.phaserObject.destroy()
     },
     getPlayer: (id: string): Player => gameState.players.find(p => p.id === id),
     movePlayer: (_player: Player): void => {
@@ -207,47 +195,43 @@ const gameMethods = variables => {
       player.position = _player.position
       player.velocity = _player.velocity
 
-      if (env === 'client') {
-        if (!player.phaserObject) {
-          console.log('player not initialized')
-          return
-        }
-        player.phaserObject.setVelocityX(player.velocity.x)
-        player.phaserObject.setVelocityY(player.velocity.y)
-        if (player.id !== variables.userId) {
-          player.phaserObject.setX(player.position.x)
-          player.phaserObject.setY(player.position.y)
-        }
-        player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
-        player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y }
-        if (changeDirection) {
-          if (player.velocity.x === 0 && player.velocity.y === 0) {
-            player.phaserObject.play(variables.charactors[player.charactorKey].animsConfig.idle.key)
-          } else {
-            player.phaserObject.play(variables.charactors[player.charactorKey].animsConfig.move.key)
-            if (player.velocity.x > 0) {
-              player.phaserObject.setFlipX(false)
-            } else if (player.velocity.x < 0) {
-              player.phaserObject.setFlipX(true)
-            }
+      if (!player.phaserObject) {
+        console.log('player not initialized')
+        return
+      }
+      player.phaserObject.setVelocityX(player.velocity.x)
+      player.phaserObject.setVelocityY(player.velocity.y)
+      if (player.id !== variables.userId) {
+        player.phaserObject.setX(player.position.x)
+        player.phaserObject.setY(player.position.y)
+      }
+      player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
+      player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y }
+      if (changeDirection) {
+        if (player.velocity.x === 0 && player.velocity.y === 0) {
+          player.phaserObject.play(variables.charactors[player.charactorKey].animsConfig.idle.key)
+        } else {
+          player.phaserObject.play(variables.charactors[player.charactorKey].animsConfig.move.key)
+          if (player.velocity.x > 0) {
+            player.phaserObject.setFlipX(false)
+          } else if (player.velocity.x < 0) {
+            player.phaserObject.setFlipX(true)
           }
         }
       }
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
     shootInClient: (bulletConstructors: Bullet[]) => {
-      if (env === 'client') {
-        const scene = variables.scene
-        if (!scene) {
-          console.log('not initialize')
-          return
-        }
-        bulletConstructors.forEach(
-          bulletConstructor => {
-            bulletConstructor.phaserObject = createBulletMatter(variables, bulletConstructor)
-          }
-        )
+      const scene = variables.scene
+      if (!scene) {
+        console.log('not initialize')
+        return
       }
+      bulletConstructors.forEach(
+        bulletConstructor => {
+          bulletConstructor.phaserObject = createBulletMatter(variables, bulletConstructor)
+        }
+      )
     },
     onHit: (playerId: string, bullet: Bullet) => {
       const player = methods.getPlayer(playerId)
@@ -278,17 +262,15 @@ const gameMethods = variables => {
       }
       gameState.items.push(item)
 
-      if (env === 'client') {
-        const scene = variables.scene
-        if (!scene) {
-          console.log('not initialize')
-          return
-        }
-
-        const phaserObject = createItemMatter(variables, itemConstructor)
-        item.phaserObject = phaserObject
-        item.phaserObject.setData(item)
+      const scene = variables.scene
+      if (!scene) {
+        console.log('not initialize')
+        return
       }
+
+      const phaserObject = createItemMatter(variables, itemConstructor)
+      item.phaserObject = phaserObject
+      item.phaserObject.setData(item)
       return item
     },
     removeItem: (id: string) => {
@@ -300,9 +282,7 @@ const gameMethods = variables => {
       }
       gameState.items = gameState.items.filter(item => item.id !== id)
 
-      if (env === 'client') {
-        item.phaserObject.destroy()
-      }
+      item.phaserObject.destroy()
     },
     collectItem: (playerId: string, item: Item) => {
       const player = methods.getPlayer(playerId)
