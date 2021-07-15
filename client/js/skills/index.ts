@@ -147,6 +147,6 @@ export const createSkill = (weapon: string, abilities: Abilities): Skill => {
     shotConfigs,
     shotIntervals,
     coolDown: 3000,
-    castTime: 1000
+    castTime: 200
   }
 }

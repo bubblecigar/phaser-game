@@ -1,12 +1,10 @@
-import Phaser from 'phaser'
-import { v4 } from 'uuid'
 import _ from 'lodash'
 import gameMethods from '../game/methods'
-import { Player } from '../Interface'
+import { Player, Point } from '../Interface'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
 import items from '../items/index'
-import { castSkill, createSkill } from '../skills/index'
+import { castSkill, createSkill, Skill } from '../skills/index'
 import socket, { broadcast, registerSocketEvents, readStateFromServer, writeStateToServer } from '../socket'
 import mapConfigs from '../maps/mapConfigs'
 import FOV from './FOV'
@@ -24,6 +22,8 @@ let map
 let cursors
 let space
 let aim
+export let skillInUse: Skill | undefined
+export let aimingTime: number = 0
 
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
@@ -96,8 +96,12 @@ const registerAimingTarget = scene => {
   space = scene.input.keyboard.addKey('space')
   space.on('down', () => {
     // aim
+    aimingTime = 0
     const player = methods.getPlayer(getLocalUserData().userId)
     if (!player) return
+
+    skillInUse = createSkill('iceFlask', player.abilities)
+
     aim.setAngularVelocity(0.1)
     aim.setVisible(true)
     aim.setX(player.position.x)
@@ -106,13 +110,17 @@ const registerAimingTarget = scene => {
   space.on('up', () => {
     // fire
     const player = methods.getPlayer(getLocalUserData().userId)
-    if (!player || !aim) return
+    if (!player || !aim || !skillInUse) return
+
     aim.setVisible(false)
     aim.setVelocityX(0)
     aim.setVelocityY(0)
 
-    const skill = createSkill('iceFlask', player.abilities)
-    castSkill(player, skill, aim, scene, methods)
+    if (aimingTime >= skillInUse.castTime) {
+      castSkill(player, skillInUse, aim, scene, methods)
+    }
+    aimingTime = 0
+    skillInUse = undefined
   })
 }
 
@@ -160,7 +168,7 @@ function create() {
   this.scene.launch('GUI')
 }
 
-const movePlayer = (player: Player) => {
+const movePlayer = (player: Player, dt) => {
   const char = charactors[player.charactorKey]
   const charVelocity = char.velocity
   const aimVelocity = 3
@@ -185,6 +193,7 @@ const movePlayer = (player: Player) => {
   if (space.isDown) {
     aim.setVelocityX(_velocity.x)
     aim.setVelocityY(_velocity.y)
+    aimingTime += dt
     _player.velocity = { x: 0, y: 0 }
   } else {
     _player.velocity = _velocity
@@ -198,7 +207,7 @@ function update(t, dt) {
   const player = methods.getPlayer(userId)
   if (!player || !player.phaserObject) return
   FOV.update(this, player.position)
-  movePlayer(player)
+  movePlayer(player, dt)
 }
 
 export default {

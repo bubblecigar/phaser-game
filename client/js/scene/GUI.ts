@@ -5,8 +5,10 @@ import gameConfig from '../game/config'
 import { getLocalUserData } from '../user'
 import items from '../items/index'
 import charactors from '../charactors/index'
+import { aimingTime, skillInUse } from '../scene/dungeon'
 
 let scene, coinGroup, maximumBar, currentBar
+let aimingBarContainer, aimingBar
 
 function preload() {
   scene = this
@@ -58,6 +60,31 @@ function create() {
   const healthX = gameConfig.canvasWidth - padding
   const healthY = gameConfig.canvasHeight - padding
   createHealthBar(this, healthX, healthY)
+
+  const aimingBarX = gameConfig.canvasWidth / 2 - 10
+  const aimingBarY = gameConfig.canvasHeight / 2 + 20
+  aimingBarContainer = scene.add.rectangle(aimingBarX - 1, aimingBarY, 20 + 2, 5, 0xFFFFFF)
+  aimingBarContainer.setOrigin(0, 0.5)
+  aimingBar = scene.add.rectangle(aimingBarX, aimingBarY, aimingTime, 3)
+  showAimingBar()
+}
+
+const showAimingBar = () => {
+  if (!aimingTime || !skillInUse) {
+    aimingBar.setVisible(false)
+    aimingBarContainer.setVisible(false)
+  } else {
+    aimingBarContainer.setVisible(true)
+    aimingBar.setVisible(true)
+    const percentage = Math.min(aimingTime / skillInUse.castTime, 1)
+    aimingBar.setSize(percentage * 20, 3)
+    aimingBarContainer.setOrigin(0, 0.5)
+    if (percentage >= 1) {
+      aimingBar.setFillStyle(0x4ba747)
+    } else {
+      aimingBar.setFillStyle(0xee8e2e)
+    }
+  }
 }
 
 const createHealthBar = (scene, x, y) => {
@@ -97,6 +124,7 @@ function update(t, dt) {
   showCoinCount(player.coins)
   const maximumHealth = charactors[player.charactorKey].maxHealth
   showHealthBar(player.health, maximumHealth)
+  showAimingBar()
 }
 
 export default {
