@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import itemCellUrl from '../../statics/item_cell.png'
-import gameState from '../state'
+import gameState from '../game/state'
 import gameConfig from '../game/config'
 import { getLocalUserData } from '../user'
 import items from '../items/index'
