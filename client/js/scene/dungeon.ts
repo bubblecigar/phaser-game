@@ -7,7 +7,7 @@ import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
 import items from '../items/index'
 import { castSkill, createSkill } from '../skills/index'
-import socket, { registerSocketEvents } from '../socket'
+import socket, { registerSocketEvents, readStateFromServer, writeStateToServer } from '../socket'
 import mapConfigs from '../maps/mapConfigs'
 import FOV from './FOV'
 import registerWorldEvents from './WorldEvents'
@@ -50,7 +50,7 @@ function preload() {
   )
 }
 
-const createPlayer = () => {
+const createInitPlayerConstructor = () => {
   const item_layer = map.objects.find(o => o.name === 'item_layer')
   const spawnPoint = item_layer ? item_layer.objects.find(o => o.name === 'spawn_point') : { x: map.widthInPixels / 2, y: map.heightInPixels / 2 }
   const x = spawnPoint.x
@@ -82,7 +82,7 @@ const createPlayer = () => {
     abilities: initAbilities,
     phaserObject: null
   }
-  socket.emit('init-player', player)
+  return player
 }
 
 const registerAimingTarget = scene => {
@@ -155,7 +155,8 @@ function create() {
     }
   )
 
-  createPlayer()
+  socket.emit('player-join', createInitPlayerConstructor())
+  readStateFromServer()
   this.scene.launch('GUI')
 }
 
@@ -191,6 +192,7 @@ const movePlayer = (player: Player) => {
 
   methods.movePlayer(_player)
   socket.emit('movePlayer', _player)
+  writeStateToServer(userId, _player)
 }
 
 function update(t, dt) {
