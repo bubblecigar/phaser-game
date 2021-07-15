@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import _ from 'lodash'
-import { gameConfig } from '../../../share/game'
+import gameConfig from '../config'
 import { MapConfig } from '../maps/mapConfigs'
 
 let graphics
