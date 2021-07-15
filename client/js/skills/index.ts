@@ -98,7 +98,8 @@ export const createBulletsOfOneShot = (player: Player, aim: Point, ShootConfig: 
 export interface Skill {
   shotConfigs: ShootConfig[],
   shotIntervals: number[],
-  coolDown: number
+  coolDown: number,
+  castTime: number
 }
 
 export const castSkill = (player: Player, skill: Skill, aim: Point, scene, methods) => {
@@ -146,6 +147,7 @@ export const createSkill = (weapon: string, abilities: Abilities): Skill => {
   return {
     shotConfigs,
     shotIntervals,
-    coolDown: 3
+    coolDown: 3000,
+    castTime: 1000
   }
 }
