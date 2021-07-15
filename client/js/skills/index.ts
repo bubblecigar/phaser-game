@@ -22,30 +22,31 @@ const createBaseShotConfig = (bullet: string): ShootConfig => ({
   directions: [0]
 })
 
-export const createBulletsOfOneShot = (player: Player, aim: Point, ShootConfig: ShootConfig): Bullet[] => {
+export const createBulletsOfOneShot = (player: Player, aim: Point, shootConfig: ShootConfig): Bullet[] => {
   const dx = aim.x - player.position.x
   const dy = aim.y - player.position.y
   const l = Math.sqrt(dx * dx + dy * dy)
   const nx = dx / l
   const ny = dy / l
 
-  const createBullet = (ShootConfig: ShootConfig): Bullet => ({
+  const createBullet = (shootConfig: ShootConfig): Bullet => ({
     interface: 'Bullet',
     builderId: player.id,
     id: v4(),
-    itemKey: ShootConfig.bulletKey,
-    damage: ShootConfig.bulletDamage,
+    itemKey: shootConfig.bulletKey,
+    damage: shootConfig.bulletDamage,
     position: player.position,
-    velocity: { x: nx * ShootConfig.bulletSpeedModifier, y: ny * ShootConfig.bulletSpeedModifier },
-    angularVelocity: ShootConfig.bulletAngularVelocity,
-    duration: ShootConfig.bulletDuration,
+    velocity: { x: nx * shootConfig.bulletSpeedModifier, y: ny * shootConfig.bulletSpeedModifier },
+    angularVelocity: shootConfig.bulletAngularVelocity,
+    duration: shootConfig.bulletDuration,
     phaserObject: null
   })
 
   const bullets = []
-  ShootConfig.directions.forEach(
+
+  player.abilities.directions.forEach(
     direction => {
-      const bullet = createBullet(ShootConfig)
+      const bullet = createBullet(shootConfig)
       bullet.velocity = new Phaser.Math.Vector2(bullet.velocity.x, bullet.velocity.y).rotate(direction)
       bullets.push(bullet)
     }
