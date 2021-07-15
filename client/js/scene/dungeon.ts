@@ -191,8 +191,6 @@ const movePlayer = (player: Player) => {
   }
 
   broadcast(methods, 'movePlayer', _player)
-  // methods.movePlayer(_player)
-  // socket.emit('movePlayer', _player)
   writeStateToServer(userId, _player)
 }
 
