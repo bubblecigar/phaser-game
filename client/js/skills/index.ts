@@ -124,12 +124,12 @@ export const castSkill = (player: Player, skill: Skill, aim: Point, scene, metho
 
 export const createInitAbilities = () => ({
   doubleDamage: false,
-  bulletDuration: true,
-  bulletSpeed: true,
+  bulletDuration: false,
+  bulletSpeed: false,
   bulletRotate: false,
   backShooting: false,
   sideShooting: false,
-  frontSplit: true,
+  frontSplit: false,
   backSplit: false,
   consectiveShooting: 1
 })
