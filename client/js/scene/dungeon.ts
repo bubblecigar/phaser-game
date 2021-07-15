@@ -4,7 +4,7 @@ import { Player } from '../Interface'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
 import items from '../items/index'
-import { castSkill, createSkill, Skill } from '../skills/index'
+import { castSkill, createInitAbilities, createSkill, Skill } from '../skills/index'
 import socket, { broadcast, registerSocketEvents, readStateFromServer, writeStateToServer } from '../socket'
 import mapConfigs from '../maps/mapConfigs'
 import FOV from './FOV'
@@ -58,17 +58,7 @@ const createInitPlayerConstructor = () => {
   const initCharactor = 'tinyZombie'
   const initHealth = charactors[initCharactor].maxHealth
 
-  const initAbilities = {
-    doubleDamage: false,
-    bulletDuration: true,
-    bulletSpeed: true,
-    bulletRotate: false,
-    backShooting: false,
-    sideShooting: false,
-    frontSplit: true,
-    backSplit: false,
-    consectiveShooting: 1
-  }
+  const initAbilities = createInitAbilities()
 
   const player: Player = {
     interface: 'Player',
