@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import { v4 } from 'uuid'
 import _ from 'lodash'
 import gameMethods from '../methods'
-import { Player } from '../state'
+import { Player } from '../Interface'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
 import items from '../items/index'
@@ -27,7 +27,7 @@ let aim
 
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
-  methods = gameMethods('client')({ userId, Phaser, charactors, items, scene: this })
+  methods = gameMethods({ userId, Phaser, charactors, items, scene: this })
   registerSocketEvents(methods)
   registerWorldEvents(this, methods)
 }

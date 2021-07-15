@@ -101,7 +101,9 @@ const createItemMatter = (variables, itemConstructor: Item | Bullet) => {
   return phaserObject
 }
 
-const gameMethods = (env: 'client' | 'server') => variables => {
+const env = 'client'
+
+const gameMethods = variables => {
   const methods = {
     init: () => {
       gameState.players = []
