@@ -123,9 +123,9 @@ export const castSkill = (player: Player, skill: Skill, aim: Point, scene, metho
 }
 
 
-export const createSkill = (weapon: string, abilities: Abilities): Skill => {
+export const createSkill = (bullet: string, abilities: Abilities): Skill => {
   const baseShotConfig = createBaseShotConfig()
-  baseShotConfig.bulletKey = weapon
+  baseShotConfig.bulletKey = bullet
   if (abilities.doubleDamage) { baseShotConfig.bulletDamage *= 2 }
   if (abilities.bulletDuration) { baseShotConfig.bulletDuration *= 2 }
   if (abilities.bulletSpeed) { baseShotConfig.bulletSpeedModifier = 1.3 }
