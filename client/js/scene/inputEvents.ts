@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { Player } from '../../../share/game'
+import { Player } from '../Interface'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
 import socket from '../socket'
