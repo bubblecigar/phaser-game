@@ -56,6 +56,19 @@ const createPlayer = () => {
   const y = spawnPoint.y
   const initCharactor = 'tinyZombie'
   const initHealth = charactors[initCharactor].maxHealth
+
+  const initAbilities = {
+    doubleDamage: false,
+    bulletDuration: true,
+    bulletSpeed: true,
+    bulletRotate: true,
+    backShooting: false,
+    sideShooting: false,
+    frontSplit: true,
+    backSplit: false,
+    consectiveShooting: 1
+  }
+
   const player: Player = {
     interface: 'Player',
     id: userId,
@@ -65,7 +78,7 @@ const createPlayer = () => {
     health: initHealth,
     coins: 0,
     items: [],
-    abilities: { consectiveShooting: 1 },
+    abilities: initAbilities,
     phaserObject: null
   }
   socket.emit('init-player', player)
@@ -97,7 +110,7 @@ const registerAimingTarget = scene => {
     aim.setVelocityX(0)
     aim.setVelocityY(0)
 
-    const skill = createSkill('dagger', player.abilities)
+    const skill = createSkill('iceFlask', player.abilities)
     castSkill(player, skill, aim, scene, methods)
   })
 }
