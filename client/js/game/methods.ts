@@ -311,7 +311,7 @@ const gameMethods = scene => {
 
 export const broadcast = (methods, key, ...args) => {
   methods[key](...args)
-  socket.emit(key, ...args)
+  socket.emit('broadcast', key, ...args)
 }
 
 export default gameMethods

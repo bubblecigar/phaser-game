@@ -1,5 +1,4 @@
 import { getLocalUserData } from '../user'
-import socket from '../socket'
 import _ from 'lodash'
 import { broadcast } from '../game/methods'
 

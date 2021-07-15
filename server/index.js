@@ -42,11 +42,9 @@ io.on('connection', async function (socket) {
     }
   })
 
-  for (let method of Object.keys(methods)) {
-    socket.on(method, (...args) => {
-      socket.broadcast.emit(method, ...args)
-    })
-  }
+  socket.on('broadcast', (method, ...args) => {
+    socket.broadcast.emit('broadcast', method, ...args)
+  })
 
   socket.on('disconnect', async function () {
     const playerIndex = gameState.players.findIndex(player => player.id === userData.id)

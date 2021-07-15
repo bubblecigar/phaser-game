@@ -15,13 +15,9 @@ export const registerSocketEvents = methods => {
   if (registered) {
     return // only register once
   } else {
-    Object.keys(methods).forEach(
-      method => {
-        socket.on(method, (...args) => {
-          methods[method](...args)
-        })
-      }
-    )
+    socket.on('broadcast', (key, ...args) => {
+      methods[key](...args)
+    })
     registered = true
   }
   socket.on('UPDATE_CLIENT_GAME_STATE', (serverGameState: GameState) => {

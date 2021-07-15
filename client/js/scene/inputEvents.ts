@@ -2,7 +2,6 @@ import _ from 'lodash'
 import { Player } from '../Interface'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
-import socket from '../socket'
 import mapConfigs from '../maps/mapConfigs'
 import { broadcast } from '../game/methods'
 
