@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import _ from 'lodash'
 import PhaserRaycaster from 'phaser-raycaster'
-import gameConfig from './config'
+import gameConfig from './game/config'
 import './socket'
 import dungeonScene from './scene/dungeon'
 import GUIScene from './scene/GUI'

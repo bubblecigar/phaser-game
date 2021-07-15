@@ -5,7 +5,7 @@ import items from './items'
 import { getLocalUserData } from './user'
 import { GameState, Player, Bullet, Item } from './Interface'
 import gameState from './state'
-import gameConfig from './config'
+import gameConfig from './game/config'
 
 const userId = getLocalUserData().userId
 
