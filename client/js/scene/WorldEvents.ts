@@ -1,6 +1,7 @@
 import { getLocalUserData } from '../user'
 import socket from '../socket'
 import _ from 'lodash'
+import { broadcast } from '../game/methods'
 
 let cameraMask
 
@@ -78,8 +79,7 @@ const registerWorlEvents = (scene, methods) => {
           return
         }
         if (isUser) {
-          methods.onHit(playerData.id, targetData)
-          socket.emit('onHit', playerData.id, _.omit(targetData, 'phaserObject'))
+          broadcast(methods, 'onHit', playerData.id, _.omit(targetData, 'phaserObject'))
           scene.cameras.main.shake(100, 0.01)
         }
         targetData.phaserObject.destroy()

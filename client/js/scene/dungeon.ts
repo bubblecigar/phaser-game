@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import { v4 } from 'uuid'
 import _ from 'lodash'
-import gameMethods from '../game/methods'
+import gameMethods, { broadcast } from '../game/methods'
 import { Player } from '../Interface'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
@@ -190,8 +190,9 @@ const movePlayer = (player: Player) => {
     _player.velocity = _velocity
   }
 
-  methods.movePlayer(_player)
-  socket.emit('movePlayer', _player)
+  broadcast(methods, 'movePlayer', _player)
+  // methods.movePlayer(_player)
+  // socket.emit('movePlayer', _player)
   writeStateToServer(userId, _player)
 }
 

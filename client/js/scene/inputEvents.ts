@@ -4,6 +4,7 @@ import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
 import socket from '../socket'
 import mapConfigs from '../maps/mapConfigs'
+import { broadcast } from '../game/methods'
 
 const registerInputEvents = (scene, methods) => {
   scene.input.keyboard.on(
@@ -15,8 +16,7 @@ const registerInputEvents = (scene, methods) => {
         }
         case 's': {
           const randomMapConfigKey = Object.keys(mapConfigs)[Math.floor(Math.random() * 10) % (Object.keys(mapConfigs).length)]
-          methods.syncMap(randomMapConfigKey)
-          socket.emit('syncMap', randomMapConfigKey)
+          broadcast('syncMap', randomMapConfigKey)
           break
         }
         case 'c': {
@@ -24,8 +24,7 @@ const registerInputEvents = (scene, methods) => {
           const player: Player = methods.getPlayer(getLocalUserData().userId)
           const _player: Player = _.omit(_.clone(player), 'phaserObject')
           _player.charactorKey = randomCharactorKey
-          methods.setPlayer(_player)
-          socket.emit('setPlayer', _player)
+          broadcast(methods, 'setPlayer', _player)
           break
         }
         default: {

@@ -6,6 +6,7 @@ import { getLocalUserData } from '../user'
 import { GameState, Player, Bullet, Item } from '../Interface'
 import gameState from './state'
 import gameConfig from './config'
+import socket from '../socket'
 
 const userId = getLocalUserData().userId
 
@@ -306,6 +307,11 @@ const gameMethods = scene => {
     }
   }
   return methods
+}
+
+export const broadcast = (methods, key, ...args) => {
+  methods[key](...args)
+  socket.emit(key, ...args)
 }
 
 export default gameMethods

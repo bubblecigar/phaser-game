@@ -3,6 +3,7 @@ import { v4 } from 'uuid'
 import _ from 'lodash'
 import { Bullet, Player, Point, Abilities } from '../Interface'
 import socket from '../socket'
+import { broadcast } from '../game/methods'
 
 interface Directions {
   front: boolean,
@@ -107,8 +108,7 @@ export const castSkill = (player: Player, skill: Skill, aim: Point, scene, metho
   if (!shotConfig) return
 
   const bullets = createBulletsOfOneShot(player, aim, shotConfig)
-  methods.shootInClient(bullets)
-  socket.emit('shootInClient', bullets)
+  broadcast(methods, 'shootInClient', bullets)
 
   if (skill.shotConfigs.length <= 0) return
 
