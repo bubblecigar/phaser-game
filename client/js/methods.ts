@@ -1,17 +1,26 @@
 import _ from 'lodash'
+import Phaser from 'phaser'
+import charactors from './charactors'
+import items from './items'
+import { getLocalUserData } from './user'
 import { GameState, Player, Bullet, Item } from './Interface'
 import gameState from './state'
 import gameConfig from './config'
 
+
+const global_variables = {
+  userId: getLocalUserData().userId,
+}
+
 const createPlayerMatter = (variables, player: Player) => {
-  const { scene, charactors } = variables
+  const { scene } = variables
   const charactor = charactors[player.charactorKey]
   const { size, origin } = charactor.matterConfig
   const { x, y } = player.position
-  const Bodies = variables.Phaser.Physics.Matter.Matter.Bodies
+  const Bodies = Phaser.Physics.Matter.Matter.Bodies
   const rect = Bodies.rectangle(x, y, size.width, size.height, { label: 'player-body' })
   const sensor = Bodies.circle(x, y, 1, { isSensor: true, label: 'body-sensor' })
-  const compound = variables.Phaser.Physics.Matter.Matter.Body.create({
+  const compound = Phaser.Physics.Matter.Matter.Body.create({
     parts: [sensor, rect],
     inertia: Infinity
   })
@@ -32,11 +41,11 @@ const createPlayerMatter = (variables, player: Player) => {
 }
 
 const createBulletMatter = (variables, bulletConstructor: Bullet) => {
-  const { scene, items } = variables
+  const { scene } = variables
   const bullet = items[bulletConstructor.itemKey]
   const { size, origin } = bullet.matterConfig
   const { x, y } = bulletConstructor.position
-  const Bodies = variables.Phaser.Physics.Matter.Matter.Bodies
+  const Bodies = Phaser.Physics.Matter.Matter.Bodies
   let body
   if (bullet.matterConfig.type === 'circle') {
     body = Bodies.circle(x, y, size.radius)
@@ -72,11 +81,11 @@ const createBulletMatter = (variables, bulletConstructor: Bullet) => {
 }
 
 const createItemMatter = (variables, itemConstructor: Item | Bullet) => {
-  const { scene, items } = variables
+  const { scene } = variables
   const item = items[itemConstructor.itemKey]
   const { size, origin } = item.matterConfig
   const { x, y } = itemConstructor.position
-  const Bodies = variables.Phaser.Physics.Matter.Matter.Bodies
+  const Bodies = Phaser.Physics.Matter.Matter.Bodies
   let body
   if (item.matterConfig.type === 'circle') {
     body = Bodies.circle(x, y, size.radius)
@@ -101,7 +110,8 @@ const createItemMatter = (variables, itemConstructor: Item | Bullet) => {
   return phaserObject
 }
 
-const gameMethods = variables => {
+const gameMethods = _variables => {
+  const variables = { ..._variables, ...global_variables }
   const methods = {
     init: () => {
       gameState.players = []
@@ -165,7 +175,6 @@ const gameMethods = variables => {
       if (playerConstructor.id === variables.userId) {
         const camera = scene.cameras.main
         camera.startFollow(player.phaserObject, true, 0.5, 0.5)
-        const Phaser = variables.Phaser
         const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
         const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
         camera.setMask(mask)
@@ -209,9 +218,9 @@ const gameMethods = variables => {
       player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y }
       if (changeDirection) {
         if (player.velocity.x === 0 && player.velocity.y === 0) {
-          player.phaserObject.play(variables.charactors[player.charactorKey].animsConfig.idle.key)
+          player.phaserObject.play(charactors[player.charactorKey].animsConfig.idle.key)
         } else {
-          player.phaserObject.play(variables.charactors[player.charactorKey].animsConfig.move.key)
+          player.phaserObject.play(charactors[player.charactorKey].animsConfig.move.key)
           if (player.velocity.x > 0) {
             player.phaserObject.setFlipX(false)
           } else if (player.velocity.x < 0) {
