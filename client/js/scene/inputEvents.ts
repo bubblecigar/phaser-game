@@ -15,7 +15,7 @@ const registerInputEvents = (scene, methods) => {
         }
         case 's': {
           const randomMapConfigKey = Object.keys(mapConfigs)[Math.floor(Math.random() * 10) % (Object.keys(mapConfigs).length)]
-          broadcast('syncMap', randomMapConfigKey)
+          broadcast(methods, 'syncMap', randomMapConfigKey)
           break
         }
         case 'c': {
