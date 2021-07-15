@@ -1,11 +1,11 @@
 import _ from 'lodash'
 import Phaser from 'phaser'
-import charactors from './charactors'
-import items from './items'
-import { getLocalUserData } from './user'
-import { GameState, Player, Bullet, Item } from './Interface'
-import gameState from './game/state'
-import gameConfig from './game/config'
+import charactors from '../charactors'
+import items from '../items'
+import { getLocalUserData } from '../user'
+import { GameState, Player, Bullet, Item } from '../Interface'
+import gameState from './state'
+import gameConfig from './config'
 
 const userId = getLocalUserData().userId
 

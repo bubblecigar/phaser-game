@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import { v4 } from 'uuid'
 import _ from 'lodash'
-import gameMethods from '../methods'
+import gameMethods from '../game/methods'
 import { Player } from '../Interface'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
