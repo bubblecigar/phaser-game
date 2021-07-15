@@ -1,6 +1,6 @@
 import { getLocalUserData } from '../user'
 import _ from 'lodash'
-import { broadcast } from '../game/methods'
+import { broadcast } from '../socket'
 
 let cameraMask
 

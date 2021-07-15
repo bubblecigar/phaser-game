@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import { v4 } from 'uuid'
 import _ from 'lodash'
 import { Bullet, Player, Point, Abilities } from '../Interface'
-import { broadcast } from '../game/methods'
+import { broadcast } from '../socket'
 
 interface Directions {
   front: boolean,

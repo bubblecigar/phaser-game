@@ -3,7 +3,7 @@ import { Player } from '../Interface'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
 import mapConfigs from '../maps/mapConfigs'
-import { broadcast } from '../game/methods'
+import { broadcast } from '../socket'
 
 const registerInputEvents = (scene, methods) => {
   scene.input.keyboard.on(

@@ -25,6 +25,12 @@ export const registerSocketEvents = methods => {
   })
 }
 
+
+export const broadcast = (methods, key, ...args) => {
+  methods[key](...args)
+  socket.emit('broadcast', key, ...args)
+}
+
 export const readStateFromServer = () => {
   socket.emit('READ_SERVER_GAME_STATE')
 }
