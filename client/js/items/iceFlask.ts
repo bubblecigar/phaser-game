@@ -21,7 +21,7 @@ const item: Bullet = {
   matterConfig: {
     type: 'circle',
     size: {
-      radius: 10
+      radius: 11
     },
     origin: {
       x: 0.5, y: 0.5
