@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import io from 'socket.io-client'
 import { getLocalUserData } from './user'
-import gameState from './game/state'
 import { GameState } from './Interface'
 
 const socket = io.connect({
