@@ -4,36 +4,22 @@ import _ from 'lodash'
 import { Bullet, Player, Point, Abilities } from '../Interface'
 import { broadcast } from '../socket'
 
-interface Directions {
-  front: boolean,
-  back: boolean,
-  side: boolean,
-  frontDiagnals: boolean,
-  backDiagnals: boolean
-}
-
 export interface ShootConfig {
   bulletKey: string,
   bulletDamage: number,
   bulletDuration: number,
   bulletAngularVelocity: number,
   bulletSpeedModifier: number,
-  directions: Directions
+  directions: number[]
 }
 
-const createBaseShotConfig = () => ({
-  bulletKey: 'dagger',
+const createBaseShotConfig = (bullet: string): ShootConfig => ({
+  bulletKey: bullet,
   bulletDamage: 3,
-  bulletDuration: 1000,
+  bulletDuration: 700,
   bulletSpeedModifier: 1,
   bulletAngularVelocity: 0,
-  directions: {
-    front: true,
-    back: false,
-    side: false,
-    frontDiagnals: false,
-    backDiagnals: false
-  }
+  directions: [0]
 })
 
 export const createBulletsOfOneShot = (player: Player, aim: Point, ShootConfig: ShootConfig): Bullet[] => {
@@ -57,40 +43,13 @@ export const createBulletsOfOneShot = (player: Player, aim: Point, ShootConfig: 
   })
 
   const bullets = []
-  const directions = ShootConfig.directions
-  if (directions.front) {
-    const bullet = createBullet(ShootConfig)
-    bullets.push(bullet)
-  }
-  if (directions.back) {
-    const bullet = createBullet(ShootConfig)
-    bullet.velocity = new Phaser.Math.Vector2(bullet.velocity.x, bullet.velocity.y).rotate(Math.PI)
-    bullets.push(bullet)
-  }
-  if (directions.side) {
-    const bulletR = createBullet(ShootConfig)
-    bulletR.velocity = new Phaser.Math.Vector2(bulletR.velocity.x, bulletR.velocity.y).rotate(Math.PI / 2)
-    bullets.push(bulletR)
-    const bulletL = createBullet(ShootConfig)
-    bulletL.velocity = new Phaser.Math.Vector2(bulletL.velocity.x, bulletL.velocity.y).rotate(-Math.PI / 2)
-    bullets.push(bulletL)
-  }
-  if (directions.frontDiagnals) {
-    const bulletR = createBullet(ShootConfig)
-    bulletR.velocity = new Phaser.Math.Vector2(bulletR.velocity.x, bulletR.velocity.y).rotate(Math.PI / 4)
-    bullets.push(bulletR)
-    const bulletL = createBullet(ShootConfig)
-    bulletL.velocity = new Phaser.Math.Vector2(bulletL.velocity.x, bulletL.velocity.y).rotate(-Math.PI / 4)
-    bullets.push(bulletL)
-  }
-  if (directions.backDiagnals) {
-    const bulletR = createBullet(ShootConfig)
-    bulletR.velocity = new Phaser.Math.Vector2(bulletR.velocity.x, bulletR.velocity.y).rotate(Math.PI * 3 / 4)
-    bullets.push(bulletR)
-    const bulletL = createBullet(ShootConfig)
-    bulletL.velocity = new Phaser.Math.Vector2(bulletL.velocity.x, bulletL.velocity.y).rotate(-Math.PI * 3 / 4)
-    bullets.push(bulletL)
-  }
+  ShootConfig.directions.forEach(
+    direction => {
+      const bullet = createBullet(ShootConfig)
+      bullet.velocity = new Phaser.Math.Vector2(bullet.velocity.x, bullet.velocity.y).rotate(direction)
+      bullets.push(bullet)
+    }
+  )
 
   return bullets
 }
@@ -98,7 +57,6 @@ export const createBulletsOfOneShot = (player: Player, aim: Point, ShootConfig: 
 export interface Skill {
   shotConfigs: ShootConfig[],
   shotIntervals: number[],
-  coolDown: number,
   castTime: number
 }
 
@@ -122,30 +80,23 @@ export const castSkill = (player: Player, skill: Skill, aim: Point, scene, metho
   )
 }
 
-export const createInitAbilities = () => ({
-  doubleDamage: false,
-  bulletDuration: false,
-  bulletSpeed: false,
-  bulletRotate: false,
-  backShooting: false,
-  sideShooting: false,
-  frontSplit: false,
-  backSplit: false,
+export const createInitAbilities = (): Abilities => ({
+  damageMultiplier: 1,
+  durationMultiplier: 1,
+  speedMultiplier: 1,
+  rotation: false,
+  directions: [0],
   consectiveShooting: 1
 })
 
 
 export const createSkill = (bullet: string, abilities: Abilities): Skill => {
-  const baseShotConfig = createBaseShotConfig()
+  const baseShotConfig = createBaseShotConfig(bullet)
   baseShotConfig.bulletKey = bullet
-  if (abilities.doubleDamage) { baseShotConfig.bulletDamage *= 2 }
-  if (abilities.bulletDuration) { baseShotConfig.bulletDuration *= 2 }
-  if (abilities.bulletSpeed) { baseShotConfig.bulletSpeedModifier = 1.3 }
-  if (abilities.bulletRotate) { baseShotConfig.bulletAngularVelocity = 0.2 }
-  if (abilities.backShooting) { baseShotConfig.directions.back = true }
-  if (abilities.frontSplit) { baseShotConfig.directions.frontDiagnals = true }
-  if (abilities.sideShooting) { baseShotConfig.directions.side = true }
-  if (abilities.backSplit) { baseShotConfig.directions.backDiagnals = true }
+  baseShotConfig.bulletDamage *= abilities.damageMultiplier
+  baseShotConfig.bulletDuration *= abilities.durationMultiplier
+  baseShotConfig.bulletSpeedModifier *= abilities.speedMultiplier
+  baseShotConfig.bulletAngularVelocity = abilities.rotation ? 0.15 : 0
 
   const shotConfigs = []
   const shotIntervals = []
@@ -158,7 +109,6 @@ export const createSkill = (bullet: string, abilities: Abilities): Skill => {
   return {
     shotConfigs,
     shotIntervals,
-    coolDown: 3000,
     castTime: 200
   }
 }

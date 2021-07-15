@@ -5,15 +5,12 @@ export interface Point {
 }
 
 export interface Abilities {
-  doubleDamage?: boolean,
-  bulletDuration?: boolean,
-  bulletSpeed?: boolean,
-  bulletRotate?: boolean,
-  backShooting?: boolean,
-  sideShooting?: boolean,
-  frontSplit?: boolean,
-  backSplit?: boolean,
-  consectiveShooting?: number
+  damageMultiplier: number,
+  durationMultiplier: number,
+  speedMultiplier: number,
+  rotation: boolean,
+  directions: number[],
+  consectiveShooting: number
 }
 
 export interface Player {
