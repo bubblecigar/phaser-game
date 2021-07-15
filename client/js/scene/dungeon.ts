@@ -27,7 +27,7 @@ let aim
 
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
-  methods = gameMethods({ scene: this })
+  methods = gameMethods(this)
   registerSocketEvents(methods)
   registerWorldEvents(this, methods)
 }

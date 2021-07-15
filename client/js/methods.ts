@@ -7,13 +7,9 @@ import { GameState, Player, Bullet, Item } from './Interface'
 import gameState from './state'
 import gameConfig from './config'
 
+const userId = getLocalUserData().userId
 
-const global_variables = {
-  userId: getLocalUserData().userId,
-}
-
-const createPlayerMatter = (variables, player: Player) => {
-  const { scene } = variables
+const createPlayerMatter = (scene, player: Player) => {
   const charactor = charactors[player.charactorKey]
   const { size, origin } = charactor.matterConfig
   const { x, y } = player.position
@@ -40,8 +36,7 @@ const createPlayerMatter = (variables, player: Player) => {
   return phaserObject
 }
 
-const createBulletMatter = (variables, bulletConstructor: Bullet) => {
-  const { scene } = variables
+const createBulletMatter = (scene, bulletConstructor: Bullet) => {
   const bullet = items[bulletConstructor.itemKey]
   const { size, origin } = bullet.matterConfig
   const { x, y } = bulletConstructor.position
@@ -80,8 +75,7 @@ const createBulletMatter = (variables, bulletConstructor: Bullet) => {
   return phaserObject
 }
 
-const createItemMatter = (variables, itemConstructor: Item | Bullet) => {
-  const { scene } = variables
+const createItemMatter = (scene, itemConstructor: Item | Bullet) => {
   const item = items[itemConstructor.itemKey]
   const { size, origin } = item.matterConfig
   const { x, y } = itemConstructor.position
@@ -110,8 +104,7 @@ const createItemMatter = (variables, itemConstructor: Item | Bullet) => {
   return phaserObject
 }
 
-const gameMethods = _variables => {
-  const variables = { ..._variables, ...global_variables }
+const gameMethods = scene => {
   const methods = {
     init: () => {
       gameState.players = []
@@ -124,7 +117,7 @@ const gameMethods = _variables => {
     syncMap: (mapConfigKey: String) => {
       gameState.mapConfigKey = mapConfigKey
       methods.init()
-      variables.scene.scene.restart({ mapConfigKey })
+      scene.scene.restart({ mapConfigKey })
     },
     syncPlayers: (players: Player[]) => {
       gameState.players.forEach(
@@ -165,14 +158,13 @@ const gameMethods = _variables => {
       const player: Player = playerConstructor
       gameState.players.push(player)
 
-      const scene = variables.scene
       if (!scene) {
         console.log('not initialize')
         return
       }
-      player.phaserObject = createPlayerMatter(variables, player)
+      player.phaserObject = createPlayerMatter(scene, player)
 
-      if (playerConstructor.id === variables.userId) {
+      if (playerConstructor.id === userId) {
         const camera = scene.cameras.main
         camera.startFollow(player.phaserObject, true, 0.5, 0.5)
         const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
@@ -210,7 +202,7 @@ const gameMethods = _variables => {
       }
       player.phaserObject.setVelocityX(player.velocity.x)
       player.phaserObject.setVelocityY(player.velocity.y)
-      if (player.id !== variables.userId) {
+      if (player.id !== userId) {
         player.phaserObject.setX(player.position.x)
         player.phaserObject.setY(player.position.y)
       }
@@ -231,14 +223,13 @@ const gameMethods = _variables => {
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
     shootInClient: (bulletConstructors: Bullet[]) => {
-      const scene = variables.scene
       if (!scene) {
         console.log('not initialize')
         return
       }
       bulletConstructors.forEach(
         bulletConstructor => {
-          bulletConstructor.phaserObject = createBulletMatter(variables, bulletConstructor)
+          bulletConstructor.phaserObject = createBulletMatter(scene, bulletConstructor)
         }
       )
     },
@@ -271,13 +262,12 @@ const gameMethods = _variables => {
       }
       gameState.items.push(item)
 
-      const scene = variables.scene
       if (!scene) {
         console.log('not initialize')
         return
       }
 
-      const phaserObject = createItemMatter(variables, itemConstructor)
+      const phaserObject = createItemMatter(scene, itemConstructor)
       item.phaserObject = phaserObject
       item.phaserObject.setData(item)
       return item
