@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import gameMethods from '../game/methods'
-import { Player, Point } from '../Interface'
+import { Player } from '../Interface'
 import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
 import items from '../items/index'
@@ -62,7 +62,7 @@ const createInitPlayerConstructor = () => {
     doubleDamage: false,
     bulletDuration: true,
     bulletSpeed: true,
-    bulletRotate: true,
+    bulletRotate: false,
     backShooting: false,
     sideShooting: false,
     frontSplit: true,
@@ -79,6 +79,7 @@ const createInitPlayerConstructor = () => {
     health: initHealth,
     coins: 0,
     items: [],
+    bullet: 'fireball',
     abilities: initAbilities,
     phaserObject: null
   }
@@ -100,7 +101,7 @@ const registerAimingTarget = scene => {
     const player = methods.getPlayer(getLocalUserData().userId)
     if (!player) return
 
-    skillInUse = createSkill('iceFlask', player.abilities)
+    skillInUse = createSkill(player.bullet, player.abilities)
 
     aim.setAngularVelocity(0.1)
     aim.setVisible(true)

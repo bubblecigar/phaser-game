@@ -25,6 +25,7 @@ export interface Player {
   phaserObject: any,
   health: number,
   items: Item[],
+  bullet: string,
   abilities: Abilities,
   coins: number
 }
