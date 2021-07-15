@@ -191,7 +191,6 @@ const movePlayer = (player: Player, dt) => {
   }
 
   broadcast(methods, 'movePlayer', _player)
-  writeStateToServer(userId, _player)
 }
 
 function update(t, dt) {
@@ -199,6 +198,8 @@ function update(t, dt) {
   if (!player || !player.phaserObject) return
   FOV.update(this, player.position)
   movePlayer(player, dt)
+
+  writeStateToServer(userId, player)
 }
 
 export default {

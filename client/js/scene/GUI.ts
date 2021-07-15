@@ -70,7 +70,6 @@ const createAimingBar = (x, y) => {
   aimingBarContainer = scene.add.rectangle(x - 1, y, 20 + 2, 5, 0xFFFFFF)
   aimingBarContainer.setOrigin(0, 0.5)
   aimingBar = scene.add.rectangle(x, y, aimingTime, 3)
-  showAimingBar()
 }
 
 const showAimingBar = () => {

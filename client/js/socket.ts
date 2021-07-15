@@ -35,7 +35,7 @@ export const readStateFromServer = () => {
 }
 
 export const writeStateToServer = (userId, playerState) => {
-  socket.emit('WRITE_SERVER_GAME_STATE', userId, playerState)
+  socket.emit('WRITE_SERVER_GAME_STATE', userId, _.omit(playerState, 'phaserObject'))
 }
 
 export default socket
