@@ -49,9 +49,11 @@ function create() {
   )
 
   const padding = 32
-  addItemCell(gameConfig.canvasWidth / 2 - 16, gameConfig.canvasHeight - padding, 0)
-  addItemCell(gameConfig.canvasWidth / 2 - 16, gameConfig.canvasHeight - padding, 1)
-  addItemCell(gameConfig.canvasWidth / 2 - 16, gameConfig.canvasHeight - padding, 2)
+  const itemX = gameConfig.canvasWidth / 2 - 16
+  const itemY = gameConfig.canvasHeight - padding
+  addItemCell(itemX, itemY, 0)
+  addItemCell(itemX, itemY, 1)
+  addItemCell(itemX, itemY, 2)
 
   const coinX = padding
   const coinY = gameConfig.canvasHeight - padding
