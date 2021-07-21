@@ -66,6 +66,26 @@ function create() {
   const aimingBarX = gameConfig.canvasWidth / 2 - 10
   const aimingBarY = gameConfig.canvasHeight / 2 + 20
   createAimingBar(aimingBarX, aimingBarY)
+
+  const player = gameState.players.find(p => p.id === getLocalUserData().userId)
+  const abilities = player.abilities
+  const abilityX = padding
+  const abilityY = gameConfig.canvasHeight - padding
+  createAbilityBar(abilityX, abilityY - 30, 'dmg', abilities.damageMultiplier / 9)
+  createAbilityBar(abilityX, abilityY - 20, 'spd', abilities.speedMultiplier / 9)
+  createAbilityBar(abilityX, abilityY - 10, 'dur', abilities.durationMultiplier / 9)
+  createAbilityBar(abilityX, abilityY, 'dir', abilities.directions.length / 9)
+  createAbilityBar(abilityX, abilityY + 10, 'wave', abilities.consectiveShooting / 9)
+}
+
+const createAbilityBar = (x, y, label, percentage) => {
+  const barLength = 50
+  const text = scene.add.text(x - 3, y, label, { fontSize: '8px' })
+  text.setOrigin(1, 0.5)
+  const maximumBar = scene.add.rectangle(x - 1, y, barLength, 6, 0xDDDDDD)
+  maximumBar.setOrigin(0, 0.5)
+  const currentBar = scene.add.rectangle(x, y, percentage * barLength - 2, 4, 0x4ba747)
+  currentBar.setOrigin(0, 0.5)
 }
 
 const createAimingBar = (x, y) => {
