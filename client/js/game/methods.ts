@@ -145,6 +145,42 @@ const gameMethods = scene => {
       methods.removePlayer(playerConstructor.id)
       methods.addPlayer(playerConstructor)
     },
+    levelUpPlayer: (player: Player, key: 'damage' | 'duration' | 'speed' | 'consective' | 'rotation' | 'directions') => {
+      const abilities = player.abilities
+
+      switch (key) {
+        case 'damage': {
+          abilities.damageMultiplier += 0.1
+          break
+        }
+        case 'duration': {
+          abilities.durationMultiplier += 0.1
+          break
+        }
+        case 'speed': {
+          abilities.speedMultiplier += 0.1
+          break
+        }
+        case 'rotation': {
+          abilities.rotation = true
+          break
+        }
+        case 'consective': {
+          abilities.consectiveShooting++
+          break
+        }
+        case 'directions': {
+          const nth = (abilities.directions.length + 1) / 2
+          const nthAngle = nth * Math.PI / 4
+          abilities.directions.push(nthAngle, -nthAngle)
+          break
+        }
+        default: {
+          console.log('invalid key for levelUpPlayer')
+          break
+        }
+      }
+    },
     addPlayer: (playerConstructor: Player): void => {
       const playerAlreadyExist = gameState.players.some(player => player.id === playerConstructor.id)
       if (playerAlreadyExist) {
