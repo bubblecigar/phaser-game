@@ -9,6 +9,13 @@ import { aimingTime, skillInUse } from '../scene/dungeon'
 
 let scene, coinGroup, maximumBar, currentBar
 let aimingBarContainer, aimingBar
+const abilityBar = {
+  dmg: null,
+  spd: null,
+  dir: null,
+  dur: null,
+  wave: null
+}
 
 function preload() {
   scene = this
@@ -86,6 +93,21 @@ const createAbilityBar = (x, y, label, percentage) => {
   maximumBar.setOrigin(0, 0.5)
   const currentBar = scene.add.rectangle(x, y, percentage * barLength - 2, 4, 0x4ba747)
   currentBar.setOrigin(0, 0.5)
+  abilityBar[label] = currentBar
+}
+
+const showAbilityBar = (abilities) => {
+  const barLength = 50
+  abilityBar.dmg.setSize(barLength * abilities.damageMultiplier / 9 - 2, 4)
+  abilityBar.dmg.setOrigin(0, 0.5)
+  abilityBar.spd.setSize(barLength * abilities.speedMultiplier / 9 - 2, 4)
+  abilityBar.spd.setOrigin(0, 0.5)
+  abilityBar.dur.setSize(barLength * abilities.durationMultiplier / 9 - 2, 4)
+  abilityBar.dur.setOrigin(0, 0.5)
+  abilityBar.dir.setSize(barLength * abilities.directions.length / 9 - 2, 4)
+  abilityBar.dir.setOrigin(0, 0.5)
+  abilityBar.wave.setSize(barLength * abilities.consectiveShooting / 9 - 2, 4)
+  abilityBar.wave.setOrigin(0, 0.5)
 }
 
 const createAimingBar = (x, y) => {
@@ -150,6 +172,7 @@ function update(t, dt) {
   const maximumHealth = charactors[player.charactorKey].maxHealth
   showHealthBar(player.health, maximumHealth)
   showAimingBar()
+  showAbilityBar(player.abilities)
 }
 
 export default {
