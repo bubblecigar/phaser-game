@@ -66,9 +66,9 @@ function create() {
   // const coinY = gameConfig.canvasHeight - padding
   // createCoinGroup(this, coinX, coinY)
 
-  const aimingBarX = gameConfig.canvasWidth / 2 - 10
-  const aimingBarY = gameConfig.canvasHeight / 2 + 20
-  createAimingBar(aimingBarX, aimingBarY)
+  // const aimingBarX = gameConfig.canvasWidth / 2 - 10
+  // const aimingBarY = gameConfig.canvasHeight / 2 + 20
+  // createAimingBar(aimingBarX, aimingBarY)
 
   const abilityX = padding
   const abilityY = gameConfig.canvasHeight - padding
@@ -146,7 +146,7 @@ function update(t, dt) {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (!player) return
   // showCoinCount(player.coins)
-  showAimingBar()
+  // showAimingBar()
   showAbilityBar(player.abilities)
 }
 

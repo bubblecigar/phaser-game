@@ -22,8 +22,42 @@ let map
 let cursors
 let space
 let aim
+let aimingBarContainer, aimingBar
 export let skillInUse: Skill | undefined
 export let aimingTime: number = 0
+
+
+const createAimingBar = (scene, x, y) => {
+  const aimingRadius = 4
+  aimingBarContainer = scene.add.circle(x, y, aimingRadius, 0xdddddd)
+  aimingBar = scene.add.arc(x, y, aimingRadius - 1, 0, 0)
+  aimingBarContainer.setDepth(4)
+  aimingBar.setDepth(4)
+}
+
+const showAimingBar = (player) => {
+  if (!aimingTime || !skillInUse) {
+    aimingBar.setVisible(false)
+    aimingBarContainer.setVisible(false)
+  } else {
+    const offset = 10
+    aimingBarContainer.setX(player.position.x + offset)
+    aimingBarContainer.setY(player.position.y + offset)
+    aimingBar.setX(player.position.x + offset)
+    aimingBar.setY(player.position.y + offset)
+    aimingBarContainer.setVisible(true)
+    aimingBar.setVisible(true)
+    const percentage = Math.min(aimingTime / skillInUse.castTime, 1)
+    aimingBar.startAngle = -percentage * 180 + 90
+    aimingBar.endAngle = percentage * 180 + 90
+    if (percentage >= 1) {
+      aimingBar.setFillStyle(0x4ba747)
+    } else {
+      aimingBar.setFillStyle(0xee8e2e)
+    }
+  }
+}
+
 
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
@@ -97,6 +131,11 @@ const registerAimingTarget = scene => {
     aim.setVisible(true)
     aim.setX(player.position.x)
     aim.setY(player.position.y)
+
+    aimingBarContainer.setX(player.position.x)
+    aimingBarContainer.setY(player.position.y)
+    aimingBar.setX(player.position.x)
+    aimingBar.setY(player.position.y)
   })
   space.on('up', () => {
     // fire
@@ -120,6 +159,7 @@ function create() {
   registerAimingTarget(this)
   registerInputEvents(this, methods)
   map = FOV.create(this, mapConfig)
+  createAimingBar(this, 0, 0)
 
   Object.keys(charactors).forEach(
     key => {
@@ -198,7 +238,7 @@ function update(t, dt) {
   if (!player || !player.phaserObject) return
   FOV.update(this, player.position)
   movePlayer(player, dt)
-
+  showAimingBar(player)
   writeStateToServer(userId, player)
 }
 
