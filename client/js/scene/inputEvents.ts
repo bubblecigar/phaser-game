@@ -7,8 +7,22 @@ import { broadcast } from '../socket'
 
 const registerInputEvents = (scene, methods) => {
   scene.input.keyboard.on(
+    'keyup', e => {
+      switch (e.key) {
+        case 'a': {
+          scene.scene.stop('GUI')
+          break
+        }
+      }
+    }
+  )
+  scene.input.keyboard.on(
     'keydown', e => {
       switch (e.key) {
+        case 'a': {
+          scene.scene.launch('GUI')
+          break
+        }
         case 'w': {
           scene.scale.toggleFullscreen();
           break

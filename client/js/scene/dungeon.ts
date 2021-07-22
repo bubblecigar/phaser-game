@@ -196,7 +196,6 @@ function create() {
 
   socket.emit('player-join', createInitPlayerConstructor())
   readStateFromServer()
-  this.scene.launch('GUI')
 }
 
 const movePlayer = (player: Player, dt) => {
