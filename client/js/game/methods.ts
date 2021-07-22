@@ -21,15 +21,25 @@ const createPlayerMatter = (scene, player: Player) => {
     inertia: Infinity
   })
 
-  const phaserObject = scene.matter.add.sprite(x, y, undefined, undefined, {
+  const charatorHeight = charactor.spritesheetConfig.options.frameHeight
+  const text = scene.add.text(0, -charatorHeight / 2, 'bubble', { fontSize: '8px' })
+  text.setOrigin(0.5, 0.5)
+  text.name = 'player-name'
+
+  const sprite = scene.add.sprite(0, 0)
+  sprite.setOrigin(origin.x, origin.y)
+  sprite.play(charactor.animsConfig.idle.key)
+  sprite.name = 'player-sprite'
+
+  const container = scene.add.container(x, y, [sprite, text])
+
+  const phaserObject = scene.matter.add.gameObject(container, {
     friction: 0,
     frictionStatic: 0,
     frictionAir: 0,
   })
   phaserObject.setExistingBody(compound)
-  phaserObject.setOrigin(origin.x, origin.y)
   phaserObject.setCollisionGroup(-1)
-  phaserObject.play(charactor.animsConfig.idle.key)
   phaserObject.setDepth(3)
   phaserObject.setData(player)
 
@@ -241,14 +251,15 @@ const gameMethods = scene => {
       player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
       player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y }
       if (changeDirection) {
+        const sprite = player.phaserObject.getByName('player-sprite')
         if (player.velocity.x === 0 && player.velocity.y === 0) {
-          player.phaserObject.play(charactors[player.charactorKey].animsConfig.idle.key)
+          sprite.play(charactors[player.charactorKey].animsConfig.idle.key)
         } else {
-          player.phaserObject.play(charactors[player.charactorKey].animsConfig.move.key)
+          sprite.play(charactors[player.charactorKey].animsConfig.move.key)
           if (player.velocity.x > 0) {
-            player.phaserObject.setFlipX(false)
+            sprite.setFlipX(false)
           } else if (player.velocity.x < 0) {
-            player.phaserObject.setFlipX(true)
+            sprite.setFlipX(true)
           }
         }
       }
