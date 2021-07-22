@@ -28,14 +28,14 @@ function preload() {
   )
 }
 
-const addItemCell = (x, y, i) => {
-  const itemCell = scene.add.image(x, y, 'item_cell')
-  itemCell.setX(itemCell.x + (itemCell.width - 1) * i)
-  itemCell.angle = 90 * (i + 1)
-  const text = scene.add.text(itemCell.x + 3, y + 3, i + 1, { fontSize: 8 })
-  text.setOrigin(0, 0)
-  return itemCell
-}
+// const addItemCell = (x, y, i) => {
+//   const itemCell = scene.add.image(x, y, 'item_cell')
+//   itemCell.setX(itemCell.x + (itemCell.width - 1) * i)
+//   itemCell.angle = 90 * (i + 1)
+//   const text = scene.add.text(itemCell.x + 3, y + 3, i + 1, { fontSize: 8 })
+//   text.setOrigin(0, 0)
+//   return itemCell
+// }
 
 function create() {
   Object.keys(items).forEach(
@@ -56,11 +56,11 @@ function create() {
   )
 
   const padding = 32
-  const itemX = gameConfig.canvasWidth / 2 - 16
-  const itemY = gameConfig.canvasHeight - padding
-  addItemCell(itemX, itemY, 0)
-  addItemCell(itemX, itemY, 1)
-  addItemCell(itemX, itemY, 2)
+  // const itemX = gameConfig.canvasWidth / 2 - 16
+  // const itemY = gameConfig.canvasHeight - padding
+  // addItemCell(itemX, itemY, 0)
+  // addItemCell(itemX, itemY, 1)
+  // addItemCell(itemX, itemY, 2)
 
   // const coinX = padding
   // const coinY = gameConfig.canvasHeight - padding
