@@ -84,7 +84,7 @@ function create() {
 }
 
 const createAbilityBar = (x, y, label, percentage) => {
-  const barLength = 50
+  const barLength = 40
   const text = scene.add.text(x - 3, y, label, { fontSize: '8px' })
   text.setOrigin(1, 0.5)
   const maximumBar = scene.add.rectangle(x - 1, y, barLength, 6, 0xDDDDDD)
@@ -95,7 +95,7 @@ const createAbilityBar = (x, y, label, percentage) => {
 }
 
 const showAbilityBar = (abilities) => {
-  const barLength = 50
+  const barLength = 40
   abilityBar.dmg.setSize(barLength * abilities.damageMultiplier / 9 - 2, 4)
   abilityBar.dmg.setOrigin(0, 0.5)
   abilityBar.spd.setSize(barLength * abilities.speedMultiplier / 9 - 2, 4)
