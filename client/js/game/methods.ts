@@ -27,20 +27,20 @@ const createPlayerMatter = (scene, player: Player) => {
   const maximumBar = scene.add.rectangle(-healthBarLength / 2, -charatorHeight / 2 - 2, healthBarLength, 4, 0xDDDDDD)
   maximumBar.setOrigin(0, 0.5)
   maximumBar.name = 'maximum-bar'
-  const currentBar = scene.add.rectangle(-healthBarLength / 2 + 1, -charatorHeight / 2 - 2, healthBarLength - 2, 2, 0xda4e38)
-  currentBar.setOrigin(0, 0.5)
-  currentBar.name = 'health-bar'
+  const healthBar = scene.add.rectangle(-healthBarLength / 2 + 1, -charatorHeight / 2 - 2, healthBarLength - 2, 2, 0xda4e38)
+  healthBar.setOrigin(0, 0.5)
+  healthBar.name = 'health-bar'
 
   const maximumHealth = charactors[player.charactorKey].maxHealth
   const percentage = player.health / maximumHealth
-  currentBar.setSize(percentage * (healthBarLength - 2), currentBar.height)
+  healthBar.setSize(percentage * (healthBarLength - 2), healthBar.height)
 
   const sprite = scene.add.sprite(0, 0)
   sprite.setOrigin(origin.x, origin.y)
   sprite.play(charactor.animsConfig.idle.key)
   sprite.name = 'player-sprite'
 
-  const container = scene.add.container(x, y, [sprite, maximumBar, currentBar])
+  const container = scene.add.container(x, y, [sprite, maximumBar, healthBar])
 
   const phaserObject = scene.matter.add.gameObject(container, {
     friction: 0,
