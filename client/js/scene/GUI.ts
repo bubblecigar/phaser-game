@@ -62,9 +62,9 @@ function create() {
   addItemCell(itemX, itemY, 1)
   addItemCell(itemX, itemY, 2)
 
-  const coinX = padding
-  const coinY = gameConfig.canvasHeight - padding
-  createCoinGroup(this, coinX, coinY)
+  // const coinX = padding
+  // const coinY = gameConfig.canvasHeight - padding
+  // createCoinGroup(this, coinX, coinY)
 
   const healthX = gameConfig.canvasWidth - padding
   const healthY = gameConfig.canvasHeight - padding
@@ -149,24 +149,24 @@ const showHealthBar = (current, maximum) => {
   currentBar.setOrigin(1, 0.5)
 }
 
-const createCoinGroup = (scene, x, y) => {
-  coinGroup = scene.add.group({ classType: Phaser.GameObjects.Sprite })
-  for (let i = 0; i < 10; i++) {
-    coinGroup.add(scene.add.sprite(x + 10 * i, y))
-  }
-  coinGroup.playAnimation(items.coin.animsConfig.idle.key, 0)
-  coinGroup.setVisible(false)
-}
+// const createCoinGroup = (scene, x, y) => {
+//   coinGroup = scene.add.group({ classType: Phaser.GameObjects.Sprite })
+//   for (let i = 0; i < 10; i++) {
+//     coinGroup.add(scene.add.sprite(x + 10 * i, y))
+//   }
+//   coinGroup.playAnimation(items.coin.animsConfig.idle.key, 0)
+//   coinGroup.setVisible(false)
+// }
 
-const showCoinCount = count => {
-  coinGroup.setVisible(true)
-  coinGroup.setVisible(false, count, 1)
-}
+// const showCoinCount = count => {
+//   coinGroup.setVisible(true)
+//   coinGroup.setVisible(false, count, 1)
+// }
 
 function update(t, dt) {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (!player) return
-  showCoinCount(player.coins)
+  // showCoinCount(player.coins)
   const maximumHealth = charactors[player.charactorKey].maxHealth
   showHealthBar(player.health, maximumHealth)
   showAimingBar()
