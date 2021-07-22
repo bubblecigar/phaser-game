@@ -22,16 +22,25 @@ const createPlayerMatter = (scene, player: Player) => {
   })
 
   const charatorHeight = charactor.spritesheetConfig.options.frameHeight
-  const text = scene.add.text(0, -charatorHeight / 2, 'bubble', { fontSize: '8px' })
-  text.setOrigin(0.5, 0.5)
-  text.name = 'player-name'
+
+  const healthBarLength = 20
+  const maximumBar = scene.add.rectangle(-healthBarLength / 2, -charatorHeight / 2 - 2, healthBarLength, 4, 0xDDDDDD)
+  maximumBar.setOrigin(0, 0.5)
+  maximumBar.name = 'maximum-bar'
+  const currentBar = scene.add.rectangle(-healthBarLength / 2 + 1, -charatorHeight / 2 - 2, healthBarLength - 2, 2, 0xda4e38)
+  currentBar.setOrigin(0, 0.5)
+  currentBar.name = 'health-bar'
+
+  const maximumHealth = charactors[player.charactorKey].maxHealth
+  const percentage = player.health / maximumHealth
+  currentBar.setSize(percentage * (healthBarLength - 2), currentBar.height)
 
   const sprite = scene.add.sprite(0, 0)
   sprite.setOrigin(origin.x, origin.y)
   sprite.play(charactor.animsConfig.idle.key)
   sprite.name = 'player-sprite'
 
-  const container = scene.add.container(x, y, [sprite, text])
+  const container = scene.add.container(x, y, [sprite, maximumBar, currentBar])
 
   const phaserObject = scene.matter.add.gameObject(container, {
     friction: 0,
@@ -276,9 +285,19 @@ const gameMethods = scene => {
         }
       )
     },
+    updatePlayerHealthBar: (playerId: string) => {
+      const player = methods.getPlayer(playerId)
+      const maximumHealth = charactors[player.charactorKey].maxHealth
+      const maxBar = player.phaserObject.getByName('maximum-bar')
+      const percentage = player.health / maximumHealth
+      const healthBar = player.phaserObject.getByName('health-bar')
+      healthBar.setSize(percentage * (maxBar.width - 2), healthBar.height)
+    },
     onHit: (playerId: string, bullet: Bullet) => {
       const player = methods.getPlayer(playerId)
       player.health -= bullet.damage
+      methods.updatePlayerHealthBar(playerId)
+
       if (player.health <= 0) {
         player.health = 0
         const ghostCharactor: Player = {
