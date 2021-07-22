@@ -66,10 +66,6 @@ function create() {
   // const coinY = gameConfig.canvasHeight - padding
   // createCoinGroup(this, coinX, coinY)
 
-  const healthX = gameConfig.canvasWidth - padding
-  const healthY = gameConfig.canvasHeight - padding
-  createHealthBar(this, healthX, healthY)
-
   const aimingBarX = gameConfig.canvasWidth / 2 - 10
   const aimingBarY = gameConfig.canvasHeight / 2 + 20
   createAimingBar(aimingBarX, aimingBarY)
@@ -132,23 +128,6 @@ const showAimingBar = () => {
   }
 }
 
-const createHealthBar = (scene, x, y) => {
-  const text = scene.add.text(x + 1, y, 'hp', { fontSize: 8 })
-  text.setOrigin(0, 0)
-
-  maximumBar = scene.add.rectangle(x, y, 60, 6, 0xDDDDDD)
-  maximumBar.setOrigin(1, 1)
-  currentBar = scene.add.rectangle(x - 1, y, 40, 4, 0xda4e38)
-  currentBar.setOrigin(1, 1)
-}
-
-const showHealthBar = (current, maximum) => {
-  maximumBar.width = maximum
-  maximumBar.setOrigin(1, 0.5)
-  currentBar.width = current - 2
-  currentBar.setOrigin(1, 0.5)
-}
-
 // const createCoinGroup = (scene, x, y) => {
 //   coinGroup = scene.add.group({ classType: Phaser.GameObjects.Sprite })
 //   for (let i = 0; i < 10; i++) {
@@ -167,8 +146,6 @@ function update(t, dt) {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (!player) return
   // showCoinCount(player.coins)
-  const maximumHealth = charactors[player.charactorKey].maxHealth
-  showHealthBar(player.health, maximumHealth)
   showAimingBar()
   showAbilityBar(player.abilities)
 }
