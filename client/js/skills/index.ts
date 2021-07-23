@@ -107,7 +107,7 @@ export const createSkill = (bullet: string, abilities: Abilities): Skill => {
     shotIntervals.push(300 + i * 100)
   }
 
-  const castTime = (1 + (abilities.damageMultiplier - 1) + (abilities.durationMultiplier - 1) + (abilities.speedMultiplier - 1)) * Math.sqrt(abilities.consectiveShooting + abilities.directions.length / 2) * 100
+  const castTime = (1 + (abilities.damageMultiplier - 1) + (abilities.durationMultiplier - 1) + (abilities.speedMultiplier - 1)) * Math.sqrt(abilities.consectiveShooting) * Math.sqrt(abilities.directions.length / 2) * 100
 
   return {
     shotConfigs,
