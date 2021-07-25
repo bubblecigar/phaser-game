@@ -44,7 +44,7 @@ io.on('connection', async function (socket) {
   })
 
   socket.on('disconnect', async function () {
-    const playerIndex = gameState.players.findIndex(player => player.id === userData.id)
+    const playerIndex = gameState.players.findIndex(player => player.id === userData.userId)
     if (playerIndex > -1) {
       gameState.players.splice(playerIndex, 1)
     } else {
