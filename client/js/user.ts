@@ -3,11 +3,15 @@ import { v4 } from 'uuid'
 const localKey = 'farm-user'
 
 interface User {
-  userId: string
+  userId: string,
+  username: string,
+  roomId: string
 }
 
 const defaultUserData: User = {
-  userId: v4()
+  userId: v4(),
+  username: '',
+  roomId: ''
 }
 
 const getLocalUserData = (): User => {
