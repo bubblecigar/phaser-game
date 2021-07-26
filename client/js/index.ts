@@ -2,9 +2,9 @@ import Phaser from 'phaser'
 import _ from 'lodash'
 import PhaserRaycaster from 'phaser-raycaster'
 import gameConfig from './game/config'
-import dungeonScene from './scene/dungeon/dungeon'
+import dungeonScene from './scene/dungeon/index'
 import GUIScene from './scene/dungeon/GUI'
-import loginScene from './scene/login/loginScene'
+import loginScene from './scene/login/index'
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
