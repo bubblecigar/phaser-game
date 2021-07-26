@@ -2,9 +2,9 @@ import Phaser from 'phaser'
 import _ from 'lodash'
 import PhaserRaycaster from 'phaser-raycaster'
 import gameConfig from './game/config'
-import './socket'
 import dungeonScene from './scene/dungeon'
 import GUIScene from './scene/GUI'
+import loginScene from './scene/loginScene'
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -21,13 +21,17 @@ const game = new Phaser.Game({
       gravity: {
         y: 0
       },
-      debug: {
-        showBody: true,
-        showStaticBody: true
-      }
+      // debug: {
+      //   showBody: true,
+      //   showStaticBody: true
+      // }
     }
   },
-  scene: [dungeonScene, GUIScene],
+  parent: 'phaser-container',
+  dom: {
+    createContainer: true
+  },
+  scene: [loginScene, dungeonScene, GUIScene],
   plugins: {
     scene: [
       {
