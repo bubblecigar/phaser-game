@@ -73,7 +73,7 @@ export const castSkill = (player: Player, skill: Skill, aim: Point, scene, metho
   scene.time.delayedCall(
     nextShotInterval,
     () => {
-      castSkill(player, skill, aim, scene, methods)
+      castSkill(player, skill, aim, scene, methods, socketMethods)
     },
     null,
     scene

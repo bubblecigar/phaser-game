@@ -1,4 +1,4 @@
-import { getLocalUserData } from '../user'
+import { getLocalUserData } from '../../user'
 import _ from 'lodash'
 
 let cameraMask

@@ -1,8 +1,8 @@
 import _ from 'lodash'
-import { Player } from '../Interface'
-import { getLocalUserData } from '../user'
-import charactors from '../charactors/index'
-import mapConfigs from '../maps/mapConfigs'
+import { Player } from '../../Interface'
+import { getLocalUserData } from '../../user'
+import charactors from '../../charactors/index'
+import mapConfigs from '../../maps/mapConfigs'
 
 const registerInputEvents = (scene, methods, socketMethods) => {
   scene.input.keyboard.on(

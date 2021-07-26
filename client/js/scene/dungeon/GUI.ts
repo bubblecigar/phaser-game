@@ -1,11 +1,10 @@
 import _ from 'lodash'
-import itemCellUrl from '../../statics/item_cell.png'
-import gameState from '../game/state'
-import gameConfig from '../game/config'
-import { getLocalUserData } from '../user'
-import items from '../items/index'
-import charactors from '../charactors/index'
-import { aimingTime, skillInUse } from '../scene/dungeon'
+import itemCellUrl from '../../../statics/item_cell.png'
+import gameState from '../../game/state'
+import gameConfig from '../../game/config'
+import { getLocalUserData } from '../../user'
+import items from '../../items/index'
+// import { aimingTime, skillInUse } from '../../skills/index'
 
 let scene, coinGroup, maximumBar, currentBar
 let aimingBarContainer, aimingBar
@@ -104,29 +103,29 @@ const showAbilityBar = (abilities) => {
   abilityBar.wave.setOrigin(0, 0.5)
 }
 
-const createAimingBar = (x, y) => {
-  aimingBarContainer = scene.add.rectangle(x - 1, y, 20 + 2, 5, 0xFFFFFF)
-  aimingBarContainer.setOrigin(0, 0.5)
-  aimingBar = scene.add.rectangle(x, y, aimingTime, 3)
-}
+// const createAimingBar = (x, y) => {
+//   aimingBarContainer = scene.add.rectangle(x - 1, y, 20 + 2, 5, 0xFFFFFF)
+//   aimingBarContainer.setOrigin(0, 0.5)
+//   aimingBar = scene.add.rectangle(x, y, aimingTime, 3)
+// }
 
-const showAimingBar = () => {
-  if (!aimingTime || !skillInUse) {
-    aimingBar.setVisible(false)
-    aimingBarContainer.setVisible(false)
-  } else {
-    aimingBarContainer.setVisible(true)
-    aimingBar.setVisible(true)
-    const percentage = Math.min(aimingTime / skillInUse.castTime, 1)
-    aimingBar.setSize(percentage * 20, 3)
-    aimingBarContainer.setOrigin(0, 0.5)
-    if (percentage >= 1) {
-      aimingBar.setFillStyle(0x4ba747)
-    } else {
-      aimingBar.setFillStyle(0xee8e2e)
-    }
-  }
-}
+// const showAimingBar = () => {
+//   if (!aimingTime || !skillInUse) {
+//     aimingBar.setVisible(false)
+//     aimingBarContainer.setVisible(false)
+//   } else {
+//     aimingBarContainer.setVisible(true)
+//     aimingBar.setVisible(true)
+//     const percentage = Math.min(aimingTime / skillInUse.castTime, 1)
+//     aimingBar.setSize(percentage * 20, 3)
+//     aimingBarContainer.setOrigin(0, 0.5)
+//     if (percentage >= 1) {
+//       aimingBar.setFillStyle(0x4ba747)
+//     } else {
+//       aimingBar.setFillStyle(0xee8e2e)
+//     }
+//   }
+// }
 
 // const createCoinGroup = (scene, x, y) => {
 //   coinGroup = scene.add.group({ classType: Phaser.GameObjects.Sprite })
