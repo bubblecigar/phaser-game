@@ -5,7 +5,7 @@ import { getLocalUserData } from '../user'
 import charactors from '../charactors/index'
 import items from '../items/index'
 import { castSkill, createInitAbilities, createSkill, Skill } from '../skills/index'
-import socket, { broadcast, registerSocketEvents, readStateFromServer, writeStateToServer } from '../socket'
+import { connectToServer } from '../socket'
 import mapConfigs from '../maps/mapConfigs'
 import FOV from './FOV'
 import registerWorldEvents from './WorldEvents'
@@ -15,6 +15,7 @@ import targetUrl from '../../statics/tile/target.png'
 const userId = getLocalUserData().userId
 
 let methods
+let socketMethods
 
 let mapConfig = mapConfigs['ghostRoomConfig']
 let map
@@ -62,8 +63,9 @@ const showAimingBar = (player) => {
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
   methods = gameMethods(this)
-  registerSocketEvents(methods)
-  registerWorldEvents(this, methods)
+  socketMethods = connectToServer()
+  socketMethods.registerSocketEvents(methods)
+  registerWorldEvents(this, methods, socketMethods)
 }
 
 function preload() {
@@ -147,7 +149,7 @@ const registerAimingTarget = scene => {
     aim.setVelocityY(0)
 
     if (aimingTime >= skillInUse.castTime) {
-      castSkill(player, skillInUse, aim, scene, methods)
+      castSkill(player, skillInUse, aim, scene, methods, socketMethods)
     }
     aimingTime = 0
     skillInUse = undefined
@@ -157,7 +159,7 @@ const registerAimingTarget = scene => {
 function create() {
   cursors = this.input.keyboard.createCursorKeys()
   registerAimingTarget(this)
-  registerInputEvents(this, methods)
+  registerInputEvents(this, methods, socketMethods)
   map = FOV.create(this, mapConfig)
   createAimingBar(this, 0, 0)
 
@@ -194,8 +196,8 @@ function create() {
     }
   )
 
-  socket.emit('player-join', createInitPlayerConstructor())
-  readStateFromServer()
+  socketMethods.getSocketInstance().emit('player-join', createInitPlayerConstructor())
+  socketMethods.readStateFromServer()
 }
 
 const movePlayer = (player: Player, dt) => {
@@ -229,7 +231,7 @@ const movePlayer = (player: Player, dt) => {
     _player.velocity = _velocity
   }
 
-  broadcast(methods, 'movePlayer', _player)
+  socketMethods.broadcast(methods, 'movePlayer', _player)
 }
 
 function update(t, dt) {
@@ -238,7 +240,7 @@ function update(t, dt) {
   FOV.update(this, player.position)
   movePlayer(player, dt)
   showAimingBar(player)
-  writeStateToServer(userId, player)
+  socketMethods.writeStateToServer(userId, player)
 }
 
 export default {

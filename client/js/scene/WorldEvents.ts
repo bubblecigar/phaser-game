@@ -1,6 +1,5 @@
 import { getLocalUserData } from '../user'
 import _ from 'lodash'
-import { broadcast } from '../socket'
 
 let cameraMask
 
@@ -56,7 +55,7 @@ const getBulletTargetArray = (bodyA, bodyB): false | [any, any, any, any] => {
 }
 
 
-const registerWorlEvents = (scene, methods) => {
+const registerWorlEvents = (scene, methods, socketMethods) => {
   scene.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
     const playerTargetArray = getPlayerTargetArray(bodyA, bodyB)
     if (playerTargetArray) {
@@ -78,7 +77,7 @@ const registerWorlEvents = (scene, methods) => {
           return
         }
         if (isUser) {
-          broadcast(methods, 'onHit', playerData.id, _.omit(targetData, 'phaserObject'))
+          socketMethods.broadcast(methods, 'onHit', playerData.id, _.omit(targetData, 'phaserObject'))
           scene.cameras.main.shake(100, 0.01)
         }
         targetData.phaserObject.destroy()

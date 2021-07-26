@@ -2,7 +2,6 @@ import Phaser from 'phaser'
 import { v4 } from 'uuid'
 import _ from 'lodash'
 import { Bullet, Player, Point, Abilities } from '../Interface'
-import { broadcast } from '../socket'
 
 export interface ShootConfig {
   bulletKey: string,
@@ -61,12 +60,12 @@ export interface Skill {
   castTime: number
 }
 
-export const castSkill = (player: Player, skill: Skill, aim: Point, scene, methods) => {
+export const castSkill = (player: Player, skill: Skill, aim: Point, scene, methods, socketMethods) => {
   const shotConfig: ShootConfig = skill.shotConfigs.shift()
   if (!shotConfig) return
 
   const bullets = createBulletsOfOneShot(player, aim, shotConfig)
-  broadcast(methods, 'shootInClient', bullets)
+  socketMethods.broadcast(methods, 'shootInClient', bullets)
 
   if (skill.shotConfigs.length <= 0) return
 
