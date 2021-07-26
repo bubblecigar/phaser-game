@@ -1,4 +1,4 @@
-import gameConfig from '../game/config'
+import gameConfig from '../../game/config'
 
 export const generateInputForm = () => {
 

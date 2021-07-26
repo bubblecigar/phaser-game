@@ -1,6 +1,6 @@
-import gameConfig from '../game/config'
+import gameConfig from '../../game/config'
 import { generateInputForm } from './form'
-import { setLocalUserData, getLocalUserData } from '../user'
+import { setLocalUserData, getLocalUserData } from '../../user'
 
 function init() {
 
