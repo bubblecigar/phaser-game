@@ -10,18 +10,12 @@ export const connectToServer = () => {
     }
   })
 
-  let registered = false
   const socketMethods = {
     getSocketInstance: () => socket,
     registerSocketEvents: methods => {
-      if (registered) {
-        return // only register once
-      } else {
-        socket.on('broadcast', (key, ...args) => {
-          methods[key](...args)
-        })
-        registered = true
-      }
+      socket.on('broadcast', (key, ...args) => {
+        methods[key](...args)
+      })
       socket.on('UPDATE_CLIENT_GAME_STATE', (serverGameState: GameState) => {
         methods.syncPlayers(serverGameState.players)
       })
@@ -35,7 +29,8 @@ export const connectToServer = () => {
     },
     writeStateToServer: (userId, playerState) => {
       socket.emit('WRITE_SERVER_GAME_STATE', userId, _.omit(playerState, 'phaserObject'))
-    }
+    },
+    disconnect: () => socket.disconnect()
   }
 
   return socketMethods

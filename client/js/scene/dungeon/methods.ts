@@ -1,11 +1,11 @@
 import _ from 'lodash'
 import Phaser from 'phaser'
-import charactors from '../charactors'
-import items from '../items'
-import { getLocalUserData } from '../user'
-import { Player, Bullet, Item } from '../Interface'
-import gameState from './state'
-import gameConfig from './config'
+import charactors from '../../charactors'
+import items from '../../items'
+import { getLocalUserData } from '../../user'
+import { Player, Bullet, Item } from '../../Interface'
+import gameState from '../../game/state'
+import gameConfig from '../../game/config'
 
 const userId = getLocalUserData().userId
 
@@ -237,7 +237,8 @@ const gameMethods = scene => {
     getPlayer: (id: string): Player => gameState.players.find(p => p.id === id),
     movePlayer: (_player: Player): void => {
       const player = methods.getPlayer(_player.id)
-      if (!player) {
+      if (!player || !player.phaserObject || !player.phaserObject.body) {
+        console.log('player not initialized')
         return
       }
       const changeDirection = !(
@@ -247,10 +248,6 @@ const gameMethods = scene => {
       player.position = _player.position
       player.velocity = _player.velocity
 
-      if (!player.phaserObject) {
-        console.log('player not initialized')
-        return
-      }
       player.phaserObject.setVelocityX(player.velocity.x)
       player.phaserObject.setVelocityY(player.velocity.y)
       if (player.id !== userId) {

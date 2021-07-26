@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import gameMethods from '../../game/methods'
+import gameMethods from './methods'
 import { Player } from '../../Interface'
 import { getLocalUserData } from '../../user'
 import charactors from '../../charactors/index'
@@ -63,9 +63,6 @@ const showAimingBar = (player) => {
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
   methods = gameMethods(this)
-  socketMethods = connectToServer()
-  socketMethods.registerSocketEvents(methods)
-  registerWorldEvents(this, methods, socketMethods)
 }
 
 function preload() {
@@ -159,7 +156,6 @@ const registerAimingTarget = scene => {
 function create() {
   cursors = this.input.keyboard.createCursorKeys()
   registerAimingTarget(this)
-  registerInputEvents(this, methods, socketMethods)
   map = FOV.create(this, mapConfig)
   createAimingBar(this, 0, 0)
 
@@ -196,8 +192,12 @@ function create() {
     }
   )
 
+  socketMethods = connectToServer()
+  socketMethods.registerSocketEvents(methods)
+  registerWorldEvents(this, methods, socketMethods)
   socketMethods.getSocketInstance().emit('player-join', createInitPlayerConstructor())
   socketMethods.readStateFromServer()
+  registerInputEvents(this, methods, socketMethods)
 }
 
 const movePlayer = (player: Player, dt) => {
