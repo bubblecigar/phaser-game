@@ -16,6 +16,7 @@ export const generateInputForm = () => {
       height: ${height}px;
       margin: ${marginTop}px auto 0;
       width: 80%;
+      transform: scale(.5);
     }
 
     .login h1 {
