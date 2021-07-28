@@ -31,7 +31,7 @@ export let aimingTime: number = 0
 const createAimingBar = (scene, x, y) => {
   aimingBar = scene.add.rectangle(x, y, 20, 4, 0x00FF00)
   aimingBar.setDepth(4)
-  aimingBar.setAlpha(0.8)
+  aimingBar.setAlpha(0.5)
 }
 
 const showAimingBar = (player) => {
