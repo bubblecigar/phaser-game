@@ -13,6 +13,7 @@ server.listen(process.env.PORT || 8081, function () {
 
 io.on('connection', async function (socket) {
   const userData = socket.handshake.auth
+  socket.join(userData.roomId)
 
   // init player or get player in room
   socket.on('player-join', initPlayerConstructor => {
@@ -22,11 +23,11 @@ io.on('connection', async function (socket) {
     } else {
       gameState.players.push(initPlayerConstructor)
     }
-    io.emit('UPDATE_CLIENT_GAME_STATE', gameState)
+    io.in(userData.roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
   })
 
   socket.on('READ_SERVER_GAME_STATE', () => {
-    io.emit('UPDATE_CLIENT_GAME_STATE', gameState)
+    io.in(userData.roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
   })
 
   socket.on('WRITE_SERVER_GAME_STATE', (userId, playerState) => {
@@ -40,7 +41,7 @@ io.on('connection', async function (socket) {
   })
 
   socket.on('broadcast', (method, ...args) => {
-    socket.broadcast.emit('broadcast', method, ...args)
+    socket.to(userData.roomId).emit('broadcast', method, ...args)
   })
 
   socket.on('disconnect', async function () {
@@ -50,6 +51,6 @@ io.on('connection', async function (socket) {
     } else {
       // do nothing
     }
-    io.emit('UPDATE_CLIENT_GAME_STATE', gameState)
+    io.in(userData.roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
   })
 })
