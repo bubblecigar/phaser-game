@@ -23,38 +23,37 @@ let map
 let cursors
 let space
 let aim
-let aimingBarContainer, aimingBar
+let aimingBar
 export let skillInUse: Skill | undefined
 export let aimingTime: number = 0
 
 
 const createAimingBar = (scene, x, y) => {
-  const aimingRadius = 4
-  aimingBarContainer = scene.add.circle(x, y, aimingRadius, 0xdddddd)
-  aimingBar = scene.add.arc(x, y, aimingRadius - 1, 0, 0)
-  aimingBarContainer.setDepth(4)
+  aimingBar = scene.add.rectangle(x, y, 20, 4, 0x00FF00)
   aimingBar.setDepth(4)
+  aimingBar.setAlpha(0.8)
 }
 
 const showAimingBar = (player) => {
   if (!aimingTime || !skillInUse) {
     aimingBar.setVisible(false)
-    aimingBarContainer.setVisible(false)
   } else {
-    const offset = 10
-    aimingBarContainer.setX(player.position.x + offset)
-    aimingBarContainer.setY(player.position.y + offset)
-    aimingBar.setX(player.position.x + offset)
-    aimingBar.setY(player.position.y + offset)
-    aimingBarContainer.setVisible(true)
+    const container = player.phaserObject
+    const maximumBar = container.getByName('maximum-bar')
+    const aimingBarX = container.x + maximumBar.x
+    const aimingBarY = container.y + maximumBar.y
+
+    aimingBar.setX(aimingBarX)
+    aimingBar.setY(aimingBarY)
+    aimingBar.setOrigin(0, 0.5)
+
     aimingBar.setVisible(true)
     const percentage = Math.min(aimingTime / skillInUse.castTime, 1)
-    aimingBar.startAngle = -percentage * 180 + 90
-    aimingBar.endAngle = percentage * 180 + 90
-    if (percentage >= 1) {
-      aimingBar.setFillStyle(0x4ba747)
+    aimingBar.setSize(20 * percentage, 4)
+    if (percentage < 1) {
+      aimingBar.setFillStyle(0x2f61eb)
     } else {
-      aimingBar.setFillStyle(0xee8e2e)
+      aimingBar.setFillStyle(0x08960a)
     }
   }
 }
@@ -131,8 +130,6 @@ const registerAimingTarget = scene => {
     aim.setX(player.position.x)
     aim.setY(player.position.y)
 
-    aimingBarContainer.setX(player.position.x)
-    aimingBarContainer.setY(player.position.y)
     aimingBar.setX(player.position.x)
     aimingBar.setY(player.position.y)
   })
