@@ -20,6 +20,9 @@ const joinRoom = roomId => {
 
 const leaveRoom = (roomId, userId) => {
   const room = rooms[roomId]
+  if (!room) {
+    return
+  }
   const playerIndex = room.players.findIndex(player => player.id === userId)
   if (playerIndex > -1) {
     room.players.splice(playerIndex, 1)
