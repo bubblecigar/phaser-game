@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import io from 'socket.io-client'
-import { getLocalUserData } from './user'
-import { GameState } from './Interface'
+import { getLocalUserData } from '../../user'
+import { GameState } from '../../Interface'
 
 export const connectToServer = () => {
   const socket = io.connect({
@@ -17,7 +17,7 @@ export const connectToServer = () => {
         methods[key](...args)
       })
       socket.on('UPDATE_CLIENT_GAME_STATE', (serverGameState: GameState) => {
-        methods.syncPlayers(serverGameState.players)
+        methods.syncServerStateToClient(serverGameState)
       })
     },
     broadcast: (methods, key, ...args) => {
