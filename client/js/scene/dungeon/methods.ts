@@ -3,7 +3,7 @@ import Phaser from 'phaser'
 import charactors from '../../charactors'
 import items from '../../items'
 import { getLocalUserData } from '../../user'
-import { Player, Bullet, Item } from '../../Interface'
+import { Player, Bullet, Item, GameState } from '../../Interface'
 import gameState from '../../game/state'
 import gameConfig from '../../game/config'
 
@@ -128,6 +128,9 @@ const gameMethods = scene => {
     init: () => {
       gameState.players = []
       gameState.items = []
+    },
+    syncServerStateToClient: (serverGameState: GameState) => {
+      methods.syncPlayers(serverGameState.players)
     },
     syncMap: (mapConfigKey: String) => {
       gameState.mapConfigKey = mapConfigKey

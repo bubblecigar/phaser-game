@@ -5,7 +5,7 @@ import { getLocalUserData } from '../../user'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
 import { castSkill, createInitAbilities, createSkill, Skill } from '../../skills/index'
-import { connectToServer } from '../../socket'
+import { connectToServer } from './socket'
 import mapConfigs from '../../maps/mapConfigs'
 import FOV from './FOV'
 import registerWorldEvents from './WorldEvents'
@@ -17,7 +17,7 @@ const userId = getLocalUserData().userId
 let methods
 let socketMethods
 
-let mapConfig = mapConfigs['ghostRoomConfig']
+let mapConfig = mapConfigs['waitingRoomConfig']
 let map
 
 let cursors
@@ -101,7 +101,7 @@ const createInitPlayerConstructor = () => {
     health: initHealth,
     coins: 0,
     items: [],
-    bullet: 'fireball',
+    bullet: 'iceFlask',
     abilities: initAbilities,
     phaserObject: null
   }
