@@ -1,12 +1,22 @@
 const rooms = {}
 
+const eventSchedules = {}
+
 const createRoom = roomId => {
   if (rooms[roomId]) {
     console.log('room already exist')
     return
   }
   rooms[roomId] = {
-    players: []
+    players: [],
+    mapConfigKey: 'waitingRoomConfig',
+    monsters: []
+  }
+  let monsters = 0
+  eventSchedules[roomId] = {
+    monsterTimeout: setInterval((...args) => {
+      console.log('hi', monsters++)
+    }, 1000)
   }
 }
 
@@ -33,6 +43,8 @@ const leaveRoom = (roomId, userId) => {
     // non empty room
   } else {
     delete rooms[roomId]
+    clearInterval(eventSchedules[roomId].monsterTimeout)
+    delete eventSchedules[roomId]
   }
 }
 
