@@ -1,14 +1,10 @@
-import { Player, Item } from './Interface'
+import { GameState } from '../Interface'
 
-export interface GameState {
-  mapConfigKey: String,
-  players: Player[],
-  items: Item[]
-}
 const gameState: GameState = {
   mapConfigKey: '',
   players: [],
-  items: []
+  items: [],
+  monsters: []
 }
 
 export default gameState

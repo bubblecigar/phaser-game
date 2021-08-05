@@ -53,5 +53,6 @@ export interface Bullet extends Omit<Item, 'interface'> {
 export interface GameState {
   mapConfigKey: String,
   players: Player[],
-  items: Item[]
+  items: Item[],
+  monsters: Monster[]
 }
