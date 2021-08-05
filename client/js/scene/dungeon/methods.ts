@@ -370,7 +370,8 @@ const gameMethods = scene => {
       const rect = Bodies.rectangle(x, y, size.width, size.height, { label: 'monster-body' })
       const compound = Phaser.Physics.Matter.Matter.Body.create({
         parts: [rect],
-        inertia: Infinity
+        inertia: Infinity,
+        isStatic: true
       })
 
       const charatorHeight = charactor.spritesheetConfig.options.frameHeight
