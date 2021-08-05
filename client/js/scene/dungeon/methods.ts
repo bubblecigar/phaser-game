@@ -3,7 +3,7 @@ import Phaser from 'phaser'
 import charactors from '../../charactors'
 import items from '../../items'
 import { getLocalUserData } from '../../user'
-import { Player, Bullet, Item, GameState } from '../../Interface'
+import { Player, Bullet, Item, GameState, Monster } from '../../Interface'
 import gameState from '../../game/state'
 import gameConfig from '../../game/config'
 
@@ -361,6 +361,49 @@ const gameMethods = scene => {
         }
       }
       methods.removeItem(item.id)
+    },
+    createMonster: (monsterConstructor: Monster) => {
+      const charactor = charactors[monsterConstructor.charactorKey]
+      const { size, origin } = charactor.matterConfig
+      const { x, y } = monsterConstructor.position
+      const Bodies = Phaser.Physics.Matter.Matter.Bodies
+      const rect = Bodies.rectangle(x, y, size.width, size.height, { label: 'monster-body' })
+      const compound = Phaser.Physics.Matter.Matter.Body.create({
+        parts: [rect],
+        inertia: Infinity
+      })
+
+      const charatorHeight = charactor.spritesheetConfig.options.frameHeight
+
+      const healthBarLength = 20
+      const maximumBar = scene.add.rectangle(-healthBarLength / 2, -charatorHeight / 2 - 2, healthBarLength, 4, 0xDDDDDD)
+      maximumBar.setOrigin(0, 0.5)
+      maximumBar.name = 'maximum-bar'
+      const healthBar = scene.add.rectangle(-healthBarLength / 2 + 1, -charatorHeight / 2 - 2, healthBarLength - 2, 2, 0xda4e38)
+      healthBar.setOrigin(0, 0.5)
+      healthBar.name = 'health-bar'
+
+      const maximumHealth = charactor.maxHealth
+      const percentage = monsterConstructor.health / maximumHealth
+      healthBar.setSize(percentage * (healthBarLength - 2), healthBar.height)
+
+      const sprite = scene.add.sprite(0, 0)
+      sprite.setOrigin(origin.x, origin.y)
+      sprite.play(charactor.animsConfig.idle.key)
+      sprite.name = 'monster-sprite'
+
+      const container = scene.add.container(x, y, [sprite, maximumBar, healthBar])
+
+      const phaserObject = scene.matter.add.gameObject(container, {
+        friction: 0,
+        frictionStatic: 0,
+        frictionAir: 0,
+      })
+      phaserObject.setExistingBody(compound)
+      phaserObject.setDepth(3)
+      phaserObject.setData(monsterConstructor)
+
+      return phaserObject
     }
   }
   return methods

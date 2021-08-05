@@ -26,6 +26,15 @@ export interface Player {
   abilities: Abilities,
   coins: number
 }
+export interface Monster {
+  interface: 'Monster',
+  id: string,
+  velocity: Point,
+  position: Point,
+  charactorKey: string,
+  phaserObject: any,
+  health: number
+}
 export interface Item {
   interface: 'Item',
   id: string,

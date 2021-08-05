@@ -14,7 +14,7 @@ io.on('connection', async function (socket) {
   const userData = socket.handshake.auth
   const roomId = userData.roomId
   socket.join(roomId)
-  const gameState = rooms.joinRoom(roomId)
+  const gameState = rooms.joinRoom(roomId, io)
 
   // init player or get player in room
   socket.on('player-join', initPlayerConstructor => {

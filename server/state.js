@@ -1,8 +1,8 @@
+const uuid = require('uuid')
 const rooms = {}
-
 const eventSchedules = {}
 
-const createRoom = roomId => {
+const createRoom = (roomId, io) => {
   if (rooms[roomId]) {
     console.log('room already exist')
     return
@@ -12,18 +12,28 @@ const createRoom = roomId => {
     mapConfigKey: 'waitingRoomConfig',
     monsters: []
   }
-  let monsters = 0
+  const room = rooms[roomId]
   eventSchedules[roomId] = {
-    monsterTimeout: setInterval((...args) => {
-      console.log('hi', monsters++)
+    io,
+    monsterTimeout: setTimeout(() => {
+      const monsterConstructor = {
+        interface: 'Monster',
+        id: uuid.v4(),
+        velocity: { x: 0, y: 0 },
+        position: { x: 200, y: 200 },
+        charactorKey: 'orge',
+        health: 100
+      }
+      room.monsters.push(monsterConstructor)
+      io.in(roomId).emit('broadcast', 'createMonster', monsterConstructor)
     }, 1000)
   }
 }
 
-const joinRoom = roomId => {
+const joinRoom = (roomId, io) => {
   const gameStateOfRoom = rooms[roomId]
   if (!gameStateOfRoom) {
-    createRoom(roomId)
+    createRoom(roomId, io)
   }
   return rooms[roomId]
 }
