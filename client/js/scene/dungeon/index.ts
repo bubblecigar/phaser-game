@@ -232,7 +232,7 @@ const movePlayer = (player: Player) => {
     velocity.x = 0
   }
   if (cursors.up.isDown) {
-
+    player.phaserObject.applyForce({ x: 0, y: -0.0003 })
   }
 
   player.velocity.x = velocity.x
@@ -240,7 +240,7 @@ const movePlayer = (player: Player) => {
   player.phaserObject.setVelocityX(velocity.x)
 }
 
-function update(t, dt) {
+function update(dt) {
   const player = methods.getPlayer(userId)
   if (!player || !player.phaserObject) return
   FOV.update(this, player.position)

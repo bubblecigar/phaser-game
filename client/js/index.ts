@@ -19,7 +19,7 @@ const game = new Phaser.Game({
     default: 'matter',
     matter: {
       gravity: {
-        y: 0
+        y: 1
       },
       // debug: {
       //   showBody: true,
@@ -31,7 +31,7 @@ const game = new Phaser.Game({
   dom: {
     createContainer: true
   },
-  scene: [loginScene, dungeonScene, GUIScene],
+  scene: [dungeonScene, GUIScene],
   plugins: {
     scene: [
       {
