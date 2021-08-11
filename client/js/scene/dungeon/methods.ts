@@ -3,7 +3,7 @@ import Phaser from 'phaser'
 import charactors from '../../charactors'
 import items from '../../items'
 import { getLocalUserData } from '../../user'
-import { Player, Bullet, Item, GameState, Monster } from '../../Interface'
+import { Player, Bullet, Item, GameState, Monster, Point } from '../../Interface'
 import gameState from '../../game/state'
 import gameConfig from '../../game/config'
 
@@ -18,7 +18,8 @@ const createPlayerMatter = (scene, player: Player) => {
   const sensor = Bodies.circle(x, y, 1, { isSensor: true, label: 'body-sensor' })
   const compound = Phaser.Physics.Matter.Matter.Body.create({
     parts: [sensor, rect],
-    inertia: Infinity
+    inertia: Infinity,
+    ignoreGravity: player.id === getLocalUserData().userId ? false : true
   })
 
   const charatorHeight = charactor.spritesheetConfig.options.frameHeight
@@ -238,6 +239,18 @@ const gameMethods = scene => {
       player.phaserObject.destroy()
     },
     getPlayer: (id: string): Player => gameState.players.find(p => p.id === id),
+    updatePlayerPosition: (id: string, position: Point) => {
+      const player = methods.getPlayer(id)
+      if (!player || !player.phaserObject || !player.phaserObject.body) {
+        console.log('player not initialized')
+        return
+      }
+      player.position = position
+      if (id !== getLocalUserData().userId) {
+        player.phaserObject.setX(player.position.x)
+        player.phaserObject.setY(player.position.y)
+      }
+    },
     movePlayer: (_player: Player): void => {
       const player = methods.getPlayer(_player.id)
       if (!player || !player.phaserObject || !player.phaserObject.body) {
