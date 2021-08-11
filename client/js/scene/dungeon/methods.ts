@@ -251,6 +251,24 @@ const gameMethods = scene => {
         player.phaserObject.setY(player.position.y)
       }
     },
+    updatePlayerAnimation: (playerId: string, sign: -1 | 0 | 1) => {
+      const player = methods.getPlayer(playerId)
+      if (!player || !player.phaserObject || !player.phaserObject.body) {
+        console.log('player not initialized')
+        return
+      }
+      const sprite = player.phaserObject.getByName('player-sprite')
+      if (sign === 0) {
+        sprite.play(charactors[player.charactorKey].animsConfig.idle.key)
+      } else {
+        sprite.play(charactors[player.charactorKey].animsConfig.move.key)
+        if (sign === 1) {
+          sprite.setFlipX(false)
+        } else if (sign === -1) {
+          sprite.setFlipX(true)
+        }
+      }
+    },
     movePlayer: (_player: Player): void => {
       const player = methods.getPlayer(_player.id)
       if (!player || !player.phaserObject || !player.phaserObject.body) {

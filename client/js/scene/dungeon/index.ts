@@ -235,9 +235,16 @@ const movePlayer = (player: Player) => {
     player.phaserObject.applyForce({ x: 0, y: -0.0003 })
   }
 
+  const prevVelocity = player.velocity.x
+
   player.velocity.x = velocity.x
   player.velocity.y = velocity.y
   player.phaserObject.setVelocityX(velocity.x)
+
+  const changeDirection = !(Math.sign(prevVelocity * player.velocity.x) === 1)
+  if (changeDirection) {
+    socketMethods.broadcast(methods, 'updatePlayerAnimation', userId, Math.sign(player.velocity.x))
+  }
 }
 
 function update(dt) {
