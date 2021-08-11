@@ -197,46 +197,66 @@ function create() {
   registerInputEvents(this, methods, socketMethods)
 }
 
-const movePlayer = (player: Player, dt) => {
-  const char = charactors[player.charactorKey]
-  const charVelocity = char.velocity
+const moveAim = (dt) => {
   const aimVelocity = 3
-  const velocity = space.isDown ? aimVelocity : charVelocity
-  const _velocity = { x: 0, y: 0 }
+  const velocity = { x: 0, y: 0 }
   if (cursors.left.isDown) {
-    _velocity.x = -velocity
+    velocity.x = -aimVelocity
   } else if (cursors.right.isDown) {
-    _velocity.x = velocity
+    velocity.x = aimVelocity
   } else {
-    _velocity.x = 0
+    velocity.x = 0
   }
   if (cursors.up.isDown) {
-    _velocity.y = -velocity
+    velocity.y = -aimVelocity
   } else if (cursors.down.isDown) {
-    _velocity.y = velocity
+    velocity.y = aimVelocity
   } else {
-    _velocity.y = 0
+    velocity.y = 0
   }
 
-  const _player = _.omit(_.clone(player), 'phaserObject')
-  if (space.isDown) {
-    aim.setVelocityX(_velocity.x)
-    aim.setVelocityY(_velocity.y)
-    aimingTime += dt
-    _player.velocity = { x: 0, y: 0 }
+  aim.setVelocityX(velocity.x)
+  aim.setVelocityY(velocity.y)
+  aimingTime += dt
+}
+
+const movePlayer = (player: Player) => {
+  const char = charactors[player.charactorKey]
+  const charVelocity = char.velocity
+  const velocity = { x: 0, y: 0 }
+  if (cursors.left.isDown) {
+    velocity.x = -charVelocity
+  } else if (cursors.right.isDown) {
+    velocity.x = charVelocity
   } else {
-    _player.velocity = _velocity
+    velocity.x = 0
+  }
+  if (cursors.up.isDown) {
+
   }
 
-  socketMethods.broadcast(methods, 'movePlayer', _player)
+  player.velocity.x = velocity.x
+  player.velocity.y = velocity.y
+  player.phaserObject.setVelocityX(velocity.x)
 }
 
 function update(t, dt) {
   const player = methods.getPlayer(userId)
   if (!player || !player.phaserObject) return
   FOV.update(this, player.position)
-  movePlayer(player, dt)
+  if (space.isDown) {
+    moveAim(dt)
+  } else {
+    movePlayer(player)
+  }
   showAimingBar(player)
+
+  socketMethods.broadcast(
+    methods,
+    'updatePlayerPosition',
+    userId,
+    { x: player.phaserObject.x, y: player.phaserObject.y }
+  )
   socketMethods.writeStateToServer(userId, player)
 }
 
