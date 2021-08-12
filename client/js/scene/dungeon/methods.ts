@@ -269,41 +269,6 @@ const gameMethods = scene => {
         }
       }
     },
-    movePlayer: (_player: Player): void => {
-      const player = methods.getPlayer(_player.id)
-      if (!player || !player.phaserObject || !player.phaserObject.body) {
-        console.log('player not initialized')
-        return
-      }
-      const changeDirection = !(
-        _player.velocity.x === player.velocity.x
-        && _player.velocity.y === player.velocity.y
-      )
-      player.position = _player.position
-      player.velocity = _player.velocity
-
-      player.phaserObject.setVelocityX(player.velocity.x)
-      player.phaserObject.setVelocityY(player.velocity.y)
-      if (player.id !== userId) {
-        player.phaserObject.setX(player.position.x)
-        player.phaserObject.setY(player.position.y)
-      }
-      player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
-      player.velocity = { x: player.phaserObject.body.velocity.x, y: player.phaserObject.body.velocity.y }
-      if (changeDirection) {
-        const sprite = player.phaserObject.getByName('player-sprite')
-        if (player.velocity.x === 0 && player.velocity.y === 0) {
-          sprite.play(charactors[player.charactorKey].animsConfig.idle.key)
-        } else {
-          sprite.play(charactors[player.charactorKey].animsConfig.move.key)
-          if (player.velocity.x > 0) {
-            sprite.setFlipX(false)
-          } else if (player.velocity.x < 0) {
-            sprite.setFlipX(true)
-          }
-        }
-      }
-    },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
     shootInClient: (bulletConstructors: Bullet[]) => {
       if (!scene) {
