@@ -231,8 +231,8 @@ const movePlayer = (player: Player) => {
   } else {
     velocity.x = 0
   }
-  if (cursors.up.isDown) {
-    player.phaserObject.applyForce({ x: 0, y: -0.0003 })
+  if (cursors.up.isDown && player.phaserObject.body.previousPositionImpulse.y < 0) {
+    player.phaserObject.setVelocityY(-5)
   }
 
   const prevVelocity = player.velocity.x
