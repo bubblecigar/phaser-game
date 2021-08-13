@@ -4,6 +4,8 @@ import roomMapUrl from '../../statics/tile/room_map.json'
 import tinyTileSetUrl from '../../statics/tile/tinyroom.png'
 import tinyRoomUrl from '../../statics/tile/tiny_map.json'
 import waitingRoomUrl from '../../statics/tile/waitingRoom.json'
+import jumpPlatFormUrl from '../../statics/tile/jumpPlatForm.json'
+import forestTileSetUrl from '../../statics/tile/forestTileSet.png'
 
 export interface MapConfig {
   mapKey: string,
@@ -36,5 +38,11 @@ const waitingRoomConfig: MapConfig = {
   tilesetKey: 'tinyroom',
   tilesetUrl: tinyTileSetUrl
 }
+const jumpPlatFormConfig: MapConfig = {
+  mapKey: 'jumpPlatForm',
+  mapUrl: jumpPlatFormUrl,
+  tilesetKey: 'forestTileSet',
+  tilesetUrl: forestTileSetUrl
+}
 
-export default { dungeonMapConfig, roomMapConfig, ghostRoomConfig, waitingRoomConfig }
+export default { jumpPlatFormConfig, dungeonMapConfig, roomMapConfig, ghostRoomConfig, waitingRoomConfig }

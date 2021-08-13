@@ -3,10 +3,10 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "jumpPlatForm.tmx",
     "expandedProjectPaths": [
     ],
-    "file.lastUsedOpenFilter": "All Files (*)",
+    "file.lastUsedOpenFilter": "Tiled map files (*.tmx *.xml)",
     "fileStates": {
         "": {
             "scaleInDock": 2.4261,
@@ -107,6 +107,17 @@
             "scaleInDock": 1,
             "scaleInEditor": 1.83
         },
+        "jumpPlatForm.tmx": {
+            "scale": 2.6134,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 154.77921481594856,
+                "y": 309.3671079819392
+            }
+        },
+        "jumpPlatForm.tmx#forestTileSet": {
+            "scaleInDock": 2.8218
+        },
         "map.tmx": {
             "scale": 2.56,
             "selectedLayer": 2,
@@ -179,7 +190,7 @@
         },
         "waitingRoom.tmx": {
             "scale": 1.85,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": 174.8648648648648,
                 "y": 188.37837837837836
@@ -205,10 +216,12 @@
     "map.tileWidth": 16,
     "map.width": 20,
     "openFiles": [
+        "jumpPlatForm.tmx"
     ],
     "project": "tile_project.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "jumpPlatForm.tmx",
         "shootingPlatform.tmx",
         "anim.tsx",
         "waitingRoom.tmx",
@@ -219,8 +232,7 @@
         "/Users/roywang/Desktop/tile_trial/small_map.tmx",
         "/Users/roywang/Desktop/tile_trial/dungeon_map.tmx",
         "/Users/roywang/Desktop/tile_trial/tileset_test.tsx",
-        "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx",
-        "/Users/roywang/Desktop/tile_trial/room_map.tmx"
+        "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx"
     ],
     "tileset.embedInMap": true,
     "tileset.lastUsedFormat": "tsx",
