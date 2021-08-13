@@ -1,115 +1,104 @@
 import { getLocalUserData } from '../../user'
 import _ from 'lodash'
 
-let cameraMask
+// let cameraMask
 
-const updateCamera = (scene, userBody, userData, targetBody, targetData) => {
-  const isOverlap = scene.matter.overlap(userBody, targetBody.parent.parts)
-  const camera = scene.cameras.main
-  if (isOverlap) {
-    cameraMask = camera.mask || cameraMask
-    camera.clearMask()
-  } else {
-    camera.setMask(cameraMask)
+// const updateCamera = (scene, userBody, userData, targetBody, targetData) => {
+//   const isOverlap = scene.matter.overlap(userBody, targetBody.parent.parts)
+//   const camera = scene.cameras.main
+//   if (isOverlap) {
+//     cameraMask = camera.mask || cameraMask
+//     camera.clearMask()
+//   } else {
+//     camera.setMask(cameraMask)
+//   }
+// }
+
+const classifyCollisionTargets = (bodyA, bodyB) => {
+  const collisionTargets = {
+    player: null,
+    bullet: null,
+    tile: null
   }
+
+  try {
+    const dataA = bodyA?.gameObject?.data?.getAll()
+    const dataB = bodyB?.gameObject?.data?.getAll()
+    if (dataA && dataA.interface === 'Player') {
+      collisionTargets.player = {
+        data: dataA,
+        body: bodyA,
+        isUser: dataA.id === getLocalUserData().userId
+      }
+    } else if (dataB && dataB.interface === 'Player') {
+      collisionTargets.player = {
+        data: dataB,
+        body: bodyB,
+        isUser: dataB.id === getLocalUserData().userId
+      }
+    }
+  } catch (e) {
+    // no player
+  }
+
+  try {
+    const dataA = bodyA?.gameObject?.data?.getAll()
+    const dataB = bodyB?.gameObject?.data?.getAll()
+    if (dataA && dataA.interface === 'Bullet') {
+      collisionTargets.bullet = {
+        data: dataA,
+        body: bodyA
+      }
+    } else if (dataB && dataB.interface === 'Bullet') {
+      collisionTargets.bullet = {
+        data: dataB,
+        body: bodyB
+      }
+    }
+  } catch (e) {
+    // no bullet
+  }
+
+  try {
+    if (bodyA.gameObject?.tile) {
+      collisionTargets.tile = {
+        body: bodyA
+      }
+    } else if (bodyB.gameObject?.tile) {
+      collisionTargets.tile = {
+        body: bodyB
+      }
+    }
+  } catch (e) {
+    // no tile
+  }
+
+  return collisionTargets
 }
-
-const getPlayerTargetArray = (bodyA, bodyB): false | [any, any, any, any] => {
-  const dataA = bodyA?.gameObject?.data?.getAll()
-  const dataB = bodyB?.gameObject?.data?.getAll()
-  if (!dataA || !dataB) {
-    return false
-  }
-  const playerData = dataA.interface === 'Player'
-    ? dataA
-    : (
-      dataB.interface === 'Player'
-        ? dataB
-        : null
-    )
-  if (!playerData) {
-    return false
-  }
-  return playerData === dataA
-    ? [bodyA, dataA, bodyB, dataB]
-    : [bodyB, dataB, bodyA, dataA]
-}
-
-const getBulletTargetArray = (bodyA, bodyB): false | [any, any, any, any] => {
-  const dataA = bodyA?.gameObject?.data?.getAll()
-  const dataB = bodyB?.gameObject?.data?.getAll()
-
-  const bulletData = dataA?.interface === 'Bullet'
-    ? dataA
-    : (
-      dataB?.interface === 'Bullet'
-        ? dataB
-        : null
-    )
-  if (!bulletData) {
-    return false
-  }
-  return bulletData === dataA
-    ? [bodyA, dataA, bodyB, dataB]
-    : [bodyB, dataB, bodyA, dataA]
-}
-
 
 const registerWorlEvents = (scene, methods, socketMethods) => {
   scene.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
-    const playerTargetArray = getPlayerTargetArray(bodyA, bodyB)
-    if (playerTargetArray) {
-      const [playerBody, playerData, targetBody, targetData] = playerTargetArray
-      const isUser = playerData.id === getLocalUserData().userId
-      if (
-        isUser &&
-        playerBody.label === 'body-sensor' &&
-        targetData.interface === 'fov-sensor'
-      ) {
-        updateCamera(scene, ...playerTargetArray)
+    const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
+    const { player, bullet, tile } = collistionTargets
+    if (player && tile) {
+      // player collide with tile
+    } else if (player && bullet) {
+      if (player.data.id === bullet.data.builderId) {
+        // player own the bullet, do nothing
+        return
       }
-      if (
-        playerBody.label === 'player-body' &&
-        targetData.interface === 'Bullet'
-      ) {
-        if (playerData.id === targetData.builderId) {
-          // player own the bullet, do nothing
-          return
-        }
-        if (isUser) {
-          socketMethods.broadcast(methods, 'onHit', playerData.id, _.omit(targetData, 'phaserObject'))
-          scene.cameras.main.shake(100, 0.01)
-        }
-        targetData.phaserObject.destroy()
+      if (player.isUser) {
+        socketMethods.broadcast(methods, 'onHit', player.data.id, _.omit(bullet.data, 'phaserObject'))
+        scene.cameras.main.shake(100, 0.01)
       }
-    } else {
-      const bulletTargetArray = getBulletTargetArray(bodyA, bodyB)
-      if (bulletTargetArray) {
-        const [bulletBody, bulletData, targetBody, targetData] = bulletTargetArray
-        if (
-          targetBody.gameObject?.tile &&
-          bulletData.interface === 'Bullet'
-        ) {
-          bulletData.phaserObject.destroy()
-        }
-      }
+      bullet.data.phaserObject.destroy()
+    } else if (bullet && tile) {
+      bullet.data.phaserObject.destroy()
     }
   })
 
   scene.matter.world.on('collisionend', function (event, bodyA, bodyB) {
-    const playerTargetArray = getPlayerTargetArray(bodyA, bodyB)
-    if (playerTargetArray) { // player involved
-      const [playerBody, playerData, targetBody, targetData] = playerTargetArray
-      const isUser = playerData.id === getLocalUserData().userId
-      if (isUser) {
-        if (
-          playerBody.label === 'body-sensor' &&
-          targetData.interface === 'fov-sensor'
-        ) {
-          updateCamera(scene, ...playerTargetArray)
-        }
-      }
-    }
+    // to be done
   })
 }
 
