@@ -59,9 +59,14 @@ const setUpFOVmask = (scene, map) => {
       }
     )
   }
-  scene.raycaster.mapGameObjects(fovObjects)
+  // scene.raycaster.mapGameObjects(fovObjects)
+  const wallLayerData = map.layers.find(o => o.name === 'wall_layer')
+  scene.raycaster.mapGameObjects([wallLayerData.tilemapLayer, ...fovObjects], false, {
+    //array of tile types which collide with rays
+    collisionTiles: [1, 2, 3, 22, 30, 31, 32, 38, 39, 40]
+  })
 
-  graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.1 } })
+  graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.05 } })
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
   mask.setInvertAlpha()
   return mask
@@ -73,7 +78,6 @@ const setUpBackgroundRenderer = (scene, mask, map, layers) => {
   renderTexture.setMask(mask);
   renderTexture.clear()
   renderTexture.fill('#000000', 1)
-  renderTexture.setTint(0x666666)
   renderTexture.draw(layers)
   return renderTexture
 }
