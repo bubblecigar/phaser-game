@@ -62,10 +62,13 @@ const createBulletMatter = (scene, bulletConstructor: Bullet) => {
   const { x, y } = bulletConstructor.position
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
   let body
+  const option = {
+    ignoreGravity: true
+  }
   if (bullet.matterConfig.type === 'circle') {
-    body = Bodies.circle(x, y, size.radius)
+    body = Bodies.circle(x, y, size.radius, option)
   } else if (bullet.matterConfig.type === 'rectangle') {
-    body = Bodies.rectangle(x, y, size.width, size.height)
+    body = Bodies.rectangle(x, y, size.width, size.height, option)
   } else {
     return // creation fail
   }
