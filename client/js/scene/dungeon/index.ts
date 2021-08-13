@@ -195,6 +195,16 @@ function create() {
   socketMethods.getSocketInstance().emit('player-join', createInitPlayerConstructor())
   socketMethods.readStateFromServer()
   registerInputEvents(this, methods, socketMethods)
+
+  cursors.up.on(
+    'down', () => {
+      const player = methods.getPlayer(userId)
+      if (player.phaserObject.data.values.touched) {
+        player.phaserObject.setVelocityY(-5)
+        player.phaserObject.setData({ touched: false })
+      }
+    }
+  )
 }
 
 const moveAim = (dt) => {
@@ -230,10 +240,6 @@ const movePlayer = (player: Player) => {
     velocity.x = charVelocity
   } else {
     velocity.x = 0
-  }
-  if (cursors.up.isDown && player.phaserObject.data.values.touched) {
-    player.phaserObject.setVelocityY(-5)
-    player.phaserObject.setData({ touched: false })
   }
 
   const prevVelocity = player.velocity.x
