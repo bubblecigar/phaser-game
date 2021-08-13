@@ -81,7 +81,7 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
     const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
     const { player, bullet, tile } = collistionTargets
     if (player && tile) {
-      // player collide with tile
+      player.body.gameObject.setData({ touched: true })
     } else if (player && bullet) {
       if (player.data.id === bullet.data.builderId) {
         // player own the bullet, do nothing

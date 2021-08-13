@@ -17,7 +17,7 @@ const userId = getLocalUserData().userId
 let methods
 let socketMethods
 
-let mapConfig = mapConfigs['waitingRoomConfig']
+let mapConfig = mapConfigs['jumpPlatFormConfig']
 let map
 
 let cursors
@@ -101,7 +101,7 @@ const createInitPlayerConstructor = () => {
     health: initHealth,
     coins: 0,
     items: [],
-    bullet: 'iceFlask',
+    bullet: 'arrow',
     abilities: initAbilities,
     phaserObject: null
   }
@@ -231,8 +231,9 @@ const movePlayer = (player: Player) => {
   } else {
     velocity.x = 0
   }
-  if (cursors.up.isDown && player.phaserObject.body.previousPositionImpulse.y < 0) {
+  if (cursors.up.isDown && player.phaserObject.data.values.touched) {
     player.phaserObject.setVelocityY(-5)
+    player.phaserObject.setData({ touched: false })
   }
 
   const prevVelocity = player.velocity.x
