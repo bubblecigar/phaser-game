@@ -22,41 +22,8 @@ let map
 
 let cursors, pointer
 let aim
-let aimingBar
 export let skillInUse: Skill | undefined
 export let aimingTime: number = 0
-
-
-const createAimingBar = (scene, x, y) => {
-  aimingBar = scene.add.rectangle(x, y, 20, 4, 0x00FF00)
-  aimingBar.setDepth(4)
-  aimingBar.setAlpha(0.5)
-}
-
-const showAimingBar = (player) => {
-  if (!aimingTime || !skillInUse) {
-    aimingBar.setVisible(false)
-  } else {
-    const container = player.phaserObject
-    const maximumBar = container.getByName('maximum-bar')
-    const aimingBarX = container.x + maximumBar.x
-    const aimingBarY = container.y + maximumBar.y
-
-    aimingBar.setX(aimingBarX)
-    aimingBar.setY(aimingBarY)
-    aimingBar.setOrigin(0, 0.5)
-
-    aimingBar.setVisible(true)
-    const percentage = Math.min(aimingTime / skillInUse.castTime, 1)
-    aimingBar.setSize(20 * percentage, 4)
-    if (percentage < 1) {
-      aimingBar.setFillStyle(0x2f61eb)
-    } else {
-      aimingBar.setFillStyle(0x08960a)
-    }
-  }
-}
-
 
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
@@ -121,7 +88,6 @@ function create() {
   pointer = this.input.activePointer
   registerAimingTarget(this)
   map = FOV.create(this, mapConfig)
-  createAimingBar(this, 0, 0)
 
   Object.keys(charactors).forEach(
     key => {
@@ -210,7 +176,6 @@ function update(dt) {
   FOV.update(this, player.position)
   moveAim(this)
   movePlayer(player)
-  showAimingBar(player)
 
   socketMethods.broadcast(
     methods,
