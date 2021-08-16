@@ -138,12 +138,14 @@ function create() {
       }
     }
   )
-}
-
-const moveAim = (scene) => {
-  const position = pointer.positionToCamera(scene.cameras.main)
-  aim.setX(position.x)
-  aim.setY(position.y)
+  this.input.on('pointermove', function (pointer) {
+    const position = pointer.positionToCamera(this.cameras.main)
+    aim.setX(position.x)
+    aim.setY(position.y)
+  })
+  this.input.on('pointerdown', function (pointer) {
+    // shoot
+  })
 }
 
 const movePlayer = (player: Player) => {
@@ -174,7 +176,6 @@ function update(dt) {
   const player = methods.getPlayer(userId)
   if (!player || !player.phaserObject) return
   FOV.update(this, player.position)
-  moveAim(this)
   movePlayer(player)
 
   socketMethods.broadcast(
