@@ -81,7 +81,11 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
     const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
     const { player, bullet, tile } = collistionTargets
     if (player && player.isUser && tile) {
-      player.body.gameObject.setData({ touched: true })
+      const dy = tile.body.position.y - player.body.position.y
+      const tileAtTop = dy <= 0
+      if (!tileAtTop) {
+        player.body.gameObject.setData({ touched: true })
+      }
     } else if (player && bullet) {
       if (player.data.id === bullet.data.builderId) {
         // player own the bullet, do nothing
@@ -97,12 +101,8 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
     }
   })
 
-  scene.matter.world.on('collisionactive', function (event, bodyA, bodyB) {
-    const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
-    const { player, bullet, tile } = collistionTargets
-    // console.====    if (player && player.isUser && tile) {
-    player.body.gameObject.setData({ touched: true })
-  }
+  scene.matter.world.on('collisionend', function (event, bodyA, bodyB) {
+    // to be done
   })
 }
 
