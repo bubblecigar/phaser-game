@@ -20,8 +20,7 @@ let socketMethods
 let mapConfig = mapConfigs['jumpPlatFormConfig']
 let map
 
-let cursors
-let space
+let cursors, pointer
 let aim
 let aimingBar
 export let skillInUse: Skill | undefined
@@ -109,49 +108,17 @@ const createInitPlayerConstructor = () => {
 }
 
 const registerAimingTarget = scene => {
-  aim = scene.matter.add.image(0, 0, 'target', undefined, { isSensor: true, ignoreGravity: true })
+  aim = scene.matter.add.image(-20, -20, 'target', undefined, {
+    isSensor: true,
+    ignoreGravity: true
+  })
   aim.setCollisionGroup(-1)
-  aim.setVisible(false)
   aim.setDepth(11)
-  aim.setFixedRotation()
-  aim.setAngularVelocity(0.1)
-
-  space = scene.input.keyboard.addKey('space')
-  space.on('down', () => {
-    // aim
-    aimingTime = 0
-    const player = methods.getPlayer(getLocalUserData().userId)
-    if (!player) return
-
-    skillInUse = createSkill(player.bullet, player.abilities)
-
-    aim.setAngularVelocity(0.1)
-    aim.setVisible(true)
-    aim.setX(player.position.x)
-    aim.setY(player.position.y)
-
-    aimingBar.setX(player.position.x)
-    aimingBar.setY(player.position.y)
-  })
-  space.on('up', () => {
-    // fire
-    const player = methods.getPlayer(getLocalUserData().userId)
-    if (!player || !aim || !skillInUse) return
-
-    aim.setVisible(false)
-    aim.setVelocityX(0)
-    aim.setVelocityY(0)
-
-    if (aimingTime >= skillInUse.castTime) {
-      castSkill(player, skillInUse, aim, scene, methods, socketMethods)
-    }
-    aimingTime = 0
-    skillInUse = undefined
-  })
 }
 
 function create() {
   cursors = this.input.keyboard.createCursorKeys()
+  pointer = this.input.activePointer
   registerAimingTarget(this)
   map = FOV.create(this, mapConfig)
   createAimingBar(this, 0, 0)
@@ -207,27 +174,10 @@ function create() {
   )
 }
 
-const moveAim = (dt) => {
-  const aimVelocity = 3
-  const velocity = { x: 0, y: 0 }
-  if (cursors.left.isDown) {
-    velocity.x = -aimVelocity
-  } else if (cursors.right.isDown) {
-    velocity.x = aimVelocity
-  } else {
-    velocity.x = 0
-  }
-  if (cursors.up.isDown) {
-    velocity.y = -aimVelocity
-  } else if (cursors.down.isDown) {
-    velocity.y = aimVelocity
-  } else {
-    velocity.y = 0
-  }
-
-  aim.setVelocityX(velocity.x)
-  aim.setVelocityY(velocity.y)
-  aimingTime += dt
+const moveAim = (scene) => {
+  const position = pointer.positionToCamera(scene.cameras.main)
+  aim.setX(position.x)
+  aim.setY(position.y)
 }
 
 const movePlayer = (player: Player) => {
@@ -258,11 +208,8 @@ function update(dt) {
   const player = methods.getPlayer(userId)
   if (!player || !player.phaserObject) return
   FOV.update(this, player.position)
-  if (space.isDown) {
-    moveAim(dt)
-  } else {
-    movePlayer(player)
-  }
+  moveAim(this)
+  movePlayer(player)
   showAimingBar(player)
 
   socketMethods.broadcast(
