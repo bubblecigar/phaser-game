@@ -273,6 +273,9 @@ const gameMethods = scene => {
       }
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
+    shoot: (params) => {
+      console.log('methods.shoot: ', params)
+    },
     shootInClient: (bulletConstructors: Bullet[]) => {
       if (!scene) {
         console.log('not initialize')
