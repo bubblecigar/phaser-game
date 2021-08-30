@@ -65,7 +65,6 @@ export const castSkill = (player: Player, skill: Skill, aim: Point, scene, metho
   if (!shotConfig) return
 
   const bullets = createBulletsOfOneShot(player, aim, shotConfig)
-  socketMethods.broadcast(methods, 'shootInClient', bullets)
 
   if (skill.shotConfigs.length <= 0) return
 

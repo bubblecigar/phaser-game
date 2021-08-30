@@ -306,17 +306,6 @@ const gameMethods = scene => {
         scene
       )
     },
-    shootInClient: (bulletConstructors: Bullet[]) => {
-      if (!scene) {
-        console.log('not initialize')
-        return
-      }
-      bulletConstructors.forEach(
-        bulletConstructor => {
-          bulletConstructor.phaserObject = createBulletMatter(scene, bulletConstructor)
-        }
-      )
-    },
     updatePlayerHealthBar: (playerId: string) => {
       const player = methods.getPlayer(playerId)
       const maximumHealth = charactors[player.charactorKey].maxHealth
