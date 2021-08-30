@@ -273,7 +273,7 @@ const gameMethods = scene => {
       }
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
-    shoot: ({ from, to }) => {
+    shoot: ({ from, to, builderId }) => {
       const velocity = 5
       const angle = Math.atan2(to.y - from.y, to.x - from.x)
       const bullet = scene.add.circle(from.x, from.y, 2)
@@ -288,12 +288,20 @@ const gameMethods = scene => {
         lifespan: 200,
         scale: { start: 2, end: 0 }
       })
+      matter._destroy = () => {
+        emitter.manager.emitters.remove(emitter)
+        matter.destroy()
+      }
+      matter.setData({
+        interface: 'Bullet',
+        builderId,
+        damage: 5,
+        phaserObject: matter
+      })
+
       scene.time.delayedCall(
         1000,
-        () => {
-          emitter.manager.emitters.remove(emitter);
-          matter.destroy()
-        },
+        () => matter._destroy(),
         null,
         scene
       )

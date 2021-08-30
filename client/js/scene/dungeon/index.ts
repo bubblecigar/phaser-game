@@ -140,9 +140,10 @@ function create() {
       }
     }
   )
-  this.input.on('pointerdown', function (pointer) {
+  this.input.on('pointerdown', function () {
     const player = methods.getPlayer(userId)
     socketMethods.broadcast(methods, 'shoot', {
+      builderId: player.id,
       from: player.position,
       to: { x: aim.x, y: aim.y }
     })
