@@ -95,9 +95,9 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
         socketMethods.broadcast(methods, 'onHit', player.data.id, _.omit(bullet.data, 'phaserObject'))
         scene.cameras.main.shake(100, 0.01)
       }
-      bullet.data.phaserObject._destroy()
+      // bullet.data.phaserObject._destroy()
     } else if (bullet && tile) {
-      bullet.data.phaserObject._destroy()
+      // bullet.data.phaserObject._destroy()
     }
   })
 

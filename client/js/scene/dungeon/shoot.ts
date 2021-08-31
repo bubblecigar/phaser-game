@@ -1,9 +1,8 @@
 
 const createArrowHead = (scene, position) => {
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
-  const head = scene.add.rectangle(position.x, position.y - 6, 2, 2)
   const headBody = Bodies.rectangle(position.x, position.y - 6, 2, 2)
-  const headMatter = scene.matter.add.gameObject(head)
+  const headMatter = scene.matter.add.sprite(position.x, position.y, 'arrow_sprite')
   headMatter.setExistingBody(headBody)
   headMatter.setOrigin(0.5, 0.1)
   headMatter.setFriction(1, 0, 0)
@@ -27,7 +26,6 @@ const createArrowFeather = (scene, position) => {
   return featherMatter
 }
 
-
 export const shoot = scene => ({ from, to, builderId }) => {
   const velocity = 9
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
@@ -36,16 +34,14 @@ export const shoot = scene => ({ from, to, builderId }) => {
   const featherMatter = createArrowFeather(scene, from)
   const constraint = scene.matter.add.constraint(headMatter.body, featherMatter.body, 12)
 
-  headMatter.setVelocityX(velocity * Math.cos(angle))
-  headMatter.setVelocityY(velocity * Math.sin(angle))
-
-  console.log(constraint)
   // matter.setData({
   //   interface: 'Bullet',
   //   builderId,
   //   damage: 5,
   //   phaserObject: matter
   // })
+  headMatter.setVelocityX(velocity * Math.cos(angle))
+  headMatter.setVelocityY(velocity * Math.sin(angle))
 
   scene.time.delayedCall(
     1000,

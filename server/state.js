@@ -13,21 +13,21 @@ const createRoom = (roomId, io) => {
     monsters: []
   }
   const room = rooms[roomId]
-  eventSchedules[roomId] = {
-    io,
-    monsterTimeout: setTimeout(() => {
-      const monsterConstructor = {
-        interface: 'Monster',
-        id: uuid.v4(),
-        velocity: { x: 0, y: 0 },
-        position: { x: 200, y: 200 },
-        charactorKey: 'orge',
-        health: 100
-      }
-      room.monsters.push(monsterConstructor)
-      io.in(roomId).emit('broadcast', 'createMonster', monsterConstructor)
-    }, 1000)
-  }
+  // eventSchedules[roomId] = {
+  //   io,
+  //   monsterTimeout: setTimeout(() => {
+  //     const monsterConstructor = {
+  //       interface: 'Monster',
+  //       id: uuid.v4(),
+  //       velocity: { x: 0, y: 0 },
+  //       position: { x: 200, y: 200 },
+  //       charactorKey: 'orge',
+  //       health: 100
+  //     }
+  //     room.monsters.push(monsterConstructor)
+  //     io.in(roomId).emit('broadcast', 'createMonster', monsterConstructor)
+  //   }, 1000)
+  // }
 }
 
 const joinRoom = (roomId, io) => {
@@ -53,7 +53,7 @@ const leaveRoom = (roomId, userId) => {
     // non empty room
   } else {
     delete rooms[roomId]
-    clearInterval(eventSchedules[roomId].monsterTimeout)
+    // clearInterval(eventSchedules[roomId].monsterTimeout)
     delete eventSchedules[roomId]
   }
 }
