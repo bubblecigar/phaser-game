@@ -11,7 +11,6 @@ import FOV from './FOV'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
 import targetUrl from '../../../statics/tile/target.png'
-import bulletUrl from '../../../statics/tile/bullet.png'
 
 const userId = getLocalUserData().userId
 
@@ -33,7 +32,6 @@ function init(data) {
 
 function preload() {
   this.load.image('target', targetUrl)
-  this.load.image('bullet', bulletUrl)
   this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
   this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
   Object.keys(charactors).forEach(
@@ -148,7 +146,6 @@ function create() {
       to: { x: aim.x, y: aim.y }
     })
   })
-  this.shootParticles = this.add.particles('bullet')
 }
 
 const movePlayer = (player: Player) => {

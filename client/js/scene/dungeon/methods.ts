@@ -6,6 +6,7 @@ import { getLocalUserData } from '../../user'
 import { Player, Bullet, Item, GameState, Monster, Point } from '../../Interface'
 import gameState from '../../game/state'
 import gameConfig from '../../game/config'
+import { shoot } from './shoot'
 
 const userId = getLocalUserData().userId
 
@@ -273,39 +274,7 @@ const gameMethods = scene => {
       }
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
-    shoot: ({ from, to, builderId }) => {
-      const velocity = 5
-      const angle = Math.atan2(to.y - from.y, to.x - from.x)
-      const bullet = scene.add.circle(from.x, from.y, 2)
-      const options = {
-        ignoreGravity: false
-      }
-      const matter = scene.matter.add.gameObject(bullet, options)
-      matter.setVelocityX(velocity * Math.cos(angle))
-      matter.setVelocityY(velocity * Math.sin(angle))
-      const emitter = scene.shootParticles.createEmitter({
-        follow: matter,
-        lifespan: 200,
-        scale: { start: 2, end: 0 }
-      })
-      matter._destroy = () => {
-        emitter.manager.emitters.remove(emitter)
-        matter.destroy()
-      }
-      matter.setData({
-        interface: 'Bullet',
-        builderId,
-        damage: 5,
-        phaserObject: matter
-      })
-
-      scene.time.delayedCall(
-        1000,
-        () => matter._destroy(),
-        null,
-        scene
-      )
-    },
+    shoot: ({ from, to, builderId }) => shoot(scene)({ from, to, builderId }),
     updatePlayerHealthBar: (playerId: string) => {
       const player = methods.getPlayer(playerId)
       const maximumHealth = charactors[player.charactorKey].maxHealth
