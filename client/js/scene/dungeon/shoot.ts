@@ -1,3 +1,4 @@
+import { v4 } from 'uuid'
 
 const createArrowHead = (scene, position) => {
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
@@ -33,30 +34,41 @@ export const shoot = scene => ({ from, to, builderId }) => {
   const featherMatter = createArrowFeather(scene, from)
   const constraint = scene.matter.add.constraint(headMatter.body, featherMatter.body, 12)
 
-  // matter.setData({
-  //   interface: 'Bullet',
-  //   builderId,
-  //   damage: 5,
-  //   phaserObject: matter
-  // })
+  const id = v4()
+  headMatter.setData({
+    id,
+    interface: 'Bullet',
+    builderId,
+    damage: 5,
+    phaserObject: headMatter
+  })
   headMatter.setVelocityX(velocity * Math.cos(angle))
   headMatter.setVelocityY(velocity * Math.sin(angle))
 
   if (!scene.arrows) {
-    scene.arrows = []
+    scene.arrows = {}
   }
-  const index = scene.arrows.length - 1
-  scene.arrows.push({ headMatter, featherMatter, constraint })
+  const align = () => {
+    const { x: x1, y: y1 } = headMatter
+    const { x: x2, y: y2 } = featherMatter
+    const angleDeg = Math.atan2(y1 - y2, x1 - x2) * 180 / Math.PI
+    headMatter.setAngle(angleDeg + 90)
+  }
+  const destroy = () => {
+    scene.matter.world.remove(constraint)
+    headMatter.destroy()
+    featherMatter.destroy()
+  }
+  const arrow = { align, destroy }
+  scene.arrows[id] = arrow
 
-  // scene.time.delayedCall(
-  //   1000,
-  //   () => {
-  //     scene.arrows.splice(index, 1)
-  //     scene.matter.world.remove(constraint)
-  //     headMatter.destroy()
-  //     featherMatter.destroy()
-  //   },
-  //   null,
-  //   scene
-  // )
+  scene.time.delayedCall(
+    1000,
+    () => {
+      delete scene.arrows[id]
+      destroy()
+    },
+    null,
+    scene
+  )
 }
