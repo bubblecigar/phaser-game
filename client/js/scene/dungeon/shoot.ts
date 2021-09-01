@@ -18,7 +18,6 @@ const createArrowFeather = (scene, position) => {
   const featherBody = Bodies.rectangle(position.x, position.y + 6, 2, 2)
   const featherMatter = scene.matter.add.gameObject(feather)
   featherMatter.setExistingBody(featherBody)
-  featherMatter.setIgnoreGravity(true)
   featherMatter.setMass(0.001)
   featherMatter.setFriction(0, 0.4, 0)
   featherMatter.setCollisionGroup(-1)
@@ -27,7 +26,7 @@ const createArrowFeather = (scene, position) => {
 }
 
 export const shoot = scene => ({ from, to, builderId }) => {
-  const velocity = 9
+  const velocity = 10
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
   const headMatter = createArrowHead(scene, from)
@@ -43,14 +42,21 @@ export const shoot = scene => ({ from, to, builderId }) => {
   headMatter.setVelocityX(velocity * Math.cos(angle))
   headMatter.setVelocityY(velocity * Math.sin(angle))
 
-  scene.time.delayedCall(
-    1000,
-    () => {
-      scene.matter.world.remove(constraint)
-      headMatter.destroy()
-      featherMatter.destroy()
-    },
-    null,
-    scene
-  )
+  if (!scene.arrows) {
+    scene.arrows = []
+  }
+  const index = scene.arrows.length - 1
+  scene.arrows.push({ headMatter, featherMatter, constraint })
+
+  // scene.time.delayedCall(
+  //   1000,
+  //   () => {
+  //     scene.arrows.splice(index, 1)
+  //     scene.matter.world.remove(constraint)
+  //     headMatter.destroy()
+  //     featherMatter.destroy()
+  //   },
+  //   null,
+  //   scene
+  // )
 }

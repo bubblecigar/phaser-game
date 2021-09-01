@@ -84,6 +84,7 @@ const registerAimingTarget = scene => {
 }
 
 function create() {
+  this.arrows = []
   cursors = this.input.keyboard.createCursorKeys()
   pointer = this.input.activePointer
   registerAimingTarget(this)
@@ -178,12 +179,26 @@ const updateAim = scene => {
   aim.setY(position.y)
 }
 
+const alignArrows = arrows => {
+  arrows.forEach(
+    arrow => {
+      const { headMatter, featherMatter } = arrow
+      const { x: x1, y: y1 } = headMatter
+      const { x: x2, y: y2 } = featherMatter
+      const angleDeg = Math.atan2(y1 - y2, x1 - x2) * 180 / Math.PI
+      headMatter.setAngle(angleDeg + 90)
+    }
+  )
+}
+
 function update(dt) {
   const player = methods.getPlayer(userId)
   if (!player || !player.phaserObject) return
   FOV.update(this, player.position)
   movePlayer(player)
   updateAim(this)
+
+  alignArrows(this.arrows)
 
   socketMethods.broadcast(
     methods,
