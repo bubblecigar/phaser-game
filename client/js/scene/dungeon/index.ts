@@ -21,7 +21,7 @@ let mapConfig = mapConfigs['jumpPlatFormConfig']
 let map
 
 let cursors, pointer
-let aim
+let aim, aimDirection
 export let skillInUse: Skill | undefined
 export let aimingTime: number = 0
 
@@ -167,16 +167,24 @@ const movePlayer = (player: Player) => {
   player.velocity.y = velocity.y
   player.phaserObject.setVelocityX(velocity.x)
 
-  const changeDirection = !(Math.sign(prevVelocity * player.velocity.x) === 1)
-  if (changeDirection) {
-    socketMethods.broadcast(methods, 'updatePlayerAnimation', userId, Math.sign(player.velocity.x))
+  const newAnimation = player.velocity.x === 0 ? 'idle' : 'move'
+  const oldAnimation = prevVelocity === 0 ? 'idle' : 'move'
+  const changeAnimation = newAnimation !== oldAnimation
+  if (changeAnimation) {
+    socketMethods.broadcast(methods, 'updatePlayerAnimation', userId, newAnimation)
   }
 }
 
-const updateAim = scene => {
+const updateAim = (scene, player) => {
   const position = pointer.positionToCamera(scene.cameras.main)
   aim.setX(position.x)
   aim.setY(position.y)
+
+  const newDirection = position.x < player.position.x ? 'left' : 'right'
+  const changeDirection = aimDirection !== newDirection
+  if (changeDirection) {
+    socketMethods.broadcast(methods, 'updatePlayerDirection', userId, newDirection)
+  }
 }
 
 function update(dt) {
@@ -184,7 +192,7 @@ function update(dt) {
   if (!player || !player.phaserObject) return
   FOV.update(this, player.position)
   movePlayer(player)
-  updateAim(this)
+  updateAim(this, player)
 
   Object.keys(this.arrows).forEach(
     id => this.arrows[id].align()

@@ -255,23 +255,23 @@ const gameMethods = scene => {
         player.phaserObject.setY(player.position.y)
       }
     },
-    updatePlayerAnimation: (playerId: string, sign: -1 | 0 | 1) => {
+    updatePlayerAnimation: (playerId: string, animation: 'idle' | 'move') => {
       const player = methods.getPlayer(playerId)
       if (!player || !player.phaserObject || !player.phaserObject.body) {
         console.log('player not initialized')
         return
       }
       const sprite = player.phaserObject.getByName('player-sprite')
-      if (sign === 0) {
-        sprite.play(charactors[player.charactorKey].animsConfig.idle.key)
-      } else {
-        sprite.play(charactors[player.charactorKey].animsConfig.move.key)
-        if (sign === 1) {
-          sprite.setFlipX(false)
-        } else if (sign === -1) {
-          sprite.setFlipX(true)
-        }
+      sprite.play(charactors[player.charactorKey].animsConfig[animation].key)
+    },
+    updatePlayerDirection: (playerId: string, direction: 'left' | 'right') => {
+      const player = methods.getPlayer(playerId)
+      if (!player || !player.phaserObject || !player.phaserObject.body) {
+        console.log('player not initialized')
+        return
       }
+      const sprite = player.phaserObject.getByName('player-sprite')
+      sprite.setFlipX(direction === 'right' ? false : true)
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
     shoot: ({ from, to, builderId }) => shoot(scene)({ from, to, builderId }),
