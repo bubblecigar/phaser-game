@@ -8,7 +8,6 @@ const createArrowHead = (scene, position) => {
   headMatter.setOrigin(0.5, 0.1)
   headMatter.setFriction(1, 0, 0)
   headMatter.setMass(0.01)
-  headMatter.setCollisionGroup(-1)
 
   return headMatter
 }
@@ -30,18 +29,10 @@ export const shoot = scene => ({ from, to, builderId }) => {
   const velocity = 10
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
+  const id = v4()
   const headMatter = createArrowHead(scene, from)
   const featherMatter = createArrowFeather(scene, from)
   const constraint = scene.matter.add.constraint(headMatter.body, featherMatter.body, 12)
-
-  const id = v4()
-  headMatter.setData({
-    id,
-    interface: 'Bullet',
-    builderId,
-    damage: 5,
-    phaserObject: headMatter
-  })
   headMatter.setVelocityX(velocity * Math.cos(angle))
   headMatter.setVelocityY(velocity * Math.sin(angle))
 
@@ -55,19 +46,28 @@ export const shoot = scene => ({ from, to, builderId }) => {
     headMatter.setAngle(angleDeg + 90)
   }
   const destroy = () => {
-    scene.matter.world.remove(constraint)
-    headMatter.destroy()
-    featherMatter.destroy()
+    if (scene.arrows[id]) {
+      delete scene.arrows[id]
+      scene.matter.world.remove(constraint)
+      headMatter.destroy()
+      featherMatter.destroy()
+    }
   }
   const arrow = { align, destroy }
   scene.arrows[id] = arrow
 
+  headMatter.setData({
+    id,
+    interface: 'Bullet',
+    builderId,
+    damage: 5,
+    phaserObject: headMatter,
+    destroy
+  })
+
   scene.time.delayedCall(
     1000,
-    () => {
-      delete scene.arrows[id]
-      destroy()
-    },
+    () => destroy(),
     null,
     scene
   )
