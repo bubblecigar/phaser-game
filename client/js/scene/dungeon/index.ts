@@ -22,6 +22,7 @@ let map
 
 let cursors, pointer
 let aim, aimDirection
+let readyToShoot = true
 export let skillInUse: Skill | undefined
 export let aimingTime: number = 0
 
@@ -139,13 +140,25 @@ function create() {
       }
     }
   )
+  const scene = this
   this.input.on('pointerdown', function () {
     const player = methods.getPlayer(userId)
-    socketMethods.broadcast(methods, 'shoot', {
-      builderId: player.id,
-      from: player.position,
-      to: { x: aim.x, y: aim.y }
-    })
+    if (readyToShoot) {
+      socketMethods.broadcast(methods, 'shoot', {
+        builderId: player.id,
+        from: player.position,
+        to: { x: aim.x, y: aim.y }
+      })
+      readyToShoot = false
+      scene.time.delayedCall(
+        333,
+        () => {
+          readyToShoot = true
+        },
+        null,
+        scene
+      )
+    }
   })
 }
 
