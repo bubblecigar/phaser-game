@@ -63,10 +63,13 @@ const createItemMatter = (scene, itemConstructor: Item | Bullet) => {
   const { x, y } = itemConstructor.position
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
   let body
+  const options = {
+    ignoreGravity: true
+  }
   if (item.matterConfig.type === 'circle') {
-    body = Bodies.circle(x, y, size.radius)
+    body = Bodies.circle(x, y, size.radius, options)
   } else if (item.matterConfig.type === 'rectangle') {
-    body = Bodies.rectangle(x, y, size.width, size.height)
+    body = Bodies.rectangle(x, y, size.width, size.height, options)
   } else {
     return // creation fail
   }
@@ -80,7 +83,7 @@ const createItemMatter = (scene, itemConstructor: Item | Bullet) => {
   phaserObject.setVelocityX(itemConstructor.velocity.x)
   phaserObject.setVelocityY(itemConstructor.velocity.y)
   const angle = Math.atan2(itemConstructor.velocity.y, itemConstructor.velocity.x)
-  const degree = 90 + 180 * angle / Math.PI
+  const degree = 180 * angle / Math.PI
   phaserObject.setAngle(degree)
 
   return phaserObject
