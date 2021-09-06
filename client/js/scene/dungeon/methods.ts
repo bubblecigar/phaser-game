@@ -57,48 +57,6 @@ const createPlayerMatter = (scene, player: Player) => {
   return phaserObject
 }
 
-const createBulletMatter = (scene, bulletConstructor: Bullet) => {
-  const bullet = items[bulletConstructor.itemKey]
-  const { size, origin } = bullet.matterConfig
-  const { x, y } = bulletConstructor.position
-  const Bodies = Phaser.Physics.Matter.Matter.Bodies
-  let body
-  const option = {
-    ignoreGravity: true
-  }
-  if (bullet.matterConfig.type === 'circle') {
-    body = Bodies.circle(x, y, size.radius, option)
-  } else if (bullet.matterConfig.type === 'rectangle') {
-    body = Bodies.rectangle(x, y, size.width, size.height, option)
-  } else {
-    return // creation fail
-  }
-
-  const phaserObject = scene.matter.add.sprite(x, y, bullet.spritesheetConfig.spritesheetKey)
-  phaserObject.setExistingBody(body)
-  bullet.animsConfig.idle && phaserObject.play(bullet.animsConfig.idle.key)
-  phaserObject.setOrigin(origin.x, origin.y)
-  phaserObject.setSensor(true)
-  phaserObject.setData({ ...bulletConstructor, phaserObject })
-  phaserObject.setVelocityX(bulletConstructor.velocity.x)
-  phaserObject.setVelocityY(bulletConstructor.velocity.y)
-  const angle = Math.atan2(bulletConstructor.velocity.y, bulletConstructor.velocity.x)
-  const degree = 90 + 180 * angle / Math.PI
-  phaserObject.setAngle(degree)
-
-  if (bulletConstructor.angularVelocity) {
-    phaserObject.setAngularVelocity(bulletConstructor.angularVelocity)
-  }
-  scene.time.delayedCall(
-    bulletConstructor.duration,
-    () => bulletConstructor.phaserObject.destroy(),
-    null,
-    scene
-  )
-
-  return phaserObject
-}
-
 const createItemMatter = (scene, itemConstructor: Item | Bullet) => {
   const item = items[itemConstructor.itemKey]
   const { size, origin } = item.matterConfig
