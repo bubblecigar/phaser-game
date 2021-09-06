@@ -18,7 +18,6 @@ let methods
 let socketMethods
 
 let mapConfig = mapConfigs['jumpPlatFormConfig']
-let map
 
 let cursors, pointer
 let aim, aimDirection
@@ -49,7 +48,8 @@ function preload() {
   )
 }
 
-const createInitPlayerConstructor = () => {
+const createInitPlayerConstructor = scene => {
+  const map = scene.map
   const item_layer = map.objects.find(o => o.name === 'item_layer')
   const spawnPoint = item_layer ? item_layer.objects.find(o => o.name === 'spawn_point') : { x: map.widthInPixels / 2, y: map.heightInPixels / 2 }
   const x = spawnPoint.x
@@ -89,7 +89,7 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys()
   pointer = this.input.activePointer
   registerAimingTarget(this)
-  map = FOV.create(this, mapConfig)
+  this.map = FOV.create(this, mapConfig)
 
   Object.keys(charactors).forEach(
     key => {
@@ -127,7 +127,7 @@ function create() {
   socketMethods = connectToServer()
   socketMethods.registerSocketEvents(methods)
   registerWorldEvents(this, methods, socketMethods)
-  socketMethods.getSocketInstance().emit('player-join', createInitPlayerConstructor())
+  socketMethods.getSocketInstance().emit('player-join', createInitPlayerConstructor(this))
   socketMethods.readStateFromServer()
   registerInputEvents(this, methods, socketMethods)
 
