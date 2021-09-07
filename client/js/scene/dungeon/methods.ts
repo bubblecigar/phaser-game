@@ -263,27 +263,6 @@ const gameMethods = scene => {
         methods.setPlayer(ghostCharactor)
       }
     },
-    addCoin: (coinConstructor) => {
-      const {
-        id,
-        itemKey,
-        randomValue
-      } = coinConstructor
-      const map = scene.map
-      const item_layer = map.objects.find(o => o.name === 'item_layer')
-      const coinPoints = item_layer.objects.filter(o => o.name === 'coin_point')
-      const randomCoinSpawnIndex = Math.floor(randomValue * (coinPoints.length))
-      const coinSpawnPoint = coinPoints[randomCoinSpawnIndex]
-      const itemConstructor: Item = {
-        interface: 'Item',
-        id,
-        itemKey,
-        position: { x: coinSpawnPoint.x, y: coinSpawnPoint.y },
-        velocity: { x: 0, y: 0 },
-        phaserObject: null
-      }
-      methods.addItem(itemConstructor)
-    },
     addItem: (itemConstructor: Item): Item => {
       const { id, position, itemKey, velocity } = itemConstructor
       const item: Item = {
