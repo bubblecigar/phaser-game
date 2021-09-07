@@ -11,8 +11,17 @@ const createRoom = (roomId, io) => {
   }
   rooms[roomId] = {
     players: [],
+    coins: [],
     mapConfigKey: 'waitingRoomConfig',
     monsters: []
+  }
+
+  const retainOneCoin = () => {
+    if (rooms[roomId].coins.length > 0) {
+      return
+    } else {
+      createCoin()
+    }
   }
 
   const createCoin = () => {
@@ -21,12 +30,13 @@ const createRoom = (roomId, io) => {
       itemKey: 'coin',
       randomValue: Math.random()
     }
+    rooms[roomId].coins.push(coinConstructor)
     io.in(roomId).emit('broadcast', 'addCoin', coinConstructor)
   }
-  createCoin()
-  // const createCoinIntervalId = setInterval(
-  //   createCoin, 1000
-  // )
+
+  const createCoinIntervalId = setInterval(
+    retainOneCoin, 1000
+  )
 
   eventSchedules[roomId] = {
     io,
@@ -58,7 +68,7 @@ const leaveRoom = (roomId, userId) => {
     // non empty room
   } else {
     delete rooms[roomId]
-    // clearInterval(eventSchedules[roomId].endGameDetectionId)
+    clearInterval(eventSchedules[roomId].createCoinIntervalId)
     delete eventSchedules[roomId]
   }
 }
