@@ -16,6 +16,13 @@ io.on('connection', async function (socket) {
   socket.join(roomId)
   const gameState = rooms.joinRoom(roomId, io)
 
+  socket.on('install-item-layer', item_layer => {
+    // install TileMap data from client
+    if (gameState.itemLayer === null) {
+      gameState.itemLayer = item_layer
+    }
+  })
+
   // init player or get player in room
   socket.on('player-join', initPlayerConstructor => {
     const player = gameState.players.find(player => player.id === userData.userId)

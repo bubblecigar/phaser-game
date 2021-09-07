@@ -127,6 +127,8 @@ function create() {
   socketMethods = connectToServer()
   socketMethods.registerSocketEvents(methods)
   registerWorldEvents(this, methods, socketMethods)
+  const item_layer = this.map.objects.find(o => o.name === 'item_layer')
+  socketMethods.getSocketInstance().emit('install-item-layer', item_layer)
   socketMethods.getSocketInstance().emit('player-join', createInitPlayerConstructor(this))
   socketMethods.readStateFromServer()
   registerInputEvents(this, methods, socketMethods)

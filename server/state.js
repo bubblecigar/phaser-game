@@ -13,7 +13,8 @@ const createRoom = (roomId, io) => {
     players: [],
     coins: [],
     mapConfigKey: 'waitingRoomConfig',
-    monsters: []
+    monsters: [],
+    itemLayer: null
   }
 
   const retainOneCoin = () => {
