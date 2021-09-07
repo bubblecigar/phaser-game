@@ -97,6 +97,7 @@ const gameMethods = scene => {
     },
     syncServerStateToClient: (serverGameState: GameState) => {
       methods.syncPlayers(serverGameState.players)
+      methods.syncItems(serverGameState.items)
     },
     syncMap: (mapConfigKey: String) => {
       gameState.mapConfigKey = mapConfigKey

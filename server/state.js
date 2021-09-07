@@ -38,7 +38,11 @@ const createRoom = (roomId, io) => {
   }
 
   const createCoinIntervalId = setInterval(
-    createCoin, 1000
+    () => {
+      if (rooms[roomId].items.length === 0) {
+        createCoin()
+      }
+    }, 1000
   )
 
   eventSchedules[roomId] = {
