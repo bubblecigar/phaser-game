@@ -108,11 +108,11 @@
             "scaleInEditor": 1.83
         },
         "jumpPlatForm.tmx": {
-            "scale": 2.6134,
+            "scale": 2.61,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 154.77921481594856,
-                "y": 309.3671079819392
+                "x": 115.3256704980843,
+                "y": 330.0766283524904
             }
         },
         "jumpPlatForm.tmx#forestTileSet": {
@@ -192,8 +192,8 @@
             "scale": 1.85,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 174.8648648648648,
-                "y": 188.37837837837836
+                "x": 117.29729729729728,
+                "y": 139.7297297297297
             }
         },
         "waitingRoom.tmx#anim": {
@@ -221,10 +221,10 @@
     "project": "tile_project.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "waitingRoom.tmx",
         "jumpPlatForm.tmx",
         "shootingPlatform.tmx",
         "anim.tsx",
-        "waitingRoom.tmx",
         "waitingRoom.json",
         "tiny_map.json",
         "/Users/roywang/Desktop/tile_trial/tiny_map.tmx",

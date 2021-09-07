@@ -2,6 +2,8 @@ const uuid = require('uuid')
 const rooms = {}
 const eventSchedules = {}
 
+
+
 const createRoom = (roomId, io) => {
   if (rooms[roomId]) {
     console.log('room already exist')
@@ -12,22 +14,25 @@ const createRoom = (roomId, io) => {
     mapConfigKey: 'waitingRoomConfig',
     monsters: []
   }
-  const room = rooms[roomId]
-  // eventSchedules[roomId] = {
-  //   io,
-  //   monsterTimeout: setTimeout(() => {
-  //     const monsterConstructor = {
-  //       interface: 'Monster',
-  //       id: uuid.v4(),
-  //       velocity: { x: 0, y: 0 },
-  //       position: { x: 200, y: 200 },
-  //       charactorKey: 'orge',
-  //       health: 100
-  //     }
-  //     room.monsters.push(monsterConstructor)
-  //     io.in(roomId).emit('broadcast', 'createMonster', monsterConstructor)
-  //   }, 1000)
-  // }
+
+  const createCoin = () => {
+    const coinConstructor = {
+      id: uuid(),
+      itemKey: 'coin',
+      randomValue: Math.random()
+    }
+    io.in(roomId).emit('broadcast', 'addCoin', coinConstructor)
+  }
+  createCoin()
+  // const createCoinIntervalId = setInterval(
+  //   createCoin, 1000
+  // )
+
+  eventSchedules[roomId] = {
+    io,
+    createCoinIntervalId
+    // endGameDetectionId: endGameDetectionId
+  }
 }
 
 const joinRoom = (roomId, io) => {
@@ -53,7 +58,7 @@ const leaveRoom = (roomId, userId) => {
     // non empty room
   } else {
     delete rooms[roomId]
-    // clearInterval(eventSchedules[roomId].monsterTimeout)
+    // clearInterval(eventSchedules[roomId].endGameDetectionId)
     delete eventSchedules[roomId]
   }
 }

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="2">
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="7">
+ <editorsettings>
+  <export target="jumpPlatForm.json" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" name="forestTileSet" tilewidth="16" tileheight="16" tilecount="48" columns="8">
   <image source="forestTileSet.png" width="128" height="96"/>
   <tile id="0">
@@ -123,6 +126,21 @@
  </layer>
  <objectgroup id="3" name="item_layer">
   <object id="1" name="spawn_point" x="23.3412" y="390.296">
+   <point/>
+  </object>
+  <object id="2" name="coin_point" x="118.774" y="218.774">
+   <point/>
+  </object>
+  <object id="3" name="coin_point" x="311.877" y="180.077">
+   <point/>
+  </object>
+  <object id="4" name="coin_point" x="306.513" y="421.073">
+   <point/>
+  </object>
+  <object id="5" name="coin_point" x="150.575" y="322.989">
+   <point/>
+  </object>
+  <object id="6" name="coin_point" x="232.567" y="333.333">
    <point/>
   </object>
  </objectgroup>
