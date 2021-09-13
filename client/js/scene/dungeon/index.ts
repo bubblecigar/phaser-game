@@ -162,6 +162,7 @@ function create() {
       )
     }
   })
+  scene.scene.launch('GUI')
 }
 
 const movePlayer = (player: Player) => {

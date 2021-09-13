@@ -61,21 +61,21 @@ function create() {
   // addItemCell(itemX, itemY, 1)
   // addItemCell(itemX, itemY, 2)
 
-  // const coinX = padding
-  // const coinY = gameConfig.canvasHeight - padding
-  // createCoinGroup(this, coinX, coinY)
+  const coinX = padding
+  const coinY = gameConfig.canvasHeight - padding
+  createCoinGroup(this, coinX, coinY)
 
   // const aimingBarX = gameConfig.canvasWidth / 2 - 10
   // const aimingBarY = gameConfig.canvasHeight / 2 + 20
   // createAimingBar(aimingBarX, aimingBarY)
 
-  const abilityX = padding
-  const abilityY = gameConfig.canvasHeight - padding
-  createAbilityBar(abilityX, abilityY - 30, 'dmg', 1 / 9)
-  createAbilityBar(abilityX, abilityY - 20, 'spd', 1 / 9)
-  createAbilityBar(abilityX, abilityY - 10, 'dur', 1 / 9)
-  createAbilityBar(abilityX, abilityY, 'dir', 1 / 9)
-  createAbilityBar(abilityX, abilityY + 10, 'wave', 1 / 9)
+  // const abilityX = padding
+  // const abilityY = gameConfig.canvasHeight - padding
+  // createAbilityBar(abilityX, abilityY - 30, 'dmg', 1 / 9)
+  // createAbilityBar(abilityX, abilityY - 20, 'spd', 1 / 9)
+  // createAbilityBar(abilityX, abilityY - 10, 'dur', 1 / 9)
+  // createAbilityBar(abilityX, abilityY, 'dir', 1 / 9)
+  // createAbilityBar(abilityX, abilityY + 10, 'wave', 1 / 9)
 }
 
 const createAbilityBar = (x, y, label, percentage) => {
@@ -127,26 +127,26 @@ const showAbilityBar = (abilities) => {
 //   }
 // }
 
-// const createCoinGroup = (scene, x, y) => {
-//   coinGroup = scene.add.group({ classType: Phaser.GameObjects.Sprite })
-//   for (let i = 0; i < 10; i++) {
-//     coinGroup.add(scene.add.sprite(x + 10 * i, y))
-//   }
-//   coinGroup.playAnimation(items.coin.animsConfig.idle.key, 0)
-//   coinGroup.setVisible(false)
-// }
+const createCoinGroup = (scene, x, y) => {
+  coinGroup = scene.add.group({ classType: Phaser.GameObjects.Sprite })
+  for (let i = 0; i < 10; i++) {
+    coinGroup.add(scene.add.sprite(x + 10 * i, y))
+  }
+  coinGroup.playAnimation(items.coin.animsConfig.idle.key, 0)
+  coinGroup.setVisible(false)
+}
 
-// const showCoinCount = count => {
-//   coinGroup.setVisible(true)
-//   coinGroup.setVisible(false, count, 1)
-// }
+const showCoinCount = count => {
+  coinGroup.setVisible(true)
+  coinGroup.setVisible(false, count, 1)
+}
 
 function update(t, dt) {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (!player) return
-  // showCoinCount(player.coins)
+  showCoinCount(player.coins)
   // showAimingBar()
-  showAbilityBar(player.abilities)
+  // showAbilityBar(player.abilities)
 }
 
 export default {
