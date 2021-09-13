@@ -24,6 +24,9 @@ export const connectToServer = () => {
       methods[key](...args)
       socket.emit('broadcast', key, ...args)
     },
+    serverGameStateUpdate: (action, ...args) => {
+      socket.emit('serverGameStateUpdate', action, ...args)
+    },
     readStateFromServer: () => {
       socket.emit('READ_SERVER_GAME_STATE')
     },

@@ -48,6 +48,17 @@ io.on('connection', async function (socket) {
     }
   })
 
+  socket.on('serverGameStateUpdate', (action, data) => {
+    switch (action) {
+      case 'collectItem': {
+        console.log('data:', data)
+      }
+      default: {
+        // unhandled action
+      }
+    }
+  })
+
   socket.on('broadcast', (method, ...args) => {
     socket.to(roomId).emit('broadcast', method, ...args)
   })
