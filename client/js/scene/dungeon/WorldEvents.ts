@@ -18,7 +18,8 @@ const classifyCollisionTargets = (bodyA, bodyB) => {
   const collisionTargets = {
     player: null,
     bullet: null,
-    tile: null
+    tile: null,
+    item: null
   }
 
   try {
@@ -73,13 +74,31 @@ const classifyCollisionTargets = (bodyA, bodyB) => {
     // no tile
   }
 
+  try {
+    const dataA = bodyA?.gameObject?.data?.getAll()
+    const dataB = bodyB?.gameObject?.data?.getAll()
+    if (dataA && dataA.interface === 'Item') {
+      collisionTargets.item = {
+        data: dataA,
+        body: bodyA
+      }
+    } else if (dataB && dataB.interface === 'Item') {
+      collisionTargets.item = {
+        data: dataB,
+        body: bodyB
+      }
+    }
+  } catch (e) {
+    // no item
+  }
+
   return collisionTargets
 }
 
 const registerWorlEvents = (scene, methods, socketMethods) => {
   scene.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
     const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
-    const { player, bullet, tile } = collistionTargets
+    const { player, bullet, tile, item } = collistionTargets
     if (player && player.isUser && tile) {
       const dy = tile.body.position.y - player.body.position.y
       const tileAtTop = dy <= 0
@@ -98,6 +117,19 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
       bullet.data.destroy()
     } else if (bullet && tile) {
       // do nothing
+    } else if (player && item) {
+      if (item.data.itemKey === 'coin') {
+        if (player.isUser) {
+          socketMethods.broadcast(methods, 'collectItem', player.data.id, _.omit(item.data, 'phaserObject'))
+          socketMethods.serverGameStateUpdate('collectItem', {
+            playerId: player.data.id,
+            itemId: item.data.id
+          })
+          scene.cameras.main.shake(100, 0.01)
+        } else {
+          item.data.phaserObject.destroy()
+        }
+      }
     }
   })
 

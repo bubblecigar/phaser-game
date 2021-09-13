@@ -51,7 +51,13 @@ io.on('connection', async function (socket) {
   socket.on('serverGameStateUpdate', (action, data) => {
     switch (action) {
       case 'collectItem': {
-        console.log('data:', data)
+        const itemIndex = gameState.items.findIndex(item => item.id === data.itemId)
+        if (itemIndex < 0) {
+          // already been collected by other player
+          // do nothing
+        } else {
+          gameState.items.splice(itemIndex, 1)
+        }
       }
       default: {
         // unhandled action
