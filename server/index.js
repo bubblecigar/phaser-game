@@ -49,14 +49,31 @@ io.on('connection', async function (socket) {
   })
 
   socket.on('serverGameStateUpdate', (action, data) => {
+
+    const checkWinner = () => {
+      const winner = gameState.players.find(
+        player => player.coins >= 10
+      )
+      return winner
+    }
+
     switch (action) {
       case 'collectItem': {
         const itemIndex = gameState.items.findIndex(item => item.id === data.itemId)
+        const playerIndex = gameState.players.findIndex(player => player.id === data.playerId)
         if (itemIndex < 0) {
           // already been collected by other player
           // do nothing
         } else {
-          gameState.items.splice(itemIndex, 1)
+          // collect effect
+          const item = gameState.items[itemIndex]
+          const player = gameState.players[playerIndex]
+          if (item.itemKey === 'coin') {
+            player.coins++
+            gameState.items.splice(itemIndex, 1)
+          }
+          const winner = checkWinner()
+          console.log('winner:', winner)
         }
       }
       default: {
