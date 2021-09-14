@@ -60,21 +60,14 @@ io.on('connection', async function (socket) {
     switch (action) {
       case 'collectItem': {
         const itemIndex = gameState.items.findIndex(item => item.id === data.itemId)
-        const playerIndex = gameState.players.findIndex(player => player.id === data.playerId)
         if (itemIndex < 0) {
           // already been collected by other player
-          // do nothing
         } else {
-          // collect effect
-          const item = gameState.items[itemIndex]
-          const player = gameState.players[playerIndex]
-          if (item.itemKey === 'coin') {
-            player.coins++
-            gameState.items.splice(itemIndex, 1)
-          }
-          const winner = checkWinner()
-          console.log('winner:', winner)
+          // collect effect 
+          gameState.items.splice(itemIndex, 1)
         }
+        const winner = checkWinner()
+        console.log('winner:', winner)
       }
       default: {
         // unhandled action

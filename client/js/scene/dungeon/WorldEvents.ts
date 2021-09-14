@@ -121,10 +121,7 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
       if (item.data.itemKey === 'coin') {
         if (player.isUser) {
           socketMethods.broadcast(methods, 'collectItem', player.data.id, _.omit(item.data, 'phaserObject'))
-          socketMethods.serverGameStateUpdate('collectItem', {
-            playerId: player.data.id,
-            itemId: item.data.id
-          })
+          socketMethods.serverGameStateUpdate('collectItem', { itemId: item.data.id })
           scene.cameras.main.shake(100, 0.01)
         } else {
           item.data.phaserObject.destroy()
