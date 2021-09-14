@@ -252,6 +252,7 @@ const gameMethods = scene => {
 
       if (player.health <= 0) {
         player.health = 0
+        const halfCoinsCount = Math.floor((player.coins) / 2)
         const ghostCharactor: Player = {
           ...player,
           charactorKey: 'skull',
@@ -259,7 +260,7 @@ const gameMethods = scene => {
           phaserObject: null,
           health: 0,
           items: [],
-          coins: 0
+          coins: halfCoinsCount
         }
         methods.setPlayer(ghostCharactor)
       }
