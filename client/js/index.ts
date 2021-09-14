@@ -31,6 +31,7 @@ const game = new Phaser.Game({
   dom: {
     createContainer: true
   },
+  // scene: [loginScene, dungeonScene, GUIScene],
   scene: [dungeonScene, GUIScene],
   plugins: {
     scene: [
