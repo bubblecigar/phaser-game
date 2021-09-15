@@ -1,5 +1,7 @@
 import _ from 'lodash'
 import Phaser from 'phaser'
+import { v4 } from 'uuid'
+
 import charactors from '../../charactors'
 import items from '../../items'
 import { getLocalUserData } from '../../user'
@@ -263,6 +265,16 @@ const gameMethods = scene => {
           coins: halfCoinsCount
         }
         methods.setPlayer(ghostCharactor)
+        const coinSpawnPoint = player.position
+        const itemConstructor: Item = {
+          interface: 'Item',
+          id: v4(),
+          itemKey: 'coin',
+          position: coinSpawnPoint,
+          velocity: { x: 0, y: -0.2 },
+          phaserObject: null
+        }
+        methods.addItem(itemConstructor)
       }
     },
     addItem: (itemConstructor: Item): Item => {
