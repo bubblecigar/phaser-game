@@ -14,7 +14,7 @@ io.on('connection', async function (socket) {
   const userData = socket.handshake.auth
   const roomId = userData.roomId
   socket.join(roomId)
-  const gameState = rooms.joinRoom(roomId, io)
+  const gameState = rooms.connectToRoom(roomId, io, userData.userId)
 
   socket.on('install-item-layer', item_layer => {
     // install TileMap data from client
@@ -96,7 +96,7 @@ io.on('connection', async function (socket) {
   })
 
   socket.on('disconnect', async function () {
-    rooms.leaveRoom(roomId, userData.userId)
-    io.in(roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
+    rooms.disconnectFromRoom(roomId, userData.userId)
+    // io.in(roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
   })
 })

@@ -14,7 +14,8 @@ const createRoom = (roomId, io) => {
     items: [],
     mapConfigKey: 'waitingRoomConfig',
     monsters: [],
-    itemLayer: null
+    itemLayer: null,
+    onConnectionIds: []
   }
 
   const createCoin = () => {
@@ -52,28 +53,29 @@ const createRoom = (roomId, io) => {
   }
 }
 
-const joinRoom = (roomId, io) => {
+const connectToRoom = (roomId, io, userId) => {
   const gameStateOfRoom = rooms[roomId]
   if (!gameStateOfRoom) {
     createRoom(roomId, io)
   }
+  const room = rooms[roomId]
+  const index = room.onConnectionIds.findIndex(id => id === userId)
+  if (index === -1) {
+    rooms[roomId].onConnectionIds.push(userId)
+  }
   return rooms[roomId]
 }
 
-const leaveRoom = (roomId, userId) => {
+const disconnectFromRoom = (roomId, userId) => {
   const room = rooms[roomId]
   if (!room) {
-    return
+    return // room already closed
   }
-  const playerIndex = room.players.findIndex(player => player.id === userId)
-  if (playerIndex > -1) {
-    room.players.splice(playerIndex, 1)
-  } else {
-    // do nothing
+  const index = room.onConnectionIds.findIndex(id => id === userId)
+  if (index > -1) {
+    room.onConnectionIds.splice(index, 1)
   }
-  if (rooms[roomId].players.length) {
-    // non empty room
-  } else {
+  if (room.onConnectionIds.length === 0) {
     delete rooms[roomId]
     clearInterval(eventSchedules[roomId].createCoinIntervalId)
     delete eventSchedules[roomId]
@@ -81,6 +83,6 @@ const leaveRoom = (roomId, userId) => {
 }
 
 exports.rooms = {
-  joinRoom,
-  leaveRoom
+  connectToRoom,
+  disconnectFromRoom
 }
