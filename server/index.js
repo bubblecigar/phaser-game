@@ -24,12 +24,28 @@ io.on('connection', async function (socket) {
   })
 
   // init player or get player in room
-  socket.on('player-join', initPlayerConstructor => {
+  socket.on('player-join', () => {
     const player = gameState.players.find(player => player.id === userData.userId)
     if (player) {
-      // do nothing
+      // player already existed, do nothing
     } else {
-      gameState.players.push(initPlayerConstructor)
+      // create player on spawn_point
+      const spawnPoints = gameState.itemLayer.objects.filter(o => o.name === 'spawn_point')
+      const spawnPoint = spawnPoints ? spawnPoints[0] : { x: 100, y: 100 }
+      const playerConstructor = {
+        interface: 'Player',
+        id: userData.userId,
+        charactorKey: 'tinyZombie',
+        position: { x: spawnPoint.x, y: spawnPoint.y },
+        velocity: { x: 0, y: 0 },
+        health: 20,
+        coins: 0,
+        items: [],
+        bullet: 'arrow',
+        abilities: null,
+        phaserObject: null
+      }
+      gameState.players.push(playerConstructor)
     }
     io.in(roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
   })

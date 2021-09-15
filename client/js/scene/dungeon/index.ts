@@ -22,6 +22,7 @@ let mapConfig = mapConfigs['jumpPlatFormConfig']
 let cursors, pointer
 let aim, aimDirection
 let readyToShoot = true
+let resurrectCountDown = 0
 
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
@@ -44,33 +45,6 @@ function preload() {
       this.load.spritesheet(item.spritesheetConfig.spritesheetKey, item.spritesheetConfig.spritesheetUrl, item.spritesheetConfig.options)
     }
   )
-}
-
-const createInitPlayerConstructor = scene => {
-  const map = scene.map
-  const item_layer = map.objects.find(o => o.name === 'item_layer')
-  const spawnPoint = item_layer ? item_layer.objects.find(o => o.name === 'spawn_point') : { x: map.widthInPixels / 2, y: map.heightInPixels / 2 }
-  const x = spawnPoint.x
-  const y = spawnPoint.y
-  const initCharactor = 'tinyZombie'
-  const initHealth = charactors[initCharactor].maxHealth
-
-  const initAbilities = createInitAbilities()
-
-  const player: Player = {
-    interface: 'Player',
-    id: userId,
-    charactorKey: initCharactor,
-    position: { x, y },
-    velocity: { x: 0, y: 0 },
-    health: initHealth,
-    coins: 0,
-    items: [],
-    bullet: 'arrow',
-    abilities: initAbilities,
-    phaserObject: null
-  }
-  return player
 }
 
 const registerAimingTarget = scene => {
@@ -127,7 +101,7 @@ function create() {
   registerWorldEvents(this, methods, socketMethods)
   const item_layer = this.map.objects.find(o => o.name === 'item_layer')
   socketMethods.getSocketInstance().emit('install-item-layer', item_layer)
-  socketMethods.getSocketInstance().emit('player-join', createInitPlayerConstructor(this))
+  socketMethods.getSocketInstance().emit('player-join')
   socketMethods.readStateFromServer()
   registerInputEvents(this, methods, socketMethods)
 
