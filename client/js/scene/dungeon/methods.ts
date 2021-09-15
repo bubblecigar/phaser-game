@@ -56,6 +56,11 @@ const createPlayerMatter = (scene, player: Player) => {
   phaserObject.setDepth(3)
   phaserObject.setData(player)
 
+  if (player.health <= 0) {
+    phaserObject.setCollidesWith(-10)
+    phaserObject.setIgnoreGravity(true)
+  }
+
   return phaserObject
 }
 
