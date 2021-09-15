@@ -38,7 +38,7 @@ io.on('connection', async function (socket) {
     io.in(roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
   })
 
-  socket.on('WRITE_SERVER_GAME_STATE', (userId, playerState) => {
+  socket.on('WRITE_PLAYER_STATE_TO_SERVER', (userId, playerState) => {
     const playerIndex = gameState.players.findIndex(player => player.id === userId)
     gameState.players
     if (playerIndex > -1) {

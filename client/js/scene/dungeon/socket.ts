@@ -31,7 +31,7 @@ export const connectToServer = () => {
       socket.emit('READ_SERVER_GAME_STATE')
     },
     writeStateToServer: (userId, playerState) => {
-      socket.emit('WRITE_SERVER_GAME_STATE', userId, _.omit(playerState, 'phaserObject'))
+      socket.emit('WRITE_PLAYER_STATE_TO_SERVER', userId, _.omit(playerState, 'phaserObject'))
     },
     disconnect: () => socket.disconnect()
   }
