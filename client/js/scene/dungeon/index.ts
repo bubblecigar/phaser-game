@@ -22,8 +22,6 @@ let mapConfig = mapConfigs['jumpPlatFormConfig']
 let cursors, pointer
 let aim, aimDirection
 let readyToShoot = true
-export let skillInUse: Skill | undefined
-export let aimingTime: number = 0
 
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
