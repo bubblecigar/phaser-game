@@ -14,7 +14,8 @@ const createRoom = (roomId, io, itemLayer) => {
     mapConfigKey: 'waitingRoomConfig',
     monsters: [],
     itemLayer,
-    disconnectedPlayers: []
+    disconnectedPlayers: [],
+    idleTime: 0
   }
 
   const createCoin = () => {
@@ -37,7 +38,7 @@ const createRoom = (roomId, io, itemLayer) => {
     io.in(roomId).emit('broadcast', 'addItem', itemConstructor)
   }
 
-  const createCoinIntervalId = setInterval(
+  const createCoinInterval = setInterval(
     () => {
       if (rooms[roomId].items.length === 0) {
         createCoin()
@@ -45,10 +46,25 @@ const createRoom = (roomId, io, itemLayer) => {
     }, 1000
   )
 
+  const checkRoomIdleInterval = setInterval(
+    () => {
+      if (rooms[roomId].players.length > 0) {
+        // room in use
+        rooms[roomId].idleTime = 0
+      } else {
+        // room in idle
+        rooms[roomId].idleTime += 1000
+        if (rooms[roomId].idleTime >= 5000) {
+          closeRoom(roomId)
+        }
+      }
+    }, 1000
+  )
+
   eventSchedules[roomId] = {
     io,
-    createCoinIntervalId
-    // endGameDetectionId: endGameDetectionId
+    createCoinInterval,
+    checkRoomIdleInterval
   }
 
   return rooms[roomId]
@@ -106,11 +122,13 @@ const disconnectFromRoom = (roomId, userId) => {
     room.disconnectedPlayers.push(room.players[index])
     room.players.splice(index, 1)
   }
-  if (room.players.length === 0) {
-    delete rooms[roomId]
-    clearInterval(eventSchedules[roomId].createCoinIntervalId)
-    delete eventSchedules[roomId]
-  }
+}
+
+const closeRoom = (roomId) => {
+  delete rooms[roomId]
+  clearInterval(eventSchedules[roomId].createCoinInterval)
+  clearInterval(eventSchedules[roomId].checkRoomIdleInterval)
+  delete eventSchedules[roomId]
 }
 
 exports.rooms = {
