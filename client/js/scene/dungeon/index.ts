@@ -95,11 +95,10 @@ function create() {
     }
   )
 
-  socketMethods = connectToServer()
+  const item_layer = this.map.objects.find(o => o.name === 'item_layer')
+  socketMethods = connectToServer(item_layer)
   socketMethods.registerSocketEvents(methods)
   registerWorldEvents(this, methods, socketMethods)
-  const item_layer = this.map.objects.find(o => o.name === 'item_layer')
-  socketMethods.getSocketInstance().emit('boot-player', item_layer)
   socketMethods.readStateFromServer()
   registerInputEvents(this, methods, socketMethods)
 

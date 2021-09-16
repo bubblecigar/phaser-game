@@ -14,35 +14,9 @@ io.on('connection', async function (socket) {
   const userData = socket.handshake.auth
   const roomId = userData.roomId
   socket.join(roomId)
-  let gameState = null
-
-  socket.on('boot-player', item_layer => {
-    // install TileMap data from client to init room gameState
-    gameState = rooms.createRoom(roomId, io, item_layer)
-    const player = gameState.players.find(player => player.id === userData.userId)
-    if (player) {
-      // player already existed, do nothing
-    } else {
-      // create player on spawn_point
-      const spawnPoints = gameState.itemLayer.objects.filter(o => o.name === 'spawn_point')
-      const spawnPoint = spawnPoints ? spawnPoints[0] : { x: 100, y: 100 }
-      const playerConstructor = {
-        interface: 'Player',
-        id: userData.userId,
-        charactorKey: 'tinyZombie',
-        position: { x: spawnPoint.x, y: spawnPoint.y },
-        velocity: { x: 0, y: 0 },
-        health: 20,
-        coins: 0,
-        items: [],
-        bullet: 'arrow',
-        abilities: null,
-        phaserObject: null
-      }
-      gameState.players.push(playerConstructor)
-    }
-    io.in(roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
-  })
+  const gameState = rooms.createRoom(roomId, io, userData.item_layer)
+  rooms.connectToRoom(roomId, userData.userId)
+  io.in(roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
 
   socket.on('READ_SERVER_GAME_STATE', () => {
     io.in(roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
@@ -91,6 +65,6 @@ io.on('connection', async function (socket) {
 
   socket.on('disconnect', async function () {
     rooms.disconnectFromRoom(roomId, userData.userId)
-    // io.in(roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
+    io.in(roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
   })
 })

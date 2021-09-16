@@ -3,10 +3,11 @@ import io from 'socket.io-client'
 import { getLocalUserData } from '../../user'
 import { GameState } from '../../Interface'
 
-export const connectToServer = () => {
+export const connectToServer = (item_layer) => {
   const socket = io.connect({
     auth: {
-      ...getLocalUserData()
+      ...getLocalUserData(),
+      item_layer
     }
   })
 
