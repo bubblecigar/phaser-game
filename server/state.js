@@ -54,7 +54,7 @@ const createRoom = (roomId, io, itemLayer) => {
       } else {
         // room in idle
         rooms[roomId].idleTime += 1000
-        if (rooms[roomId].idleTime >= 5000) {
+        if (rooms[roomId].idleTime >= 60000) {
           closeRoom(roomId)
         }
       }
