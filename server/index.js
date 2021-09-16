@@ -14,17 +14,11 @@ io.on('connection', async function (socket) {
   const userData = socket.handshake.auth
   const roomId = userData.roomId
   socket.join(roomId)
-  const gameState = rooms.connectToRoom(roomId, io, userData.userId)
+  let gameState = null
 
-  socket.on('install-item-layer', item_layer => {
-    // install TileMap data from client
-    if (gameState.itemLayer === null) {
-      gameState.itemLayer = item_layer
-    }
-  })
-
-  // init player or get player in room
-  socket.on('player-join', () => {
+  socket.on('boot-player', item_layer => {
+    // install TileMap data from client to init room gameState
+    gameState = rooms.createRoom(roomId, io, item_layer)
     const player = gameState.players.find(player => player.id === userData.userId)
     if (player) {
       // player already existed, do nothing

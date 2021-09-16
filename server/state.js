@@ -4,7 +4,7 @@ const eventSchedules = {}
 
 
 
-const createRoom = (roomId, io) => {
+const createRoom = (roomId, io, itemLayer) => {
   if (rooms[roomId]) {
     console.log('room already exist')
     return
@@ -14,7 +14,7 @@ const createRoom = (roomId, io) => {
     items: [],
     mapConfigKey: 'waitingRoomConfig',
     monsters: [],
-    itemLayer: null,
+    itemLayer,
     onConnectionIds: []
   }
 
@@ -51,6 +51,8 @@ const createRoom = (roomId, io) => {
     createCoinIntervalId
     // endGameDetectionId: endGameDetectionId
   }
+
+  return rooms[roomId]
 }
 
 const connectToRoom = (roomId, io, userId) => {
@@ -83,6 +85,7 @@ const disconnectFromRoom = (roomId, userId) => {
 }
 
 exports.rooms = {
+  createRoom,
   connectToRoom,
   disconnectFromRoom
 }
