@@ -257,7 +257,7 @@ const gameMethods = scene => {
       const playerConstructor = {
         ...player,
         charactorKey: setting.resurrectCharactor,
-        health: 20,
+        health: charactors[setting.resurrectCharactor].maxHealth,
         resurrectCountDown: setting.resurrectCountDown
       }
       methods.setPlayer(playerConstructor)
