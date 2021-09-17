@@ -64,14 +64,14 @@ const createResurrectCountDownText = (scene, x, y) => {
   resurrectCountDownText = scene.add.text(x, y, 'resurrect in...')
 }
 
-const showResurrectCountDown = countDown => {
-  if (countDown === 0) {
+const showResurrectCountDown = player => {
+  if (player.health > 0) {
     // player is not dead
     resurrectCountDownText.setVisible(false)
   } else {
     // show count down in second
     resurrectCountDownText.setVisible(true)
-    resurrectCountDownText.setText(Math.floor(countDown / 1000))
+    resurrectCountDownText.setText(Math.ceil(player.resurrectCountDown / 1000))
   }
 }
 
@@ -79,7 +79,7 @@ function update() {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (!player) return
   showCoinCount(player.coins)
-  showResurrectCountDown(player.resurrectCountDown)
+  showResurrectCountDown(player)
 }
 
 export default {

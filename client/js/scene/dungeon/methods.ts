@@ -257,7 +257,8 @@ const gameMethods = scene => {
       const playerConstructor = {
         ...player,
         charactorKey: 'tinyZombie',
-        health: 20
+        health: 20,
+        resurrectCountDown: 5000
       }
       methods.setPlayer(playerConstructor)
     },
@@ -270,7 +271,7 @@ const gameMethods = scene => {
         velocity: { x: 0, y: 0 },
         health: 0,
         coins: halfCoinsCount,
-        resurrectCountDown: 0,
+        resurrectCountDown: 5000,
         phaserObject: null
       }
       methods.setPlayer(ghostCharactor)

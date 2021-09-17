@@ -191,9 +191,8 @@ function update(t, dt) {
   socketMethods.writeStateToServer(userId, player)
 
   if (player.health <= 0) {
-    player.resurrectCountDown += dt
-    if (player.resurrectCountDown >= 10000) {
-      player.resurrectCountDown = 0
+    player.resurrectCountDown -= dt
+    if (player.resurrectCountDown <= 0) {
       socketMethods.broadcast(
         methods,
         'resurrect',
