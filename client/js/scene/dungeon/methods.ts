@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import Phaser from 'phaser'
 import { v4 } from 'uuid'
-
+import setting from '../../../../share/setting.json'
 import charactors from '../../charactors'
 import items from '../../items'
 import { getLocalUserData } from '../../user'
@@ -256,9 +256,9 @@ const gameMethods = scene => {
       const player = methods.getPlayer(playerId)
       const playerConstructor = {
         ...player,
-        charactorKey: 'tinyZombie',
+        charactorKey: setting.resurrectCharactor,
         health: 20,
-        resurrectCountDown: 5000
+        resurrectCountDown: setting.resurrectCountDown
       }
       methods.setPlayer(playerConstructor)
     },
@@ -271,7 +271,7 @@ const gameMethods = scene => {
         velocity: { x: 0, y: 0 },
         health: 0,
         coins: halfCoinsCount,
-        resurrectCountDown: 5000,
+        resurrectCountDown: setting.resurrectCountDown,
         phaserObject: null
       }
       methods.setPlayer(ghostCharactor)

@@ -1,8 +1,7 @@
 const uuid = require('uuid')
+const setting = require('../share/setting.json')
 const rooms = {}
 const eventSchedules = {}
-
-
 
 const createRoom = (roomId, io, itemLayer) => {
   if (rooms[roomId]) {
@@ -77,11 +76,11 @@ const createPlayer = (room, userId) => {
   const playerConstructor = {
     interface: 'Player',
     id: userId,
-    charactorKey: 'tinyZombie',
+    charactorKey: setting.initCharactor,
     position: { x: spawnPoint.x, y: spawnPoint.y },
     velocity: { x: 0, y: 0 },
     health: 20,
-    resurrectCountDown: 5000,
+    resurrectCountDown: setting.resurrectCountDown,
     coins: 0,
     items: [],
     bullet: 'arrow',

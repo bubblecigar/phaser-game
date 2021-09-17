@@ -1,0 +1,6 @@
+{
+  "initCharactor": "tinyZombie",
+  "deadCharactor": "skull",
+  "resurrectCharactor": "tinyZombie",
+  "resurrectCountDown": 5000
+}
