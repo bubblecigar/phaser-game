@@ -172,7 +172,7 @@ const updateAim = (scene, player) => {
   }
 }
 
-function update(dt) {
+function update(t, dt) {
   const player = methods.getPlayer(userId)
   if (!player || !player.phaserObject) return
   FOV.update(this, player.position)
@@ -190,6 +190,18 @@ function update(dt) {
     { x: player.phaserObject.x, y: player.phaserObject.y }
   )
   socketMethods.writeStateToServer(userId, player)
+
+  if (player.health <= 0) {
+    resurrectCountDown += dt
+    if (resurrectCountDown >= 10000) {
+      resurrectCountDown = 0
+      socketMethods.broadcast(
+        methods,
+        'resurrect',
+        player.id
+      )
+    }
+  }
 }
 
 export default {

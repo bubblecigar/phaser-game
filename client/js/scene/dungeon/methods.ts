@@ -252,6 +252,15 @@ const gameMethods = scene => {
       const healthBar = player.phaserObject.getByName('health-bar')
       healthBar.setSize(percentage * (maxBar.width - 2), healthBar.height)
     },
+    resurrect: (playerId: string) => {
+      const player = methods.getPlayer(playerId)
+      const playerConstructor = {
+        ...player,
+        charactorKey: 'tinyZombie',
+        health: 20
+      }
+      methods.setPlayer(playerConstructor)
+    },
     onDead: (playerId: string) => {
       const player = methods.getPlayer(playerId)
       const halfCoinsCount = Math.floor((player.coins) / 2)
