@@ -21,7 +21,6 @@ let mapConfig = mapConfigs['jumpPlatFormConfig']
 let cursors, pointer
 let aim, aimDirection
 let readyToShoot = true
-let resurrectCountDown = 0
 
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
@@ -192,9 +191,9 @@ function update(t, dt) {
   socketMethods.writeStateToServer(userId, player)
 
   if (player.health <= 0) {
-    resurrectCountDown += dt
-    if (resurrectCountDown >= 10000) {
-      resurrectCountDown = 0
+    player.resurrectCountDown += dt
+    if (player.resurrectCountDown >= 10000) {
+      player.resurrectCountDown = 0
       socketMethods.broadcast(
         methods,
         'resurrect',

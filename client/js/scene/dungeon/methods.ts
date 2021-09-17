@@ -270,6 +270,7 @@ const gameMethods = scene => {
         velocity: { x: 0, y: 0 },
         health: 0,
         coins: halfCoinsCount,
+        resurrectCountDown: 0,
         phaserObject: null
       }
       methods.setPlayer(ghostCharactor)

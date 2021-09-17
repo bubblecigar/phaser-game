@@ -81,6 +81,7 @@ const createPlayer = (room, userId) => {
     position: { x: spawnPoint.x, y: spawnPoint.y },
     velocity: { x: 0, y: 0 },
     health: 20,
+    resurrectCountDown: 0,
     coins: 0,
     items: [],
     bullet: 'arrow',
