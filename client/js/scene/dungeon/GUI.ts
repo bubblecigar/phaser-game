@@ -6,6 +6,7 @@ import { getLocalUserData } from '../../user'
 import items from '../../items/index'
 
 let coinGroup
+let resurrectCountDownText
 
 function preload() {
   this.load.image('item_cell', itemCellUrl)
@@ -40,6 +41,9 @@ function create() {
   const coinX = padding
   const coinY = gameConfig.canvasHeight - padding
   createCoinGroup(this, coinX, coinY)
+
+  const bottomCenter = gameConfig.canvasWidth / 2
+  createResurrectCountDownText(this, bottomCenter, coinY)
 }
 
 const createCoinGroup = (scene, x, y) => {
@@ -56,10 +60,26 @@ const showCoinCount = count => {
   coinGroup.setVisible(false, count, 1)
 }
 
+const createResurrectCountDownText = (scene, x, y) => {
+  resurrectCountDownText = scene.add.text(x, y, 'resurrect in...')
+}
+
+const showResurrectCountDown = countDown => {
+  if (countDown === 0) {
+    // player is not dead
+    resurrectCountDownText.setVisible(false)
+  } else {
+    // show count down in second
+    resurrectCountDownText.setVisible(true)
+    resurrectCountDownText.setText(Math.floor(countDown / 1000))
+  }
+}
+
 function update() {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (!player) return
   showCoinCount(player.coins)
+  showResurrectCountDown(player.resurrectCountDown)
 }
 
 export default {
