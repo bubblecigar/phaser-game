@@ -113,6 +113,10 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
       if (player.isUser) {
         socketMethods.broadcast(methods, 'onHit', player.data.id, _.omit(bullet.data, 'phaserObject'))
         scene.cameras.main.shake(100, 0.01)
+        const _player = methods.getPlayer(player.data.id)
+        if (_player.health <= 0) {
+          socketMethods.broadcast(methods, 'onDead', player.data.id)
+        }
       }
       bullet.data.destroy()
     } else if (bullet && tile) {

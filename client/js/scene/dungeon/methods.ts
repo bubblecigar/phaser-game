@@ -252,35 +252,38 @@ const gameMethods = scene => {
       const healthBar = player.phaserObject.getByName('health-bar')
       healthBar.setSize(percentage * (maxBar.width - 2), healthBar.height)
     },
+    onDead: (playerId: string) => {
+      const player = methods.getPlayer(playerId)
+      const halfCoinsCount = Math.floor((player.coins) / 2)
+      const ghostCharactor: Player = {
+        ...player,
+        charactorKey: 'skull',
+        velocity: { x: 0, y: 0 },
+        health: 0,
+        coins: halfCoinsCount,
+        phaserObject: null
+      }
+      methods.setPlayer(ghostCharactor)
+      methods.dropCoin(player.position)
+    },
+    dropCoin: (position: Point) => {
+      const itemConstructor: Item = {
+        interface: 'Item',
+        id: v4(),
+        itemKey: 'coin',
+        position,
+        velocity: { x: 0, y: -0.2 },
+        phaserObject: null
+      }
+      methods.addItem(itemConstructor)
+    },
     onHit: (playerId: string, bullet: Bullet) => {
       const player = methods.getPlayer(playerId)
       player.health -= bullet.damage
-      methods.updatePlayerHealthBar(playerId)
-
-      if (player.health <= 0) {
+      if (player.health < 0) {
         player.health = 0
-        const halfCoinsCount = Math.floor((player.coins) / 2)
-        const ghostCharactor: Player = {
-          ...player,
-          charactorKey: 'skull',
-          velocity: { x: 0, y: 0 },
-          phaserObject: null,
-          health: 0,
-          items: [],
-          coins: halfCoinsCount
-        }
-        methods.setPlayer(ghostCharactor)
-        const coinSpawnPoint = player.position
-        const itemConstructor: Item = {
-          interface: 'Item',
-          id: v4(),
-          itemKey: 'coin',
-          position: coinSpawnPoint,
-          velocity: { x: 0, y: -0.2 },
-          phaserObject: null
-        }
-        methods.addItem(itemConstructor)
       }
+      methods.updatePlayerHealthBar(playerId)
     },
     addItem: (itemConstructor: Item): Item => {
       const { id, position, itemKey, velocity } = itemConstructor
