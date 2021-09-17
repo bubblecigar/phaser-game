@@ -79,7 +79,7 @@ const createPlayer = (room, userId) => {
     charactorKey: setting.initCharactor,
     position: { x: spawnPoint.x, y: spawnPoint.y },
     velocity: { x: 0, y: 0 },
-    health: 20,
+    health: setting.initHealth,
     resurrectCountDown: setting.resurrectCountDown,
     coins: 0,
     items: [],
