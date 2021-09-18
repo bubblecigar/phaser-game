@@ -33,14 +33,6 @@ io.on('connection', async function (socket) {
   })
 
   socket.on('serverGameStateUpdate', (action, data) => {
-
-    const checkWinner = () => {
-      const winner = gameState.players.find(
-        player => player.coins >= 10
-      )
-      return winner
-    }
-
     switch (action) {
       case 'collectItem': {
         const itemIndex = gameState.items.findIndex(item => item.id === data.itemId)
@@ -50,8 +42,6 @@ io.on('connection', async function (socket) {
           // collect effect 
           gameState.items.splice(itemIndex, 1)
         }
-        const winner = checkWinner()
-        console.log('winner:', winner)
       }
       default: {
         // unhandled action

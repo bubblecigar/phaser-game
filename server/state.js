@@ -3,6 +3,14 @@ const setting = require('../share/setting.json')
 const rooms = {}
 const eventSchedules = {}
 
+
+const checkWinner = room => {
+  const winner = room.players.find(
+    player => player.coins >= setting.coinsToWin
+  )
+  return winner
+}
+
 const createRoom = (roomId, io, itemLayer) => {
   if (rooms[roomId]) {
     return rooms[roomId]
@@ -60,10 +68,19 @@ const createRoom = (roomId, io, itemLayer) => {
     }, 1000
   )
 
+  const endGameDetectionInterval = setInterval(
+    () => {
+      const winner = checkWinner(rooms[roomId])
+    }, 1000
+  )
+
   eventSchedules[roomId] = {
     io,
-    createCoinInterval,
-    checkRoomIdleInterval
+    intervals: [
+      createCoinInterval,
+      checkRoomIdleInterval,
+      endGameDetectionInterval
+    ]
   }
 
   return rooms[roomId]
@@ -126,8 +143,12 @@ const disconnectFromRoom = (roomId, userId) => {
 
 const closeRoom = (roomId) => {
   delete rooms[roomId]
-  clearInterval(eventSchedules[roomId].createCoinInterval)
-  clearInterval(eventSchedules[roomId].checkRoomIdleInterval)
+
+  eventSchedules[roomId].intervals.forEach(
+    interval => {
+      clearInterval(interval)
+    }
+  )
   delete eventSchedules[roomId]
 }
 

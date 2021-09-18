@@ -3,5 +3,6 @@
   "initHealth": 20,
   "deadCharactor": "skull",
   "resurrectCharactor": "tinyZombie",
-  "resurrectCountDown": 5000
+  "resurrectCountDown": 5000,
+  "coinsToWin": 3
 }
