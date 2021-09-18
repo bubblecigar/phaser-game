@@ -33,6 +33,9 @@ const createRoom = (roomId, io, itemLayer) => {
     const coinPoints = itemLayer.objects.filter(o => o.name === 'coin_point')
     const randomCoinSpawnIndex = Math.floor(Math.random() * (coinPoints.length))
     const coinSpawnPoint = coinPoints[randomCoinSpawnIndex]
+    if (!coinSpawnPoint) {
+      return
+    }
     const itemConstructor = {
       interface: 'Item',
       id: uuid(),
