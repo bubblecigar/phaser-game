@@ -2,7 +2,6 @@ import gameConfig from '../../game/config'
 
 export const generateInputForm = () => {
 
-
   const width = `80%`
   const height = gameConfig.canvasHeight * 0.8
   const marginTop = gameConfig.canvasHeight * 0.2
