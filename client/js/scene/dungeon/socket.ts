@@ -17,9 +17,6 @@ export const connectToServer = (item_layer) => {
       socket.on('broadcast', (key, ...args) => {
         methods[key](...args)
       })
-      socket.on('UPDATE_CLIENT_GAME_STATE', (serverGameState: GameState) => {
-        methods.syncServerStateToClient(serverGameState)
-      })
     },
     broadcast: (methods, key, ...args) => {
       methods[key](...args)
