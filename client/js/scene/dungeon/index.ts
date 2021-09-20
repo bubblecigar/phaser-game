@@ -22,6 +22,53 @@ let cursors, pointer
 let aim, aimDirection
 let readyToShoot = true
 
+const registerAimingTarget = scene => {
+  aim = scene.matter.add.image(-20, -20, 'target', undefined, {
+    isSensor: true,
+    ignoreGravity: true
+  })
+  aim.setCollisionGroup(-1)
+  aim.setDepth(11)
+}
+
+const updateAim = (scene, player) => {
+  const position = pointer.positionToCamera(scene.cameras.main)
+  aim.setX(position.x)
+  aim.setY(position.y)
+
+  const newDirection = position.x < player.position.x ? 'left' : 'right'
+  const changeDirection = aimDirection !== newDirection
+  if (changeDirection) {
+    socketMethods.broadcast(methods, 'updatePlayerDirection', userId, newDirection)
+  }
+}
+
+const movePlayer = (player: Player) => {
+  const char = charactors[player.charactorKey]
+  const charVelocity = char.velocity
+  const velocity = { x: 0, y: 0 }
+  if (cursors.left.isDown) {
+    velocity.x = -charVelocity
+  } else if (cursors.right.isDown) {
+    velocity.x = charVelocity
+  } else {
+    velocity.x = 0
+  }
+
+  const prevVelocity = player.velocity.x
+
+  player.velocity.x = velocity.x
+  player.velocity.y = velocity.y
+  player.phaserObject.setVelocityX(velocity.x)
+
+  const newAnimation = player.velocity.x === 0 ? 'idle' : 'move'
+  const oldAnimation = prevVelocity === 0 ? 'idle' : 'move'
+  const changeAnimation = newAnimation !== oldAnimation
+  if (changeAnimation) {
+    socketMethods.broadcast(methods, 'updatePlayerAnimation', userId, newAnimation)
+  }
+}
+
 function init(data) {
   mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
   methods = gameMethods(this)
@@ -43,15 +90,6 @@ function preload() {
       this.load.spritesheet(item.spritesheetConfig.spritesheetKey, item.spritesheetConfig.spritesheetUrl, item.spritesheetConfig.options)
     }
   )
-}
-
-const registerAimingTarget = scene => {
-  aim = scene.matter.add.image(-20, -20, 'target', undefined, {
-    isSensor: true,
-    ignoreGravity: true
-  })
-  aim.setCollisionGroup(-1)
-  aim.setDepth(11)
 }
 
 function create() {
@@ -131,44 +169,6 @@ function create() {
     }
   })
   scene.scene.launch('GUI')
-}
-
-const movePlayer = (player: Player) => {
-  const char = charactors[player.charactorKey]
-  const charVelocity = char.velocity
-  const velocity = { x: 0, y: 0 }
-  if (cursors.left.isDown) {
-    velocity.x = -charVelocity
-  } else if (cursors.right.isDown) {
-    velocity.x = charVelocity
-  } else {
-    velocity.x = 0
-  }
-
-  const prevVelocity = player.velocity.x
-
-  player.velocity.x = velocity.x
-  player.velocity.y = velocity.y
-  player.phaserObject.setVelocityX(velocity.x)
-
-  const newAnimation = player.velocity.x === 0 ? 'idle' : 'move'
-  const oldAnimation = prevVelocity === 0 ? 'idle' : 'move'
-  const changeAnimation = newAnimation !== oldAnimation
-  if (changeAnimation) {
-    socketMethods.broadcast(methods, 'updatePlayerAnimation', userId, newAnimation)
-  }
-}
-
-const updateAim = (scene, player) => {
-  const position = pointer.positionToCamera(scene.cameras.main)
-  aim.setX(position.x)
-  aim.setY(position.y)
-
-  const newDirection = position.x < player.position.x ? 'left' : 'right'
-  const changeDirection = aimDirection !== newDirection
-  if (changeDirection) {
-    socketMethods.broadcast(methods, 'updatePlayerDirection', userId, newDirection)
-  }
 }
 
 function update(t, dt) {
