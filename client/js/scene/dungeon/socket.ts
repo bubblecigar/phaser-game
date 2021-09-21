@@ -14,13 +14,13 @@ export const connectToServer = (item_layer) => {
   const socketMethods = {
     getSocketInstance: () => socket,
     registerSocketEvents: methods => {
-      socket.on('broadcast', (key, ...args) => {
+      socket.on('clients', (key, ...args) => {
         methods[key](...args)
       })
     },
-    broadcast: (methods, key, ...args) => {
+    clients: (methods, key, ...args) => {
       methods[key](...args)
-      socket.emit('broadcast', key, ...args)
+      socket.emit('clients', key, ...args)
     },
     serverGameStateUpdate: (action, ...args) => {
       socket.emit('serverGameStateUpdate', action, ...args)

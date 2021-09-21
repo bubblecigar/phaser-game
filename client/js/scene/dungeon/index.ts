@@ -39,7 +39,7 @@ const updateAim = (scene, player) => {
   const newDirection = position.x < player.position.x ? 'left' : 'right'
   const changeDirection = aimDirection !== newDirection
   if (changeDirection) {
-    socketMethods.broadcast(methods, 'updatePlayerDirection', userId, newDirection)
+    socketMethods.clients(methods, 'updatePlayerDirection', userId, newDirection)
   }
 }
 
@@ -65,7 +65,7 @@ const movePlayer = (player: Player) => {
   const oldAnimation = prevVelocity === 0 ? 'idle' : 'move'
   const changeAnimation = newAnimation !== oldAnimation
   if (changeAnimation) {
-    socketMethods.broadcast(methods, 'updatePlayerAnimation', userId, newAnimation)
+    socketMethods.clients(methods, 'updatePlayerAnimation', userId, newAnimation)
   }
 }
 
@@ -152,7 +152,7 @@ function create() {
   this.input.on('pointerdown', function () {
     const player = methods.getPlayer(userId)
     if (readyToShoot) {
-      socketMethods.broadcast(methods, 'shoot', {
+      socketMethods.clients(methods, 'shoot', {
         builderId: player.id,
         from: player.position,
         to: { x: aim.x, y: aim.y }
@@ -182,7 +182,7 @@ function update(t, dt) {
     id => this.arrows[id].align()
   )
 
-  socketMethods.broadcast(
+  socketMethods.clients(
     methods,
     'updatePlayerPosition',
     userId,
@@ -193,7 +193,7 @@ function update(t, dt) {
   if (player.health <= 0) {
     player.resurrectCountDown -= dt
     if (player.resurrectCountDown <= 0) {
-      socketMethods.broadcast(
+      socketMethods.clients(
         methods,
         'resurrect',
         player.id

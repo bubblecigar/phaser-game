@@ -16,10 +16,10 @@ io.on('connection', async function (socket) {
   socket.join(roomId)
   const gameState = rooms.createRoom(roomId, io, userData.item_layer)
   rooms.connectToRoom(roomId, userData.userId)
-  io.in(roomId).emit('broadcast', 'syncServerStateToClient', gameState)
+  io.in(roomId).emit('clients', 'syncServerStateToClient', gameState)
 
   socket.on('READ_SERVER_GAME_STATE', () => {
-    io.in(roomId).emit('broadcast', 'syncServerStateToClient', gameState)
+    io.in(roomId).emit('clients', 'syncServerStateToClient', gameState)
   })
 
   socket.on('WRITE_PLAYER_STATE_TO_SERVER', (userId, playerState) => {
@@ -49,12 +49,12 @@ io.on('connection', async function (socket) {
     }
   })
 
-  socket.on('broadcast', (method, ...args) => {
-    socket.to(roomId).emit('broadcast', method, ...args)
+  socket.on('clients', (method, ...args) => {
+    socket.to(roomId).emit('clients', method, ...args)
   })
 
   socket.on('disconnect', async function () {
     rooms.disconnectFromRoom(roomId, userData.userId)
-    io.in(roomId).emit('broadcast', 'syncServerStateToClient', gameState)
+    io.in(roomId).emit('clients', 'syncServerStateToClient', gameState)
   })
 })

@@ -45,7 +45,7 @@ const createRoom = (roomId, io, itemLayer) => {
       phaserObject: null
     }
     rooms[roomId].items.push(itemConstructor)
-    io.in(roomId).emit('broadcast', 'addItem', itemConstructor)
+    io.in(roomId).emit('clients', 'addItem', itemConstructor)
   }
 
   const createCoinInterval = setInterval(

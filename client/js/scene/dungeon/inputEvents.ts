@@ -20,7 +20,7 @@ const registerInputEvents = (scene, methods, socketMethods) => {
         }
         case 's': {
           const randomMapConfigKey = Object.keys(mapConfigs)[Math.floor(Math.random() * 10) % (Object.keys(mapConfigs).length)]
-          socketMethods.broadcast(methods, 'syncMap', randomMapConfigKey)
+          socketMethods.clients(methods, 'syncMap', randomMapConfigKey)
           break
         }
         case 'c': {
@@ -28,7 +28,7 @@ const registerInputEvents = (scene, methods, socketMethods) => {
           const player: Player = methods.getPlayer(getLocalUserData().userId)
           const _player: Player = _.omit(_.clone(player), 'phaserObject')
           _player.charactorKey = randomCharactorKey
-          socketMethods.broadcast(methods, 'setPlayer', _player)
+          socketMethods.clients(methods, 'setPlayer', _player)
           break
         }
         case '1': {
