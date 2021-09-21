@@ -12,8 +12,8 @@ exports.methods = {
           room.players.push(playerState)
         }
       },
-      syncAllClients: () => {
-        io.in(roomId).emit('clients', 'syncServerStateToClient', room)
+      syncAllClients: (sceneKey) => {
+        io.in(roomId).emit(sceneKey, 'syncServerStateToClient', room)
       },
       collectItem: (itemId) => {
         const itemIndex = room.items.findIndex(item => item.id === itemId)

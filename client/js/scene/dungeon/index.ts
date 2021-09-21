@@ -9,11 +9,11 @@ import FOV from './FOV'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
 import targetUrl from '../../../statics/tile/target.png'
+import { socketMethods } from '../../index'
 
 const userId = getLocalUserData().userId
 
 let methods
-let socketMethods
 
 let mapConfig = mapConfigs['jumpPlatFormConfig']
 
@@ -38,11 +38,12 @@ const updateAim = (scene, player) => {
   const newDirection = position.x < player.position.x ? 'left' : 'right'
   const changeDirection = aimDirection !== newDirection
   if (changeDirection) {
-    socketMethods.clients(methods, 'updatePlayerDirection', userId, newDirection)
+    socketMethods.clientsInScene(scene.scene.key, methods, 'updatePlayerDirection', userId, newDirection)
+
   }
 }
 
-const movePlayer = (player: Player) => {
+const movePlayer = (scene, player: Player) => {
   const char = charactors[player.charactorKey]
   const charVelocity = char.velocity
   const velocity = { x: 0, y: 0 }
@@ -64,7 +65,7 @@ const movePlayer = (player: Player) => {
   const oldAnimation = prevVelocity === 0 ? 'idle' : 'move'
   const changeAnimation = newAnimation !== oldAnimation
   if (changeAnimation) {
-    socketMethods.clients(methods, 'updatePlayerAnimation', userId, newAnimation)
+    socketMethods.clientsInScene(scene.scene.key, methods, 'updatePlayerAnimation', userId, newAnimation)
   }
 }
 
@@ -131,10 +132,8 @@ function create() {
     }
   )
 
-  const item_layer = this.map.objects.find(o => o.name === 'item_layer')
-  // socketMethods = connectToServer(item_layer)
-  // socketMethods.registerSocketEvents(methods)
-  // socketMethods.server('syncAllClients')
+  socketMethods.registerSocketEvents(this.scene.key, methods)
+  socketMethods.server('syncAllClients', this.scene.key)
   registerWorldEvents(this, methods, socketMethods)
   registerInputEvents(this, methods, socketMethods)
 
@@ -151,7 +150,7 @@ function create() {
   this.input.on('pointerdown', function () {
     const player = methods.getPlayer(userId)
     if (readyToShoot) {
-      socketMethods.clients(methods, 'shoot', {
+      socketMethods.clientsInScene(scene.scene.key, methods, 'shoot', {
         builderId: player.id,
         from: player.position,
         to: { x: aim.x, y: aim.y }
@@ -174,14 +173,15 @@ function update(t, dt) {
   const player = methods.getPlayer(userId)
   if (!player || !player.phaserObject) return
   FOV.update(this, player.position)
-  movePlayer(player)
+  movePlayer(this, player)
   updateAim(this, player)
 
   Object.keys(this.arrows).forEach(
     id => this.arrows[id].align()
   )
 
-  socketMethods.clients(
+  socketMethods.clientsInScene(
+    this.scene.key,
     methods,
     'updatePlayerPosition',
     userId,
@@ -192,7 +192,8 @@ function update(t, dt) {
   if (player.health <= 0) {
     player.resurrectCountDown -= dt
     if (player.resurrectCountDown <= 0) {
-      socketMethods.clients(
+      socketMethods.clientsInScene(
+        this.scene.key,
         methods,
         'resurrect',
         player.id

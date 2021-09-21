@@ -11,7 +11,7 @@ const checkWinner = room => {
   return winner
 }
 
-const createRoom = (roomId, io, itemLayer) => {
+const createRoom = (roomId, io) => {
   if (rooms[roomId]) {
     return rooms[roomId]
   }
@@ -20,27 +20,26 @@ const createRoom = (roomId, io, itemLayer) => {
     items: [],
     mapConfigKey: 'waitingRoomConfig',
     monsters: [],
-    itemLayer,
     disconnectedPlayers: [],
     idleTime: 0
   }
 
   const createCoin = () => {
-    const itemLayer = rooms[roomId].itemLayer
-    if (!itemLayer) {
-      return
-    }
-    const coinPoints = itemLayer.objects.filter(o => o.name === 'coin_point')
-    const randomCoinSpawnIndex = Math.floor(Math.random() * (coinPoints.length))
-    const coinSpawnPoint = coinPoints[randomCoinSpawnIndex]
-    if (!coinSpawnPoint) {
-      return
-    }
+    // const itemLayer = rooms[roomId].itemLayer
+    // if (!itemLayer) {
+    //   return
+    // }
+    // const coinPoints = itemLayer.objects.filter(o => o.name === 'coin_point')
+    // const randomCoinSpawnIndex = Math.floor(Math.random() * (coinPoints.length))
+    // const coinSpawnPoint = coinPoints[randomCoinSpawnIndex]
+    // if (!coinSpawnPoint) {
+    //   return
+    // }
     const itemConstructor = {
       interface: 'Item',
       id: uuid(),
       itemKey: 'coin',
-      position: { x: coinSpawnPoint.x, y: coinSpawnPoint.y },
+      position: { x: 150, y: 400 },
       velocity: { x: 0, y: 0 },
       phaserObject: null
     }
@@ -91,8 +90,9 @@ const createRoom = (roomId, io, itemLayer) => {
 
 // create player on spawn_point
 const createPlayer = (room, userId) => {
-  const spawnPoints = room.itemLayer.objects.filter(o => o.name === 'spawn_point')
-  const spawnPoint = spawnPoints ? spawnPoints[0] : { x: 100, y: 100 }
+  // const spawnPoints = room.itemLayer.objects.filter(o => o.name === 'spawn_point')
+  // const spawnPoint = spawnPoints ? spawnPoints[0] : { x: 100, y: 100 }
+  const spawnPoint = { x: 100, y: 300 }
   const playerConstructor = {
     interface: 'Player',
     id: userId,

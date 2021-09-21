@@ -14,17 +14,18 @@ export const connectToServer = () => {
 
 export const getSocketMethods = socket => {
   return {
-    registerSocketEvents: methods => {
-      socket.on('clients', (key, ...args) => {
-        methods[key](...args)
+    registerSocketEvents: (sceneKey, methods) => {
+      socket.removeAllListeners()
+      socket.on(sceneKey, (methodKey, ...args) => {
+        methods[methodKey](...args)
       })
     },
     updateUserState: data => {
       socket.emit('update-userState', data)
     },
-    clients: (methods, key, ...args) => {
+    clientsInScene: (sceneKey, methods, key, ...args) => {
       methods[key](...args)
-      socket.emit('clients', key, ...args)
+      socket.emit('clients', sceneKey, key, ...args)
     },
     server: (key, ...args) => {
       socket.emit('server', key, ...args)

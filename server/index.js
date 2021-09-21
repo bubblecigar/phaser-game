@@ -11,7 +11,8 @@ server.listen(process.env.PORT || 8081, function () {
   console.log('Listening on ' + server.address().port)
 })
 
-const joinRoom = (socket, roomId, userId) => {
+const joinRoom = (socket, userState) => {
+  const { roomId, userId } = userState
   socket.rooms.forEach(
     id => {
       if (id !== socket.id) {
@@ -19,10 +20,13 @@ const joinRoom = (socket, roomId, userId) => {
       }
     }
   )
+  socket.removeAllListeners('clients')
+  socket.removeAllListeners('server')
+  socket.removeAllListeners('disconnect')
+
   socket.join(roomId)
-  socket.removeAllListeners(['clients', 'server', 'disconnect'])
-  socket.on('clients', (method, ...args) => {
-    socket.to(roomId).emit('clients', method, ...args)
+  socket.on('clients', (sceneKey, method, ...args) => {
+    socket.to(roomId).emit(sceneKey, method, ...args)
   })
 
   const roomMethods = methods.getRoomMethods(roomId, io)
@@ -32,25 +36,27 @@ const joinRoom = (socket, roomId, userId) => {
 
   socket.on('disconnect', async function () {
     rooms.disconnectFromRoom(roomId, userId)
-    io.in(roomId).emit('clients', 'syncServerStateToClient', rooms.getRoomState(roomId))
   })
 }
 
 io.on('connection', async function (socket) {
-  const userState = new Proxy({}, {
-    set(target, prop, val) {
-      if (prop === 'roomId' && val !== target[prop]) {
-        joinRoom(socket, val, target.userId)
-      }
-      target[prop] = val
-    }
-  })
-
+  const userState = {
+    ...socket.handshake.auth
+  }
   socket.on('update-userState', (data) => {
+
+    const changeRoom = data.roomId !== userState.roomId
+    if (changeRoom) {
+      rooms.disconnectFromRoom(userState.roomId, userState.userId)
+    }
+
     Object.keys(data).forEach(
       key => {
         userState[key] = data[key]
       }
     )
+    rooms.createRoom(data.roomId, io)
+    rooms.connectToRoom(data.roomId, data.userId)
+    joinRoom(socket, userState)
   })
 })

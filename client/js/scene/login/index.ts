@@ -12,7 +12,10 @@ function preload() {
 }
 
 function create() {
-  socketMethods.updateUserState({ ...getLocalUserData(), scene: this.scene.key })
+  const scene = this
+  const sceneKey = scene.scene.key
+  socketMethods.updateUserState({ ...getLocalUserData(), sceneKey })
+  socketMethods.registerSocketEvents(sceneKey, {})
 
   const element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2).createFromHTML(generateInputForm())
   const inputUsername = element.getChildByName('username')
@@ -28,7 +31,8 @@ function create() {
           username: inputUsername.value,
           roomId: inputRoomId.value
         })
-        socketMethods.updateUserState(getLocalUserData())
+        socketMethods.updateUserState({ ...getLocalUserData(), sceneKey })
+        scene.scene.start('dungeon')
       }
     }
 
