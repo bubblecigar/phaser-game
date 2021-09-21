@@ -19,10 +19,6 @@ io.on('connection', async function (socket) {
   rooms.connectToRoom(roomId, userData.userId)
   io.in(roomId).emit('clients', 'syncServerStateToClient', gameState)
 
-  socket.on('READ_SERVER_GAME_STATE', () => {
-    io.in(roomId).emit('clients', 'syncServerStateToClient', gameState)
-  })
-
   socket.on('serverGameStateUpdate', (action, data) => {
     switch (action) {
       case 'collectItem': {
@@ -44,7 +40,7 @@ io.on('connection', async function (socket) {
     socket.to(roomId).emit('clients', method, ...args)
   })
 
-  const roomMethods = methods.getRoomMethods(roomId)
+  const roomMethods = methods.getRoomMethods(roomId, io)
   socket.on('server', (key, ...args) => {
     roomMethods[key](...args)
   })

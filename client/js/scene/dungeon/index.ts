@@ -135,7 +135,7 @@ function create() {
   const item_layer = this.map.objects.find(o => o.name === 'item_layer')
   socketMethods = connectToServer(item_layer)
   socketMethods.registerSocketEvents(methods)
-  socketMethods.readStateFromServer()
+  socketMethods.server('syncAllClients')
   registerWorldEvents(this, methods, socketMethods)
   registerInputEvents(this, methods, socketMethods)
 

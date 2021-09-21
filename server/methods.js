@@ -1,7 +1,7 @@
 const rooms = require('./state.js').rooms
 
 exports.methods = {
-  getRoomMethods: roomId => {
+  getRoomMethods: (roomId, io) => {
     const room = rooms.getRoomState(roomId)
     return {
       writePlayer: (playerState) => {
@@ -11,6 +11,9 @@ exports.methods = {
         } else {
           room.players.push(playerState)
         }
+      },
+      syncAllClients: () => {
+        io.in(roomId).emit('clients', 'syncServerStateToClient', room)
       }
     }
   }

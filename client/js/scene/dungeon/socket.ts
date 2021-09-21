@@ -28,9 +28,6 @@ export const connectToServer = (item_layer) => {
     serverGameStateUpdate: (action, ...args) => {
       socket.emit('serverGameStateUpdate', action, ...args)
     },
-    readStateFromServer: () => {
-      socket.emit('READ_SERVER_GAME_STATE')
-    },
     disconnect: () => socket.disconnect()
   }
 
