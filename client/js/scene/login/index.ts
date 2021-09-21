@@ -12,7 +12,7 @@ function preload() {
 }
 
 function create() {
-  const scene = this
+  socketMethods.updateUserState({ ...getLocalUserData(), scene: this.scene.key })
 
   const element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2).createFromHTML(generateInputForm())
   const inputUsername = element.getChildByName('username')

@@ -11,7 +11,7 @@ server.listen(process.env.PORT || 8081, function () {
   console.log('Listening on ' + server.address().port)
 })
 
-const joinRoom = (socket, roomId) => {
+const joinRoom = (socket, roomId, userId) => {
   socket.rooms.forEach(
     id => {
       if (id !== socket.id) {
@@ -31,8 +31,8 @@ const joinRoom = (socket, roomId) => {
   })
 
   socket.on('disconnect', async function () {
-    rooms.disconnectFromRoom(roomId, userState.userId)
-    io.in(roomId).emit('clients', 'syncServerStateToClient', gameState)
+    rooms.disconnectFromRoom(roomId, userId)
+    io.in(roomId).emit('clients', 'syncServerStateToClient', rooms.getRoomState(roomId))
   })
 }
 
@@ -40,9 +40,8 @@ io.on('connection', async function (socket) {
   const userState = new Proxy({}, {
     set(target, prop, val) {
       if (prop === 'roomId' && val !== target[prop]) {
-        joinRoom(socket, val)
+        joinRoom(socket, val, target.userId)
       }
-
       target[prop] = val
     }
   })
