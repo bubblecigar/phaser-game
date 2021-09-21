@@ -3,6 +3,7 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const rooms = require('./state.js').rooms
+const { methods } = require('./methods.js')
 const cwd = process.cwd()
 app.use('/', express.static(cwd + '/dist'));
 
@@ -20,16 +21,6 @@ io.on('connection', async function (socket) {
 
   socket.on('READ_SERVER_GAME_STATE', () => {
     io.in(roomId).emit('clients', 'syncServerStateToClient', gameState)
-  })
-
-  socket.on('WRITE_PLAYER_STATE_TO_SERVER', (userId, playerState) => {
-    const playerIndex = gameState.players.findIndex(player => player.id === userId)
-    gameState.players
-    if (playerIndex > -1) {
-      gameState.players[playerIndex] = playerState
-    } else {
-      gameState.players.push(playerState)
-    }
   })
 
   socket.on('serverGameStateUpdate', (action, data) => {
@@ -51,6 +42,11 @@ io.on('connection', async function (socket) {
 
   socket.on('clients', (method, ...args) => {
     socket.to(roomId).emit('clients', method, ...args)
+  })
+
+  const roomMethods = methods.getRoomMethods(roomId)
+  socket.on('server', (key, ...args) => {
+    roomMethods[key](...args)
   })
 
   socket.on('disconnect', async function () {

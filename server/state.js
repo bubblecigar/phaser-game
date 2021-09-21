@@ -155,8 +155,13 @@ const closeRoom = (roomId) => {
   delete eventSchedules[roomId]
 }
 
+const getRoomState = (roomId) => {
+  return rooms[roomId]
+}
+
 exports.rooms = {
   createRoom,
   connectToRoom,
-  disconnectFromRoom
+  disconnectFromRoom,
+  getRoomState
 }

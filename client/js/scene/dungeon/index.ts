@@ -188,7 +188,7 @@ function update(t, dt) {
     userId,
     { x: player.phaserObject.x, y: player.phaserObject.y }
   )
-  socketMethods.writeStateToServer(userId, player)
+  socketMethods.server('writePlayer', player)
 
   if (player.health <= 0) {
     player.resurrectCountDown -= dt

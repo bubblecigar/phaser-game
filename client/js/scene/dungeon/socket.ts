@@ -22,14 +22,14 @@ export const connectToServer = (item_layer) => {
       methods[key](...args)
       socket.emit('clients', key, ...args)
     },
+    server: (key, ...args) => {
+      socket.emit('server', key, ...args)
+    },
     serverGameStateUpdate: (action, ...args) => {
       socket.emit('serverGameStateUpdate', action, ...args)
     },
     readStateFromServer: () => {
       socket.emit('READ_SERVER_GAME_STATE')
-    },
-    writeStateToServer: (userId, playerState) => {
-      socket.emit('WRITE_PLAYER_STATE_TO_SERVER', userId, _.omit(playerState, 'phaserObject'))
     },
     disconnect: () => socket.disconnect()
   }
