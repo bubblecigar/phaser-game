@@ -1,6 +1,7 @@
 import gameConfig from '../../game/config'
 import { generateInputForm } from './form'
 import { setLocalUserData, getLocalUserData } from '../../user'
+import { socketMethods } from '../../index'
 
 function init() {
 
@@ -27,8 +28,7 @@ function create() {
           username: inputUsername.value,
           roomId: inputRoomId.value
         })
-        this.removeListener('click')
-        scene.scene.start('dungeon')
+        socketMethods.updateUserState(getLocalUserData())
       }
     }
 

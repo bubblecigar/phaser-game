@@ -10,7 +10,7 @@
     "fileStates": {
         "": {
             "scaleInDock": 2.4261,
-            "scaleInEditor": 4.15
+            "scaleInEditor": 7.33
         },
         "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx": {
             "scaleInDock": 1,
@@ -111,8 +111,8 @@
             "scale": 2.61,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 115.3256704980843,
-                "y": 330.0766283524904
+                "x": 314.176245210728,
+                "y": 353.0651340996169
             }
         },
         "jumpPlatForm.tmx#forestTileSet": {

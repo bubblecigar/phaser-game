@@ -5,20 +5,22 @@ const io = require('socket.io')(server);
 const rooms = require('./state.js').rooms
 const { methods } = require('./methods.js')
 const cwd = process.cwd()
-app.use('/', express.static(cwd + '/dist'));
+app.use('/', express.static(cwd + '/dist'))
 
 server.listen(process.env.PORT || 8081, function () {
-  console.log('Listening on ' + server.address().port);
-});
+  console.log('Listening on ' + server.address().port)
+})
 
-io.on('connection', async function (socket) {
-  const userData = socket.handshake.auth
-  const roomId = userData.roomId
+const joinRoom = (socket, roomId) => {
+  socket.rooms.forEach(
+    id => {
+      if (id !== socket.id) {
+        socket.leave(id)
+      }
+    }
+  )
   socket.join(roomId)
-  const gameState = rooms.createRoom(roomId, io, userData.item_layer)
-  rooms.connectToRoom(roomId, userData.userId)
-  io.in(roomId).emit('clients', 'syncServerStateToClient', gameState)
-
+  socket.removeAllListeners(['clients', 'server', 'disconnect'])
   socket.on('clients', (method, ...args) => {
     socket.to(roomId).emit('clients', method, ...args)
   })
@@ -29,7 +31,27 @@ io.on('connection', async function (socket) {
   })
 
   socket.on('disconnect', async function () {
-    rooms.disconnectFromRoom(roomId, userData.userId)
+    rooms.disconnectFromRoom(roomId, userState.userId)
     io.in(roomId).emit('clients', 'syncServerStateToClient', gameState)
+  })
+}
+
+io.on('connection', async function (socket) {
+  const userState = new Proxy({}, {
+    set(target, prop, val) {
+      if (prop === 'roomId' && val !== target[prop]) {
+        joinRoom(socket, val)
+      }
+
+      target[prop] = val
+    }
+  })
+
+  socket.on('update-userState', (data) => {
+    Object.keys(data).forEach(
+      key => {
+        userState[key] = data[key]
+      }
+    )
   })
 })

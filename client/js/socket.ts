@@ -1,22 +1,26 @@
 import _ from 'lodash'
 import io from 'socket.io-client'
-import { getLocalUserData } from '../../user'
-import { GameState } from '../../Interface'
+import { getLocalUserData } from './user'
 
-export const connectToServer = (item_layer) => {
+
+export const connectToServer = () => {
   const socket = io.connect({
     auth: {
-      ...getLocalUserData(),
-      item_layer
+      ...getLocalUserData()
     }
   })
+  return socket
+}
 
-  const socketMethods = {
-    getSocketInstance: () => socket,
+export const getSocketMethods = socket => {
+  return {
     registerSocketEvents: methods => {
       socket.on('clients', (key, ...args) => {
         methods[key](...args)
       })
+    },
+    updateUserState: data => {
+      socket.emit('update-userState', data)
     },
     clients: (methods, key, ...args) => {
       methods[key](...args)
@@ -24,9 +28,6 @@ export const connectToServer = (item_layer) => {
     },
     server: (key, ...args) => {
       socket.emit('server', key, ...args)
-    },
-    disconnect: () => socket.disconnect()
+    }
   }
-
-  return socketMethods
 }

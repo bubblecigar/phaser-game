@@ -4,7 +4,6 @@ import { Player } from '../../Interface'
 import { getLocalUserData } from '../../user'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
-import { connectToServer } from './socket'
 import mapConfigs from '../../maps/mapConfigs'
 import FOV from './FOV'
 import registerWorldEvents from './WorldEvents'
@@ -133,9 +132,9 @@ function create() {
   )
 
   const item_layer = this.map.objects.find(o => o.name === 'item_layer')
-  socketMethods = connectToServer(item_layer)
-  socketMethods.registerSocketEvents(methods)
-  socketMethods.server('syncAllClients')
+  // socketMethods = connectToServer(item_layer)
+  // socketMethods.registerSocketEvents(methods)
+  // socketMethods.server('syncAllClients')
   registerWorldEvents(this, methods, socketMethods)
   registerInputEvents(this, methods, socketMethods)
 
