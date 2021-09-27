@@ -133,7 +133,7 @@ function create() {
   )
 
   socketMethods.registerSocketEvents(this.scene.key, methods)
-  socketMethods.server('syncAllClients', this.scene.key)
+  socketMethods.enterScene(this.scene.key)
   registerWorldEvents(this, methods, socketMethods)
   registerInputEvents(this, methods, socketMethods)
 

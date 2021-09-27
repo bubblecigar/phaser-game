@@ -17,14 +17,25 @@ export const getSocketMethods = socket => {
     registerSocketEvents: (sceneKey, methods) => {
       socket.removeAllListeners()
       socket.on(sceneKey, (methodKey, ...args) => {
-        methods[methodKey](...args)
+        try {
+          methods[methodKey](...args)
+        } catch (e) {
+          console.log(e)
+        }
       })
       socket.on('all-scene', (methodKey, ...args) => {
-        methods[methodKey](...args)
+        try {
+          methods[methodKey](...args)
+        } catch (e) {
+          console.log(e)
+        }
       })
     },
     changeRoom: roomId => {
       socket.emit('change-room', roomId)
+    },
+    enterScene: sceneKey => {
+      socket.emit('enter-scene', sceneKey)
     },
     clientsInScene: (sceneKey, methods, key, ...args) => {
       methods[key](...args)

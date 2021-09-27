@@ -25,6 +25,11 @@ io.on('connection', async function (socket) {
     userState.roomId = roomId
   })
 
+  socket.on('enter-scene', (sceneKey) => {
+    const gameState = rooms.getRoomState(userState.roomId)
+    io.to(userState.roomId).emit(sceneKey, 'spawnPlayers', gameState, userState.userId)
+  })
+
   socket.on('clients', (sceneKey, method, ...args) => {
     socket.to(userState.roomId).emit(sceneKey, method, ...args)
   })
@@ -38,6 +43,8 @@ io.on('connection', async function (socket) {
 
   socket.on('disconnect', async function () {
     rooms.disconnectFromRoom(userState.roomId, userState.userId)
-    roomMethods.syncAllClients('all-scene')
+    if (roomMethods) {
+      roomMethods.syncAllClients('all-scene')
+    }
   })
 })

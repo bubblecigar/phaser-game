@@ -124,6 +124,35 @@ const gameMethods = scene => {
         }
       )
     },
+    spawnPlayers: (serverGameState, userId) => {
+      const players = _.clone(serverGameState.players)
+
+      const userIndex = serverGameState.players.findIndex(player => player.id === userId)
+      if (userIndex === -1) {
+        // spawn at tile map's spawn point
+        try {
+          const itemLayer = scene.map.objects.find(o => o.name === 'item_layer')
+          const spawnPoint = itemLayer.objects.find(o => o.name === 'spawn_point')
+          players.push({
+            interface: 'Player',
+            id: userId,
+            charactorKey: setting.initCharactor,
+            position: { x: spawnPoint.x, y: spawnPoint.y },
+            velocity: { x: 0, y: 0 },
+            health: setting.initHealth,
+            resurrectCountDown: setting.resurrectCountDown,
+            coins: 0,
+            items: [],
+            bullet: 'arrow',
+            abilities: null,
+            phaserObject: null
+          })
+        } catch (error) {
+          console.log('tile map does not have item_layer or item_layer contains no spawn_point')
+        }
+      }
+      methods.syncPlayers(players)
+    },
     syncItems: (items: Item[]) => {
       gameState.items.forEach(
         item => {

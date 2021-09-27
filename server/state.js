@@ -88,28 +88,6 @@ const createRoom = (roomId, io) => {
   return rooms[roomId]
 }
 
-// create player on spawn_point
-const createPlayer = (room, userId) => {
-  // const spawnPoints = room.itemLayer.objects.filter(o => o.name === 'spawn_point')
-  // const spawnPoint = spawnPoints ? spawnPoints[0] : { x: 100, y: 100 }
-  const spawnPoint = { x: 100, y: 300 }
-  const playerConstructor = {
-    interface: 'Player',
-    id: userId,
-    charactorKey: setting.initCharactor,
-    position: { x: spawnPoint.x, y: spawnPoint.y },
-    velocity: { x: 0, y: 0 },
-    health: setting.initHealth,
-    resurrectCountDown: setting.resurrectCountDown,
-    coins: 0,
-    items: [],
-    bullet: 'arrow',
-    abilities: null,
-    phaserObject: null
-  }
-  room.players.push(playerConstructor)
-}
-
 const reconnectPlayer = (room, userId) => {
   const index = room.disconnectedPlayers.findIndex(player => player.id === userId)
   if (index !== -1) { // reconnect
@@ -131,10 +109,8 @@ const connectToRoom = (roomId, userId, io, socket) => {
   socket.join(roomId)
 
   const room = rooms[roomId] || createRoom(roomId, io)
-  const reconnectSuccess = reconnectPlayer(room, userId)
-  if (!reconnectSuccess) {
-    createPlayer(room, userId)
-  }
+  reconnectPlayer(room, userId)
+
   return rooms[roomId]
 }
 
