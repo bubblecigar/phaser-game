@@ -19,9 +19,12 @@ export const getSocketMethods = socket => {
       socket.on(sceneKey, (methodKey, ...args) => {
         methods[methodKey](...args)
       })
+      socket.on('all-scene', (methodKey, ...args) => {
+        methods[methodKey](...args)
+      })
     },
-    updateUserState: data => {
-      socket.emit('update-userState', data)
+    changeRoom: roomId => {
+      socket.emit('change-room', roomId)
     },
     clientsInScene: (sceneKey, methods, key, ...args) => {
       methods[key](...args)

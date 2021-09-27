@@ -120,11 +120,17 @@ const reconnectPlayer = (room, userId) => {
   return false
 }
 
-const connectToRoom = (roomId, userId) => {
-  const room = rooms[roomId]
-  if (!room) {
-    return console.log('room not exists.... it should not happened...')
-  }
+const connectToRoom = (roomId, userId, io, socket) => {
+  socket.rooms.forEach(
+    id => {
+      if (id !== socket.id) {
+        socket.leave(id)
+      }
+    }
+  )
+  socket.join(roomId)
+
+  const room = rooms[roomId] || createRoom(roomId, io)
   const reconnectSuccess = reconnectPlayer(room, userId)
   if (!reconnectSuccess) {
     createPlayer(room, userId)

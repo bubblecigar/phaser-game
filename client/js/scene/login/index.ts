@@ -14,7 +14,6 @@ function preload() {
 function create() {
   const scene = this
   const sceneKey = scene.scene.key
-  socketMethods.updateUserState({ ...getLocalUserData(), sceneKey })
   socketMethods.registerSocketEvents(sceneKey, {})
 
   const element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2).createFromHTML(generateInputForm())
@@ -31,8 +30,8 @@ function create() {
           username: inputUsername.value,
           roomId: inputRoomId.value
         })
-        socketMethods.updateUserState({ ...getLocalUserData(), sceneKey })
-        scene.scene.start('dungeon')
+        socketMethods.changeRoom(inputRoomId.value)
+        scene.scene.start('dungeon') // should be triggered by server
       }
     }
 
