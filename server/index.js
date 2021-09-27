@@ -27,7 +27,7 @@ io.on('connection', async function (socket) {
 
   socket.on('enter-scene', (sceneKey) => {
     const gameState = rooms.getRoomState(userState.roomId)
-    io.to(userState.roomId).emit(sceneKey, 'spawnPlayers', gameState, userState.userId)
+    io.to(userState.roomId).emit(sceneKey, 'syncServerStateToClient', gameState)
   })
 
   socket.on('clients', (sceneKey, method, ...args) => {
