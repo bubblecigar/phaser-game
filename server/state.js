@@ -48,16 +48,16 @@ const rooms = {}
 //   }, 1000
 // )
 
-// rooms[roomId].eventLoops.intervals.push(createCoinInterval)
-// rooms[roomId].eventLoops.intervals.push(checkRoomIdleInterval)
-// rooms[roomId].eventLoops.intervals.push(endGameDetectionInterval)
+// rooms[roomId].intervals.intervals.push(createCoinInterval)
+// rooms[roomId].intervals.intervals.push(checkRoomIdleInterval)
+// rooms[roomId].intervals.intervals.push(endGameDetectionInterval)
 
 
 const closeRoom = (roomId) => {
   const room = rooms[roomId]
-  Object.keys(room.eventLoops).forEach(
+  Object.keys(room.intervals).forEach(
     prop => {
-      room.eventLoops[prop].forEach(
+      room.intervals[prop].forEach(
         interval => {
           clearInterval(interval)
         }
@@ -94,7 +94,7 @@ const createRoom = (roomId, io) => {
     disconnectedPlayers: [],
     idleTime: 0,
     gameStatus: 'waiting', // waiting -> processing -> ending -> waiting
-    eventLoops: {
+    intervals: {
       alltime: [registerRoomAutoCloseInterval(roomId)],
       byGameStatus: []
     }
@@ -105,7 +105,8 @@ const createRoom = (roomId, io) => {
 
 const changeGameStatus = (roomId, newGameStatus) => {
   const room = rooms[roomId]
-  room.eventLoops.byGameStatus.forEach(interval => clearInterval(interval))
+  room.intervals.byGameStatus.forEach(interval => clearInterval(interval))
+  room.intervals.byGameStatus = []
   if (newGameStatus === 'waiting') {
     // check players ready state 
     // -> emit game start event 
