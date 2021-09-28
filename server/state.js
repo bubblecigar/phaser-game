@@ -77,7 +77,7 @@ const registerRoomAutoCloseInterval = (roomId) => setInterval(
     } else {
       // room in idle
       room.idleTime += 1000
-      if (room.idleTime >= 5000) {
+      if (room.idleTime >= setting.roomAutoCloseIdleTime) {
         closeRoom(roomId)
       }
     }
