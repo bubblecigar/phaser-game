@@ -1,8 +1,6 @@
 const uuid = require('uuid')
 const setting = require('../share/setting.json')
 const rooms = {}
-const eventSchedules = {}
-
 
 const checkWinner = room => {
   const winner = room.players.find(
@@ -19,9 +17,11 @@ const createRoom = (roomId, io) => {
     players: [],
     items: [],
     mapConfigKey: 'waitingRoomConfig',
-    monsters: [],
     disconnectedPlayers: [],
-    idleTime: 0
+    idleTime: 0,
+    eventSchedules: {
+      intervals: []
+    }
   }
 
   const createCoin = () => {
@@ -44,7 +44,7 @@ const createRoom = (roomId, io) => {
       phaserObject: null
     }
     rooms[roomId].items.push(itemConstructor)
-    io.in(roomId).emit('clients', 'addItem', itemConstructor)
+    io.in(roomId).emit('dungeon', 'addItem', itemConstructor)
   }
 
   const createCoinInterval = setInterval(
@@ -76,14 +76,9 @@ const createRoom = (roomId, io) => {
     }, 1000
   )
 
-  eventSchedules[roomId] = {
-    io,
-    intervals: [
-      createCoinInterval,
-      checkRoomIdleInterval,
-      endGameDetectionInterval
-    ]
-  }
+  rooms[roomId].eventSchedules.intervals.push(createCoinInterval)
+  rooms[roomId].eventSchedules.intervals.push(checkRoomIdleInterval)
+  rooms[roomId].eventSchedules.intervals.push(endGameDetectionInterval)
 
   return rooms[roomId]
 }
@@ -127,14 +122,12 @@ const disconnectFromRoom = (roomId, userId) => {
 }
 
 const closeRoom = (roomId) => {
-  delete rooms[roomId]
-
-  eventSchedules[roomId].intervals.forEach(
+  rooms[roomId].eventSchedules.intervals.forEach(
     interval => {
       clearInterval(interval)
     }
   )
-  delete eventSchedules[roomId]
+  delete rooms[roomId]
 }
 
 const getRoomState = (roomId) => {
