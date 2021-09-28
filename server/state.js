@@ -138,7 +138,21 @@ const closeRoom = (roomId) => {
 }
 
 const getRoomState = (roomId) => {
-  return rooms[roomId]
+  const room = rooms[roomId]
+  if (!room) {
+    return null
+  }
+  const {
+    players,
+    items,
+    mapConfigKey
+  } = rooms[roomId]
+
+  return {
+    mapConfigKey,
+    players,
+    items
+  }
 }
 
 exports.rooms = {
