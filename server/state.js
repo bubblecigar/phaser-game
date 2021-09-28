@@ -83,48 +83,72 @@ const registerRoomAutoCloseInterval = (roomId) => setInterval(
   }, 1000
 )
 
-const createRoom = (roomId, io) => {
+const createRoom = (roomId) => {
   if (rooms[roomId]) {
     return rooms[roomId]
   }
   rooms[roomId] = {
     players: [],
     items: [],
-    mapConfigKey: 'waitingRoomConfig',
     disconnectedPlayers: [],
     idleTime: 0,
-    gameStatus: 'waiting', // waiting -> processing -> ending -> waiting
+    gameStatus: null, // -> waiting -> processing -> ending -> waiting
     intervals: {
       alltime: [registerRoomAutoCloseInterval(roomId)],
       byGameStatus: []
     }
   }
 
+  changeGameStatus(roomId, 'waiting')
+
   return rooms[roomId]
 }
 
-const changeGameStatus = (roomId, newGameStatus) => {
-  const room = rooms[roomId]
-  room.intervals.byGameStatus.forEach(interval => clearInterval(interval))
-  room.intervals.byGameStatus = []
-
-  if (newGameStatus === 'waiting') {
+const registerWaitingIntervals = roomId => setInterval(
+  () => {
+    const room = rooms[roomId]
     // check players ready state 
     // -> emit game start event 
     // -> change game status to processing
-  }
-  if (newGameStatus === 'processing') {
+  }, 1000
+)
+
+const registerProcessingIntervals = roomId => setInterval(
+  () => {
+    const room = rooms[roomId]
     // emit game mechanism events (spawn monsters and items)
     // check end game condition
     // -> emit game end event
     // -> change game status to ending
-  }
-  if (newGameStatus === 'ending') {
+  }, 1000
+)
+
+const registerEndingIntervals = roomId => setInterval(
+  () => {
+    const room = rooms[roomId]
     // generate end game report
     // -> emit end game report to clients
     // -> setTimeout and cycle gameStatus to waiting
+  }, 1000
+)
+
+const changeGameStatus = (roomId, newGameStatus) => {
+  const room = rooms[roomId]
+  const gameStatusIntervals = room.intervals.byGameStatus
+  gameStatusIntervals.forEach(interval => clearInterval(interval))
+  gameStatusIntervals.splice(0, gameStatusIntervals.length)
+
+  if (newGameStatus === 'waiting') {
+    gameStatusIntervals.push(registerWaitingIntervals(roomId))
+  } else if (newGameStatus === 'processing') {
+    gameStatusIntervals.push(registerProcessingIntervals(roomId))
+  } else if (newGameStatus === 'ending') {
+    gameStatusIntervals.push(registerEndingIntervals(roomId))
+  } else {
+    // throw
   }
 
+  room.gameStatus = newGameStatus
   // emit to clients to inform gameStatus change
 }
 
