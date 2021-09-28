@@ -1,7 +1,7 @@
-const express = require('express');
-const app = express();
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
+const express = require('express')
+const app = express()
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
 const rooms = require('./state.js').rooms
 const { methods } = require('./methods.js')
 const cwd = process.cwd()
