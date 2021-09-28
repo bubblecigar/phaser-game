@@ -2,12 +2,87 @@ const uuid = require('uuid')
 const setting = require('../share/setting.json')
 const rooms = {}
 
-const checkWinner = room => {
-  const winner = room.players.find(
-    player => player.coins >= setting.coinsToWin
+// const checkWinner = room => {
+//   const winner = room.players.find(
+//     player => player.coins >= setting.coinsToWin
+//   )
+//   return winner
+// }
+
+
+// const createCoin = () => {
+//   // const itemLayer = rooms[roomId].itemLayer
+//   // if (!itemLayer) {
+//   //   return
+//   // }
+//   // const coinPoints = itemLayer.objects.filter(o => o.name === 'coin_point')
+//   // const randomCoinSpawnIndex = Math.floor(Math.random() * (coinPoints.length))
+//   // const coinSpawnPoint = coinPoints[randomCoinSpawnIndex]
+//   // if (!coinSpawnPoint) {
+//   //   return
+//   // }
+//   const itemConstructor = {
+//     interface: 'Item',
+//     id: uuid(),
+//     itemKey: 'coin',
+//     position: { x: 150, y: 400 },
+//     velocity: { x: 0, y: 0 },
+//     phaserObject: null
+//   }
+//   rooms[roomId].items.push(itemConstructor)
+//   io.in(roomId).emit('dungeon', 'addItem', itemConstructor)
+// }
+
+// const createCoinInterval = setInterval(
+//   () => {
+//     if (rooms[roomId].items.length === 0) {
+//       createCoin()
+//     }
+//   }, 1000
+// )
+
+
+// const endGameDetectionInterval = setInterval(
+//   () => {
+//     const winner = checkWinner(rooms[roomId])
+//   }, 1000
+// )
+
+// rooms[roomId].eventLoops.intervals.push(createCoinInterval)
+// rooms[roomId].eventLoops.intervals.push(checkRoomIdleInterval)
+// rooms[roomId].eventLoops.intervals.push(endGameDetectionInterval)
+
+
+const closeRoom = (roomId) => {
+  const room = rooms[roomId]
+  Object.keys(room.eventLoops).forEach(
+    status => {
+      room.eventLoops[status].forEach(
+        interval => {
+          clearInterval(interval)
+
+        }
+      )
+    }
   )
-  return winner
+  delete rooms[roomId]
 }
+
+const registerRoomAutoCloseInterval = (roomId) => setInterval(
+  () => {
+    const room = rooms[roomId]
+    if (room.players.length > 0) {
+      // room in use
+      room.idleTime = 0
+    } else {
+      // room in idle
+      room.idleTime += 1000
+      if (room.idleTime >= 5000) {
+        closeRoom(roomId)
+      }
+    }
+  }, 1000
+)
 
 const createRoom = (roomId, io) => {
   if (rooms[roomId]) {
@@ -19,68 +94,18 @@ const createRoom = (roomId, io) => {
     mapConfigKey: 'waitingRoomConfig',
     disconnectedPlayers: [],
     idleTime: 0,
-    eventSchedules: {
-      intervals: []
+    gameStatus: 'waiting', // waiting -> processing -> ending -> waiting
+    eventLoops: {
+      alltime: [registerRoomAutoCloseInterval(roomId)],
+      byGameStatus: []
     }
   }
-
-  const createCoin = () => {
-    // const itemLayer = rooms[roomId].itemLayer
-    // if (!itemLayer) {
-    //   return
-    // }
-    // const coinPoints = itemLayer.objects.filter(o => o.name === 'coin_point')
-    // const randomCoinSpawnIndex = Math.floor(Math.random() * (coinPoints.length))
-    // const coinSpawnPoint = coinPoints[randomCoinSpawnIndex]
-    // if (!coinSpawnPoint) {
-    //   return
-    // }
-    const itemConstructor = {
-      interface: 'Item',
-      id: uuid(),
-      itemKey: 'coin',
-      position: { x: 150, y: 400 },
-      velocity: { x: 0, y: 0 },
-      phaserObject: null
-    }
-    rooms[roomId].items.push(itemConstructor)
-    io.in(roomId).emit('dungeon', 'addItem', itemConstructor)
-  }
-
-  const createCoinInterval = setInterval(
-    () => {
-      if (rooms[roomId].items.length === 0) {
-        createCoin()
-      }
-    }, 1000
-  )
-
-  const checkRoomIdleInterval = setInterval(
-    () => {
-      if (rooms[roomId].players.length > 0) {
-        // room in use
-        rooms[roomId].idleTime = 0
-      } else {
-        // room in idle
-        rooms[roomId].idleTime += 1000
-        if (rooms[roomId].idleTime >= 60000) {
-          closeRoom(roomId)
-        }
-      }
-    }, 1000
-  )
-
-  const endGameDetectionInterval = setInterval(
-    () => {
-      const winner = checkWinner(rooms[roomId])
-    }, 1000
-  )
-
-  rooms[roomId].eventSchedules.intervals.push(createCoinInterval)
-  rooms[roomId].eventSchedules.intervals.push(checkRoomIdleInterval)
-  rooms[roomId].eventSchedules.intervals.push(endGameDetectionInterval)
 
   return rooms[roomId]
+}
+
+const changeGameStatus = () => {
+
 }
 
 const reconnectPlayer = (room, userId) => {
@@ -121,15 +146,6 @@ const disconnectFromRoom = (roomId, userId) => {
   }
 }
 
-const closeRoom = (roomId) => {
-  rooms[roomId].eventSchedules.intervals.forEach(
-    interval => {
-      clearInterval(interval)
-    }
-  )
-  delete rooms[roomId]
-}
-
 const getRoomState = (roomId) => {
   const room = rooms[roomId]
   if (!room) {
@@ -138,13 +154,13 @@ const getRoomState = (roomId) => {
   const {
     players,
     items,
-    mapConfigKey
+    gameStatus
   } = rooms[roomId]
 
   return {
-    mapConfigKey,
     players,
-    items
+    items,
+    gameStatus
   }
 }
 
