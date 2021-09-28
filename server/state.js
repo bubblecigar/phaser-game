@@ -107,6 +107,7 @@ const changeGameStatus = (roomId, newGameStatus) => {
   const room = rooms[roomId]
   room.intervals.byGameStatus.forEach(interval => clearInterval(interval))
   room.intervals.byGameStatus = []
+
   if (newGameStatus === 'waiting') {
     // check players ready state 
     // -> emit game start event 
