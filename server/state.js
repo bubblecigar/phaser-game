@@ -162,7 +162,7 @@ const reconnectPlayer = (room, userId) => {
   return false
 }
 
-const connectToRoom = (roomId, userId, io, socket) => {
+const connectToRoom = (roomId, userId, socket) => {
   socket.rooms.forEach(
     id => {
       if (id !== socket.id) {
@@ -172,7 +172,7 @@ const connectToRoom = (roomId, userId, io, socket) => {
   )
   socket.join(roomId)
 
-  const room = rooms[roomId] || createRoom(roomId, io)
+  const room = rooms[roomId] || createRoom(roomId)
   reconnectPlayer(room, userId)
 
   return rooms[roomId]

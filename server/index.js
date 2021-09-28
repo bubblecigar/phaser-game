@@ -20,7 +20,7 @@ io.on('connection', async function (socket) {
 
   socket.on('change-room', (roomId) => {
     rooms.disconnectFromRoom(userState.roomId, userState.userId)
-    rooms.connectToRoom(roomId, userState.userId, io, socket)
+    rooms.connectToRoom(roomId, userState.userId, socket)
     roomMethods = methods.getRoomMethods(roomId, io)
     userState.roomId = roomId
   })
