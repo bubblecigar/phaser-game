@@ -56,11 +56,10 @@ const rooms = {}
 const closeRoom = (roomId) => {
   const room = rooms[roomId]
   Object.keys(room.eventLoops).forEach(
-    status => {
-      room.eventLoops[status].forEach(
+    prop => {
+      room.eventLoops[prop].forEach(
         interval => {
           clearInterval(interval)
-
         }
       )
     }
@@ -104,8 +103,27 @@ const createRoom = (roomId, io) => {
   return rooms[roomId]
 }
 
-const changeGameStatus = () => {
+const changeGameStatus = (roomId, newGameStatus) => {
+  const room = rooms[roomId]
+  room.eventLoops.byGameStatus.forEach(interval => clearInterval(interval))
+  if (newGameStatus === 'waiting') {
+    // check players ready state 
+    // -> emit game start event 
+    // -> change game status to processing
+  }
+  if (newGameStatus === 'processing') {
+    // emit game mechanism events (spawn monsters and items)
+    // check end game condition
+    // -> emit game end event
+    // -> change game status to ending
+  }
+  if (newGameStatus === 'ending') {
+    // generate end game report
+    // -> emit end game report to clients
+    // -> setTimeout and cycle gameStatus to waiting
+  }
 
+  // emit to clients to inform gameStatus change
 }
 
 const reconnectPlayer = (room, userId) => {
