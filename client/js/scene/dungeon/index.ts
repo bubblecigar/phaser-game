@@ -4,7 +4,7 @@ import { Player } from '../../Interface'
 import { getLocalUserData } from '../../user'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
-import mapConfigs from '../../maps/mapConfigs'
+import sceneMap from '../../maps/sceneMap'
 import FOV from './FOV'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
@@ -14,9 +14,6 @@ import { socketMethods } from '../../index'
 const userId = getLocalUserData().userId
 
 let methods
-
-let mapConfig = mapConfigs['jumpPlatFormConfig']
-
 let cursors, pointer
 let aim, aimDirection
 let readyToShoot = true
@@ -69,15 +66,17 @@ const movePlayer = (scene, player: Player) => {
   }
 }
 
-function init(data) {
-  mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
+function init() {
   methods = gameMethods(this)
 }
 
 function preload() {
   this.load.image('target', targetUrl)
+
+  const mapConfig = sceneMap[this.scene.key]
   this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
   this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
+
   Object.keys(charactors).forEach(
     key => {
       const char = charactors[key]
@@ -97,7 +96,7 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys()
   pointer = this.input.activePointer
   registerAimingTarget(this)
-  this.map = FOV.create(this, mapConfig)
+  this.map = FOV.create(this, sceneMap[this.scene.key])
 
   Object.keys(charactors).forEach(
     key => {
