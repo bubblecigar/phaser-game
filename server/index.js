@@ -3,7 +3,6 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const rooms = require('./state.js').rooms
-const { methods } = require('./methods.js')
 const cwd = process.cwd()
 app.use('/', express.static(cwd + '/dist'))
 
@@ -16,13 +15,11 @@ io.on('connection', async function (socket) {
     ...socket.handshake.auth
   }
 
-  let roomMethods
   let room
 
   socket.on('change-room', (roomId) => {
     rooms.disconnectFromRoom(userState.roomId, userState.userId)
     room = rooms.connectToRoom(roomId, userState.userId, socket)
-    roomMethods = methods.getRoomMethods(room)
     userState.roomId = roomId
   })
 
@@ -36,16 +33,15 @@ io.on('connection', async function (socket) {
   })
 
   socket.on('server', (key, ...args) => {
-    if (!roomMethods) {
-      return
+    if (room) {
+      room.methods[key](...args)
     }
-    roomMethods[key](...args)
   })
 
   socket.on('disconnect', async function () {
     rooms.disconnectFromRoom(userState.roomId, userState.userId)
-    if (roomMethods) {
-      roomMethods.syncAllClients('all-scene')
+    if (room) {
+      room.methods.syncAllClients('all-scene')
     }
   })
 })
