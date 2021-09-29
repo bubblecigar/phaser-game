@@ -190,16 +190,12 @@ const disconnectFromRoom = (roomId, userId) => {
   }
 }
 
-const getRoomState = (roomId) => {
-  const room = rooms[roomId]
-  if (!room) {
-    return null
-  }
+const getEmittableFieldofRoom = (room) => {
   const {
     players,
     items,
     gameStatus
-  } = rooms[roomId]
+  } = room
 
   return {
     players,
@@ -212,5 +208,5 @@ exports.rooms = {
   createRoom,
   connectToRoom,
   disconnectFromRoom,
-  getRoomState
+  getEmittableFieldofRoom
 }

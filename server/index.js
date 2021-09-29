@@ -17,16 +17,17 @@ io.on('connection', async function (socket) {
   }
 
   let roomMethods
+  let room
 
   socket.on('change-room', (roomId) => {
     rooms.disconnectFromRoom(userState.roomId, userState.userId)
-    rooms.connectToRoom(roomId, userState.userId, socket)
-    roomMethods = methods.getRoomMethods(roomId, io)
+    room = rooms.connectToRoom(roomId, userState.userId, socket)
+    roomMethods = methods.getRoomMethods(room)
     userState.roomId = roomId
   })
 
   socket.on('enter-scene', (sceneKey) => {
-    const gameState = rooms.getRoomState(userState.roomId)
+    const gameState = rooms.getEmittableFieldofRoom(room)
     io.to(userState.roomId).emit(sceneKey, 'syncServerStateToClient', gameState)
   })
 
