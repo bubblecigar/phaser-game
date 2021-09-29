@@ -102,8 +102,7 @@ const createRoom = (roomId) => {
   }
 
   const room = rooms[roomId]
-
-  rooms[roomId].methods = {
+  room.methods = {
     writePlayer: (playerState) => {
       const playerIndex = room.players.findIndex(player => player.id === playerState.id)
       if (playerIndex > -1) {
@@ -129,7 +128,7 @@ const createRoom = (roomId) => {
 
   changeGameStatus(roomId, 'waiting')
 
-  return rooms[roomId]
+  return room
 }
 
 const registerWaitingIntervals = roomId => setInterval(
