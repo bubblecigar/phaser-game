@@ -18,18 +18,23 @@ io.on('connection', async function (socket) {
   let room
 
   socket.on('change-room', (roomId) => {
-    rooms.disconnectFromRoom(userState.roomId, userState.userId)
+    if (room) {
+      rooms.disconnectFromRoom(room.id, userState.userId)
+    }
     room = rooms.connectToRoom(roomId, userState.userId, socket)
-    userState.roomId = roomId
   })
 
   socket.on('enter-scene', (sceneKey) => {
-    const gameState = rooms.getEmittableFieldofRoom(room)
-    io.to(userState.roomId).emit(sceneKey, 'syncServerStateToClient', gameState)
+    if (room) {
+      const gameState = rooms.getEmittableFieldofRoom(room)
+      io.to(room.id).emit(sceneKey, 'syncServerStateToClient', gameState)
+    }
   })
 
   socket.on('clients', (sceneKey, method, ...args) => {
-    socket.to(userState.roomId).emit(sceneKey, method, ...args)
+    if (room) {
+      socket.to(room.id).emit(sceneKey, method, ...args)
+    }
   })
 
   socket.on('server', (key, ...args) => {
@@ -39,9 +44,12 @@ io.on('connection', async function (socket) {
   })
 
   socket.on('disconnect', async function () {
-    rooms.disconnectFromRoom(userState.roomId, userState.userId)
     if (room) {
+      rooms.disconnectFromRoom(room.id, userState.userId)
       room.methods.syncAllClients('all-scene')
     }
   })
 })
+
+
+exports.io = io

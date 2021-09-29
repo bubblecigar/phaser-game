@@ -88,6 +88,7 @@ const createRoom = (roomId) => {
     return rooms[roomId]
   }
   rooms[roomId] = {
+    id: roomId,
     players: [],
     items: [],
     disconnectedPlayers: [],
@@ -113,7 +114,7 @@ const createRoom = (roomId) => {
     },
     syncAllClients: (sceneKey) => {
       const { io } = require('./index.js')
-      io.in(room.roomId).emit(sceneKey, 'syncServerStateToClient', room)
+      io.in(roomId).emit(sceneKey, 'syncServerStateToClient', getEmittableFieldofRoom(room))
     },
     collectItem: (itemId) => {
       const itemIndex = room.items.findIndex(item => item.id === itemId)
