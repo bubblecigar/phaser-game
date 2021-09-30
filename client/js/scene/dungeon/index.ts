@@ -131,7 +131,7 @@ function create() {
     }
   )
 
-  socketMethods.registerSocketEvents(this.scene.key, methods)
+  socketMethods.registerSceneSocketEvents(this.scene.key, methods)
   socketMethods.enterScene(this.scene.key)
   registerWorldEvents(this, methods, socketMethods)
   registerInputEvents(this, methods, socketMethods)

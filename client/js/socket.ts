@@ -14,7 +14,7 @@ export const connectToServer = () => {
 
 export const getSocketMethods = socket => {
   return {
-    registerSocketEvents: (sceneKey, methods) => {
+    registerSceneSocketEvents: (sceneKey, methods) => {
       socket.removeAllListeners()
       socket.on(sceneKey, (methodKey, ...args) => {
         try {
