@@ -8,9 +8,6 @@ import GUIScene from './scene/dungeon/GUI'
 import loginScene from './scene/login/index'
 import { connectToServer, getSocketMethods } from './socket'
 
-const socket = connectToServer()
-const socketMethods = getSocketMethods(socket)
-
 const game = new Phaser.Game({
   type: Phaser.AUTO,
   width: gameConfig.canvasWidth,
@@ -48,6 +45,9 @@ const game = new Phaser.Game({
     ]
   }
 })
+
+const socket = connectToServer()
+const socketMethods = getSocketMethods(socket)
 
 export default game
 export { socketMethods }
