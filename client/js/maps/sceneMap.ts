@@ -13,5 +13,11 @@ export default {
     mapUrl: jumpPlatFormUrl,
     tilesetKey: 'forestTileSet',
     tilesetUrl: forestTileSetUrl
+  },
+  "waitingRoom": {
+    mapKey: 'waitingRoom',
+    mapUrl: waitingRoomUrl,
+    tilesetKey: 'tinyroom',
+    tilesetUrl: tinyTileSetUrl
   }
 }
