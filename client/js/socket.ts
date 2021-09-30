@@ -13,9 +13,19 @@ export const connectToServer = () => {
 }
 
 export const getSocketMethods = socket => {
+  let sceneListners = []
   return {
+    registerGameSocketEvents: (game) => {
+      socket.on('game', () => {
+
+      })
+    },
     registerSceneSocketEvents: (sceneKey, methods) => {
-      socket.removeAllListeners()
+      sceneListners.forEach(
+        listener => socket.removeAllListeners(listener)
+      )
+
+      sceneListners = [sceneKey, 'all-scene']
       socket.on(sceneKey, (methodKey, ...args) => {
         try {
           methods[methodKey](...args)

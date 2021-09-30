@@ -48,6 +48,7 @@ const game = new Phaser.Game({
 
 const socket = connectToServer()
 const socketMethods = getSocketMethods(socket)
+socketMethods.registerGameSocketEvents(game)
 
 export default game
 export { socketMethods }
