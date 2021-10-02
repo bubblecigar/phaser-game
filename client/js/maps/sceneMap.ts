@@ -6,6 +6,7 @@ import tinyRoomUrl from '../../statics/tile/tiny_map.json'
 import waitingRoomUrl from '../../statics/tile/waitingRoom.json'
 import jumpPlatFormUrl from '../../statics/tile/jumpPlatForm.json'
 import forestTileSetUrl from '../../statics/tile/forestTileSet.png'
+import readyRoomUrl from '../../statics/tile/readyRoom.json'
 
 export default {
   "dungeon": {
@@ -15,9 +16,9 @@ export default {
     tilesetUrl: forestTileSetUrl
   },
   "waitingRoom": {
-    mapKey: 'waitingRoom',
-    mapUrl: waitingRoomUrl,
-    tilesetKey: 'tinyroom',
-    tilesetUrl: tinyTileSetUrl
+    mapKey: 'readyRoom',
+    mapUrl: readyRoomUrl,
+    tilesetKey: 'forestTileSet',
+    tilesetUrl: forestTileSetUrl
   }
 }
