@@ -1,70 +1,55 @@
-const express = require('express');
-const app = express();
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
-const rooms = require('./state.js').rooms
+const express = require('express')
+const app = express()
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
+const rooms = require('./rooms.js').rooms
 const cwd = process.cwd()
-app.use('/', express.static(cwd + '/dist'));
+app.use('/', express.static(cwd + '/dist'))
 
 server.listen(process.env.PORT || 8081, function () {
-  console.log('Listening on ' + server.address().port);
-});
+  console.log('Listening on ' + server.address().port)
+})
 
 io.on('connection', async function (socket) {
-  const userData = socket.handshake.auth
-  const roomId = userData.roomId
-  socket.join(roomId)
-  const gameState = rooms.createRoom(roomId, io, userData.item_layer)
-  rooms.connectToRoom(roomId, userData.userId)
-  io.in(roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
+  const userState = {
+    ...socket.handshake.auth
+  }
 
-  socket.on('READ_SERVER_GAME_STATE', () => {
-    io.in(roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
+  let room
+
+  socket.on('change-room', (roomId) => {
+    if (room) {
+      rooms.disconnectFromRoom(room.id, userState.userId)
+    }
+    room = rooms.connectToRoom(roomId, userState.userId, socket)
+    io.to(socket.id).emit('game', 'updateGameStatus', room.gameStatus)
   })
 
-  socket.on('WRITE_PLAYER_STATE_TO_SERVER', (userId, playerState) => {
-    const playerIndex = gameState.players.findIndex(player => player.id === userId)
-    gameState.players
-    if (playerIndex > -1) {
-      gameState.players[playerIndex] = playerState
-    } else {
-      gameState.players.push(playerState)
+  socket.on('enter-scene', (sceneKey) => {
+    if (room) {
+      const gameState = rooms.getEmittableFieldofRoom(room)
+      io.to(room.id).emit(sceneKey, 'syncServerStateToClient', gameState)
     }
   })
 
-  socket.on('serverGameStateUpdate', (action, data) => {
-
-    const checkWinner = () => {
-      const winner = gameState.players.find(
-        player => player.coins >= 10
-      )
-      return winner
-    }
-
-    switch (action) {
-      case 'collectItem': {
-        const itemIndex = gameState.items.findIndex(item => item.id === data.itemId)
-        if (itemIndex < 0) {
-          // already been collected by other player
-        } else {
-          // collect effect 
-          gameState.items.splice(itemIndex, 1)
-        }
-        const winner = checkWinner()
-        console.log('winner:', winner)
-      }
-      default: {
-        // unhandled action
-      }
+  socket.on('clients', (sceneKey, method, ...args) => {
+    if (room) {
+      socket.to(room.id).emit(sceneKey, method, ...args)
     }
   })
 
-  socket.on('broadcast', (method, ...args) => {
-    socket.to(roomId).emit('broadcast', method, ...args)
+  socket.on('server', (key, ...args) => {
+    if (room) {
+      room.methods[key](...args)
+    }
   })
 
   socket.on('disconnect', async function () {
-    rooms.disconnectFromRoom(roomId, userData.userId)
-    io.in(roomId).emit('UPDATE_CLIENT_GAME_STATE', gameState)
+    if (room) {
+      rooms.disconnectFromRoom(room.id, userState.userId, socket)
+      room.methods.syncAllClients('all-scene')
+    }
   })
 })
+
+exports.io = io

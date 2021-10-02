@@ -4,34 +4,79 @@ import { Player } from '../../Interface'
 import { getLocalUserData } from '../../user'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
-import { connectToServer } from './socket'
-import mapConfigs from '../../maps/mapConfigs'
+import sceneMap from '../../maps/sceneMap'
 import FOV from './FOV'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
 import targetUrl from '../../../statics/tile/target.png'
+import { socketMethods } from '../../index'
 
 const userId = getLocalUserData().userId
 
 let methods
-let socketMethods
-
-let mapConfig = mapConfigs['jumpPlatFormConfig']
-
 let cursors, pointer
 let aim, aimDirection
 let readyToShoot = true
-let resurrectCountDown = 0
 
-function init(data) {
-  mapConfig = mapConfigs[data.mapConfigKey] || mapConfig
+const registerAimingTarget = scene => {
+  aim = scene.matter.add.image(-20, -20, 'target', undefined, {
+    isSensor: true,
+    ignoreGravity: true
+  })
+  aim.setCollisionGroup(-1)
+  aim.setDepth(11)
+}
+
+const updateAim = (scene, player) => {
+  const position = pointer.positionToCamera(scene.cameras.main)
+  aim.setX(position.x)
+  aim.setY(position.y)
+
+  const newDirection = position.x < player.position.x ? 'left' : 'right'
+  const changeDirection = aimDirection !== newDirection
+  if (changeDirection) {
+    socketMethods.clientsInScene(scene.scene.key, methods, 'updatePlayerDirection', userId, newDirection)
+
+  }
+}
+
+const movePlayer = (scene, player: Player) => {
+  const char = charactors[player.charactorKey]
+  const charVelocity = char.velocity
+  const velocity = { x: 0, y: 0 }
+  if (cursors.left.isDown) {
+    velocity.x = -charVelocity
+  } else if (cursors.right.isDown) {
+    velocity.x = charVelocity
+  } else {
+    velocity.x = 0
+  }
+
+  const prevVelocity = player.velocity.x
+
+  player.velocity.x = velocity.x
+  player.velocity.y = velocity.y
+  player.phaserObject.setVelocityX(velocity.x)
+
+  const newAnimation = player.velocity.x === 0 ? 'idle' : 'move'
+  const oldAnimation = prevVelocity === 0 ? 'idle' : 'move'
+  const changeAnimation = newAnimation !== oldAnimation
+  if (changeAnimation) {
+    socketMethods.clientsInScene(scene.scene.key, methods, 'updatePlayerAnimation', userId, newAnimation)
+  }
+}
+
+function init() {
   methods = gameMethods(this)
 }
 
 function preload() {
   this.load.image('target', targetUrl)
+
+  const mapConfig = sceneMap[this.scene.key]
   this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
   this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
+
   Object.keys(charactors).forEach(
     key => {
       const char = charactors[key]
@@ -46,21 +91,12 @@ function preload() {
   )
 }
 
-const registerAimingTarget = scene => {
-  aim = scene.matter.add.image(-20, -20, 'target', undefined, {
-    isSensor: true,
-    ignoreGravity: true
-  })
-  aim.setCollisionGroup(-1)
-  aim.setDepth(11)
-}
-
 function create() {
   this.arrows = {}
   cursors = this.input.keyboard.createCursorKeys()
   pointer = this.input.activePointer
   registerAimingTarget(this)
-  this.map = FOV.create(this, mapConfig)
+  this.map = FOV.create(this, sceneMap[this.scene.key])
 
   Object.keys(charactors).forEach(
     key => {
@@ -95,11 +131,9 @@ function create() {
     }
   )
 
-  const item_layer = this.map.objects.find(o => o.name === 'item_layer')
-  socketMethods = connectToServer(item_layer)
-  socketMethods.registerSocketEvents(methods)
+  socketMethods.registerSceneSocketEvents(this.scene.key, methods)
+  socketMethods.enterScene(this.scene.key)
   registerWorldEvents(this, methods, socketMethods)
-  socketMethods.readStateFromServer()
   registerInputEvents(this, methods, socketMethods)
 
   cursors.up.on(
@@ -115,7 +149,7 @@ function create() {
   this.input.on('pointerdown', function () {
     const player = methods.getPlayer(userId)
     if (readyToShoot) {
-      socketMethods.broadcast(methods, 'shoot', {
+      socketMethods.clientsInScene(scene.scene.key, methods, 'shoot', {
         builderId: player.id,
         from: player.position,
         to: { x: aim.x, y: aim.y }
@@ -134,62 +168,37 @@ function create() {
   scene.scene.launch('GUI')
 }
 
-const movePlayer = (player: Player) => {
-  const char = charactors[player.charactorKey]
-  const charVelocity = char.velocity
-  const velocity = { x: 0, y: 0 }
-  if (cursors.left.isDown) {
-    velocity.x = -charVelocity
-  } else if (cursors.right.isDown) {
-    velocity.x = charVelocity
-  } else {
-    velocity.x = 0
-  }
-
-  const prevVelocity = player.velocity.x
-
-  player.velocity.x = velocity.x
-  player.velocity.y = velocity.y
-  player.phaserObject.setVelocityX(velocity.x)
-
-  const newAnimation = player.velocity.x === 0 ? 'idle' : 'move'
-  const oldAnimation = prevVelocity === 0 ? 'idle' : 'move'
-  const changeAnimation = newAnimation !== oldAnimation
-  if (changeAnimation) {
-    socketMethods.broadcast(methods, 'updatePlayerAnimation', userId, newAnimation)
-  }
-}
-
-const updateAim = (scene, player) => {
-  const position = pointer.positionToCamera(scene.cameras.main)
-  aim.setX(position.x)
-  aim.setY(position.y)
-
-  const newDirection = position.x < player.position.x ? 'left' : 'right'
-  const changeDirection = aimDirection !== newDirection
-  if (changeDirection) {
-    socketMethods.broadcast(methods, 'updatePlayerDirection', userId, newDirection)
-  }
-}
-
-function update(dt) {
+function update(t, dt) {
   const player = methods.getPlayer(userId)
   if (!player || !player.phaserObject) return
   FOV.update(this, player.position)
-  movePlayer(player)
+  movePlayer(this, player)
   updateAim(this, player)
 
   Object.keys(this.arrows).forEach(
     id => this.arrows[id].align()
   )
 
-  socketMethods.broadcast(
+  socketMethods.clientsInScene(
+    this.scene.key,
     methods,
     'updatePlayerPosition',
     userId,
     { x: player.phaserObject.x, y: player.phaserObject.y }
   )
-  socketMethods.writeStateToServer(userId, player)
+  socketMethods.server('writePlayer', player)
+
+  if (player.health <= 0) {
+    player.resurrectCountDown -= dt
+    if (player.resurrectCountDown <= 0) {
+      socketMethods.clientsInScene(
+        this.scene.key,
+        methods,
+        'resurrect',
+        player.id
+      )
+    }
+  }
 }
 
 export default {

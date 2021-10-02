@@ -10,7 +10,7 @@
     "fileStates": {
         "": {
             "scaleInDock": 2.4261,
-            "scaleInEditor": 4.15
+            "scaleInEditor": 7.33
         },
         "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx": {
             "scaleInDock": 1,
@@ -111,8 +111,8 @@
             "scale": 2.61,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 115.3256704980843,
-                "y": 330.0766283524904
+                "x": 126.0536398467433,
+                "y": 348.0842911877395
             }
         },
         "jumpPlatForm.tmx#forestTileSet": {
@@ -128,6 +128,17 @@
         },
         "map.tmx#tileset": {
             "scaleInDock": 1
+        },
+        "readyRoom.tmx": {
+            "scale": 2.20875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 161.62988115449912,
+                "y": 69.9490662139219
+            }
+        },
+        "readyRoom.tmx#forestTileSet": {
+            "scaleInDock": 2.1438
         },
         "shootingPlatform.tmx": {
             "scale": 3.25,
@@ -209,7 +220,7 @@
     "last.exportedFilePath": "/Users/roywang/Desktop/typeScript/client/statics/tile",
     "last.imagePath": "/Users/roywang/Desktop/typeScript/client/statics/tile",
     "map.fixedSize": true,
-    "map.height": 60,
+    "map.height": 20,
     "map.lastUsedExportFilter": "JSON map files (*.json)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
@@ -221,8 +232,9 @@
     "project": "tile_project.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "waitingRoom.tmx",
+        "readyRoom.tmx",
         "jumpPlatForm.tmx",
+        "waitingRoom.tmx",
         "shootingPlatform.tmx",
         "anim.tsx",
         "waitingRoom.json",
@@ -231,8 +243,7 @@
         "/Users/roywang/Desktop/tile_trial/ghost_room.tmx",
         "/Users/roywang/Desktop/tile_trial/small_map.tmx",
         "/Users/roywang/Desktop/tile_trial/dungeon_map.tmx",
-        "/Users/roywang/Desktop/tile_trial/tileset_test.tsx",
-        "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx"
+        "/Users/roywang/Desktop/tile_trial/tileset_test.tsx"
     ],
     "tileset.embedInMap": true,
     "tileset.lastUsedFormat": "tsx",

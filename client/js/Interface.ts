@@ -24,7 +24,8 @@ export interface Player {
   items: Item[],
   bullet: string,
   abilities: Abilities,
-  coins: number
+  coins: number,
+  resurrectCountDown: number
 }
 export interface Monster {
   interface: 'Monster',

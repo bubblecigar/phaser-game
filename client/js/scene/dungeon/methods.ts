@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import Phaser from 'phaser'
 import { v4 } from 'uuid'
-
+import setting from '../../../../share/setting.json'
 import charactors from '../../charactors'
 import items from '../../items'
 import { getLocalUserData } from '../../user'
@@ -9,6 +9,7 @@ import { Player, Bullet, Item, GameState, Monster, Point } from '../../Interface
 import gameState from '../../game/state'
 import gameConfig from '../../game/config'
 import { shoot } from './shoot'
+import { socketMethods } from '../../index'
 
 const userId = getLocalUserData().userId
 
@@ -123,6 +124,35 @@ const gameMethods = scene => {
           methods.addPlayer(player)
         }
       )
+
+      const hasUser = players.some(player => player.id === userId)
+      if (!hasUser) {
+        methods.spawnUser()
+      }
+    },
+    spawnUser: () => {
+      // spawn at tile map's spawn point
+      try {
+        const itemLayer = scene.map.objects.find(o => o.name === 'item_layer')
+        const spawnPoint = itemLayer.objects.find(o => o.name === 'spawn_point')
+        socketMethods.clientsInScene(scene.scene.key, methods, 'addPlayer', {
+          interface: 'Player',
+          id: userId,
+          charactorKey: setting.initCharactor,
+          position: { x: spawnPoint.x, y: spawnPoint.y },
+          velocity: { x: 0, y: 0 },
+          health: setting.initHealth,
+          resurrectCountDown: setting.resurrectCountDown,
+          coins: 0,
+          items: [],
+          bullet: 'arrow',
+          abilities: null,
+          phaserObject: null
+        })
+      } catch (error) {
+        console.log('tile map does not have item_layer or item_layer contains no spawn_point')
+        console.log(error)
+      }
     },
     syncItems: (items: Item[]) => {
       gameState.items.forEach(
@@ -252,35 +282,49 @@ const gameMethods = scene => {
       const healthBar = player.phaserObject.getByName('health-bar')
       healthBar.setSize(percentage * (maxBar.width - 2), healthBar.height)
     },
+    resurrect: (playerId: string) => {
+      const player = methods.getPlayer(playerId)
+      const playerConstructor = {
+        ...player,
+        charactorKey: setting.resurrectCharactor,
+        health: charactors[setting.resurrectCharactor].maxHealth,
+        resurrectCountDown: setting.resurrectCountDown
+      }
+      methods.setPlayer(playerConstructor)
+    },
+    onDead: (playerId: string) => {
+      const player = methods.getPlayer(playerId)
+      const halfCoinsCount = Math.floor((player.coins) / 2)
+      const ghostCharactor: Player = {
+        ...player,
+        charactorKey: 'skull',
+        velocity: { x: 0, y: 0 },
+        health: 0,
+        coins: halfCoinsCount,
+        resurrectCountDown: setting.resurrectCountDown,
+        phaserObject: null
+      }
+      methods.setPlayer(ghostCharactor)
+      methods.dropCoin(player.position)
+    },
+    dropCoin: (position: Point) => {
+      const itemConstructor: Item = {
+        interface: 'Item',
+        id: v4(),
+        itemKey: 'coin',
+        position,
+        velocity: { x: 0, y: -0.2 },
+        phaserObject: null
+      }
+      methods.addItem(itemConstructor)
+    },
     onHit: (playerId: string, bullet: Bullet) => {
       const player = methods.getPlayer(playerId)
       player.health -= bullet.damage
-      methods.updatePlayerHealthBar(playerId)
-
-      if (player.health <= 0) {
+      if (player.health < 0) {
         player.health = 0
-        const halfCoinsCount = Math.floor((player.coins) / 2)
-        const ghostCharactor: Player = {
-          ...player,
-          charactorKey: 'skull',
-          velocity: { x: 0, y: 0 },
-          phaserObject: null,
-          health: 0,
-          items: [],
-          coins: halfCoinsCount
-        }
-        methods.setPlayer(ghostCharactor)
-        const coinSpawnPoint = player.position
-        const itemConstructor: Item = {
-          interface: 'Item',
-          id: v4(),
-          itemKey: 'coin',
-          position: coinSpawnPoint,
-          velocity: { x: 0, y: -0.2 },
-          phaserObject: null
-        }
-        methods.addItem(itemConstructor)
       }
+      methods.updatePlayerHealthBar(playerId)
     },
     addItem: (itemConstructor: Item): Item => {
       const { id, position, itemKey, velocity } = itemConstructor

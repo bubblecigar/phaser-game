@@ -1,6 +1,7 @@
 import gameConfig from '../../game/config'
 import { generateInputForm } from './form'
 import { setLocalUserData, getLocalUserData } from '../../user'
+import { socketMethods } from '../../index'
 
 function init() {
 
@@ -12,6 +13,8 @@ function preload() {
 
 function create() {
   const scene = this
+  const sceneKey = scene.scene.key
+  socketMethods.registerSceneSocketEvents(sceneKey, {})
 
   const element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2).createFromHTML(generateInputForm())
   const inputUsername = element.getChildByName('username')
@@ -27,8 +30,7 @@ function create() {
           username: inputUsername.value,
           roomId: inputRoomId.value
         })
-        this.removeListener('click')
-        scene.scene.start('dungeon')
+        socketMethods.changeRoom(inputRoomId.value)
       }
     }
 

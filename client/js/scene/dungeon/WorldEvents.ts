@@ -111,8 +111,12 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
         return
       }
       if (player.isUser) {
-        socketMethods.broadcast(methods, 'onHit', player.data.id, _.omit(bullet.data, 'phaserObject'))
+        socketMethods.clientsInScene(scene.scene.key, methods, 'onHit', player.data.id, _.omit(bullet.data, 'phaserObject'))
         scene.cameras.main.shake(100, 0.01)
+        const _player = methods.getPlayer(player.data.id)
+        if (_player.health <= 0) {
+          socketMethods.clientsInScene(scene.scene.key, methods, 'onDead', player.data.id)
+        }
       }
       bullet.data.destroy()
     } else if (bullet && tile) {
@@ -120,8 +124,8 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
     } else if (player && item) {
       if (item.data.itemKey === 'coin') {
         if (player.isUser) {
-          socketMethods.broadcast(methods, 'collectItem', player.data.id, _.omit(item.data, 'phaserObject'))
-          socketMethods.serverGameStateUpdate('collectItem', { itemId: item.data.id })
+          socketMethods.clientsInScene(scene.scene.key, methods, 'collectItem', player.data.id, _.omit(item.data, 'phaserObject'))
+          socketMethods.server('collectItem', item.data.id)
           scene.cameras.main.shake(100, 0.01)
         } else {
           item.data.phaserObject.destroy()
