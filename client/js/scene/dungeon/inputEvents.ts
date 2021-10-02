@@ -2,7 +2,6 @@ import _ from 'lodash'
 import { Player } from '../../Interface'
 import { getLocalUserData } from '../../user'
 import charactors from '../../charactors/index'
-import mapConfigs from '../../maps/mapConfigs'
 
 const registerInputEvents = (scene, methods, socketMethods) => {
   scene.input.keyboard.on(
@@ -16,11 +15,6 @@ const registerInputEvents = (scene, methods, socketMethods) => {
         }
         case 'w': {
           scene.scale.toggleFullscreen();
-          break
-        }
-        case 's': {
-          const randomMapConfigKey = Object.keys(mapConfigs)[Math.floor(Math.random() * 10) % (Object.keys(mapConfigs).length)]
-          socketMethods.clientsInScene(scene.scene.key, methods, 'syncMap', randomMapConfigKey)
           break
         }
         case 'c': {
