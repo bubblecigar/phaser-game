@@ -46,7 +46,7 @@ io.on('connection', async function (socket) {
 
   socket.on('disconnect', async function () {
     if (room) {
-      rooms.disconnectFromRoom(room.id, userState.userId)
+      rooms.disconnectFromRoom(room.id, userState.userId, socket)
       room.methods.syncAllClients('all-scene')
     }
   })

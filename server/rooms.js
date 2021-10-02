@@ -190,13 +190,6 @@ const reconnectPlayer = (room, userId) => {
 }
 
 const connectToRoom = (roomId, userId, socket) => {
-  socket.rooms.forEach(
-    id => {
-      if (id !== socket.id) {
-        socket.leave(id)
-      }
-    }
-  )
   socket.join(roomId)
 
   const room = rooms[roomId] || createRoom(roomId)
@@ -205,7 +198,14 @@ const connectToRoom = (roomId, userId, socket) => {
   return rooms[roomId]
 }
 
-const disconnectFromRoom = (roomId, userId) => {
+const disconnectFromRoom = (roomId, userId, socket) => {
+  socket.rooms.forEach(
+    id => {
+      if (id !== socket.id) {
+        socket.leave(id)
+      }
+    }
+  )
   const room = rooms[roomId]
   if (!room) {
     return // room already closed
