@@ -15,9 +15,40 @@ export const connectToServer = () => {
 export const getSocketMethods = socket => {
   let sceneListners = []
   return {
-    registerGameSocketEvents: (game) => {
-      socket.on('game', () => {
+    registerGameSocketEvents: game => {
+      socket.on('game', (key, ...args) => {
+        const methods = {
+          updateGameStatus: gameStatus => {
+            const statusSceneMap = {
+              "waiting": ["waitingRoom"],
+              "processing": ["dungeon", "GUI"],
+              "ending": ["login"]
+            }
 
+            const scenesToRun = statusSceneMap[gameStatus]
+            const scenesActived = game.scene.getScenes(true)
+
+            scenesActived.forEach(
+              scene => {
+                const sceneKey = scene.scene.key
+                if (!scenesToRun.includes(sceneKey)) {
+                  game.scene.stop(sceneKey)
+                }
+              }
+            )
+
+            scenesToRun.forEach(
+              sceneKey => {
+                game.scene.run(sceneKey)
+              }
+            )
+          }
+        }
+        try {
+          methods[key](...args)
+        } catch (error) {
+          console.log(error)
+        }
       })
     },
     registerSceneSocketEvents: (sceneKey, methods) => {

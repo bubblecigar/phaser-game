@@ -22,6 +22,7 @@ io.on('connection', async function (socket) {
       rooms.disconnectFromRoom(room.id, userState.userId)
     }
     room = rooms.connectToRoom(roomId, userState.userId, socket)
+    io.to(socket.id).emit('game', 'updateGameStatus', room.gameStatus)
   })
 
   socket.on('enter-scene', (sceneKey) => {
