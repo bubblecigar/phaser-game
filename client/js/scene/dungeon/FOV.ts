@@ -26,7 +26,7 @@ const setUpLayers = (map, tileset) => {
   return layers
 }
 
-const setUpFOVmask = (scene, map) => {
+const registerRayCaster = (scene, map) => {
   scene.raycaster = scene.raycasterPlugin.createRaycaster()
   scene.ray = scene.raycaster.createRay({
     origin: {
@@ -35,39 +35,17 @@ const setUpFOVmask = (scene, map) => {
     }
   })
 
-  const fov_layer = map.objects.find(o => o.name === 'fov_layer')
-  const fovObjects = []
-  if (fov_layer && fov_layer.objects) {
-    fov_layer.objects.forEach(
-      object => {
-        if (object.polygon) {
-          const polygon = scene.add.polygon(object.x, object.y, object.polygon)
-          polygon.setOrigin(0, 0)
-          fovObjects.push(polygon)
-
-          const sensor = scene.matter.add.fromVertices(object.x, object.y, object.polygon, { isSensor: true, isStatic: true })
-          scene.matter.alignBody(sensor, object.x, object.y, Phaser.Display.Align.TOP_LEFT)
-          const nullGameObject = new Phaser.GameObjects.GameObject(scene, 'null')
-          const sensorGameObj = scene.matter.add.gameObject(nullGameObject, sensor)
-          sensorGameObj.setData({ interface: 'fov-sensor' })
-        } else if (object.rectangle) {
-          const { x, y, width, height } = object
-          const rect = scene.add.rectangle(x, y, width, height)
-          rect.setOrigin(0, 0)
-          fovObjects.push(rect)
-        }
-      }
-    )
-  }
-  // scene.raycaster.mapGameObjects(fovObjects)
   const wallLayerData = map.layers.find(o => o.name === 'wall_layer')
-  scene.raycaster.mapGameObjects([wallLayerData.tilemapLayer, ...fovObjects], false, {
+  scene.raycaster.mapGameObjects([wallLayerData.tilemapLayer], false, {
     //array of tile types which collide with rays
     collisionTiles: [1, 2, 3, 22, 30, 31, 32, 38, 39, 40]
   })
+}
 
+const setUpFOVmask = (scene, map) => {
+  registerRayCaster(scene, map)
   graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.05 } })
-  const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
+  const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics)
   mask.setInvertAlpha()
   return mask
 }
