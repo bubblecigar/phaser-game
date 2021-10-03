@@ -42,7 +42,7 @@ const registerRayCaster = (scene, map) => {
   })
 }
 
-const setUpFOVmask = (scene, map) => {
+const setUpFOVmask = (scene) => {
   graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.05 } })
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics)
   mask.setInvertAlpha()
