@@ -52,7 +52,7 @@ const setUpFOVmask = (scene) => {
 const setUpBackgroundRenderer = (scene, mask, map, layers) => {
   const renderTexture = scene.add.renderTexture(0, 0, map.widthInPixels, map.heightInPixels)
   renderTexture.setDepth(10)
-  renderTexture.setMask(mask);
+  renderTexture.setMask(mask)
   renderTexture.clear()
   renderTexture.fill('#000000', 1)
   renderTexture.draw(layers)
