@@ -65,7 +65,7 @@ const createBackground = (scene, config: MapConfig) => {
   const tileset = setUpTileset(map, tilesetKey)
   const layers = setUpLayers(map, tileset)
   registerRayCaster(scene, map)
-  const mask = setUpFOVmask(scene, map)
+  const mask = setUpFOVmask(scene)
   setUpBackgroundRenderer(scene, mask, map, layers)
   return map
 }
