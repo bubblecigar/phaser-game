@@ -8,11 +8,12 @@ const setUpMap = (scene, key) => {
   scene.matter.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   return map
 }
-const setUpTileset = (map, key) => {
-  const tileset = map.addTilesetImage(key)
+const setUpTileset = (scene, key) => {
+  const tileset = scene.map.addTilesetImage(key)
   return tileset
 }
-const setUpTileLayers = (map, tileset) => {
+const setUpTileLayers = (scene, tileset) => {
+  const map = scene.map
   const layers = []
   map.layers.forEach(layer => {
     const l = map.createLayer(layer.name, tileset, 0, 0)
@@ -24,20 +25,16 @@ const setUpTileLayers = (map, tileset) => {
   return layers
 }
 
-const registerRayCaster = (scene, map) => {
-  scene.raycaster = scene.raycasterPlugin.createRaycaster()
-  scene.ray = scene.raycaster.createRay({
-    origin: {
-      x: gameConfig.canvasWidth / 2,
-      y: gameConfig.canvasHeight / 2,
-    }
-  })
+const setUpRayCaster = (scene) => {
+  const raycaster = scene.raycasterPlugin.createRaycaster()
 
-  const wallLayerData = map.layers.find(o => o.name === 'wall_layer')
-  scene.raycaster.mapGameObjects([wallLayerData.tilemapLayer], false, {
+  const wallLayerData = scene.map.layers.find(o => o.name === 'wall_layer')
+  raycaster.mapGameObjects([wallLayerData.tilemapLayer], false, {
     //array of tile types which collide with rays
     collisionTiles: [1, 2, 3, 22, 30, 31, 32, 38, 39, 40]
   })
+
+  return raycaster
 }
 
 const setUpFOVmask = (scene, graphics) => {
@@ -46,7 +43,8 @@ const setUpFOVmask = (scene, graphics) => {
   return mask
 }
 
-const setUpBackgroundRenderer = (scene, mask, map, layers) => {
+const setUpBackgroundRenderer = (scene, mask, layers) => {
+  const map = scene.map
   const renderTexture = scene.add.renderTexture(0, 0, map.widthInPixels, map.heightInPixels)
   renderTexture.setDepth(10)
   renderTexture.setMask(mask)
@@ -56,30 +54,36 @@ const setUpBackgroundRenderer = (scene, mask, map, layers) => {
   return renderTexture
 }
 
-const createBackground = (scene, config: MapConfig) => {
+const createMap = (scene, config: MapConfig) => {
   const { mapKey, tilesetKey } = config
-  const map = setUpMap(scene, mapKey)
-  const tileset = setUpTileset(map, tilesetKey)
-  const layers = setUpTileLayers(map, tileset)
 
-  registerRayCaster(scene, map)
+  scene.map = setUpMap(scene, mapKey)
+  const tileset = setUpTileset(scene, tilesetKey)
+  const layers = setUpTileLayers(scene, tileset)
+
+  scene.rayCaster = setUpRayCaster(scene)
+  scene.ray = scene.rayCaster.createRay({
+    origin: {
+      x: gameConfig.canvasWidth / 2,
+      y: gameConfig.canvasHeight / 2,
+    }
+  })
+
   scene.rendererBoundary = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.05 } })
   const mask = setUpFOVmask(scene, scene.rendererBoundary)
-  setUpBackgroundRenderer(scene, mask, map, layers)
-
-  return map
+  setUpBackgroundRenderer(scene, mask, layers)
 }
 
-const updateBackground = (scene, position) => {
+const updateFOV = (scene, position) => {
   scene.ray.setOrigin(position.x, position.y)
   const intersections = scene.ray.castCircle()
   scene.rendererBoundary.clear()
   scene.rendererBoundary.fillPoints(intersections)
 }
 
-const FOV = {
-  create: createBackground,
-  update: updateBackground
+const backgroundMap = {
+  create: createMap,
+  update: updateFOV
 }
 
-export default FOV
+export default backgroundMap

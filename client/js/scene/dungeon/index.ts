@@ -5,7 +5,7 @@ import { getLocalUserData } from '../../user'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
 import sceneMap from '../../maps/sceneMap'
-import FOV from './FOV'
+import backgroundMap from './backgroundMap'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
 import targetUrl from '../../../statics/tile/target.png'
@@ -96,7 +96,7 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys()
   pointer = this.input.activePointer
   registerAimingTarget(this)
-  this.map = FOV.create(this, sceneMap[this.scene.key])
+  backgroundMap.create(this, sceneMap[this.scene.key])
 
   Object.keys(charactors).forEach(
     key => {
@@ -171,7 +171,7 @@ function create() {
 function update(t, dt) {
   const player = methods.getPlayer(userId)
   if (!player || !player.phaserObject) return
-  FOV.update(this, player.position)
+  backgroundMap.update(this, player.position)
   movePlayer(this, player)
   updateAim(this, player)
 
