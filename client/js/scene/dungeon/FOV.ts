@@ -14,7 +14,7 @@ const setUpTileset = (map, key) => {
   const tileset = map.addTilesetImage(key)
   return tileset
 }
-const setUpLayer = (map, tileset) => {
+const setUpLayers = (map, tileset) => {
   const layers = []
   map.layers.forEach(layer => {
     const l = map.createLayer(layer.name, tileset, 0, 0)
@@ -86,7 +86,7 @@ const createBackground = (scene, config: MapConfig) => {
   const { mapKey, tilesetKey } = config
   const map = setUpMap(scene, mapKey)
   const tileset = setUpTileset(map, tilesetKey)
-  const layers = setUpLayer(map, tileset)
+  const layers = setUpLayers(map, tileset)
   const mask = setUpFOVmask(scene, map)
   setUpBackgroundRenderer(scene, mask, map, layers)
   return map
