@@ -3,8 +3,6 @@ import _ from 'lodash'
 import gameConfig from '../../game/config'
 import { MapConfig } from '../../maps/sceneMap'
 
-let graphics
-
 const setUpMap = (scene, key) => {
   const map = scene.make.tilemap({ key })
   scene.matter.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -42,8 +40,7 @@ const registerRayCaster = (scene, map) => {
   })
 }
 
-const setUpFOVmask = (scene) => {
-  graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.05 } })
+const setUpFOVmask = (scene, graphics) => {
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics)
   mask.setInvertAlpha()
   return mask
@@ -64,17 +61,20 @@ const createBackground = (scene, config: MapConfig) => {
   const map = setUpMap(scene, mapKey)
   const tileset = setUpTileset(map, tilesetKey)
   const layers = setUpTileLayers(map, tileset)
+
   registerRayCaster(scene, map)
-  const mask = setUpFOVmask(scene)
+  scene.rendererBoundary = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.05 } })
+  const mask = setUpFOVmask(scene, scene.rendererBoundary)
   setUpBackgroundRenderer(scene, mask, map, layers)
+
   return map
 }
 
 const updateBackground = (scene, position) => {
   scene.ray.setOrigin(position.x, position.y)
   const intersections = scene.ray.castCircle()
-  graphics.clear()
-  graphics.fillPoints(intersections)
+  scene.rendererBoundary.clear()
+  scene.rendererBoundary.fillPoints(intersections)
 }
 
 const FOV = {
