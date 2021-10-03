@@ -96,7 +96,7 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys()
   pointer = this.input.activePointer
   registerAimingTarget(this)
-  backgroundMap.create(this, sceneMap[this.scene.key])
+  backgroundMap.registerMap(this, sceneMap[this.scene.key])
 
   Object.keys(charactors).forEach(
     key => {
@@ -171,7 +171,7 @@ function create() {
 function update(t, dt) {
   const player = methods.getPlayer(userId)
   if (!player || !player.phaserObject) return
-  backgroundMap.update(this, player.position)
+  backgroundMap.updateFOV(this, player.position)
   movePlayer(this, player)
   updateAim(this, player)
 

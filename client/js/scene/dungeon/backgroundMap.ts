@@ -54,7 +54,7 @@ const setUpBackgroundRenderer = (scene, mask, layers) => {
   return renderTexture
 }
 
-const createMap = (scene, config: MapConfig) => {
+const registerMap = (scene, config: MapConfig) => {
   const { mapKey, tilesetKey } = config
 
   scene.map = setUpMap(scene, mapKey)
@@ -82,8 +82,8 @@ const updateFOV = (scene, position) => {
 }
 
 const backgroundMap = {
-  create: createMap,
-  update: updateFOV
+  registerMap,
+  updateFOV
 }
 
 export default backgroundMap
