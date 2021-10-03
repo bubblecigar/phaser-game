@@ -59,7 +59,7 @@ const registerMap = (scene, config: MapConfig) => {
 
   scene.map = setUpMap(scene, mapKey)
   const tileset = setUpTileset(scene, tilesetKey)
-  const layers = setUpTileLayers(scene, tileset)
+  const tileLayers = setUpTileLayers(scene, tileset)
 
   scene.rayCaster = setUpRayCaster(scene)
   scene.ray = scene.rayCaster.createRay({
@@ -71,7 +71,7 @@ const registerMap = (scene, config: MapConfig) => {
 
   scene.rendererBoundary = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.05 } })
   const mask = setUpFOVmask(scene, scene.rendererBoundary)
-  setUpBackgroundRenderer(scene, mask, layers)
+  setUpBackgroundRenderer(scene, mask, tileLayers)
 }
 
 const updateFOV = (scene, position) => {
