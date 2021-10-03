@@ -43,7 +43,6 @@ const registerRayCaster = (scene, map) => {
 }
 
 const setUpFOVmask = (scene, map) => {
-  registerRayCaster(scene, map)
   graphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.05 } })
   const mask = new Phaser.Display.Masks.GeometryMask(scene, graphics)
   mask.setInvertAlpha()
@@ -65,6 +64,7 @@ const createBackground = (scene, config: MapConfig) => {
   const map = setUpMap(scene, mapKey)
   const tileset = setUpTileset(map, tilesetKey)
   const layers = setUpLayers(map, tileset)
+  registerRayCaster(scene, map)
   const mask = setUpFOVmask(scene, map)
   setUpBackgroundRenderer(scene, mask, map, layers)
   return map
