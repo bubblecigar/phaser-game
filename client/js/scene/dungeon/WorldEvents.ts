@@ -19,7 +19,8 @@ const classifyCollisionTargets = (bodyA, bodyB) => {
     player: null,
     bullet: null,
     tile: null,
-    item: null
+    item: null,
+    sensor: null
   }
 
   try {
@@ -92,18 +93,46 @@ const classifyCollisionTargets = (bodyA, bodyB) => {
     // no item
   }
 
+  try {
+    const dataA = bodyA?.gameObject?.data?.getAll()
+    const dataB = bodyB?.gameObject?.data?.getAll()
+    if (dataA && dataA.interface === 'Sensor') {
+      collisionTargets.sensor = {
+        data: dataA,
+        body: bodyA
+      }
+    } else if (dataB && dataB.interface === 'Sensor') {
+      collisionTargets.sensor = {
+        data: dataB,
+        body: bodyB
+      }
+    }
+  } catch (e) {
+    // no sensor
+  }
+
   return collisionTargets
 }
 
 const registerWorlEvents = (scene, methods, socketMethods) => {
   scene.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
     const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
-    const { player, bullet, tile, item } = collistionTargets
+    const { player, bullet, tile, item, sensor } = collistionTargets
     if (player && player.isUser && tile) {
       const dy = tile.body.position.y - player.body.position.y
       const tileAtTop = dy <= 0
       if (!tileAtTop) {
         player.body.gameObject.setData({ touched: true })
+      }
+    } else if (player && player.isUser && sensor) {
+      switch (sensor.data.name) {
+        case ('ready_zone'): {
+          console.log('user enter ready_zone')
+          break
+        }
+        default: {
+          console.log('user enter unknown sensor')
+        }
       }
     } else if (player && bullet) {
       if (player.data.id === bullet.data.builderId) {

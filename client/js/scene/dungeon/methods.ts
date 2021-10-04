@@ -19,9 +19,9 @@ const createPlayerMatter = (scene, player: Player) => {
   const { x, y } = player.position
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
   const rect = Bodies.rectangle(x, y, size.width, size.height, { label: 'player-body' })
-  const sensor = Bodies.circle(x, y, 1, { isSensor: true, label: 'body-sensor' })
+  // const sensor = Bodies.circle(x, y, 1, { isSensor: true, label: 'body-sensor' })
   const compound = Phaser.Physics.Matter.Matter.Body.create({
-    parts: [sensor, rect],
+    parts: [rect],
     inertia: Infinity,
     ignoreGravity: player.id === getLocalUserData().userId ? false : true
   })

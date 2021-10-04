@@ -44,6 +44,11 @@ export interface Item {
   velocity: Point,
   phaserObject: any
 }
+export interface Sensor {
+  interface: 'Sensor',
+  name: string,
+  phaserObject: any
+}
 export interface Bullet extends Omit<Item, 'interface'> {
   interface: 'Bullet',
   builderId: string,

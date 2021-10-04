@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import _ from 'lodash'
 import gameConfig from '../../game/config'
 import { MapConfig } from '../../maps/sceneMap'
+import { Sensor } from '../../Interface'
 
 const setUpMap = (scene, key) => {
   const map = scene.make.tilemap({ key })
@@ -54,12 +55,40 @@ const setUpBackgroundRenderer = (scene, mask, layers) => {
   return renderTexture
 }
 
+const setUpObjectLayers = scene => {
+  scene.map.objects.forEach(
+    objectLayer => {
+      objectLayer.objects.forEach(
+        object => {
+          if (object.type === 'sensor') {
+            const sensorData: Sensor = {
+              interface: 'Sensor',
+              name: object.name,
+              phaserObject: null
+            }
+            if (object.rectangle) {
+              const rectangle = scene.add.rectangle(object.x + object.width / 2, object.y + object.height / 2, object.width, object.height, 0xff0000)
+              const sensor = scene.matter.add.gameObject(rectangle, {
+                isSensor: true,
+                ignoreGravity: true
+              })
+              sensorData.phaserObject = sensor
+              sensor.setData(sensorData)
+            }
+          }
+        }
+      )
+    }
+  )
+}
+
 const registerMap = (scene, config: MapConfig) => {
   const { mapKey, tilesetKey } = config
 
   scene.map = setUpMap(scene, mapKey)
   const tileset = setUpTileset(scene, tilesetKey)
   const tileLayers = setUpTileLayers(scene, tileset)
+  const objectLayers = setUpObjectLayers(scene)
 
   scene.rayCaster = setUpRayCaster(scene)
   scene.ray = scene.rayCaster.createRay({
