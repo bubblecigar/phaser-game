@@ -133,8 +133,8 @@ const gameMethods = scene => {
     spawnUser: () => {
       // spawn at tile map's spawn point
       try {
-        const itemLayer = scene.map.objects.find(o => o.name === 'item_layer')
-        const spawnPoint = itemLayer.objects.find(o => o.name === 'spawn_point')
+        const infoLayer = scene.map.objects.find(o => o.name === 'info_layer')
+        const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
         socketMethods.clientsInScene(scene.scene.key, methods, 'addPlayer', {
           interface: 'Player',
           id: userId,
@@ -150,7 +150,7 @@ const gameMethods = scene => {
           phaserObject: null
         })
       } catch (error) {
-        console.log('tile map does not have item_layer or item_layer contains no spawn_point')
+        console.log('tile map does not have info_layer or info_layer contains no spawn_point')
         console.log(error)
       }
     },

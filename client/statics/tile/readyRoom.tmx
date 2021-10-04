@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="4">
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="8">
  <editorsettings>
   <export target="readyRoom.json" format="json"/>
  </editorsettings>
@@ -56,11 +56,16 @@
    </objectgroup>
   </tile>
  </tileset>
- <objectgroup id="2" name="item_layer">
-  <object id="1" name="spawn_point" x="28.6364" y="109.091">
+ <objectgroup id="2" name="sensor_layer">
+  <object id="4" name="ready_zone" type="sensor" x="180.682" y="69.5454" width="99.5455" height="64.5455"/>
+ </objectgroup>
+ <objectgroup id="4" name="fov_layer" visible="0">
+  <object id="5" name="room_fov" x="186.364" y="75.4545" width="92.2727" height="60"/>
+ </objectgroup>
+ <objectgroup id="5" name="info_layer">
+  <object id="7" name="spawn_point" x="29.5455" y="106.364">
    <point/>
   </object>
-  <object id="2" name="ready_zone" type="sensor" x="180.909" y="70.9091" width="102.273" height="64.5455"/>
  </objectgroup>
  <layer id="1" name="wall_layer" width="20" height="10">
   <data encoding="csv">

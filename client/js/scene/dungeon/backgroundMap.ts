@@ -56,28 +56,24 @@ const setUpBackgroundRenderer = (scene, mask, layers) => {
 }
 
 const setUpObjectLayers = scene => {
-  scene.map.objects.forEach(
-    objectLayer => {
-      objectLayer.objects.forEach(
-        object => {
-          if (object.type === 'sensor') {
-            const sensorData: Sensor = {
-              interface: 'Sensor',
-              name: object.name,
-              phaserObject: null
-            }
-            if (object.rectangle) {
-              const rectangle = scene.add.rectangle(object.x + object.width / 2, object.y + object.height / 2, object.width, object.height, 0xff0000)
-              const sensor = scene.matter.add.gameObject(rectangle, {
-                isSensor: true,
-                ignoreGravity: true
-              })
-              sensorData.phaserObject = sensor
-              sensor.setData(sensorData)
-            }
-          }
-        }
-      )
+  // fov_layer, info_layer, and sensor_layer
+  const sensorLayer = scene.map.objects.find(layer => layer.name = 'sensor_layer')
+  sensorLayer.objects.forEach(
+    object => {
+      const sensorData: Sensor = {
+        interface: 'Sensor',
+        name: object.name,
+        phaserObject: null
+      }
+      if (object.rectangle) {
+        const rectangle = scene.add.rectangle(object.x + object.width / 2, object.y + object.height / 2, object.width, object.height, 0xff0000)
+        const sensor = scene.matter.add.gameObject(rectangle, {
+          isSensor: true,
+          ignoreGravity: true
+        })
+        sensorData.phaserObject = sensor
+        sensor.setData(sensorData)
+      }
     }
   )
 }

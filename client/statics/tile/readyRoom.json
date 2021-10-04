@@ -13,30 +13,63 @@
         {
          "draworder":"topdown",
          "id":2,
-         "name":"item_layer",
+         "name":"sensor_layer",
+         "objects":[
+                {
+                 "height":64.5455,
+                 "id":4,
+                 "name":"ready_zone",
+                 "rotation":0,
+                 "type":"sensor",
+                 "visible":true,
+                 "width":99.5455,
+                 "x":180.681795454545,
+                 "y":69.5454318181818
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":4,
+         "name":"fov_layer",
+         "objects":[
+                {
+                 "height":60,
+                 "id":5,
+                 "name":"room_fov",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":92.2727272727273,
+                 "x":186.363636363636,
+                 "y":75.4545454545455
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":false,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":5,
+         "name":"info_layer",
          "objects":[
                 {
                  "height":0,
-                 "id":1,
+                 "id":7,
                  "name":"spawn_point",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":28.6363636363636,
-                 "y":109.090909090909
-                }, 
-                {
-                 "height":64.5454545454545,
-                 "id":2,
-                 "name":"ready_zone",
-                 "rotation":0,
-                 "type":"sensor",
-                 "visible":true,
-                 "width":102.272727272727,
-                 "x":180.909090909091,
-                 "y":70.9090909090909
+                 "x":29.5454545454546,
+                 "y":106.363636363636
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -68,8 +101,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":4,
- "nextobjectid":4,
+ "nextlayerid":6,
+ "nextobjectid":8,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.0",
