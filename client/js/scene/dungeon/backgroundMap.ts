@@ -66,7 +66,7 @@ const setUpObjectLayers = scene => {
         phaserObject: null
       }
       if (object.rectangle) {
-        const rectangle = scene.add.rectangle(object.x + object.width / 2, object.y + object.height / 2, object.width, object.height, 0xff0000)
+        const rectangle = scene.add.rectangle(object.x + object.width / 2, object.y + object.height / 2, object.width, object.height)
         const sensor = scene.matter.add.gameObject(rectangle, {
           isSensor: true,
           ignoreGravity: true
