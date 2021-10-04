@@ -130,6 +130,10 @@ const gameMethods = scene => {
         methods.spawnUser()
       }
     },
+    changeReadyState: (ready: boolean) => {
+      const player = methods.getPlayer(userId)
+      player.ready = ready
+    },
     spawnUser: () => {
       // spawn at tile map's spawn point
       try {
@@ -138,6 +142,7 @@ const gameMethods = scene => {
         socketMethods.clientsInScene(scene.scene.key, methods, 'addPlayer', {
           interface: 'Player',
           id: userId,
+          ready: false,
           charactorKey: setting.initCharactor,
           position: { x: spawnPoint.x, y: spawnPoint.y },
           velocity: { x: 0, y: 0 },

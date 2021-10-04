@@ -1,19 +1,6 @@
 import { getLocalUserData } from '../../user'
 import _ from 'lodash'
 
-// let cameraMask
-
-// const updateCamera = (scene, userBody, userData, targetBody, targetData) => {
-//   const isOverlap = scene.matter.overlap(userBody, targetBody.parent.parts)
-//   const camera = scene.cameras.main
-//   if (isOverlap) {
-//     cameraMask = camera.mask || cameraMask
-//     camera.clearMask()
-//   } else {
-//     camera.setMask(cameraMask)
-//   }
-// }
-
 const classifyCollisionTargets = (bodyA, bodyB) => {
   const collisionTargets = {
     player: null,
@@ -127,7 +114,7 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
     } else if (player && player.isUser && sensor) {
       switch (sensor.data.name) {
         case ('ready_zone'): {
-          console.log('user enter ready_zone')
+          methods.changeReadyState(true)
           break
         }
         default: {
@@ -164,7 +151,19 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
   })
 
   scene.matter.world.on('collisionend', function (event, bodyA, bodyB) {
-    // to be done
+    const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
+    const { player, bullet, tile, item, sensor } = collistionTargets
+    if (player && player.isUser && sensor) {
+      switch (sensor.data.name) {
+        case ('ready_zone'): {
+          methods.changeReadyState(false)
+          break
+        }
+        default: {
+          console.log('user leave unknown sensor')
+        }
+      }
+    }
   })
 }
 

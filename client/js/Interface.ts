@@ -19,6 +19,7 @@ export interface Player {
   velocity: Point,
   position: Point,
   charactorKey: string,
+  ready: boolean,
   phaserObject: any,
   health: number,
   items: Item[],
