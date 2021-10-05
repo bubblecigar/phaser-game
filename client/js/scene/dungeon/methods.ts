@@ -119,10 +119,26 @@ const gameMethods = scene => {
           methods.addPlayer(player)
         }
       )
-
-      const hasUser = players.some(player => player.id === userId)
-      if (!hasUser) {
+      const user = methods.getPlayer(userId)
+      if (!user) {
         methods.spawnUser()
+      } else {
+        const comeFromOtherScene = user.scene !== scene.scene.key
+        if (comeFromOtherScene) {
+          methods.moveUserToSpawnPoint()
+        }
+      }
+    },
+    moveUserToSpawnPoint: () => {
+      try {
+        const infoLayer = scene.map.objects.find(o => o.name === 'info_layer')
+        const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
+        const user = methods.getPlayer(userId)
+        user.phaserObject.setX(spawnPoint.x)
+        user.phaserObject.setY(spawnPoint.y)
+      } catch (error) {
+        console.log('tile map does not have info_layer or info_layer contains no spawn_point')
+        console.log(error)
       }
     },
     changeReadyState: (ready: boolean) => {
