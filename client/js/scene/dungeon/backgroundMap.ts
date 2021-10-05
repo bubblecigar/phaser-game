@@ -57,7 +57,7 @@ const setUpBackgroundRenderer = (scene, mask, layers) => {
 
 const setUpObjectLayers = scene => {
   // fov_layer, info_layer, and sensor_layer
-  const sensorLayer = scene.map.objects.find(layer => layer.name = 'sensor_layer')
+  const sensorLayer = scene.map.objects.find(layer => layer.name === 'sensor_layer')
   sensorLayer.objects.forEach(
     object => {
       const sensorData: Sensor = {
