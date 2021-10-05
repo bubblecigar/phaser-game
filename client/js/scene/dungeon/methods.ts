@@ -134,6 +134,7 @@ const gameMethods = scene => {
       try {
         const infoLayer = scene.map.objects.find(o => o.name === 'info_layer')
         const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
+        const initHealth = charactors[setting.initCharactor].maxHealth
         socketMethods.clientsInScene(scene.scene.key, methods, 'addPlayer', {
           interface: 'Player',
           id: userId,
@@ -142,7 +143,7 @@ const gameMethods = scene => {
           charactorKey: setting.initCharactor,
           position: { x: spawnPoint.x, y: spawnPoint.y },
           velocity: { x: 0, y: 0 },
-          health: setting.initHealth,
+          health: initHealth,
           resurrectCountDown: setting.resurrectCountDown,
           coins: 0,
           items: [],

@@ -1,9 +1,8 @@
 {
   "initCharactor": "tinyZombie",
-  "initHealth": 20,
-  "minumumPlayers": 2,
   "deadCharactor": "skull",
   "resurrectCharactor": "tinyZombie",
+  "minumumPlayers": 2,
   "resurrectCountDown": 5000,
   "gameStartCountDown": 1000,
   "coinsToWin": 3,
