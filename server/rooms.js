@@ -181,7 +181,7 @@ const changeGameStatus = (roomId, newGameStatus) => {
   } else if (newGameStatus === 'ending') {
     gameStatusIntervals.push(registerEndingIntervals(roomId))
   } else {
-    // throw
+    // wrong status, throw
   }
 
   room.gameStatus = newGameStatus
