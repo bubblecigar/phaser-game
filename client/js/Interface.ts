@@ -20,6 +20,7 @@ export interface Player {
   position: Point,
   charactorKey: string,
   ready: boolean,
+  scene: string,
   phaserObject: any,
   health: number,
   items: Item[],
@@ -58,7 +59,6 @@ export interface Bullet extends Omit<Item, 'interface'> {
   duration: number
 }
 export interface GameState {
-  mapConfigKey: String,
   players: Player[],
   items: Item[],
   monsters: Monster[]

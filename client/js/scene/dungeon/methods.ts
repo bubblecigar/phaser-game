@@ -107,11 +107,6 @@ const gameMethods = scene => {
       methods.syncPlayers(serverGameState.players)
       methods.syncItems(serverGameState.items)
     },
-    syncMap: (mapConfigKey: String) => {
-      gameState.mapConfigKey = mapConfigKey
-      methods.init()
-      scene.scene.restart({ mapConfigKey })
-    },
     syncPlayers: (players: Player[]) => {
       gameState.players.forEach(
         player => {
@@ -143,6 +138,7 @@ const gameMethods = scene => {
           interface: 'Player',
           id: userId,
           ready: false,
+          scene: scene.scene.key,
           charactorKey: setting.initCharactor,
           position: { x: spawnPoint.x, y: spawnPoint.y },
           velocity: { x: 0, y: 0 },
