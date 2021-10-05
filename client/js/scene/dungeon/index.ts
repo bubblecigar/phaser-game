@@ -169,35 +169,39 @@ function create() {
 }
 
 function update(t, dt) {
-  const player = methods.getPlayer(userId)
-  if (!player || !player.phaserObject) return
-  backgroundMap.updateFOV(this, player.position)
-  movePlayer(this, player)
-  updateAim(this, player)
+  try {
+    const player = methods.getPlayer(userId)
+    if (!player || !player.phaserObject) return
+    backgroundMap.updateFOV(this, player.position)
+    movePlayer(this, player)
+    updateAim(this, player)
 
-  Object.keys(this.arrows).forEach(
-    id => this.arrows[id].align()
-  )
+    Object.keys(this.arrows).forEach(
+      id => this.arrows[id].align()
+    )
 
-  socketMethods.clientsInScene(
-    this.scene.key,
-    methods,
-    'updatePlayerPosition',
-    userId,
-    { x: player.phaserObject.x, y: player.phaserObject.y }
-  )
-  socketMethods.server('writePlayer', _.omit(player, 'phaserObject'))
+    socketMethods.clientsInScene(
+      this.scene.key,
+      methods,
+      'updatePlayerPosition',
+      userId,
+      { x: player.phaserObject.x, y: player.phaserObject.y }
+    )
+    socketMethods.server('writePlayer', _.omit(player, 'phaserObject'))
 
-  if (player.health <= 0) {
-    player.resurrectCountDown -= dt
-    if (player.resurrectCountDown <= 0) {
-      socketMethods.clientsInScene(
-        this.scene.key,
-        methods,
-        'resurrect',
-        player.id
-      )
+    if (player.health <= 0) {
+      player.resurrectCountDown -= dt
+      if (player.resurrectCountDown <= 0) {
+        socketMethods.clientsInScene(
+          this.scene.key,
+          methods,
+          'resurrect',
+          player.id
+        )
+      }
     }
+  } catch (error) {
+    console.log(error)
   }
 }
 
