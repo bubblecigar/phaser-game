@@ -21,25 +21,25 @@ export const getSocketMethods = socket => {
           updateGameStatus: gameStatus => {
             const statusSceneMap = {
               "waiting": ["waitingRoom"],
-              "processing": ["dungeon", "GUI"],
+              "processing": ["dungeon"],
               "ending": ["login"]
             }
 
             const scenesToRun = statusSceneMap[gameStatus]
-            const scenesActived = game.scene.getScenes(true)
+            const scenesActived = game.scene.getScenes(true).map(s => s.scene.key)
+            const scenesToStop = scenesActived.filter(key => !scenesToRun.includes(key))
 
-            scenesActived.forEach(
-              scene => {
-                const sceneKey = scene.scene.key
-                if (!scenesToRun.includes(sceneKey)) {
-                  game.scene.stop(sceneKey)
-                }
+            scenesToStop.forEach(
+              sceneKey => {
+                game.scene.stop(sceneKey)
               }
             )
 
             scenesToRun.forEach(
               sceneKey => {
-                game.scene.run(sceneKey)
+                if (!scenesActived.includes(sceneKey)) {
+                  game.scene.start(sceneKey)
+                }
               }
             )
           }
