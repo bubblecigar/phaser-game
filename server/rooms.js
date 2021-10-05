@@ -93,10 +93,11 @@ const createRoom = (roomId) => {
     items: [],
     disconnectedPlayers: [],
     idleTime: 0,
-    gameStatus: null, // -> waiting -> processing -> ending -> waiting
+    allPlayerReadyTime: 0,
+    gameStatus: 'waiting', // -> waiting -> processing -> ending -> waiting
     intervals: {
       alltime: [registerRoomAutoCloseInterval(roomId)],
-      byGameStatus: []
+      byGameStatus: [registerWaitingIntervals(roomId)]
     },
     methods: null
   }
@@ -125,8 +126,6 @@ const createRoom = (roomId) => {
       }
     }
   }
-
-  changeGameStatus(roomId, 'waiting')
 
   return room
 }
@@ -186,7 +185,8 @@ const changeGameStatus = (roomId, newGameStatus) => {
   }
 
   room.gameStatus = newGameStatus
-  // emit to clients to inform gameStatus change
+  const { io } = require('./index.js')
+  io.to(roomId).emit('game', 'updateGameStatus', room.gameStatus)
 }
 
 const reconnectPlayer = (room, userId) => {
