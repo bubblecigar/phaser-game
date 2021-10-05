@@ -111,8 +111,8 @@
             "scale": 2.61,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 126.0536398467433,
-                "y": 348.0842911877395
+                "x": 88.31417624521072,
+                "y": 323.9463601532567
             }
         },
         "jumpPlatForm.tmx#forestTileSet": {
@@ -130,15 +130,16 @@
             "scaleInDock": 1
         },
         "readyRoom.tmx": {
-            "scale": 2.20875,
-            "selectedLayer": 0,
+            "scale": 2.2,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 161.62988115449912,
-                "y": 69.9490662139219
+                "x": 141.13636363636363,
+                "y": 104.77272727272728
             }
         },
         "readyRoom.tmx#forestTileSet": {
-            "scaleInDock": 2.1438
+            "scaleInDock": 2.14,
+            "scaleInEditor": 2.71
         },
         "shootingPlatform.tmx": {
             "scale": 3.25,
@@ -203,7 +204,7 @@
             "scale": 1.85,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 117.29729729729728,
+                "x": 117.56756756756754,
                 "y": 139.7297297297297
             }
         },
@@ -232,9 +233,9 @@
     "project": "tile_project.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "readyRoom.tmx",
         "jumpPlatForm.tmx",
         "waitingRoom.tmx",
+        "readyRoom.tmx",
         "shootingPlatform.tmx",
         "anim.tsx",
         "waitingRoom.json",

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="7">
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="13">
  <editorsettings>
   <export target="jumpPlatForm.json" format="json"/>
  </editorsettings>
@@ -124,23 +124,23 @@
 39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39
 </data>
  </layer>
- <objectgroup id="3" name="item_layer">
-  <object id="1" name="spawn_point" x="23.3412" y="390.296">
+ <objectgroup id="6" name="info_layer">
+  <object id="7" name="spawn_point" x="23.7244" y="389.913">
    <point/>
   </object>
-  <object id="2" name="coin_point" x="118.774" y="218.774">
+  <object id="8" name="coin_point" x="119.157" y="218.391">
    <point/>
   </object>
-  <object id="3" name="coin_point" x="311.877" y="180.077">
+  <object id="9" name="coin_point" x="312.26" y="179.694">
    <point/>
   </object>
-  <object id="4" name="coin_point" x="306.513" y="421.073">
+  <object id="10" name="coin_point" x="306.896" y="420.69">
    <point/>
   </object>
-  <object id="5" name="coin_point" x="150.575" y="322.989">
+  <object id="11" name="coin_point" x="150.958" y="322.606">
    <point/>
   </object>
-  <object id="6" name="coin_point" x="232.567" y="333.333">
+  <object id="12" name="coin_point" x="232.95" y="332.95">
    <point/>
   </object>
  </objectgroup>
