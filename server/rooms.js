@@ -134,9 +134,19 @@ const createRoom = (roomId) => {
 const registerWaitingIntervals = roomId => setInterval(
   () => {
     const room = rooms[roomId]
-    // check players ready state 
-    // -> emit game start event 
-    // -> change game status to processing
+    const allPlayerReady = !room.players.some(player => !player.ready)
+    const enoughPlayers = room.players.length >= setting.minumumPlayers
+    const readyForEnoughTime = room.allPlayerReadyTime >= setting.gameStartCountDown
+    if (enoughPlayers && allPlayerReady) {
+      if (readyForEnoughTime) {
+        room.allPlayerReadyTime = 0
+        changeGameStatus(roomId, 'processing')
+      } else {
+        room.allPlayerReadyTime += 1000
+      }
+    } else {
+      // wait player join and ready
+    }
   }, 1000
 )
 
