@@ -1,4 +1,4 @@
-import basescene from '../dungeon/index'
+import basescene from '../share/index'
 
 export default {
   key: 'waitingRoom',
