@@ -1,11 +1,12 @@
 import basescene from '../share/index'
 import gameState from '../../game/state'
+import setting from '../../../../share/setting.json'
 
 let readyHintText
 
 const updateReadyHintText = () => {
   const players = gameState.players
-  const totalPlayers = players.length
+  const totalPlayers = Math.max(players.length, setting.minumumPlayers)
   const playersReady = players.filter(player => player.ready).length
   readyHintText.setText(`${playersReady}/${totalPlayers} ready`)
 }
