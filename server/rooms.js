@@ -194,7 +194,32 @@ const connectToRoom = (roomId, userId, socket) => {
   socket.join(roomId)
 
   const room = rooms[roomId] || createRoom(roomId)
-  reconnectPlayer(room, userId)
+  const reconnectSuccess = reconnectPlayer(room, userId)
+
+  if (!reconnectSuccess) {
+    // spawnUser at map's spawn point
+    const map = require('../client/statics/tile/readyRoom.json')
+    const infoLayer = map.layers.find(o => o.name === 'info_layer')
+    const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
+    const initHealth = 20
+    const playerConstructor = {
+      interface: 'Player',
+      id: userId,
+      ready: false,
+      scene: 'waitingRoom',
+      charactorKey: setting.initCharactor,
+      position: { x: spawnPoint.x, y: spawnPoint.y },
+      velocity: { x: 0, y: 0 },
+      health: initHealth,
+      resurrectCountDown: setting.resurrectCountDown,
+      coins: 0,
+      items: [],
+      bullet: 'arrow',
+      abilities: null,
+      phaserObject: null
+    }
+    room.players.push(playerConstructor)
+  }
 
   return rooms[roomId]
 }
