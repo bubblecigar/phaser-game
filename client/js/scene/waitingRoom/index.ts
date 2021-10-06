@@ -8,7 +8,12 @@ const updateReadyHintText = () => {
   const players = gameState.players
   const totalPlayers = Math.max(players.length, setting.minumumPlayers)
   const playersReady = players.filter(player => player.ready).length
-  readyHintText.setText(`${playersReady}/${totalPlayers} ready`)
+
+  if (playersReady === totalPlayers) {
+    readyHintText.setText(`starting...`)
+  } else {
+    readyHintText.setText(`${playersReady}/${totalPlayers} ready`)
+  }
 }
 
 
