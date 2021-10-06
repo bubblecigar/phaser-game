@@ -2,6 +2,8 @@ const uuid = require('uuid')
 const setting = require('../share/setting.json')
 const rooms = {}
 
+const intervalTimeStep = 100
+
 // const checkWinner = room => {
 //   const winner = room.players.find(
 //     player => player.coins >= setting.coinsToWin
@@ -38,14 +40,14 @@ const rooms = {}
 //     if (rooms[roomId].items.length === 0) {
 //       createCoin()
 //     }
-//   }, 1000
+//   }, intervalTimeStep
 // )
 
 
 // const endGameDetectionInterval = setInterval(
 //   () => {
 //     const winner = checkWinner(rooms[roomId])
-//   }, 1000
+//   }, intervalTimeStep
 // )
 
 // rooms[roomId].intervals.intervals.push(createCoinInterval)
@@ -78,9 +80,9 @@ const registerRoomAutoCloseInterval = (roomId) => setInterval(
       if (room.idleTime >= setting.roomAutoCloseIdleTime) {
         closeRoom(roomId)
       }
-      room.idleTime += 1000
+      room.idleTime += intervalTimeStep
     }
-  }, 1000
+  }, intervalTimeStep
 )
 
 const createRoom = (roomId) => {
@@ -141,12 +143,12 @@ const registerWaitingIntervals = roomId => setInterval(
         room.allPlayerReadyTime = 0
         changeGameStatus(roomId, 'processing')
       } else {
-        room.allPlayerReadyTime += 1000
+        room.allPlayerReadyTime += intervalTimeStep
       }
     } else {
-      // wait player join and ready
+      room.allPlayerReadyTime = 0
     }
-  }, 1000
+  }, intervalTimeStep
 )
 
 const registerProcessingIntervals = roomId => setInterval(
@@ -156,7 +158,7 @@ const registerProcessingIntervals = roomId => setInterval(
     // check end game condition
     // -> emit game end event
     // -> change game status to ending
-  }, 1000
+  }, intervalTimeStep
 )
 
 const registerEndingIntervals = roomId => setInterval(
@@ -165,7 +167,7 @@ const registerEndingIntervals = roomId => setInterval(
     // generate end game report
     // -> emit end game report to clients
     // -> setTimeout and cycle gameStatus to waiting
-  }, 1000
+  }, intervalTimeStep
 )
 
 const changeGameStatus = (roomId, newGameStatus) => {
