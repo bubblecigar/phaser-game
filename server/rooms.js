@@ -2,7 +2,7 @@ const uuid = require('uuid')
 const setting = require('../share/setting.json')
 const rooms = {}
 
-const intervalTimeStep = 100
+const intervalTimeStep = 200
 
 // const checkWinner = room => {
 //   const winner = room.players.find(
