@@ -197,7 +197,6 @@ const connectToRoom = (roomId, userId, socket) => {
   const reconnectSuccess = reconnectPlayer(room, userId)
 
   if (!reconnectSuccess) {
-    // spawnUser at map's spawn point
     const map = require('../client/statics/tile/readyRoom.json')
     const infoLayer = map.layers.find(o => o.name === 'info_layer')
     const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
