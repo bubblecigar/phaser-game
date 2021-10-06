@@ -180,14 +180,11 @@ function update(t, dt) {
       id => this.arrows[id].align()
     )
 
-    socketMethods.clientsInScene(
-      this.scene.key,
-      methods,
-      'updatePlayerPosition',
-      userId,
-      { x: player.phaserObject.x, y: player.phaserObject.y }
+    player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
+    const emittablePlayer = _.omit(player, 'phaserObject')
+    socketMethods.clientsInScene('all-scene', methods, 'writePlayer', emittablePlayer
     )
-    socketMethods.server('writePlayer', _.omit(player, 'phaserObject'))
+    socketMethods.server('writePlayer', emittablePlayer)
 
     if (player.health <= 0) {
       player.resurrectCountDown -= dt

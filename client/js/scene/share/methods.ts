@@ -260,14 +260,19 @@ const gameMethods = scene => {
       player.phaserObject.destroy()
     },
     getPlayer: (id: string): Player => gameState.players.find(p => p.id === id),
-    updatePlayerPosition: (id: string, position: Point) => {
-      const player = methods.getPlayer(id)
+    writePlayer: (_player: Player) => {
+      const player = methods.getPlayer(_player.id)
       if (!player || !player.phaserObject || !player.phaserObject.body) {
         console.log('player not initialized')
         return
       }
-      player.position = position
-      if (id !== getLocalUserData().userId) {
+      Object.keys(_player).forEach(
+        key => {
+          player[key] = _player[key]
+        }
+      )
+
+      if (_player.id !== userId) {
         player.phaserObject.setX(player.position.x)
         player.phaserObject.setY(player.position.y)
       }
