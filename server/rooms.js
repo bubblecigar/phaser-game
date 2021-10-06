@@ -11,49 +11,11 @@ const intervalTimeStep = 200
 //   return winner
 // }
 
-
-// const createCoin = () => {
-//   // const itemLayer = rooms[roomId].itemLayer
-//   // if (!itemLayer) {
-//   //   return
-//   // }
-//   // const coinPoints = itemLayer.objects.filter(o => o.name === 'coin_point')
-//   // const randomCoinSpawnIndex = Math.floor(Math.random() * (coinPoints.length))
-//   // const coinSpawnPoint = coinPoints[randomCoinSpawnIndex]
-//   // if (!coinSpawnPoint) {
-//   //   return
-//   // }
-//   const itemConstructor = {
-//     interface: 'Item',
-//     id: uuid(),
-//     itemKey: 'coin',
-//     position: { x: 150, y: 400 },
-//     velocity: { x: 0, y: 0 },
-//     phaserObject: null
-//   }
-//   rooms[roomId].items.push(itemConstructor)
-//   io.in(roomId).emit('dungeon', 'addItem', itemConstructor)
-// }
-
-// const createCoinInterval = setInterval(
-//   () => {
-//     if (rooms[roomId].items.length === 0) {
-//       createCoin()
-//     }
-//   }, intervalTimeStep
-// )
-
-
 // const endGameDetectionInterval = setInterval(
 //   () => {
 //     const winner = checkWinner(rooms[roomId])
 //   }, intervalTimeStep
 // )
-
-// rooms[roomId].intervals.intervals.push(createCoinInterval)
-// rooms[roomId].intervals.intervals.push(checkRoomIdleInterval)
-// rooms[roomId].intervals.intervals.push(endGameDetectionInterval)
-
 
 const closeRoom = (roomId) => {
   const room = rooms[roomId]
@@ -151,10 +113,37 @@ const registerWaitingIntervals = roomId => setInterval(
   }, intervalTimeStep
 )
 
+const createCoin = () => {
+  const map = require('../client/statics/tile/jumpPlatForm.json')
+  const infoLayer = map.layers.find(layer => layer.name === 'info_layer')
+  const coinSpawnPoints = infoLayer.objects.filter(object => object.name === 'coin_point')
+  const randomCoinSpawnIndex = Math.floor(Math.random() * (coinSpawnPoints.length))
+  const coinSpawnPoint = coinSpawnPoints[randomCoinSpawnIndex]
+  const coinConstructor = {
+    interface: 'Item',
+    id: uuid(),
+    itemKey: 'coin',
+    position: { x: coinSpawnPoint.x, y: coinSpawnPoint.y },
+    velocity: { x: 0, y: 0 },
+    phaserObject: null
+  }
+  return coinConstructor
+}
+
 const registerProcessingIntervals = roomId => setInterval(
   () => {
     const room = rooms[roomId]
-    // emit game mechanism events (spawn monsters and items)
+
+    const coins = room.items.filter(item => item.itemKey === 'coin')
+    if (coins.length > 0) {
+      // do nothing
+    } else {
+      const coinConstructor = createCoin()
+      room.items.push(coinConstructor)
+      const { io } = require('./index.js')
+      io.in(roomId).emit('dungeon', 'addItem', coinConstructor)
+    }
+
     // check end game condition
     // -> emit game end event
     // -> change game status to ending
