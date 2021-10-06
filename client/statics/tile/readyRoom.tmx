@@ -57,12 +57,12 @@
   </tile>
  </tileset>
  <objectgroup id="2" name="sensor_layer">
-  <object id="4" name="ready_zone" type="sensor" x="180.682" y="69.5454" width="99.5455" height="64.5455"/>
+  <object id="4" name="ready_zone" type="sensor" x="190.227" y="69.5454" width="90" height="64.5455"/>
  </objectgroup>
  <objectgroup id="4" name="fov_layer" visible="0">
   <object id="5" name="room_fov" x="186.364" y="75.4545" width="92.2727" height="60"/>
  </objectgroup>
- <objectgroup id="5" name="info_layer">
+ <objectgroup id="5" name="info_layer" visible="0">
   <object id="7" name="spawn_point" x="29.5455" y="106.364">
    <point/>
   </object>

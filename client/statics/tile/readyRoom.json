@@ -22,9 +22,9 @@
                  "rotation":0,
                  "type":"sensor",
                  "visible":true,
-                 "width":99.5455,
-                 "x":180.681795454545,
-                 "y":69.5454318181818
+                 "width":90.0000454545455,
+                 "x":190.227454545455,
+                 "y":69.5454
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -44,9 +44,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":92.2727272727273,
-                 "x":186.363636363636,
-                 "y":75.4545454545455
+                 "width":92.2727,
+                 "x":186.364,
+                 "y":75.4545
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -68,12 +68,12 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":29.5454545454546,
-                 "y":106.363636363636
+                 "x":29.5455,
+                 "y":106.364
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
