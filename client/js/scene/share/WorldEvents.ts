@@ -1,6 +1,7 @@
 import { getLocalUserData } from '../../user'
 import _ from 'lodash'
 import { v4 } from 'uuid'
+import { Item } from '../../Interface'
 
 const classifyCollisionTargets = (bodyA, bodyB) => {
   const collisionTargets = {
@@ -134,8 +135,9 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
         if (_player.health <= 0) {
           socketMethods.clientsInScene(scene.scene.key, methods, 'onDead', player.data.id)
 
-          const coinConstructor = {
+          const coinConstructor: Item = {
             interface: 'Item',
+            builderId: player.data.id,
             id: v4(),
             itemKey: 'coin',
             position: _player.position,

@@ -41,6 +41,7 @@ export interface Monster {
 export interface Item {
   interface: 'Item',
   id: string,
+  builderId: string,
   itemKey: string,
   position: Point,
   velocity: Point,
@@ -53,7 +54,6 @@ export interface Sensor {
 }
 export interface Bullet extends Omit<Item, 'interface'> {
   interface: 'Bullet',
-  builderId: string,
   damage: number,
   angularVelocity: number,
   duration: number
