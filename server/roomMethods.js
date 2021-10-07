@@ -210,7 +210,7 @@ const connectToRoom = (roomId, userId, socket) => {
   return rooms[roomId]
 }
 
-const disconnectFromRoom = (roomId, userId, socket) => {
+const disconnectFromRoom = (room, userId, socket) => {
   socket.rooms.forEach(
     id => {
       if (id !== socket.id) {
@@ -218,10 +218,7 @@ const disconnectFromRoom = (roomId, userId, socket) => {
       }
     }
   )
-  const room = rooms[roomId]
-  if (!room) {
-    return // room already closed
-  }
+
   const index = room.players.findIndex(player => player.id === userId)
   if (index > -1) {
     room.disconnectedPlayers.push(room.players[index])
