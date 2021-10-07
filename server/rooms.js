@@ -205,7 +205,7 @@ const connectToRoom = (roomId, userId, socket) => {
     const map = require(mapUrl)
     const infoLayer = map.layers.find(o => o.name === 'info_layer')
     const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
-    const initHealth = 20
+    const initHealth = setting.initHealth
     const playerConstructor = {
       interface: 'Player',
       id: userId,
