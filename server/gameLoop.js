@@ -1,7 +1,6 @@
 const uuid = require('uuid')
 const setting = require('../share/setting.json')
 const serverMap = require('../share/serverMap.json')
-const roomMethods = require('./rooms').roomMethods
 
 const intervalTimeStep = 200
 
@@ -13,7 +12,8 @@ const registerRoomAutoCloseInterval = room => setInterval(
     } else {
       // room in idle
       if (room.idleTime >= setting.roomAutoCloseIdleTime) {
-        roomMethods.closeRoom(roomId)
+        const roomMethods = require('./rooms').roomMethods
+        roomMethods.closeRoom(room.id)
       }
       room.idleTime += intervalTimeStep
     }
