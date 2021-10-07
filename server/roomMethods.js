@@ -19,9 +19,8 @@ const closeRoom = (roomId) => {
   delete rooms[roomId]
 }
 
-const registerRoomAutoCloseInterval = (roomId) => setInterval(
+const registerRoomAutoCloseInterval = room => setInterval(
   () => {
-    const room = rooms[roomId]
     if (room.players.length > 0) {
       // room in use
       room.idleTime = 0
@@ -47,14 +46,15 @@ const createRoom = (roomId) => {
     idleTime: 0,
     allPlayerReadyTime: 0,
     gameStatus: 'waiting', // -> waiting -> processing -> ending -> waiting
-    intervals: {
-      alltime: [registerRoomAutoCloseInterval(roomId)],
-      byGameStatus: [registerWaitingIntervals(roomId)]
-    },
+    intervals: null,
     methods: null
   }
 
   const room = rooms[roomId]
+  room.intervals = {
+    alltime: [registerRoomAutoCloseInterval(room)],
+    byGameStatus: [registerWaitingIntervals(room)]
+  }
   room.methods = {
     writePlayer: (playerState) => {
       const playerIndex = room.players.findIndex(player => player.id === playerState.id)
@@ -82,9 +82,8 @@ const createRoom = (roomId) => {
   return room
 }
 
-const registerWaitingIntervals = roomId => setInterval(
+const registerWaitingIntervals = room => setInterval(
   () => {
-    const room = rooms[roomId]
     const allPlayerReady = !room.players.some(player => !player.ready)
     const enoughPlayers = room.players.length >= setting.minumumPlayers
     const readyForEnoughTime = room.allPlayerReadyTime >= setting.gameStartCountDown
@@ -152,7 +151,7 @@ const changeGameStatus = (room, newGameStatus) => {
   gameStatusIntervals.splice(0, gameStatusIntervals.length)
 
   if (newGameStatus === 'waiting') {
-    gameStatusIntervals.push(registerWaitingIntervals(room.roomId))
+    gameStatusIntervals.push(registerWaitingIntervals(room))
   } else if (newGameStatus === 'processing') {
     gameStatusIntervals.push(registerProcessingIntervals(room))
   } else if (newGameStatus === 'ending') {
