@@ -35,10 +35,7 @@ const registerRoomAutoCloseInterval = room => setInterval(
 )
 
 const createRoom = (roomId) => {
-  if (rooms[roomId]) {
-    return rooms[roomId]
-  }
-  rooms[roomId] = {
+  const room = {
     id: roomId,
     players: [],
     items: [],
@@ -49,8 +46,6 @@ const createRoom = (roomId) => {
     intervals: null,
     methods: null
   }
-
-  const room = rooms[roomId]
   room.intervals = {
     alltime: [registerRoomAutoCloseInterval(room)],
     byGameStatus: [registerWaitingIntervals(room)]
@@ -178,9 +173,12 @@ const reconnectPlayer = (room, userId) => {
 const connectToRoom = (roomId, userId, socket) => {
   socket.join(roomId)
 
-  const room = rooms[roomId] || createRoom(roomId)
-  const reconnectSuccess = reconnectPlayer(room, userId)
+  if (!rooms[roomId]) {
+    rooms[roomId] = createRoom(roomId)
+  }
+  const room = rooms[roomId]
 
+  const reconnectSuccess = reconnectPlayer(room, userId)
   if (!reconnectSuccess) {
     const mapFile = serverMap.waiting.map
     const mapUrl = `../share/map/${mapFile}`
@@ -207,7 +205,7 @@ const connectToRoom = (roomId, userId, socket) => {
     room.players.push(playerConstructor)
   }
 
-  return rooms[roomId]
+  return room
 }
 
 const disconnectFromRoom = (room, userId, socket) => {
