@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import _ from 'lodash'
 import gameConfig from '../../game/config'
-import { MapConfig } from '../../maps/sceneMap'
 import { Sensor } from '../../Interface'
 
 const setUpMap = (scene, key) => {
@@ -81,7 +80,7 @@ const setUpObjectLayers = scene => {
   )
 }
 
-const registerMap = (scene, config: MapConfig) => {
+const registerMap = (scene, config) => {
   const { mapKey, tilesetKey } = config
 
   scene.map = setUpMap(scene, mapKey)
