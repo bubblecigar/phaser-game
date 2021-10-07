@@ -4,7 +4,7 @@ import { Player } from '../../Interface'
 import { getLocalUserData } from '../../user'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
-import sceneMap from '../../maps/sceneMap'
+import clientMap from '../../../../share/clientMap'
 import backgroundMap from './backgroundMap'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
@@ -72,8 +72,7 @@ function init() {
 
 function preload() {
   this.load.image('target', targetUrl)
-
-  const mapConfig = sceneMap[this.scene.key]
+  const mapConfig = clientMap[this.scene.key]
   this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
   this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
 
@@ -96,7 +95,7 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys()
   pointer = this.input.activePointer
   registerAimingTarget(this)
-  backgroundMap.registerMap(this, sceneMap[this.scene.key])
+  backgroundMap.registerMap(this, clientMap[this.scene.key])
 
   Object.keys(charactors).forEach(
     key => {
