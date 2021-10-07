@@ -79,7 +79,7 @@ const createRoom = (roomId) => {
     },
     syncAllClients: (sceneKey) => {
       const { io } = require('./index.js')
-      io.in(roomId).emit(sceneKey, 'syncServerStateToClient', getEmittableFieldofRoom(room))
+      io.in(roomId).emit(sceneKey, 'syncServerStateToClient', getEmittableFieldOfRoom(room))
     },
     collectItem: (itemId) => {
       const itemIndex = room.items.findIndex(item => item.id === itemId)
@@ -247,7 +247,7 @@ const disconnectFromRoom = (roomId, userId, socket) => {
   }
 }
 
-const getEmittableFieldofRoom = (room) => {
+const getEmittableFieldOfRoom = (room) => {
   const {
     players,
     items,
@@ -265,5 +265,5 @@ exports.rooms = {
   createRoom,
   connectToRoom,
   disconnectFromRoom,
-  getEmittableFieldofRoom
+  getEmittableFieldOfRoom
 }

@@ -27,7 +27,7 @@ io.on('connection', async function (socket) {
 
   socket.on('enter-scene', (sceneKey) => {
     if (room) {
-      const gameState = rooms.getEmittableFieldofRoom(room)
+      const gameState = rooms.getEmittableFieldOfRoom(room)
       io.to(room.id).emit(sceneKey, 'syncServerStateToClient', gameState)
     }
   })
