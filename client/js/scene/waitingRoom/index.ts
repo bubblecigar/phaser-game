@@ -36,8 +36,9 @@ function create() {
   }
 }
 
-function update() {
-  basescene.update.apply(this)
+function update(...args) {
+
+  basescene.update.apply(this, args)
 
   updateReadyHintText()
 }
