@@ -193,60 +193,6 @@ const reconnectPlayer = (room, userId) => {
   return false
 }
 
-const connectToRoom = (roomId, userId, socket) => {
-  socket.join(roomId)
-
-  const room = rooms[roomId] || createRoom(roomId)
-  const reconnectSuccess = reconnectPlayer(room, userId)
-
-  if (!reconnectSuccess) {
-    const mapFile = serverMap.waiting.map
-    const mapUrl = `../share/map/${mapFile}`
-    const map = require(mapUrl)
-    const infoLayer = map.layers.find(o => o.name === 'info_layer')
-    const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
-    const initHealth = setting.initHealth
-    const playerConstructor = {
-      interface: 'Player',
-      id: userId,
-      ready: false,
-      scene: 'waitingRoom',
-      charactorKey: setting.initCharactor,
-      position: { x: spawnPoint.x, y: spawnPoint.y },
-      velocity: { x: 0, y: 0 },
-      health: initHealth,
-      resurrectCountDown: setting.resurrectCountDown,
-      coins: 0,
-      items: [],
-      bullet: 'arrow',
-      abilities: null,
-      phaserObject: null
-    }
-    room.players.push(playerConstructor)
-  }
-
-  return rooms[roomId]
-}
-
-const disconnectFromRoom = (roomId, userId, socket) => {
-  socket.rooms.forEach(
-    id => {
-      if (id !== socket.id) {
-        socket.leave(id)
-      }
-    }
-  )
-  const room = rooms[roomId]
-  if (!room) {
-    return // room already closed
-  }
-  const index = room.players.findIndex(player => player.id === userId)
-  if (index > -1) {
-    room.disconnectedPlayers.push(room.players[index])
-    room.players.splice(index, 1)
-  }
-}
-
 const getEmittableFieldOfRoom = (room) => {
   const {
     players,
@@ -262,9 +208,5 @@ const getEmittableFieldOfRoom = (room) => {
 }
 
 exports.rooms = {
-  rooms,
-  createRoom,
-  connectToRoom,
-  disconnectFromRoom,
-  getEmittableFieldOfRoom
+  rooms
 }
