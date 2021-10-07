@@ -1,5 +1,6 @@
 const uuid = require('uuid')
 const setting = require('../share/setting.json')
+const serverMap = require('../share/serverMap.json')
 const rooms = {}
 
 const intervalTimeStep = 200
@@ -114,7 +115,9 @@ const registerWaitingIntervals = roomId => setInterval(
 )
 
 const createCoin = () => {
-  const map = require('../client/statics/tile/jumpPlatForm.json')
+  const mapFile = serverMap.processing.map
+  const mapUrl = `../share/map/${mapFile}`
+  const map = require(mapUrl)
   const infoLayer = map.layers.find(layer => layer.name === 'info_layer')
   const coinSpawnPoints = infoLayer.objects.filter(object => object.name === 'coin_point')
   const randomCoinSpawnIndex = Math.floor(Math.random() * (coinSpawnPoints.length))
@@ -197,7 +200,9 @@ const connectToRoom = (roomId, userId, socket) => {
   const reconnectSuccess = reconnectPlayer(room, userId)
 
   if (!reconnectSuccess) {
-    const map = require('../client/statics/tile/readyRoom.json')
+    const mapFile = serverMap.waiting.map
+    const mapUrl = `../share/map/${mapFile}`
+    const map = require(mapUrl)
     const infoLayer = map.layers.find(o => o.name === 'info_layer')
     const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
     const initHealth = 20

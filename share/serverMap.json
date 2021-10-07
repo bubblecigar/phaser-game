@@ -1,0 +1,10 @@
+{
+  "waiting": {
+    "scene": "waitingRoom",
+    "map": "readyRoom.json"
+  },
+  "processing": {
+    "scene": "dungeon",
+    "map": "jumpPlatForm.json"
+  }
+}
