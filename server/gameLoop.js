@@ -1,24 +1,9 @@
 const uuid = require('uuid')
 const setting = require('../share/setting.json')
 const serverMap = require('../share/serverMap.json')
-const rooms = require('./rooms').rooms
+const roomMethods = require('./rooms').roomMethods
 
 const intervalTimeStep = 200
-
-const closeRoom = (roomId) => {
-  const room = rooms[roomId]
-  Object.keys(room.intervals).forEach(
-    prop => {
-      room.intervals[prop].forEach(
-        interval => {
-          clearInterval(interval)
-        }
-      )
-    }
-  )
-  delete rooms[roomId]
-}
-
 
 const registerRoomAutoCloseInterval = room => setInterval(
   () => {
@@ -28,7 +13,7 @@ const registerRoomAutoCloseInterval = room => setInterval(
     } else {
       // room in idle
       if (room.idleTime >= setting.roomAutoCloseIdleTime) {
-        closeRoom(roomId)
+        roomMethods.closeRoom(roomId)
       }
       room.idleTime += intervalTimeStep
     }

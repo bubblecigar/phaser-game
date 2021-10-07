@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
-const roomMethods = require('./roomMethods.js').roomMethods
+const roomMethods = require('./rooms').roomMethods
 const cwd = process.cwd()
 app.use('/', express.static(cwd + '/dist'))
 
