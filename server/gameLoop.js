@@ -60,7 +60,9 @@ const createCoin = () => {
 
 const registerProcessingIntervals = room => setInterval(
   () => {
-    const coins = room.items.filter(item => item.itemKey === 'coin')
+    const coins = room.items.filter(
+      item => item.itemKey === 'coin' && item.builderId === 'server'
+    )
     if (coins.length > 0) {
       // do nothing
     } else {
