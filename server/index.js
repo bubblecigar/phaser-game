@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
-const rooms = require('./rooms.js').rooms
+const roomMethods = require('./roomMethods.js').roomMethods
 const cwd = process.cwd()
 app.use('/', express.static(cwd + '/dist'))
 
@@ -19,15 +19,15 @@ io.on('connection', async function (socket) {
 
   socket.on('change-room', (roomId) => {
     if (room) {
-      rooms.disconnectFromRoom(room.id, userState.userId)
+      roomMethods.disconnectFromRoom(room.id, userState.userId)
     }
-    room = rooms.connectToRoom(roomId, userState.userId, socket)
+    room = roomMethods.connectToRoom(roomId, userState.userId, socket)
     io.to(socket.id).emit('game', 'updateGameStatus', room.gameStatus)
   })
 
   socket.on('enter-scene', (sceneKey) => {
     if (room) {
-      const gameState = rooms.getEmittableFieldOfRoom(room)
+      const gameState = roomMethods.getEmittableFieldOfRoom(room)
       io.to(room.id).emit(sceneKey, 'syncServerStateToClient', gameState)
     }
   })
@@ -46,7 +46,7 @@ io.on('connection', async function (socket) {
 
   socket.on('disconnect', async function () {
     if (room) {
-      rooms.disconnectFromRoom(room.id, userState.userId, socket)
+      roomMethods.disconnectFromRoom(room.id, userState.userId, socket)
       room.methods.syncAllClients('all-scene')
     }
   })

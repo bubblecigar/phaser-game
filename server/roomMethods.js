@@ -1,22 +1,9 @@
 const uuid = require('uuid')
 const setting = require('../share/setting.json')
 const serverMap = require('../share/serverMap.json')
-const rooms = {}
+const rooms = require('./rooms').rooms
 
 const intervalTimeStep = 200
-
-// const checkWinner = room => {
-//   const winner = room.players.find(
-//     player => player.coins >= setting.coinsToWin
-//   )
-//   return winner
-// }
-
-// const endGameDetectionInterval = setInterval(
-//   () => {
-//     const winner = checkWinner(rooms[roomId])
-//   }, intervalTimeStep
-// )
 
 const closeRoom = (roomId) => {
   const room = rooms[roomId]
@@ -261,8 +248,7 @@ const getEmittableFieldOfRoom = (room) => {
   }
 }
 
-exports.rooms = {
-  rooms,
+exports.roomMethods = {
   createRoom,
   connectToRoom,
   disconnectFromRoom,
