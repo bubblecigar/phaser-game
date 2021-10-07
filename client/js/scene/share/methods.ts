@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import Phaser from 'phaser'
-import { v4 } from 'uuid'
 import setting from '../../../../share/setting.json'
 import charactors from '../../charactors'
 import items from '../../items'
@@ -9,7 +8,6 @@ import { Player, Bullet, Item, GameState, Monster, Point } from '../../Interface
 import gameState from '../../game/state'
 import gameConfig from '../../game/config'
 import { shoot } from './shoot'
-import { socketMethods } from '../../index'
 
 const userId = getLocalUserData().userId
 
