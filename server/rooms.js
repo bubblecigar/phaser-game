@@ -43,9 +43,9 @@ const createRoom = (roomId) => {
         room.players.push(playerState)
       }
     },
-    syncAllClients: (sceneKey) => {
+    syncPlayersInAllClients: (sceneKey) => {
       const { io } = require('./index.js')
-      io.in(roomId).emit(sceneKey, 'syncServerStateToClient', getEmittableFieldOfRoom(room))
+      io.in(roomId).emit(sceneKey, 'syncPlayers', room.players)
     },
     addItem: (item) => {
       room.items.push(item)
