@@ -47,6 +47,9 @@ const createRoom = (roomId) => {
       const { io } = require('./index.js')
       io.in(roomId).emit(sceneKey, 'syncServerStateToClient', getEmittableFieldOfRoom(room))
     },
+    addItem: (item) => {
+      room.items.push(item)
+    },
     collectItem: (itemId) => {
       const itemIndex = room.items.findIndex(item => item.id === itemId)
       if (itemIndex < 0) {

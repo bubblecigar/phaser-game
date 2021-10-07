@@ -1,5 +1,6 @@
 import { getLocalUserData } from '../../user'
 import _ from 'lodash'
+import { v4 } from 'uuid'
 
 const classifyCollisionTargets = (bodyA, bodyB) => {
   const collisionTargets = {
@@ -132,6 +133,18 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
         const _player = methods.getPlayer(player.data.id)
         if (_player.health <= 0) {
           socketMethods.clientsInScene(scene.scene.key, methods, 'onDead', player.data.id)
+
+          const coinConstructor = {
+            interface: 'Item',
+            id: v4(),
+            itemKey: 'coin',
+            position: _player.position,
+            velocity: { x: 0, y: -0.2 },
+            phaserObject: null
+          }
+
+          socketMethods.clientsInScene(scene.scene.key, methods, 'addItem', coinConstructor)
+          socketMethods.server('addItem', coinConstructor)
         }
       }
       bullet.data.destroy()

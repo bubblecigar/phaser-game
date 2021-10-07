@@ -280,18 +280,6 @@ const gameMethods = scene => {
         phaserObject: null
       }
       methods.setPlayer(ghostCharactor)
-      methods.dropCoin(player.position)
-    },
-    dropCoin: (position: Point) => {
-      const itemConstructor: Item = {
-        interface: 'Item',
-        id: v4(),
-        itemKey: 'coin',
-        position,
-        velocity: { x: 0, y: -0.2 },
-        phaserObject: null
-      }
-      methods.addItem(itemConstructor)
     },
     onHit: (playerId: string, bullet: Bullet) => {
       const player = methods.getPlayer(playerId)

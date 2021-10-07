@@ -40,7 +40,11 @@ io.on('connection', async function (socket) {
 
   socket.on('server', (key, ...args) => {
     if (room) {
-      room.methods[key](...args)
+      try {
+        room.methods[key](...args)
+      } catch (error) {
+        console.log(error)
+      }
     }
   })
 
