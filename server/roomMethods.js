@@ -91,7 +91,7 @@ const registerWaitingIntervals = roomId => setInterval(
     if (enoughPlayers && allPlayerReady) {
       if (readyForEnoughTime) {
         room.allPlayerReadyTime = 0
-        changeGameStatus(roomId, 'processing')
+        changeGameStatus(room, 'processing')
       } else {
         room.allPlayerReadyTime += intervalTimeStep
       }
@@ -120,10 +120,8 @@ const createCoin = () => {
   return coinConstructor
 }
 
-const registerProcessingIntervals = roomId => setInterval(
+const registerProcessingIntervals = room => setInterval(
   () => {
-    const room = rooms[roomId]
-
     const coins = room.items.filter(item => item.itemKey === 'coin')
     if (coins.length > 0) {
       // do nothing
@@ -131,7 +129,7 @@ const registerProcessingIntervals = roomId => setInterval(
       const coinConstructor = createCoin()
       room.items.push(coinConstructor)
       const { io } = require('./index.js')
-      io.in(roomId).emit('dungeon', 'addItem', coinConstructor)
+      io.in(room.id).emit('dungeon', 'addItem', coinConstructor)
     }
 
     // check end game condition
@@ -140,34 +138,32 @@ const registerProcessingIntervals = roomId => setInterval(
   }, intervalTimeStep
 )
 
-const registerEndingIntervals = roomId => setInterval(
+const registerEndingIntervals = room => setInterval(
   () => {
-    const room = rooms[roomId]
     // generate end game report
     // -> emit end game report to clients
     // -> setTimeout and cycle gameStatus to waiting
   }, intervalTimeStep
 )
 
-const changeGameStatus = (roomId, newGameStatus) => {
-  const room = rooms[roomId]
+const changeGameStatus = (room, newGameStatus) => {
   const gameStatusIntervals = room.intervals.byGameStatus
   gameStatusIntervals.forEach(interval => clearInterval(interval))
   gameStatusIntervals.splice(0, gameStatusIntervals.length)
 
   if (newGameStatus === 'waiting') {
-    gameStatusIntervals.push(registerWaitingIntervals(roomId))
+    gameStatusIntervals.push(registerWaitingIntervals(room.roomId))
   } else if (newGameStatus === 'processing') {
-    gameStatusIntervals.push(registerProcessingIntervals(roomId))
+    gameStatusIntervals.push(registerProcessingIntervals(room))
   } else if (newGameStatus === 'ending') {
-    gameStatusIntervals.push(registerEndingIntervals(roomId))
+    gameStatusIntervals.push(registerEndingIntervals(room))
   } else {
     // wrong status, throw
   }
 
   room.gameStatus = newGameStatus
   const { io } = require('./index.js')
-  io.to(roomId).emit('game', 'updateGameStatus', room.gameStatus)
+  io.to(room.id).emit('game', 'updateGameStatus', room.gameStatus)
 }
 
 const reconnectPlayer = (room, userId) => {
