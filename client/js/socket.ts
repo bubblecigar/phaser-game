@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import io from 'socket.io-client'
 import { getLocalUserData } from './user'
-import statusSceneMap from './maps/gameStatusSceneMap'
+import serverMap from '../../share/serverMap.json'
 
 export const connectToServer = () => {
   const socket = io.connect({
@@ -19,7 +19,7 @@ export const getSocketMethods = socket => {
       socket.on('game', (key, ...args) => {
         const methods = {
           updateGameStatus: gameStatus => {
-            const scenesToRun = statusSceneMap[gameStatus]
+            const scenesToRun = [serverMap[gameStatus].scene]
             const scenesActived = game.scene.getScenes(true).map(s => s.scene.key)
             const scenesToStop = scenesActived.filter(key => !scenesToRun.includes(key))
 
