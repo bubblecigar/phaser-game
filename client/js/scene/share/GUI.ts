@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import itemCellUrl from '../../../statics/item_cell.png'
 import gameState from '../../game/state'
 import gameConfig from '../../game/config'
 import { getLocalUserData } from '../../user'
@@ -9,7 +8,6 @@ let coinGroup
 let resurrectCountDownText
 
 function preload() {
-  this.load.image('item_cell', itemCellUrl)
   Object.keys(items).forEach(
     key => {
       const item = items[key]
@@ -77,9 +75,12 @@ const showResurrectCountDown = player => {
 
 function update() {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
-  if (!player) return
-  showCoinCount(player.coins)
-  showResurrectCountDown(player)
+  if (!player) {
+    return // show transition screen
+  } else {
+    showCoinCount(player.coins)
+    showResurrectCountDown(player)
+  }
 }
 
 export default {
