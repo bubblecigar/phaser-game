@@ -54,10 +54,8 @@ const createResurrectCountDownText = (scene, x, y) => {
 
 const showResurrectCountDown = player => {
   if (player.health > 0) {
-    // player is not dead
     resurrectCountDownText.setVisible(false)
   } else {
-    // show count down in second
     resurrectCountDownText.setVisible(true)
     resurrectCountDownText.setText(Math.ceil(player.resurrectCountDown / 100) / 10)
   }
