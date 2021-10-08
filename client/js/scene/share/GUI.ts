@@ -4,8 +4,10 @@ import gameConfig from '../../game/config'
 import { getLocalUserData } from '../../user'
 import items from '../../items/index'
 import setting from '../../../../share/setting.json'
+import charactors from '../../charactors/index'
 
 const coinConfig = items.coin
+let randomCharactorConfig
 
 let coinGroup
 let resurrectCountDownText
@@ -13,13 +15,17 @@ let transitionScreen
 
 function preload() {
   this.load.spritesheet(coinConfig.spritesheetConfig.spritesheetKey, coinConfig.spritesheetConfig.spritesheetUrl, coinConfig.spritesheetConfig.options)
+
+  const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * 10) % (Object.keys(charactors).length)]
+  randomCharactorConfig = charactors[randomCharactorKey]
+  this.load.spritesheet(randomCharactorConfig.spritesheetConfig.spritesheetKey, randomCharactorConfig.spritesheetConfig.spritesheetUrl, randomCharactorConfig.spritesheetConfig.options)
 }
 
 function create() {
-  const animConfig = coinConfig.animsConfig['idle']
+  const coinAnimConfig = coinConfig.animsConfig['idle']
   this.anims.create({
-    key: animConfig.key,
-    frames: this.anims.generateFrameNumbers(coinConfig.spritesheetConfig.spritesheetKey, { frames: animConfig.frames }),
+    key: coinAnimConfig.key,
+    frames: this.anims.generateFrameNumbers(coinConfig.spritesheetConfig.spritesheetKey, { frames: coinAnimConfig.frames }),
     frameRate: 8,
     repeat: -1
   })
@@ -41,7 +47,17 @@ function create() {
     fontSize: setting.fontSize
   })
 
-  transitionScreen.add(background, text)
+  const charAnimsConfig = randomCharactorConfig.animsConfig['move']
+  this.anims.create({
+    key: charAnimsConfig.key,
+    frames: this.anims.generateFrameNumbers(randomCharactorConfig.spritesheetConfig.spritesheetKey, { frames: charAnimsConfig.frames }),
+    frameRate: 8,
+    repeat: -1
+  })
+  const char = this.add.sprite(centerX - padding, centerY, randomCharactorConfig.spritesheetConfig.spritesheetKey)
+  char.play(charAnimsConfig.key)
+
+  transitionScreen.add([background, text, char])
 }
 
 const createCoinGroup = (scene, x, y) => {
