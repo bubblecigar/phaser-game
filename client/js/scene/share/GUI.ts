@@ -4,35 +4,23 @@ import gameConfig from '../../game/config'
 import { getLocalUserData } from '../../user'
 import items from '../../items/index'
 
+const coinConfig = items.coin
+
 let coinGroup
 let resurrectCountDownText
 
 function preload() {
-  Object.keys(items).forEach(
-    key => {
-      const item = items[key]
-      this.load.spritesheet(item.spritesheetConfig.spritesheetKey, item.spritesheetConfig.spritesheetUrl, item.spritesheetConfig.options)
-    }
-  )
+  this.load.spritesheet(coinConfig.spritesheetConfig.spritesheetKey, coinConfig.spritesheetConfig.spritesheetUrl, coinConfig.spritesheetConfig.options)
 }
 
 function create() {
-  Object.keys(items).forEach(
-    key => {
-      const item = items[key]
-      Object.keys(item.animsConfig).forEach(
-        _key => {
-          const animConfig = item.animsConfig[_key]
-          this.anims.create({
-            key: animConfig.key,
-            frames: this.anims.generateFrameNumbers(item.spritesheetConfig.spritesheetKey, { frames: animConfig.frames }),
-            frameRate: 8,
-            repeat: -1
-          })
-        }
-      )
-    }
-  )
+  const animConfig = coinConfig.animsConfig['idle']
+  this.anims.create({
+    key: animConfig.key,
+    frames: this.anims.generateFrameNumbers(coinConfig.spritesheetConfig.spritesheetKey, { frames: animConfig.frames }),
+    frameRate: 8,
+    repeat: -1
+  })
 
   const padding = 32
 
