@@ -71,7 +71,7 @@ const showResurrectCountDown = player => {
   } else {
     // show count down in second
     resurrectCountDownText.setVisible(true)
-    resurrectCountDownText.setText(Math.ceil(player.resurrectCountDown / 1000))
+    resurrectCountDownText.setText(Math.ceil(player.resurrectCountDown / 100) / 10)
   }
 }
 
