@@ -147,7 +147,7 @@ function create() {
   const scene = this
   this.input.on('pointerdown', function () {
     const player = methods.getPlayer(userId)
-    if (readyToShoot) {
+    if (readyToShoot && player) {
       socketMethods.clientsInScene(scene.scene.key, methods, 'shoot', {
         builderId: player.id,
         from: player.position,
