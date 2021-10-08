@@ -8,5 +8,6 @@
   "gameStartCountDown": 3000,
   "coinsToWin": 3,
   "endGameMapConfigKey": "waitingRoomConfig",
-  "roomAutoCloseIdleTime": 20000
+  "roomAutoCloseIdleTime": 20000,
+  "fontSize": "10px"
 }

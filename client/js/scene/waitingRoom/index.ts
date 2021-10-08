@@ -10,7 +10,7 @@ const updateReadyHintText = () => {
   const playersReady = players.filter(player => player.ready).length
 
   if (playersReady === totalPlayers) {
-    readyHintText.setText(`starting...`)
+    readyHintText.setText(`starting`)
   } else {
     readyHintText.setText(`${playersReady}/${totalPlayers} ready`)
   }
@@ -28,7 +28,7 @@ function create() {
       y: readyZone.y + readyZone.height * 0.35
     }
     readyHintText = this.add.text(readyZoneCenter.x, readyZoneCenter.y, '', {
-      fontSize: '12px',
+      fontSize: setting.fontSize,
     })
     readyHintText.setOrigin(0.5, 0.5)
   } catch (error) {

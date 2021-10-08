@@ -3,6 +3,7 @@ import gameState from '../../game/state'
 import gameConfig from '../../game/config'
 import { getLocalUserData } from '../../user'
 import items from '../../items/index'
+import setting from '../../../../share/setting.json'
 
 const coinConfig = items.coin
 
@@ -48,7 +49,7 @@ const showCoinCount = count => {
 
 const createResurrectCountDownText = (scene, x, y) => {
   resurrectCountDownText = scene.add.text(x, y, '', {
-    fontSize: '12px'
+    fontSize: setting.fontSize
   })
 }
 
