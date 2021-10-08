@@ -47,7 +47,9 @@ const showCoinCount = count => {
 }
 
 const createResurrectCountDownText = (scene, x, y) => {
-  resurrectCountDownText = scene.add.text(x, y, 'resurrect in...')
+  resurrectCountDownText = scene.add.text(x, y, '', {
+    fontSize: '12px'
+  })
 }
 
 const showResurrectCountDown = player => {
