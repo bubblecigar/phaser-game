@@ -19,23 +19,18 @@ export const getSocketMethods = socket => {
       socket.on('game', (key, ...args) => {
         const methods = {
           updateGameStatus: gameStatus => {
-            const scenesToRun = [serverMap[gameStatus].scene]
+            const sceneToRun = serverMap[gameStatus].scene
             const scenesActived = game.scene.getScenes(true).map(s => s.scene.key)
-            const scenesToStop = scenesActived.filter(key => !scenesToRun.includes(key))
+            const scenesToStop = scenesActived.filter(key => key !== sceneToRun)
 
             scenesToStop.forEach(
               sceneKey => {
                 game.scene.stop(sceneKey)
               }
             )
-
-            scenesToRun.forEach(
-              sceneKey => {
-                if (!scenesActived.includes(sceneKey)) {
-                  game.scene.start(sceneKey)
-                }
-              }
-            )
+            if (!scenesActived.includes(sceneToRun)) {
+              game.scene.start(sceneToRun)
+            }
           }
         }
         try {
