@@ -9,6 +9,7 @@ const coinConfig = items.coin
 
 let coinGroup
 let resurrectCountDownText
+let transitionScreen
 
 function preload() {
   this.load.spritesheet(coinConfig.spritesheetConfig.spritesheetKey, coinConfig.spritesheetConfig.spritesheetUrl, coinConfig.spritesheetConfig.options)
@@ -31,6 +32,9 @@ function create() {
 
   const bottomCenter = gameConfig.canvasWidth / 2
   createResurrectCountDownText(this, bottomCenter, coinY)
+
+  transitionScreen = this.add.rectangle(0, 0, gameConfig.canvasWidth, gameConfig.canvasHeight, 0x000000)
+  transitionScreen.setOrigin(0, 0)
 }
 
 const createCoinGroup = (scene, x, y) => {
@@ -66,8 +70,10 @@ const showResurrectCountDown = player => {
 function update() {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (!player) {
+    transitionScreen.setVisible(true)
     return // show transition screen
   } else {
+    transitionScreen.setVisible(false)
     showCoinCount(player.coins)
     showResurrectCountDown(player)
   }
