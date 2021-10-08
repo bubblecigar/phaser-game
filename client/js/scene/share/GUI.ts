@@ -30,11 +30,18 @@ function create() {
   const coinY = gameConfig.canvasHeight - padding
   createCoinGroup(this, coinX, coinY)
 
-  const bottomCenter = gameConfig.canvasWidth / 2
-  createResurrectCountDownText(this, bottomCenter, coinY)
+  const centerX = gameConfig.canvasWidth / 2
+  const centerY = gameConfig.canvasHeight / 2
+  createResurrectCountDownText(this, centerX, coinY)
 
-  transitionScreen = this.add.rectangle(0, 0, gameConfig.canvasWidth, gameConfig.canvasHeight, 0x000000)
-  transitionScreen.setOrigin(0, 0)
+  transitionScreen = this.add.container(0, 0)
+  const background = this.add.rectangle(0, 0, gameConfig.canvasWidth, gameConfig.canvasHeight, 0x000000)
+  background.setOrigin(0, 0)
+  const text = this.add.text(centerX, centerY, 'loading...', {
+    fontSize: setting.fontSize
+  })
+
+  transitionScreen.add(background, text)
 }
 
 const createCoinGroup = (scene, x, y) => {
