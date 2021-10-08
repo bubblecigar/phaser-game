@@ -57,7 +57,8 @@ const showResurrectCountDown = player => {
     resurrectCountDownText.setVisible(false)
   } else {
     resurrectCountDownText.setVisible(true)
-    resurrectCountDownText.setText(Math.ceil(player.resurrectCountDown / 100) / 10)
+    const countdown = (player.resurrectCountDown / 1000).toFixed(2)
+    resurrectCountDownText.setText(countdown)
   }
 }
 
