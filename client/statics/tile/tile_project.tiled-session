@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "jumpPlatForm.tmx",
+    "activeFile": "readyRoom.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "Tiled map files (*.tmx *.xml)",
@@ -131,10 +131,10 @@
         },
         "readyRoom.tmx": {
             "scale": 2.2,
-            "selectedLayer": 3,
+            "selectedLayer": 0,
             "viewCenter": {
                 "x": 141.13636363636363,
-                "y": 104.77272727272728
+                "y": 105.2272727272727
             }
         },
         "readyRoom.tmx#forestTileSet": {
@@ -228,14 +228,14 @@
     "map.tileWidth": 16,
     "map.width": 20,
     "openFiles": [
-        "jumpPlatForm.tmx"
+        "readyRoom.tmx"
     ],
     "project": "tile_project.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "readyRoom.tmx",
         "jumpPlatForm.tmx",
         "waitingRoom.tmx",
-        "readyRoom.tmx",
         "shootingPlatform.tmx",
         "anim.tsx",
         "waitingRoom.json",
