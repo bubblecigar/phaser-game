@@ -94,7 +94,6 @@ function update() {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (!player) {
     transitionScreen.setVisible(true)
-    return // show transition screen
   } else {
     transitionScreen.setVisible(false)
     showCoinCount(player.coins)
