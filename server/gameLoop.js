@@ -86,26 +86,6 @@ const registerEndingIntervals = room => setInterval(
   }, intervalTimeStep
 )
 
-const movePlayersToSpawnPoint = (room, gameStatus) => {
-  try {
-    const mapFile = serverMap[gameStatus].map
-    const mapUrl = `../share/map/${mapFile}`
-    const map = require(mapUrl)
-    const infoLayer = map.layers.find(layer => layer.name === 'info_layer')
-    const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
-    room.players.forEach(
-      player => {
-        player.position = {
-          x: spawnPoint.x,
-          y: spawnPoint.y
-        }
-      }
-    )
-  } catch (error) {
-    console.log('error:',error)
-  }
-}
-
 const changeGameStatus = (room, newGameStatus) => {
   const gameStatusIntervals = room.intervals.byGameStatus
   gameStatusIntervals.forEach(interval => clearInterval(interval))
@@ -122,7 +102,6 @@ const changeGameStatus = (room, newGameStatus) => {
   }
 
   room.gameStatus = newGameStatus
-  movePlayersToSpawnPoint(room, newGameStatus)
   const { io } = require('./index.js')
   io.to(room.id).emit('game', 'updateGameStatus', room.gameStatus)
 }

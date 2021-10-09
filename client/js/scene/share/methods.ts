@@ -112,11 +112,22 @@ const gameMethods = scene => {
         }
       )
       gameState.players = []
+      const spawnPoint = methods.getSpawnPoint()
       players.forEach(
         player => {
+          const comeFromOtherScene = player.scene !== scene.scene.key
+          if (comeFromOtherScene) {
+            player.position = spawnPoint
+          }
           methods.addPlayer(player)
         }
       )
+    },
+    getSpawnPoint: () => {
+      const map = scene.map
+      const infoLayer = map.objects.find(layer => layer.name === 'info_layer')
+      const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
+      return spawnPoint
     },
     changeReadyState: (ready: boolean) => {
       const player = methods.getPlayer(userId)
