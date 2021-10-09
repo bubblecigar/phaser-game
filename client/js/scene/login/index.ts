@@ -13,6 +13,8 @@ function preload() {
 
 function create() {
   const scene = this
+  this.scene.launch('GUI')
+
   const sceneKey = scene.scene.key
   socketMethods.registerSceneSocketEvents(sceneKey, {})
 

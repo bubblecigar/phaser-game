@@ -164,7 +164,6 @@ function create() {
       )
     }
   })
-  scene.scene.launch('GUI')
 }
 
 function update(t, dt) {
