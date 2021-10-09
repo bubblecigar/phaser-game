@@ -23,14 +23,19 @@ export const getSocketMethods = socket => {
             const scenesActived = game.scene.getScenes(true).map(s => s.scene.key)
             const scenesToStop = scenesActived.filter(key => key !== sceneToRun)
 
-            scenesToStop.forEach(
-              sceneKey => {
-                game.scene.stop(sceneKey)
-              }
-            )
-            if (!scenesActived.includes(sceneToRun)) {
+            const isSynced = scenesActived.includes(sceneToRun)
+            if (isSynced) {
+              // do nothing
+            } else {
+              // switch scene
+              scenesToStop.forEach(
+                sceneKey => {
+                  game.scene.stop(sceneKey)
+                }
+              )
               game.scene.start(sceneToRun)
             }
+
           }
         }
         try {
