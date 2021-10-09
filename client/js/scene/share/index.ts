@@ -179,6 +179,7 @@ function update(t, dt) {
     )
 
     player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
+    player.scene = this.scene.key
     const emittablePlayer = _.omit(player, 'phaserObject')
     socketMethods.clientsInScene('all-scene', methods, 'writePlayer', emittablePlayer
     )
