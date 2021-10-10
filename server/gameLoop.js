@@ -59,6 +59,18 @@ const createCoin = () => {
   return coinConstructor
 }
 
+const detectWinners = room => {
+  const winners = []
+  room.players.forEach(
+    player => {
+      if (player.coins >= setting.coinsToWin) {
+        winners.push(player)
+      }
+    }
+  )
+  return winners
+}
+
 const registerProcessingIntervals = room => setInterval(
   () => {
     const serverSpawnCoins = room.items.filter(
@@ -73,9 +85,10 @@ const registerProcessingIntervals = room => setInterval(
       io.in(room.id).emit('dungeon', 'addItem', coinConstructor)
     }
 
-    // check end game condition
-    // -> emit game end event
-    // -> change game status to ending
+    const winners = detectWinners(room)
+    if (winners.length > 0) {
+      changeGameStatus(room, 'ending')
+    }
   }, intervalTimeStep
 )
 
@@ -97,6 +110,7 @@ const changeGameStatus = (room, newGameStatus) => {
   } else if (newGameStatus === 'processing') {
     gameStatusIntervals.push(registerProcessingIntervals(room))
   } else if (newGameStatus === 'ending') {
+    room.methods.initialize()
     gameStatusIntervals.push(registerEndingIntervals(room))
   } else {
     // wrong status, throw
