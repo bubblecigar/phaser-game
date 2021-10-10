@@ -118,6 +118,11 @@ const gameMethods = scene => {
           const comeFromOtherScene = player.scene !== scene.scene.key
           if (comeFromOtherScene) {
             player.position = spawnPoint
+            player.coins = 0
+            player.ready = false
+            player.charactorKey = setting.initCharactor
+            player.health = setting.initHealth
+            player.resurrectCountDown = setting.resurrectCountDown
           }
           methods.addPlayer(player)
         }
