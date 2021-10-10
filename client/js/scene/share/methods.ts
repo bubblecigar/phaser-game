@@ -299,9 +299,10 @@ const gameMethods = scene => {
       methods.updatePlayerHealthBar(playerId)
     },
     addItem: (itemConstructor: Item): Item => {
-      const { id, position, itemKey, velocity } = itemConstructor
+      const { id, position, itemKey, velocity, builderId } = itemConstructor
       const item: Item = {
         interface: 'Item',
+        builderId,
         id,
         position,
         itemKey,
