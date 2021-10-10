@@ -11,49 +11,53 @@ server.listen(process.env.PORT || 8081, function () {
 })
 
 io.on('connection', async function (socket) {
-  const userState = {
-    ...socket.handshake.auth
-  }
-
-  let room
-
-  socket.on('change-room', (roomId) => {
-    if (room) {
-      roomMethods.disconnectFromRoom(room, userState.userId)
+  try {
+    const userState = {
+      ...socket.handshake.auth
     }
-    room = roomMethods.connectToRoom(roomId, userState.userId, socket)
-    io.to(socket.id).emit('game', 'updateGameStatus', room.gameStatus)
-  })
 
-  socket.on('enter-scene', (sceneKey) => {
-    if (room) {
-      const gameState = roomMethods.getEmittableFieldOfRoom(room)
-      io.to(room.id).emit(sceneKey, 'syncServerStateToClient', gameState)
-    }
-  })
+    let room
 
-  socket.on('clients', (sceneKey, method, ...args) => {
-    if (room) {
-      socket.to(room.id).emit(sceneKey, method, ...args)
-    }
-  })
-
-  socket.on('server', (key, ...args) => {
-    if (room) {
-      try {
-        room.methods[key](...args)
-      } catch (error) {
-        console.log(error)
+    socket.on('change-room', (roomId) => {
+      if (room) {
+        roomMethods.disconnectFromRoom(room, userState.userId)
       }
-    }
-  })
+      room = roomMethods.connectToRoom(roomId, userState.userId, socket)
+      io.to(socket.id).emit('game', 'updateGameStatus', room.gameStatus)
+    })
 
-  socket.on('disconnect', async function () {
-    if (room && socket) {
-      roomMethods.disconnectFromRoom(room, userState.userId, socket)
-      room.methods.syncPlayersInAllClients('all-scene')
-    }
-  })
+    socket.on('enter-scene', (sceneKey) => {
+      if (room) {
+        const gameState = roomMethods.getEmittableFieldOfRoom(room)
+        io.to(room.id).emit(sceneKey, 'syncServerStateToClient', gameState)
+      }
+    })
+
+    socket.on('clients', (sceneKey, method, ...args) => {
+      if (room) {
+        socket.to(room.id).emit(sceneKey, method, ...args)
+      }
+    })
+
+    socket.on('server', (key, ...args) => {
+      if (room) {
+        try {
+          room.methods[key](...args)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    })
+
+    socket.on('disconnect', async function () {
+      if (room && socket) {
+        roomMethods.disconnectFromRoom(room, userState.userId, socket)
+        room.methods.syncPlayersInAllClients('all-scene')
+      }
+    })
+  } catch (error) {
+    console.log('error:', error)
+  }
 })
 
 exports.io = io
