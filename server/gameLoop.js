@@ -6,16 +6,17 @@ const intervalTimeStep = 200
 
 const registerRoomAutoCloseInterval = room => setInterval(
   () => {
-    if (room.players.length > 0) {
-      // room in use
+    const roomIsInUse = room.players.length > 0
+    if (roomIsInUse) {
       room.idleTime = 0
     } else {
-      // room in idle
-      if (room.idleTime >= setting.roomAutoCloseIdleTime) {
+      const idleForTooLong = room.idleTime >= setting.roomAutoCloseIdleTime
+      if (idleForTooLong) {
         const roomMethods = require('./rooms').roomMethods
         roomMethods.closeRoom(room.id)
+      } else {
+        room.idleTime += intervalTimeStep
       }
-      room.idleTime += intervalTimeStep
     }
   }, intervalTimeStep
 )
