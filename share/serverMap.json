@@ -6,5 +6,9 @@
   "processing": {
     "scene": "dungeon",
     "map": "jumpPlatForm.json"
+  },
+  "ending": {
+    "scene": "waitingRoom",
+    "map": "readyRoom.json"
   }
 }
