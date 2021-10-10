@@ -1,5 +1,21 @@
+const setting = require('../share/setting.json')
+
 const registerRoomMethods = room => {
   room.methods = {
+    initialize: () => {
+      room.items = []
+      room.idleTime = 0
+      room.allPlayerReadyTime = 0
+      room.players.forEach(
+        player => {
+          player.coins = 0
+          player.ready = false
+          player.charactorKey = setting.initCharactor
+          player.health = setting.initHealth
+          player.resurrectCountDown = setting.resurrectCountDown
+        }
+      )
+    },
     writePlayer: (playerState) => {
       const playerIndex = room.players.findIndex(player => player.id === playerState.id)
       if (playerIndex > -1) {
