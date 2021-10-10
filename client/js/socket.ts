@@ -22,7 +22,6 @@ export const getSocketMethods = socket => {
             const sceneToRun = serverMap[gameStatus].scene
             const scenesActived = game.scene.getScenes(true).map(s => s.scene.key)
             const scenesToStop = scenesActived.filter(key => (key !== sceneToRun && key !== 'GUI'))
-
             const isSynced = scenesActived.includes(sceneToRun)
             if (isSynced) {
               // do nothing
@@ -34,6 +33,7 @@ export const getSocketMethods = socket => {
                 }
               )
               game.scene.start(sceneToRun)
+              game.scene.bringToTop('GUI')
             }
 
           }
