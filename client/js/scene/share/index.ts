@@ -135,10 +135,10 @@ function create() {
   )
 
   socketMethods.registerSceneSocketEvents(this.scene.key, methods)
-  console.log(gameState)
-  methods.createPlayers()
   registerWorldEvents(this, methods, socketMethods)
   registerInputEvents(this, methods, socketMethods)
+
+  methods.createPlayers()
 
   cursors.up.on(
     'down', () => {
