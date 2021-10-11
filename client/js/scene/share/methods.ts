@@ -133,6 +133,14 @@ const gameMethods = scene => {
         }
       )
     },
+    createItems: () => {
+      gameState.items.forEach(
+        item => {
+          item.phaserObject = createItemMatter(scene, item)
+          item.phaserObject.setData(item)
+        }
+      )
+    },
     syncPlayers: (players: Player[]) => {
       gameState.players.forEach(
         player => {

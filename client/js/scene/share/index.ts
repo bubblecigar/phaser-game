@@ -139,6 +139,7 @@ function create() {
   registerInputEvents(this, methods, socketMethods)
 
   methods.createPlayers()
+  methods.createItems()
 
   cursors.up.on(
     'down', () => {
