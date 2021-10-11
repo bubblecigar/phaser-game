@@ -68,9 +68,11 @@ const movePlayer = (scene, player: Player) => {
 }
 
 function init(serverGameState) {
-  gameState.players = serverGameState.players
-  gameState.items = serverGameState.items
-  gameState.gameStatus = serverGameState.gameStatus
+  Object.keys(serverGameState).forEach(
+    key => {
+      gameState[key] = serverGameState[key]
+    }
+  )
   methods = gameMethods(this)
 }
 

@@ -92,6 +92,7 @@ const registerProcessingIntervals = room => setInterval(
 
     const winners = detectWinners(room)
     if (winners.length > 0) {
+      room.winner = winners[0]
       changeGameStatus(room, 'ending')
     }
   }, intervalTimeStep
@@ -110,12 +111,13 @@ const changeGameStatus = (room, newGameStatus) => {
   gameStatusIntervals.forEach(interval => clearInterval(interval))
   gameStatusIntervals.splice(0, gameStatusIntervals.length)
 
+  room.methods.initialize()
+
   if (newGameStatus === 'waiting') {
     gameStatusIntervals.push(registerWaitingIntervals(room))
   } else if (newGameStatus === 'processing') {
     gameStatusIntervals.push(registerProcessingIntervals(room))
   } else if (newGameStatus === 'ending') {
-    room.methods.initialize()
     gameStatusIntervals.push(registerEndingIntervals(room))
   } else {
     // wrong status, throw

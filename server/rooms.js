@@ -30,6 +30,7 @@ const createRoom = (roomId) => {
     coinSpawnTime: 0,
     allPlayerReadyTime: 0,
     gameStatus: 'waiting', // -> waiting -> processing -> ending -> waiting
+    winner: null,
     intervals: null,
     methods: null
   }
@@ -108,13 +109,15 @@ const getEmittableFieldOfRoom = (room) => {
   const {
     players,
     items,
-    gameStatus
+    gameStatus,
+    winner
   } = room
 
   return {
     players,
     items,
-    gameStatus
+    gameStatus,
+    winner
   }
 }
 
