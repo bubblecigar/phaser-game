@@ -8,7 +8,7 @@
     "map": "jumpPlatForm.json"
   },
   "ending": {
-    "scene": "waitingRoom",
-    "map": "readyRoom.json"
+    "scene": "endingRoom",
+    "map": "endingRoom.json"
   }
 }

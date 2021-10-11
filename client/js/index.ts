@@ -4,6 +4,7 @@ import PhaserRaycaster from 'phaser-raycaster'
 import gameConfig from './game/config'
 import dungeonScene from './scene/dungeon/index'
 import waitingRoomScene from './scene/waitingRoom/index'
+import endingRoomScene from './scene/endingRoom/index'
 import GUIScene from './scene/GUI/index'
 import loginScene from './scene/login/index'
 import { connectToServer, getSocketMethods } from './socket'
@@ -33,7 +34,7 @@ const game = new Phaser.Game({
   dom: {
     createContainer: true
   },
-  scene: [loginScene, GUIScene, waitingRoomScene, dungeonScene],
+  scene: [loginScene, GUIScene, waitingRoomScene, dungeonScene, endingRoomScene],
   // scene: [dungeonScene, GUIScene],
   plugins: {
     scene: [
