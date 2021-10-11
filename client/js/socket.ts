@@ -18,7 +18,8 @@ export const getSocketMethods = socket => {
     registerGameSocketEvents: game => {
       socket.on('game', (key, ...args) => {
         const methods = {
-          updateGameStatus: gameStatus => {
+          updateGameStatus: serverGameState => {
+            const { gameStatus } = serverGameState
             const sceneToRun = serverMap[gameStatus].scene
             const scenesActived = game.scene.getScenes(true).map(s => s.scene.key)
             const scenesToStop = scenesActived.filter(key => (key !== sceneToRun && key !== 'GUI'))

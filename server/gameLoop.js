@@ -123,7 +123,9 @@ const changeGameStatus = (room, newGameStatus) => {
 
   room.gameStatus = newGameStatus
   const { io } = require('./index.js')
-  io.to(room.id).emit('game', 'updateGameStatus', room.gameStatus)
+  const roomMethods = require('./rooms').roomMethods
+  const gameState = roomMethods.getEmittableFieldOfRoom(room)
+  io.to(room.id).emit('game', 'updateGameStatus', gameState)
 }
 
 const registerGameLoop = room => {
