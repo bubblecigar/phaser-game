@@ -22,7 +22,7 @@ const registerInputEvents = (scene, methods, socketMethods) => {
           const player: Player = methods.getPlayer(getLocalUserData().userId)
           const _player: Player = _.omit(_.clone(player), 'phaserObject')
           _player.charactorKey = randomCharactorKey
-          socketMethods.clientsInScene(scene.scene.key, methods, 'setPlayer', _player)
+          socketMethods.clientsInScene(scene.scene.key, methods, 'rebuildPlayer', _player)
           break
         }
         default: {

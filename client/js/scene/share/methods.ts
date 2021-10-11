@@ -160,7 +160,7 @@ const gameMethods = scene => {
       const player = methods.getPlayer(userId)
       player.ready = ready
     },
-    setPlayer: (playerConstructor: Player): void => {
+    rebuildPlayer: (playerConstructor: Player): void => {
       methods.removePlayer(playerConstructor.id)
       methods.createPlayer(playerConstructor)
     },
@@ -217,7 +217,7 @@ const gameMethods = scene => {
         health: charactors[setting.resurrectCharactor].maxHealth,
         resurrectCountDown: setting.resurrectCountDown
       }
-      methods.setPlayer(playerConstructor)
+      methods.rebuildPlayer(playerConstructor)
     },
     onDead: (playerId: string) => {
       const player = methods.getPlayer(playerId)
@@ -231,7 +231,7 @@ const gameMethods = scene => {
         resurrectCountDown: setting.resurrectCountDown,
         phaserObject: null
       }
-      methods.setPlayer(ghostCharactor)
+      methods.rebuildPlayer(ghostCharactor)
     },
     onHit: (playerId: string, bullet: Bullet) => {
       const player = methods.getPlayer(playerId)
