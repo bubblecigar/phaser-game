@@ -33,7 +33,7 @@ export const getSocketMethods = socket => {
                   game.scene.stop(sceneKey)
                 }
               )
-              game.scene.start(sceneToRun)
+              game.scene.start(sceneToRun, serverGameState)
               game.scene.bringToTop('GUI')
             }
 

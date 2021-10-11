@@ -10,6 +10,7 @@ import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
 import targetUrl from '../../../statics/tile/target.png'
 import { socketMethods } from '../../index'
+import gameState from '../../game/state'
 
 const userId = getLocalUserData().userId
 
@@ -66,7 +67,10 @@ const movePlayer = (scene, player: Player) => {
   }
 }
 
-function init() {
+function init(serverGameState) {
+  gameState.players = serverGameState.players
+  gameState.items = serverGameState.items
+  gameState.gameStatus = serverGameState.gameStatus
   methods = gameMethods(this)
 }
 
@@ -131,7 +135,8 @@ function create() {
   )
 
   socketMethods.registerSceneSocketEvents(this.scene.key, methods)
-  socketMethods.enterScene(this.scene.key)
+  console.log(gameState)
+  methods.createPlayers()
   registerWorldEvents(this, methods, socketMethods)
   registerInputEvents(this, methods, socketMethods)
 

@@ -105,6 +105,34 @@ const gameMethods = scene => {
       methods.syncPlayers(serverGameState.players)
       methods.syncItems(serverGameState.items)
     },
+    someoneJoin: (serverGameState) => {
+      methods.syncPlayers(serverGameState.players)
+    },
+    createPlayers: () => {
+      const spawnPoint = methods.getSpawnPoint()
+      gameState.players.forEach(
+        player => {
+          const comeFromOtherScene = player.scene !== scene.scene.key
+          if (comeFromOtherScene) {
+            player.position = spawnPoint
+            player.coins = 0
+            player.ready = false
+            player.charactorKey = setting.initCharactor
+            player.health = setting.initHealth
+            player.resurrectCountDown = setting.resurrectCountDown
+          }
+          player.phaserObject = createPlayerMatter(scene, player)
+
+          if (player.id === userId) {
+            const camera = scene.cameras.main
+            camera.startFollow(player.phaserObject, true, 0.5, 0.5)
+            const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
+            const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
+            camera.setMask(mask)
+          }
+        }
+      )
+    },
     syncPlayers: (players: Player[]) => {
       gameState.players.forEach(
         player => {
