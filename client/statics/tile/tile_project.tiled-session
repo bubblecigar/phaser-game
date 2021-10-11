@@ -10,7 +10,7 @@
     "fileStates": {
         "": {
             "scaleInDock": 2.4261,
-            "scaleInEditor": 7.33
+            "scaleInEditor": 3.2
         },
         "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx": {
             "scaleInDock": 1,
@@ -103,6 +103,22 @@
             "scaleInDock": 1,
             "scaleInEditor": 3.0295
         },
+        "endingRoom.tmx": {
+            "scale": 1.87,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 165.50802139037432,
+                "y": 200.26737967914434
+            }
+        },
+        "endingRoom.tmx#forestTileSet": {
+            "scaleInDock": 2.6637,
+            "scaleInEditor": 1.82
+        },
+        "endingRoom.tmx#ghost_tileset": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "hhh.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1.83
@@ -130,11 +146,11 @@
             "scaleInDock": 1
         },
         "readyRoom.tmx": {
-            "scale": 2.2,
+            "scale": 2.12,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 141.13636363636363,
-                "y": 105.2272727272727
+                "x": 288.9150943396226,
+                "y": 107.31132075471696
             }
         },
         "readyRoom.tmx#forestTileSet": {
@@ -218,7 +234,7 @@
             "scaleInDock": 3
         }
     },
-    "last.exportedFilePath": "/Users/roywang/Desktop/typeScript/client/statics/tile",
+    "last.exportedFilePath": "/Users/roywang/Desktop/typeScript/share/map",
     "last.imagePath": "/Users/roywang/Desktop/typeScript/client/statics/tile",
     "map.fixedSize": true,
     "map.height": 20,
