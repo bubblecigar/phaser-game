@@ -16,6 +16,7 @@ export interface Abilities {
 export interface Player {
   interface: 'Player',
   id: string,
+  name: string,
   velocity: Point,
   position: Point,
   charactorKey: string,

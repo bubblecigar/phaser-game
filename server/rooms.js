@@ -51,7 +51,7 @@ const reconnectPlayer = (room, userId) => {
   return false
 }
 
-const connectToRoom = (roomId, userId, socket) => {
+const connectToRoom = (roomId, userId, username, socket) => {
   socket.join(roomId)
 
   if (!rooms[roomId]) {
@@ -70,6 +70,7 @@ const connectToRoom = (roomId, userId, socket) => {
     const playerConstructor = {
       interface: 'Player',
       id: userId,
+      name: username,
       ready: false,
       scene: 'waitingRoom',
       charactorKey: setting.initCharactor,

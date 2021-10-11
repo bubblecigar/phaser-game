@@ -23,7 +23,7 @@ io.on('connection', async function (socket) {
         roomMethods.disconnectFromRoom(room, userState.userId)
         socket.to(room.id).emit('all-scene', 'removePlayer', userState.userId)
       }
-      room = roomMethods.connectToRoom(roomId, userState.userId, socket)
+      room = roomMethods.connectToRoom(roomId, userState.userId, userState.username, socket)
       const gameState = roomMethods.getEmittableFieldOfRoom(room)
       io.to(socket.id).emit('game', 'updateGameStatus', gameState)
       const player = gameState.players.find(player => player.id === userState.userId)
