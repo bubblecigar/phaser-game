@@ -101,16 +101,6 @@ const gameMethods = scene => {
       gameState.players.push(player)
       methods.createPlayer(player)
     },
-    playerLeave: (playerId: string) => {
-      const playerIndex = gameState.players.findIndex(player => player.id === playerId)
-      const player = gameState.players[playerIndex]
-      if (!player) {
-        console.log('no such player')
-        return
-      }
-      gameState.players = gameState.players.filter(player => player.id !== playerId)
-      player.phaserObject.destroy()
-    },
     createPlayer: (player: Player) => {
       const comeFromOtherScene = player.scene !== scene.scene.key
       if (comeFromOtherScene) {

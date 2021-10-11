@@ -21,7 +21,7 @@ io.on('connection', async function (socket) {
     socket.on('change-room', (roomId) => {
       if (room) {
         roomMethods.disconnectFromRoom(room, userState.userId)
-        socket.to(room.id).emit('all-scene', 'playerLeave', userState.userId)
+        socket.to(room.id).emit('all-scene', 'removePlayer', userState.userId)
       }
       room = roomMethods.connectToRoom(roomId, userState.userId, socket)
       const gameState = roomMethods.getEmittableFieldOfRoom(room)
@@ -49,7 +49,7 @@ io.on('connection', async function (socket) {
     socket.on('disconnect', async function () {
       if (room && socket) {
         roomMethods.disconnectFromRoom(room, userState.userId, socket)
-        socket.to(room.id).emit('all-scene', 'playerLeave', userState.userId)
+        socket.to(room.id).emit('all-scene', 'removePlayer', userState.userId)
       }
     })
   } catch (error) {
