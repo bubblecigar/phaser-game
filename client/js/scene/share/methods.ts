@@ -101,31 +101,45 @@ const gameMethods = scene => {
       gameState.players = []
       gameState.items = []
     },
-    someoneJoin: (serverGameState) => {
-      methods.syncPlayers(serverGameState.players)
+    playerJoin: (player: Player) => {
+      gameState.players.push(player)
+      methods.createPlayer(player)
+    },
+    playerLeave: (playerId: string) => {
+      const playerIndex = gameState.players.findIndex(player => player.id === playerId)
+      const player = gameState.players[playerIndex]
+      if (!player) {
+        console.log('no such player')
+        return
+      }
+      gameState.players = gameState.players.filter(player => player.id !== playerId)
+      player.phaserObject.destroy()
+    },
+    createPlayer: (player: Player) => {
+      const comeFromOtherScene = player.scene !== scene.scene.key
+      if (comeFromOtherScene) {
+        const spawnPoint = methods.getSpawnPoint()
+        player.position = spawnPoint
+        player.coins = 0
+        player.ready = false
+        player.charactorKey = setting.initCharactor
+        player.health = setting.initHealth
+        player.resurrectCountDown = setting.resurrectCountDown
+      }
+      player.phaserObject = createPlayerMatter(scene, player)
+
+      if (player.id === userId) {
+        const camera = scene.cameras.main
+        camera.startFollow(player.phaserObject, true, 0.5, 0.5)
+        const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
+        const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
+        camera.setMask(mask)
+      }
     },
     createPlayers: () => {
-      const spawnPoint = methods.getSpawnPoint()
       gameState.players.forEach(
         player => {
-          const comeFromOtherScene = player.scene !== scene.scene.key
-          if (comeFromOtherScene) {
-            player.position = spawnPoint
-            player.coins = 0
-            player.ready = false
-            player.charactorKey = setting.initCharactor
-            player.health = setting.initHealth
-            player.resurrectCountDown = setting.resurrectCountDown
-          }
-          player.phaserObject = createPlayerMatter(scene, player)
-
-          if (player.id === userId) {
-            const camera = scene.cameras.main
-            camera.startFollow(player.phaserObject, true, 0.5, 0.5)
-            const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
-            const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
-            camera.setMask(mask)
-          }
+          methods.createPlayer(player)
         }
       )
     },

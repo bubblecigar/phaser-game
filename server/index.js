@@ -21,11 +21,13 @@ io.on('connection', async function (socket) {
     socket.on('change-room', (roomId) => {
       if (room) {
         roomMethods.disconnectFromRoom(room, userState.userId)
+        socket.to(room.id).emit('all-scene', 'playerLeave', userState.userId)
       }
       room = roomMethods.connectToRoom(roomId, userState.userId, socket)
       const gameState = roomMethods.getEmittableFieldOfRoom(room)
       io.to(socket.id).emit('game', 'updateGameStatus', gameState)
-      socket.to(room.id).emit('all-scene', 'someoneJoin', gameState)
+      const player = gameState.players.find(player => player.id === userState.userId)
+      socket.to(room.id).emit('all-scene', 'playerJoin', player)
     })
 
     socket.on('clients', (sceneKey, method, ...args) => {
@@ -47,7 +49,7 @@ io.on('connection', async function (socket) {
     socket.on('disconnect', async function () {
       if (room && socket) {
         roomMethods.disconnectFromRoom(room, userState.userId, socket)
-        room.methods.syncPlayersInAllClients('all-scene')
+        socket.to(room.id).emit('all-scene', 'playerLeave', userState.userId)
       }
     })
   } catch (error) {
