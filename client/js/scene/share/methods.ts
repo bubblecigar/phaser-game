@@ -97,11 +97,12 @@ const createItemMatter = (scene, itemConstructor: Item | Bullet) => {
 
 const gameMethods = scene => {
   const methods = {
-    playerJoin: (player: Player) => {
-      gameState.players.push(player)
-      methods.createPlayer(player)
-    },
     createPlayer: (player: Player) => {
+      const isInState = methods.getPlayer(player.id)
+      if (!isInState) {
+        gameState.players.push(player)
+      }
+
       const comeFromOtherScene = player.scene !== scene.scene.key
       if (comeFromOtherScene) {
         const spawnPoint = methods.getSpawnPoint()

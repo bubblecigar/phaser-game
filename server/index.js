@@ -27,7 +27,7 @@ io.on('connection', async function (socket) {
       const gameState = roomMethods.getEmittableFieldOfRoom(room)
       io.to(socket.id).emit('game', 'updateGameStatus', gameState)
       const player = gameState.players.find(player => player.id === userState.userId)
-      socket.to(room.id).emit('all-scene', 'playerJoin', player)
+      socket.to(room.id).emit('all-scene', 'createPlayer', player)
     })
 
     socket.on('clients', (sceneKey, method, ...args) => {
