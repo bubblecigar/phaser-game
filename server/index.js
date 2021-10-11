@@ -28,16 +28,6 @@ io.on('connection', async function (socket) {
       socket.to(room.id).emit('all-scene', 'someoneJoin', gameState)
     })
 
-    // socket.on('enter-scene', (sceneKey) => {
-    //   if (room) {
-    //     const gameState = roomMethods.getEmittableFieldOfRoom(room)
-    //     io.to(socket.id).emit('game', 'updateGameStatus', gameState)
-    //     // add user to other client
-    //     // socket.to(room.id).emit(sceneKey, method, ...args)
-    //     // io.to(room.id).emit(sceneKey, 'syncServerStateToClient', gameState)
-    //   }
-    // })
-
     socket.on('clients', (sceneKey, method, ...args) => {
       if (room) {
         socket.to(room.id).emit(sceneKey, method, ...args)
