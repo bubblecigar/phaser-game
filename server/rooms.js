@@ -27,6 +27,7 @@ const createRoom = (roomId) => {
     items: [],
     disconnectedPlayers: [],
     idleTime: 0,
+    coinSpawnTime: 0,
     allPlayerReadyTime: 0,
     gameStatus: 'waiting', // -> waiting -> processing -> ending -> waiting
     intervals: null,

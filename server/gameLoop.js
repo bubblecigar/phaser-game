@@ -77,12 +77,17 @@ const registerProcessingIntervals = room => setInterval(
       item => item.itemKey === 'coin' && item.builderId === 'server'
     )
     if (serverSpawnCoins.length > 0) {
-      // do nothing
+      room.coinSpawnTime = 0
     } else {
-      const coinConstructor = createCoin()
-      room.items.push(coinConstructor)
-      const { io } = require('./index.js')
-      io.in(room.id).emit('dungeon', 'addItem', coinConstructor)
+      if (room.coinSpawnTime >= setting.coinSpawnInterval) {
+        const coinConstructor = createCoin()
+        room.items.push(coinConstructor)
+        const { io } = require('./index.js')
+        io.in(room.id).emit('dungeon', 'addItem', coinConstructor)
+        room.coinSpawnTime = 0
+      } else {
+        room.coinSpawnTime += intervalTimeStep
+      }
     }
 
     const winners = detectWinners(room)

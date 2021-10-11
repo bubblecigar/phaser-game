@@ -6,6 +6,7 @@ const registerRoomMethods = room => {
       room.items = []
       room.idleTime = 0
       room.allPlayerReadyTime = 0
+      room.coinSpawnTime = 0
     },
     writePlayer: (playerState) => {
       const playerIndex = room.players.findIndex(player => player.id === playerState.id)
