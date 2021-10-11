@@ -97,6 +97,7 @@ const createItemMatter = (scene, itemConstructor: Item | Bullet) => {
 
 const gameMethods = scene => {
   const methods = {
+    getPlayer: (id: string): Player => gameState.players.find(p => p.id === id),
     createPlayer: (player: Player) => {
       const isInState = methods.getPlayer(player.id)
       if (!isInState) {
@@ -122,6 +123,17 @@ const gameMethods = scene => {
         const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
         camera.setMask(mask)
       }
+    },
+    removePlayer: (id: string) => {
+      const playerIndex = gameState.players.findIndex(player => player.id === id)
+      const player = gameState.players[playerIndex]
+      if (!player) {
+        console.log('no such player')
+        return
+      }
+      gameState.players = gameState.players.filter(player => player.id !== id)
+
+      player.phaserObject.destroy()
     },
     createPlayers: () => {
       gameState.players.forEach(
@@ -152,18 +164,6 @@ const gameMethods = scene => {
       methods.removePlayer(playerConstructor.id)
       methods.createPlayer(playerConstructor)
     },
-    removePlayer: (id: string) => {
-      const playerIndex = gameState.players.findIndex(player => player.id === id)
-      const player = gameState.players[playerIndex]
-      if (!player) {
-        console.log('no such player')
-        return
-      }
-      gameState.players = gameState.players.filter(player => player.id !== id)
-
-      player.phaserObject.destroy()
-    },
-    getPlayer: (id: string): Player => gameState.players.find(p => p.id === id),
     writePlayer: (_player: Player) => {
       const player = methods.getPlayer(_player.id)
       if (!player || !player.phaserObject || !player.phaserObject.body) {
