@@ -61,6 +61,5 @@ export interface Bullet extends Omit<Item, 'interface'> {
 export interface GameState {
   players: Player[],
   items: Item[],
-  gameStatus: 'waiting' | 'processing' | 'ending',
-  monsters: Monster[]
+  gameStatus: 'waiting' | 'processing' | 'ending'
 }
