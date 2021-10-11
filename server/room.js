@@ -16,10 +16,6 @@ const registerRoomMethods = room => {
         room.players.push(playerState)
       }
     },
-    syncPlayersInAllClients: (sceneKey) => {
-      const { io } = require('./index.js')
-      io.in(room.id).emit(sceneKey, 'syncPlayers', room.players)
-    },
     addItem: (item) => {
       room.items.push(item)
     },

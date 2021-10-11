@@ -97,10 +97,6 @@ const createItemMatter = (scene, itemConstructor: Item | Bullet) => {
 
 const gameMethods = scene => {
   const methods = {
-    init: () => {
-      gameState.players = []
-      gameState.items = []
-    },
     playerJoin: (player: Player) => {
       gameState.players.push(player)
       methods.createPlayer(player)
@@ -151,29 +147,6 @@ const gameMethods = scene => {
         }
       )
     },
-    syncPlayers: (players: Player[]) => {
-      gameState.players.forEach(
-        player => {
-          methods.removePlayer(player.id)
-        }
-      )
-      gameState.players = []
-      const spawnPoint = methods.getSpawnPoint()
-      players.forEach(
-        player => {
-          const comeFromOtherScene = player.scene !== scene.scene.key
-          if (comeFromOtherScene) {
-            player.position = spawnPoint
-            player.coins = 0
-            player.ready = false
-            player.charactorKey = setting.initCharactor
-            player.health = setting.initHealth
-            player.resurrectCountDown = setting.resurrectCountDown
-          }
-          methods.addPlayer(player)
-        }
-      )
-    },
     getSpawnPoint: () => {
       const map = scene.map
       const infoLayer = map.objects.find(layer => layer.name === 'info_layer')
@@ -184,58 +157,9 @@ const gameMethods = scene => {
       const player = methods.getPlayer(userId)
       player.ready = ready
     },
-    syncItems: (items: Item[]) => {
-      gameState.items.forEach(
-        item => {
-          methods.removeItem(item.id)
-        }
-      )
-      gameState.items = []
-      items.forEach(
-        item => {
-          methods.addItem(item)
-        }
-      )
-    },
     setPlayer: (playerConstructor: Player): void => {
       methods.removePlayer(playerConstructor.id)
       methods.addPlayer(playerConstructor)
-    },
-    levelUpPlayer: (player: Player, key: 'damage' | 'duration' | 'speed' | 'consective' | 'rotation' | 'directions') => {
-      const abilities = player.abilities
-
-      switch (key) {
-        case 'damage': {
-          abilities.damageMultiplier += 0.1
-          break
-        }
-        case 'duration': {
-          abilities.durationMultiplier += 0.1
-          break
-        }
-        case 'speed': {
-          abilities.speedMultiplier += 0.1
-          break
-        }
-        case 'rotation': {
-          abilities.rotation = true
-          break
-        }
-        case 'consective': {
-          abilities.consectiveShooting++
-          break
-        }
-        case 'directions': {
-          const nth = (abilities.directions.length + 1) / 2
-          const nthAngle = nth * Math.PI / 4
-          abilities.directions.push(nthAngle, -nthAngle)
-          break
-        }
-        default: {
-          console.log('invalid key for levelUpPlayer')
-          break
-        }
-      }
     },
     addPlayer: (playerConstructor: Player): void => {
       const playerAlreadyExist = gameState.players.some(player => player.id === playerConstructor.id)

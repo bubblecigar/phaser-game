@@ -25,36 +25,6 @@ const registerInputEvents = (scene, methods, socketMethods) => {
           socketMethods.clientsInScene(scene.scene.key, methods, 'setPlayer', _player)
           break
         }
-        case '1': {
-          const player: Player = methods.getPlayer(getLocalUserData().userId)
-          methods.levelUpPlayer(player, 'damage')
-          break
-        }
-        case '2': {
-          const player: Player = methods.getPlayer(getLocalUserData().userId)
-          methods.levelUpPlayer(player, 'duration')
-          break
-        }
-        case '3': {
-          const player: Player = methods.getPlayer(getLocalUserData().userId)
-          methods.levelUpPlayer(player, 'speed')
-          break
-        }
-        case '4': {
-          const player: Player = methods.getPlayer(getLocalUserData().userId)
-          methods.levelUpPlayer(player, 'rotation')
-          break
-        }
-        case '5': {
-          const player: Player = methods.getPlayer(getLocalUserData().userId)
-          methods.levelUpPlayer(player, 'consective')
-          break
-        }
-        case '6': {
-          const player: Player = methods.getPlayer(getLocalUserData().userId)
-          methods.levelUpPlayer(player, 'directions')
-          break
-        }
         default: {
           // do nothing
         }
