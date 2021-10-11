@@ -101,10 +101,6 @@ const gameMethods = scene => {
       gameState.players = []
       gameState.items = []
     },
-    syncServerStateToClient: (serverGameState: GameState) => {
-      methods.syncPlayers(serverGameState.players)
-      methods.syncItems(serverGameState.items)
-    },
     someoneJoin: (serverGameState) => {
       methods.syncPlayers(serverGameState.players)
     },
