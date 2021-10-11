@@ -150,30 +150,7 @@ const gameMethods = scene => {
     },
     setPlayer: (playerConstructor: Player): void => {
       methods.removePlayer(playerConstructor.id)
-      methods.addPlayer(playerConstructor)
-    },
-    addPlayer: (playerConstructor: Player): void => {
-      const playerAlreadyExist = gameState.players.some(player => player.id === playerConstructor.id)
-      if (playerAlreadyExist) {
-        console.log('player already exist')
-        return
-      }
-      const player: Player = playerConstructor
-      gameState.players.push(player)
-
-      if (!scene) {
-        console.log('not initialize')
-        return
-      }
-      player.phaserObject = createPlayerMatter(scene, player)
-
-      if (playerConstructor.id === userId) {
-        const camera = scene.cameras.main
-        camera.startFollow(player.phaserObject, true, 0.5, 0.5)
-        const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
-        const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
-        camera.setMask(mask)
-      }
+      methods.createPlayer(playerConstructor)
     },
     removePlayer: (id: string) => {
       const playerIndex = gameState.players.findIndex(player => player.id === id)
