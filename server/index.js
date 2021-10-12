@@ -24,10 +24,16 @@ io.on('connection', async function (socket) {
         socket.to(room.id).emit('all-scene', 'removePlayer', userState.userId)
       }
       room = roomMethods.connectToRoom(roomId, userState.userId, userState.username, socket)
-      const gameState = roomMethods.getEmittableFieldOfRoom(room)
-      io.to(socket.id).emit('game', 'updateGameStatus', gameState)
-      const player = gameState.players.find(player => player.id === userState.userId)
-      socket.to(room.id).emit('all-scene', 'createPlayer', player)
+      if (!room) {
+        const errorMessage = 'Room in used, pleash change RoomId'
+        io.to(socket.id).emit('game', 'connectionFail', errorMessage)
+      } else {
+        // successfully join room
+        const gameState = roomMethods.getEmittableFieldOfRoom(room)
+        io.to(socket.id).emit('game', 'updateGameStatus', gameState)
+        const player = gameState.players.find(player => player.id === userState.userId)
+        socket.to(room.id).emit('all-scene', 'createPlayer', player)
+      }
     })
 
     socket.on('clients', (sceneKey, method, ...args) => {

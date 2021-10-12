@@ -18,6 +18,9 @@ export const getSocketMethods = socket => {
     registerGameSocketEvents: game => {
       socket.on('game', (key, ...args) => {
         const methods = {
+          connectionFail: errorMessage => {
+            window.alert(errorMessage)
+          },
           updateGameStatus: serverGameState => {
             const { gameStatus } = serverGameState
             const sceneToRun = serverMap[gameStatus].scene

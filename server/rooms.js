@@ -51,7 +51,25 @@ const reconnectPlayer = (room, userId) => {
   return false
 }
 
+const isRoomOpenForUser = (roomId, userId) => {
+  const room = rooms[roomId]
+
+  if (!room) {
+    return true // room is not in used
+  } else if (room.gameStatus === 'waiting') {
+    return true // new player is welcome
+  } else {
+    const userWasInRoom = room.disconnectedPlayers.some(player => player.id === userId)
+    return userWasInRoom // whether its a reconnection
+  }
+}
+
 const connectToRoom = (roomId, userId, username, socket) => {
+  const ableToConnect = isRoomOpenForUser(roomId, userId)
+  if (!ableToConnect) {
+    return false
+  }
+
   socket.join(roomId)
 
   if (!rooms[roomId]) {
