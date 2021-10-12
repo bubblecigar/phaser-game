@@ -92,7 +92,7 @@ const showResurrectCountDown = player => {
 
 function update() {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
-  if (!player) {
+  if (!player || !player.phaserObject) {
     transitionScreen.setVisible(true)
   } else {
     transitionScreen.setVisible(false)
