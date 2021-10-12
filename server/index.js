@@ -20,7 +20,7 @@ io.on('connection', async function (socket) {
 
     socket.on('change-room', (roomId) => {
       if (room) {
-        roomMethods.disconnectFromRoom(room, userState.userId)
+        roomMethods.disconnectFromRoom(room, userState.userId, socket)
         socket.to(room.id).emit('all-scene', 'removePlayer', userState.userId)
       }
       room = roomMethods.connectToRoom(roomId, userState.userId, userState.username, socket)
