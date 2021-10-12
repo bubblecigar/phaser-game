@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="10">
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="16">
  <editorsettings>
   <export target="../../../share/map/endingRoom.json" format="json"/>
  </editorsettings>
@@ -128,9 +128,9 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,33,37,36,44,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,25,34,36,28,44,
 0,0,0,0,0,0,0,0,0,0,0,0,0,25,29,44,29,36,36,45,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+25,26,28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+28,37,36,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+36,29,44,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
  <layer id="1" name="wall_layer" width="20" height="20">
@@ -150,22 +150,29 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,19,17,18,
 0,0,0,0,0,22,0,0,0,0,0,0,0,0,0,17,19,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,30,31,31,32,0,0,25,26,0,0,0,0,
-0,0,0,0,0,0,0,0,38,39,39,40,0,0,0,1,3,0,0,0,
-31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,
-39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,
-39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39
+0,0,30,32,0,0,0,0,30,31,31,32,0,0,25,26,0,0,0,0,
+0,0,38,40,0,0,0,0,38,39,39,40,0,0,0,1,3,0,0,0,
+0,0,38,39,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,
+0,0,38,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,
+0,0,38,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39
 </data>
  </layer>
  <objectgroup id="2" name="info_layer">
-  <object id="1" name="spawn_point" x="32.6203" y="241.176">
+  <object id="1" name="spawn_point" x="16.0428" y="135.828">
    <point/>
   </object>
-  <object id="8" name="winner_point" x="249.198" y="145.455">
+  <object id="8" name="winner_point" x="281.283" y="145.455">
+   <point/>
+  </object>
+  <object id="13" name="exist_room_hint" x="95.1872" y="235.294">
+   <point/>
+  </object>
+  <object id="15" name="join_room_hint" x="207.487" y="233.69">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="4" name="sensor_layer">
-  <object id="7" name="ready_zone" x="260.963" y="186.631" width="59.3583" height="83.9573"/>
+  <object id="7" name="ready_zone" x="266.311" y="189.84" width="54.0107" height="85.5616"/>
+  <object id="10" name="exit_room_zone" x="0.534759" y="288.235" width="37.9679" height="30.4813"/>
  </objectgroup>
 </map>
