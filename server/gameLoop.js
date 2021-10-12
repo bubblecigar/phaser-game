@@ -116,9 +116,10 @@ const changeGameStatus = (room, newGameStatus) => {
   if (newGameStatus === 'waiting') {
     gameStatusIntervals.push(registerWaitingIntervals(room))
   } else if (newGameStatus === 'processing') {
+    room.disconnectedPlayers = []
     gameStatusIntervals.push(registerProcessingIntervals(room))
   } else if (newGameStatus === 'ending') {
-    gameStatusIntervals.push(registerEndingIntervals(room))
+    gameStatusIntervals.push(registerWaitingIntervals(room))
   } else {
     // wrong status, throw
   }
