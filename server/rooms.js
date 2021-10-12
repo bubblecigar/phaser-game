@@ -55,12 +55,15 @@ const isRoomOpenForUser = (roomId, userId) => {
   const room = rooms[roomId]
 
   if (!room) {
-    return true // room is not in used
-  } else if (room.gameStatus === 'waiting') {
-    return true // new player is welcome
-  } else {
+    // room is empty, anyone can join
+    return true
+  } else if (room.gameStatus === 'processing') {
+    // game in this room is processing, only reconnection is allowed
     const userWasInRoom = room.disconnectedPlayers.some(player => player.id === userId)
-    return userWasInRoom // whether its a reconnection
+    return userWasInRoom
+  } else {
+    // gameStatus is waiting or ending, new players are welcomed
+    return true
   }
 }
 
