@@ -103,7 +103,7 @@ const classifyCollisionTargets = (bodyA, bodyB) => {
   return collisionTargets
 }
 
-const registerWorlEvents = (scene, methods, socketMethods) => {
+const registerWorldEvents = (scene, methods, socketMethods) => {
   scene.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
     const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
     const { player, bullet, terrainBlock, item, sensor } = collistionTargets
@@ -188,4 +188,4 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
   })
 }
 
-export default registerWorlEvents
+export default registerWorldEvents
