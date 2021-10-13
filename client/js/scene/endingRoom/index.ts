@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import basescene from '../share/index'
+import waitingScene from '../waitingRoom/index'
 import gameState from '../../game/state'
 import charactors from '../../charactors/index'
 import setting from '../../../../share/setting.json'
@@ -34,7 +34,7 @@ const createWinnerStatue = (scene) => {
 }
 
 function create() {
-  basescene.create.apply(this)
+  waitingScene.create.apply(this)
 
   try {
     createWinnerStatue(this)
@@ -44,13 +44,13 @@ function create() {
 }
 
 function update(...args) {
-  basescene.update.apply(this, args)
+  waitingScene.update.apply(this, args)
 }
 
 export default {
   key: 'endingRoom',
-  init: basescene.init,
-  preload: basescene.preload,
+  init: waitingScene.init,
+  preload: waitingScene.preload,
   create,
   update
 }
