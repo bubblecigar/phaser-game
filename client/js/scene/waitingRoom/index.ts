@@ -10,7 +10,8 @@ const updateReadyHintText = () => {
   const playersReady = players.filter(player => player.ready).length
 
   if (playersReady === totalPlayers) {
-    readyHintText.setText(`starting`)
+    const countDownInSeconds = Math.ceil(gameState.gameStartCountDown / 1000) || 1
+    readyHintText.setText(countDownInSeconds)
   } else {
     readyHintText.setText(`${playersReady}/${totalPlayers} ready`)
   }

@@ -63,5 +63,6 @@ export interface GameState {
   players: Player[],
   items: Item[],
   gameStatus: 'waiting' | 'processing' | 'ending',
-  winner: null | Player
+  winner: null | Player,
+  gameStartCountDown: number
 }

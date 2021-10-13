@@ -32,6 +32,8 @@ const registerWaitingIntervals = room => setInterval(
         changeGameStatus(room, 'processing')
       } else {
         room.allPlayerReadyTime += intervalTimeStep
+        const { io } = require('./index.js')
+        io.in(room.id).emit('game', 'gameStartCountDown', setting.gameStartCountDown - room.allPlayerReadyTime)
       }
     } else {
       room.allPlayerReadyTime = 0

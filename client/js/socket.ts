@@ -2,7 +2,7 @@ import _ from 'lodash'
 import io from 'socket.io-client'
 import { getLocalUserData } from './user'
 import serverMap from '../../share/serverMap.json'
-import { initGameState } from './game/state'
+import gameState, { initGameState } from './game/state'
 
 export const connectToServer = () => {
   const socket = io.connect({
@@ -21,6 +21,9 @@ export const getSocketMethods = socket => {
         const methods = {
           connectionFail: errorMessage => {
             window.alert(errorMessage)
+          },
+          gameStartCountDown: time => {
+            gameState.gameStartCountDown = time
           },
           updateGameStatus: serverGameState => {
             const { gameStatus } = serverGameState

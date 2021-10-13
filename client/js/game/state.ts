@@ -1,10 +1,12 @@
+import setting from '../../../share/setting.json'
 import { GameState } from '../Interface'
 
 const gameState: GameState = {
   players: [],
   items: [],
   winner: null,
-  gameStatus: 'waiting'
+  gameStatus: 'waiting',
+  gameStartCountDown: setting.gameStartCountDown
 }
 
 const initGameState = () => {
@@ -12,6 +14,7 @@ const initGameState = () => {
   gameState.items = []
   gameState.winner = null
   gameState.gameStatus = 'waiting'
+  gameState.gameStartCountDown = setting.gameStartCountDown
 }
 
 export default gameState
