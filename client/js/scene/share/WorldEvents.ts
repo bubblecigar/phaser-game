@@ -7,7 +7,7 @@ const classifyCollisionTargets = (bodyA, bodyB) => {
   const collisionTargets = {
     player: null,
     bullet: null,
-    terrain: null,
+    terrainBlock: null,
     item: null,
     sensor: null
   }
@@ -52,16 +52,16 @@ const classifyCollisionTargets = (bodyA, bodyB) => {
 
   try {
     if (bodyA.gameObject?.tile || bodyA.label === 'world-bound-wall') {
-      collisionTargets.terrain = {
+      collisionTargets.terrainBlock = {
         body: bodyA
       }
     } else if (bodyB.gameObject?.tile || bodyB.label === 'world-bound-wall') {
-      collisionTargets.terrain = {
+      collisionTargets.terrainBlock = {
         body: bodyB
       }
     }
   } catch (e) {
-    // no terrain
+    // no terrainBlock
   }
 
   try {
@@ -106,9 +106,9 @@ const classifyCollisionTargets = (bodyA, bodyB) => {
 const registerWorlEvents = (scene, methods, socketMethods) => {
   scene.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
     const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
-    const { player, bullet, terrain, item, sensor } = collistionTargets
-    if (player && player.isUser && terrain) {
-      const dy = terrain.body.position.y - player.body.position.y
+    const { player, bullet, terrainBlock, item, sensor } = collistionTargets
+    if (player && player.isUser && terrainBlock) {
+      const dy = terrainBlock.body.position.y - player.body.position.y
       const tileAtTop = dy <= 0
       if (!tileAtTop) {
         player.body.gameObject.setData({ touched: true })
@@ -155,7 +155,7 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
         }
       }
       bullet.data.destroy()
-    } else if (bullet && terrain) {
+    } else if (bullet && terrainBlock) {
       // do nothing
     } else if (player && item) {
       if (item.data.itemKey === 'coin') {
@@ -172,7 +172,7 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
 
   scene.matter.world.on('collisionend', function (event, bodyA, bodyB) {
     const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
-    const { player, bullet, terrain, item, sensor } = collistionTargets
+    const { player, bullet, terrainBlock, item, sensor } = collistionTargets
     if (player && player.isUser && sensor) {
       switch (sensor.data.name) {
         case ('ready_zone'): {
