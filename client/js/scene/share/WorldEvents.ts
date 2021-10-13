@@ -51,11 +51,11 @@ const classifyCollisionTargets = (bodyA, bodyB) => {
   }
 
   try {
-    if (bodyA.gameObject?.tile) {
+    if (bodyA.gameObject?.tile || bodyA.label === 'world-bound-wall') {
       collisionTargets.tile = {
         body: bodyA
       }
-    } else if (bodyB.gameObject?.tile) {
+    } else if (bodyB.gameObject?.tile || bodyB.label === 'world-bound-wall') {
       collisionTargets.tile = {
         body: bodyB
       }

@@ -6,7 +6,12 @@ import { Sensor } from '../../Interface'
 
 const setUpMap = (scene, key) => {
   const map = scene.make.tilemap({ key })
-  scene.matter.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+  scene.matter.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels)
+  const wallLabel = 'world-bound-wall'
+  scene.matter.world.walls.left.label = wallLabel
+  scene.matter.world.walls.right.label = wallLabel
+  scene.matter.world.walls.top.label = wallLabel
+  scene.matter.world.walls.bottom.label = wallLabel
   return map
 }
 const setUpTileset = (scene, key) => {
