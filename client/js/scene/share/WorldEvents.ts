@@ -108,9 +108,10 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
     const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
     const { player, bullet, terrainBlock, item, sensor } = collistionTargets
     if (player && player.isUser && terrainBlock) {
-      const dy = terrainBlock.body.position.y - player.body.position.y
-      const tileAtTop = dy <= 0
-      if (!tileAtTop) {
+      const playerTileXY = scene.map.worldToTileXY(player.body.position.x, player.body.position.y)
+      const blockTileXY = scene.map.worldToTileXY(terrainBlock.body.position.x, terrainBlock.body.position.y)
+      const blockAtTop = playerTileXY.y <= blockTileXY.y
+      if (!blockAtTop) {
         player.body.gameObject.setData({ touched: true })
       }
     } else if (player && player.isUser && sensor) {
