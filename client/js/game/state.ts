@@ -7,4 +7,12 @@ const gameState: GameState = {
   gameStatus: 'waiting'
 }
 
+const initGameState = () => {
+  gameState.players = []
+  gameState.items = []
+  gameState.winner = null
+  gameState.gameStatus = 'waiting'
+}
+
 export default gameState
+export { initGameState }
