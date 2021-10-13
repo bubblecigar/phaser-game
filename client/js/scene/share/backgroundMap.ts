@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import _ from 'lodash'
 import gameConfig from '../../game/config'
+import setting from '../../../../share/setting.json'
 import { Sensor } from '../../Interface'
 
 const setUpMap = (scene, key) => {
@@ -55,29 +56,45 @@ const setUpBackgroundRenderer = (scene, mask, layers) => {
 }
 
 const setUpObjectLayers = scene => {
-  // fov_layer, info_layer, and sensor_layer
+  // fov_layer, info_layer, text_layer, and sensor_layer
   const sensorLayer = scene.map.objects.find(layer => layer.name === 'sensor_layer')
-  if (!sensorLayer) {
-    return
+  if (sensorLayer) {
+    sensorLayer.objects.forEach(
+      object => {
+        const sensorData: Sensor = {
+          interface: 'Sensor',
+          name: object.name,
+          phaserObject: null
+        }
+        if (object.rectangle) {
+          const rectangle = scene.add.rectangle(object.x + object.width / 2, object.y + object.height / 2, object.width, object.height)
+          const sensor = scene.matter.add.gameObject(rectangle, {
+            isSensor: true,
+            ignoreGravity: true
+          })
+          sensorData.phaserObject = sensor
+          sensor.setData(sensorData)
+        }
+      }
+    )
+
   }
-  sensorLayer.objects.forEach(
-    object => {
-      const sensorData: Sensor = {
-        interface: 'Sensor',
-        name: object.name,
-        phaserObject: null
-      }
-      if (object.rectangle) {
-        const rectangle = scene.add.rectangle(object.x + object.width / 2, object.y + object.height / 2, object.width, object.height)
-        const sensor = scene.matter.add.gameObject(rectangle, {
-          isSensor: true,
-          ignoreGravity: true
+
+  const textLayer = scene.map.objects.find(layer => layer.name === 'text_layer')
+  if (textLayer) {
+    textLayer.objects.forEach(
+      object => {
+        const textCenter = {
+          x: object.x + object.width / 2,
+          y: object.y + object.height / 2
+        }
+        const text = scene.add.text(textCenter.x, textCenter.y, object.text.text, {
+          fontSize: setting.fontSize
         })
-        sensorData.phaserObject = sensor
-        sensor.setData(sensorData)
+        text.setOrigin(0.5, 0.5)
       }
-    }
-  )
+    )
+  }
 }
 
 const registerMap = (scene, config) => {

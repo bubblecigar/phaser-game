@@ -12,6 +12,8 @@ object layer:
 # info_layer: would not be added to matter, info only
   spawn_point, coin_point, etc...
 
+# text_layer: hint text
+
 # sensor_layer: for worldEvent detection
   ready_zone
 
