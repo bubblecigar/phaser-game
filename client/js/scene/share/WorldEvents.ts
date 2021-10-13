@@ -2,7 +2,6 @@ import { getLocalUserData } from '../../user'
 import _ from 'lodash'
 import { v4 } from 'uuid'
 import { Item } from '../../Interface'
-import gameState from '../../game/state'
 
 const classifyCollisionTargets = (bodyA, bodyB) => {
   const collisionTargets = {
