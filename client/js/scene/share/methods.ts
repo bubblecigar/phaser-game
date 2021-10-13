@@ -54,6 +54,7 @@ const createPlayerMatter = (scene, player: Player) => {
   phaserObject.setCollisionGroup(-1)
   phaserObject.setDepth(3)
   phaserObject.setData(player)
+  phaserObject.setData({ touched: true })
 
   if (player.health <= 0) {
     phaserObject.setCollidesWith(-10)
