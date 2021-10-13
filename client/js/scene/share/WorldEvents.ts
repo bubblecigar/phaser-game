@@ -110,7 +110,7 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
     if (player && player.isUser && terrainBlock) {
       const playerTileXY = scene.map.worldToTileXY(player.body.position.x, player.body.position.y)
       const blockTileXY = scene.map.worldToTileXY(terrainBlock.body.position.x, terrainBlock.body.position.y)
-      const blockAtTop = playerTileXY.y > blockTileXY.y
+      const blockAtTop = playerTileXY.y > blockTileXY.y && playerTileXY.x === blockTileXY.x
       if (!blockAtTop) {
         player.body.gameObject.setData({ touched: true })
       }
