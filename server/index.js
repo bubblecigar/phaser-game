@@ -18,17 +18,24 @@ io.on('connection', async function (socket) {
 
     let room
 
+    socket.on('leave-room', () => {
+      if (room) {
+        roomMethods.leaveRoom(room, userState.userId, socket)
+        socket.to(room.id).emit('all-scene', 'removePlayer', userState.userId)
+      }
+    })
+
     socket.on('change-room', (roomId) => {
       if (room) {
         roomMethods.disconnectFromRoom(room, userState.userId, socket)
         socket.to(room.id).emit('all-scene', 'removePlayer', userState.userId)
       }
       room = roomMethods.connectToRoom(roomId, userState.userId, userState.username, socket)
-      if (!room) {
-        const errorMessage = 'Room in used, pleash change RoomId'
+      const connectionFail = room === false
+      if (connectionFail) {
+        const errorMessage = 'Room in used, please change RoomId'
         io.to(socket.id).emit('game', 'connectionFail', errorMessage)
       } else {
-        // successfully join room
         const gameState = roomMethods.getEmittableFieldOfRoom(room)
         io.to(socket.id).emit('game', 'updateGameStatus', gameState)
         const player = gameState.players.find(player => player.id === userState.userId)
@@ -53,7 +60,7 @@ io.on('connection', async function (socket) {
     })
 
     socket.on('disconnect', async function () {
-      if (room && socket) {
+      if (room) {
         roomMethods.disconnectFromRoom(room, userState.userId, socket)
         socket.to(room.id).emit('all-scene', 'removePlayer', userState.userId)
       }

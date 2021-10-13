@@ -111,6 +111,12 @@ const connectToRoom = (roomId, userId, username, socket) => {
   return room
 }
 
+const leaveRoom = (room, userId, socket) => {
+  disconnectFromRoom(room, userId, socket)
+  const userIndex = room.disconnectedPlayers.findIndex(player => player.id === userId)
+  room.disconnectedPlayers.splice(userIndex, 1)
+}
+
 const disconnectFromRoom = (room, userId, socket) => {
   socket.rooms.forEach(
     id => {
@@ -148,5 +154,6 @@ exports.roomMethods = {
   createRoom,
   connectToRoom,
   disconnectFromRoom,
+  leaveRoom,
   getEmittableFieldOfRoom
 }

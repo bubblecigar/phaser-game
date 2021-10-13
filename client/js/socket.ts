@@ -2,6 +2,7 @@ import _ from 'lodash'
 import io from 'socket.io-client'
 import { getLocalUserData } from './user'
 import serverMap from '../../share/serverMap.json'
+import gameState from './game/state'
 
 export const connectToServer = () => {
   const socket = io.connect({
@@ -69,6 +70,13 @@ export const getSocketMethods = socket => {
           console.log(e)
         }
       })
+    },
+    leaveRoom: () => {
+      socket.emit('leave-room')
+      gameState.players = []
+      gameState.items = []
+      gameState.winner = null
+      gameState.gameStatus = 'waiting'
     },
     changeRoom: roomId => {
       socket.emit('change-room', roomId)

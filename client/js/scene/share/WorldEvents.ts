@@ -2,6 +2,7 @@ import { getLocalUserData } from '../../user'
 import _ from 'lodash'
 import { v4 } from 'uuid'
 import { Item } from '../../Interface'
+import gameState from '../../game/state'
 
 const classifyCollisionTargets = (bodyA, bodyB) => {
   const collisionTargets = {
@@ -117,6 +118,11 @@ const registerWorlEvents = (scene, methods, socketMethods) => {
       switch (sensor.data.name) {
         case ('ready_zone'): {
           methods.changeReadyState(true)
+          break
+        }
+        case ('exit_room_zone'): {
+          socketMethods.leaveRoom()
+          scene.scene.start('loginScene')
           break
         }
         default: {
