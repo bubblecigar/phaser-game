@@ -48,8 +48,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":16.0427598930481,
-                 "y":135.828406417112
+                 "x":133.689818716578,
+                 "y":205.881882352941
                 }, 
                 {
                  "height":0,
@@ -60,32 +60,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":281.283422459893,
-                 "y":145.454545454545
-                }, 
-                {
-                 "height":0,
-                 "id":13,
-                 "name":"exist_room_hint",
-                 "point":true,
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":95.1871657754011,
-                 "y":235.294117647059
-                }, 
-                {
-                 "height":0,
-                 "id":15,
-                 "name":"join_room_hint",
-                 "point":true,
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":207.486631016043,
-                 "y":233.689839572192
+                 "x":248.128342245989,
+                 "y":144.919786096257
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -125,9 +101,56 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":5,
+         "name":"text_layer",
+         "objects":[
+                {
+                 "height":14.5657,
+                 "id":18,
+                 "name":"",
+                 "rotation":0,
+                 "text":
+                    {
+                     "fontfamily":".AppleSystemUIFont",
+                     "pixelsize":10,
+                     "text":"ready",
+                     "wrap":true
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":28.6022,
+                 "x":202.811199465241,
+                 "y":222.128914705882
+                }, 
+                {
+                 "height":14.5657,
+                 "id":19,
+                 "name":"",
+                 "rotation":0,
+                 "text":
+                    {
+                     "fontfamily":".AppleSystemUIFont",
+                     "pixelsize":10,
+                     "text":"exit",
+                     "wrap":true
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":17.3723,
+                 "x":40.5117109625668,
+                 "y":222.663674064171
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":5,
- "nextobjectid":16,
+ "nextlayerid":6,
+ "nextobjectid":20,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.0",

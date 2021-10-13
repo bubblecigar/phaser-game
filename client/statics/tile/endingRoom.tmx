@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="16">
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="20">
  <editorsettings>
   <export target="../../../share/map/endingRoom.json" format="json"/>
  </editorsettings>
@@ -158,21 +158,23 @@
 </data>
  </layer>
  <objectgroup id="2" name="info_layer">
-  <object id="1" name="spawn_point" x="16.0428" y="135.828">
+  <object id="1" name="spawn_point" x="133.69" y="205.882">
    <point/>
   </object>
-  <object id="8" name="winner_point" x="281.283" y="145.455">
-   <point/>
-  </object>
-  <object id="13" name="exist_room_hint" x="95.1872" y="235.294">
-   <point/>
-  </object>
-  <object id="15" name="join_room_hint" x="207.487" y="233.69">
+  <object id="8" name="winner_point" x="248.128" y="144.92">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="4" name="sensor_layer">
   <object id="7" name="ready_zone" x="266.311" y="189.84" width="54.0107" height="85.5616"/>
-  <object id="10" name="exit_room_zone" x="0.534759" y="280.749" width="31.5508" height="37.4332"/>
+  <object id="10" name="exit_room_zone" x="-5.88235" y="280.749" width="44.385" height="42.246"/>
+ </objectgroup>
+ <objectgroup id="5" name="text_layer">
+  <object id="18" x="202.811" y="222.129" width="28.6022" height="14.5657">
+   <text fontfamily=".AppleSystemUIFont" pixelsize="10" wrap="1">ready</text>
+  </object>
+  <object id="19" x="40.5117" y="222.664" width="17.3723" height="14.5657">
+   <text fontfamily=".AppleSystemUIFont" pixelsize="10" wrap="1">exit</text>
+  </object>
  </objectgroup>
 </map>
