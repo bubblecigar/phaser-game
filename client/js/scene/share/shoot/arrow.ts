@@ -1,4 +1,5 @@
 import { v4 } from 'uuid'
+import bulletsRef from './ref'
 
 const createArrowHead = (scene, position) => {
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
@@ -25,7 +26,7 @@ const createArrowFeather = (scene, position) => {
   return featherMatter
 }
 
-export const shoot = scene => ({ from, to, builderId }) => {
+export const shootArrow = ({ scene, from, to, builderId }) => {
   const velocity = 10
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
@@ -36,26 +37,20 @@ export const shoot = scene => ({ from, to, builderId }) => {
   headMatter.setVelocityX(velocity * Math.cos(angle))
   headMatter.setVelocityY(velocity * Math.sin(angle))
 
-  if (!scene.arrows) {
-    scene.arrows = {}
-  }
-  const align = () => {
+  const update = () => {
     const { x: x1, y: y1 } = headMatter
     const { x: x2, y: y2 } = featherMatter
     const angleDeg = Math.atan2(y1 - y2, x1 - x2) * 180 / Math.PI
     headMatter.setAngle(angleDeg + 90)
   }
   const destroy = () => {
-    if (scene.arrows[id]) {
-      delete scene.arrows[id]
+    if (bulletsRef[id]) {
+      delete bulletsRef[id]
       scene.matter.world.remove(constraint)
       headMatter.destroy()
       featherMatter.destroy()
     }
   }
-  const arrow = { align, destroy }
-  scene.arrows[id] = arrow
-
   headMatter.setData({
     id,
     interface: 'Bullet',
@@ -71,4 +66,6 @@ export const shoot = scene => ({ from, to, builderId }) => {
     null,
     scene
   )
+
+  bulletsRef[id] = { id, update, destroy }
 }

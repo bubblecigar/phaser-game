@@ -7,7 +7,7 @@ import { getLocalUserData } from '../../user'
 import { Player, Bullet, Item, GameState, Monster, Point } from '../../Interface'
 import gameState from '../../game/state'
 import gameConfig from '../../game/config'
-import { shoot } from './shoot'
+import { shoot } from './shoot/index'
 
 const userId = getLocalUserData().userId
 
@@ -201,7 +201,7 @@ const gameMethods = scene => {
       sprite.setFlipX(direction === 'right' ? false : true)
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
-    shoot: ({ from, to, builderId }) => shoot(scene)({ from, to, builderId }),
+    shoot: ({ from, to, builderId }) => shoot({ scene, from, to, builderId, type: null }),
     updatePlayerHealthBar: (playerId: string) => {
       const player = methods.getPlayer(playerId)
       const maximumHealth = charactors[player.charactorKey].maxHealth

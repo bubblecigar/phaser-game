@@ -11,6 +11,7 @@ import registerInputEvents from './inputEvents'
 import targetUrl from '../../../statics/tile/target.png'
 import { socketMethods } from '../../index'
 import gameState from '../../game/state'
+import bulletsRef from './shoot/ref'
 
 const userId = getLocalUserData().userId
 
@@ -97,7 +98,6 @@ function preload() {
 }
 
 function create() {
-  this.arrows = {}
   cursors = this.input.keyboard.createCursorKeys()
   pointer = this.input.activePointer
   registerAimingTarget(this)
@@ -182,8 +182,8 @@ function update(t, dt) {
     movePlayer(this, player)
     updateAim(this, player)
 
-    Object.keys(this.arrows).forEach(
-      id => this.arrows[id].align()
+    Object.keys(bulletsRef).forEach(
+      id => bulletsRef[id].update()
     )
 
     player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
