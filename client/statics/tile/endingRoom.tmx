@@ -173,6 +173,6 @@
  </objectgroup>
  <objectgroup id="4" name="sensor_layer">
   <object id="7" name="ready_zone" x="266.311" y="189.84" width="54.0107" height="85.5616"/>
-  <object id="10" name="exit_room_zone" x="0.534759" y="288.235" width="37.9679" height="30.4813"/>
+  <object id="10" name="exit_room_zone" x="0.534759" y="295.722" width="31.5508" height="22.9947"/>
  </objectgroup>
 </map>
