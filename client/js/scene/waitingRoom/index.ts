@@ -1,4 +1,4 @@
-import basescene from '../share/index'
+import basescene from '../basescene/index'
 import gameState from '../../game/state'
 import setting from '../../../../share/setting.json'
 

@@ -1,4 +1,4 @@
-import basescene from '../share/index'
+import basescene from '../basescene/index'
 
 export default {
   key: 'dungeon',
