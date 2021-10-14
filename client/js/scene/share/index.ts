@@ -156,8 +156,10 @@ function create() {
   this.input.on('pointerdown', function () {
     const player = methods.getPlayer(userId)
     if (readyToShoot && player) {
+      const type = 'arrow'
       socketMethods.clientsInScene(scene.scene.key, methods, 'shoot', {
         builderId: player.id,
+        type,
         from: player.position,
         to: { x: aim.x, y: aim.y }
       })

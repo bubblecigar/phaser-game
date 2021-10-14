@@ -201,7 +201,7 @@ const gameMethods = scene => {
       sprite.setFlipX(direction === 'right' ? false : true)
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
-    shoot: ({ from, to, builderId }) => shoot({ scene, from, to, builderId, type: null }),
+    shoot: ({ from, to, builderId, type }) => shoot({ scene, from, to, builderId, type }),
     updatePlayerHealthBar: (playerId: string) => {
       const player = methods.getPlayer(playerId)
       const maximumHealth = charactors[player.charactorKey].maxHealth
