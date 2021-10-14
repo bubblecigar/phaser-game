@@ -38,7 +38,8 @@ export interface Charactor {
     }
   },
   velocity?: number,
-  maxHealth?: number
+  maxHealth?: number,
+  shootType: string
 }
 
 const charactors = { skull, tinyZombie, wizzardMale, knightFemale, orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
