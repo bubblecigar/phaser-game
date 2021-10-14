@@ -5,7 +5,7 @@
   "resurrectCharactor": "tinyZombie",
   "minumumPlayers": 2,
   "resurrectCountDown": 5000,
-  "gameStartCountDown": 500,
+  "gameStartCountDown": 5000,
   "coinsToWin": 3,
   "coinSpawnInterval": 2000,
   "endGameMapConfigKey": "waitingRoomConfig",
