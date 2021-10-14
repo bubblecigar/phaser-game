@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "readyRoom.tmx",
+    "activeFile": "endingRoom.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "Tiled map files (*.tmx *.xml)",
@@ -108,7 +108,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 165.50802139037432,
-                "y": 200.26737967914434
+                "y": 199.73262032085557
             }
         },
         "endingRoom.tmx#forestTileSet": {
@@ -147,10 +147,10 @@
         },
         "readyRoom.tmx": {
             "scale": 2.12,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 288.9150943396226,
-                "y": 107.31132075471696
+                "x": 132.7830188679245,
+                "y": 144.10377358490564
             }
         },
         "readyRoom.tmx#forestTileSet": {
@@ -244,11 +244,12 @@
     "map.tileWidth": 16,
     "map.width": 20,
     "openFiles": [
-        "readyRoom.tmx"
+        "endingRoom.tmx"
     ],
     "project": "tile_project.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "endingRoom.tmx",
         "readyRoom.tmx",
         "jumpPlatForm.tmx",
         "waitingRoom.tmx",
@@ -259,8 +260,7 @@
         "/Users/roywang/Desktop/tile_trial/tiny_map.tmx",
         "/Users/roywang/Desktop/tile_trial/ghost_room.tmx",
         "/Users/roywang/Desktop/tile_trial/small_map.tmx",
-        "/Users/roywang/Desktop/tile_trial/dungeon_map.tmx",
-        "/Users/roywang/Desktop/tile_trial/tileset_test.tsx"
+        "/Users/roywang/Desktop/tile_trial/dungeon_map.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.lastUsedFormat": "tsx",
