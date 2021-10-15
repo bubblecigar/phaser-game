@@ -26,7 +26,8 @@ const charactor: Charactor = {
     size: { width: 10, height: 10 },
     origin: { x: 0.5, y: 0.7 }
   },
-  velocity: 1
+  velocity: 1,
+  shootType: 'knife'
 }
 
 export default charactor
