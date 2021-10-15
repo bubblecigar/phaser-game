@@ -264,6 +264,22 @@ const gameMethods = scene => {
         player.health = charactor.maxHealth
       }
       methods.updatePlayerHealthBar(playerId)
+
+      // invincible for one second
+      const originCollisionCategory = player.phaserObject.body.collisionFilter.category
+      player.phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
+      scene.time.delayedCall(
+        1000,
+        () => {
+          try {
+            player.phaserObject.setCollisionCategory(originCollisionCategory)
+          } catch (error) {
+            console.log(error)
+          }
+        },
+        null,
+        scene
+      )
     },
     addItem: (itemConstructor: Item): Item => {
       const { id, position, itemKey, velocity, builderId } = itemConstructor
