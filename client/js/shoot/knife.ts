@@ -1,7 +1,8 @@
 import { v4 } from 'uuid'
 import bulletsRef from './ref'
+import collisionCategories from '../scene/basescene/collisionCategories'
 
-export const shootKnife = ({ scene, from, to, builderId }) => {
+export const shootKnife = ({ scene, from, to, builderId, isUser }) => {
   const velocity = 5
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
@@ -15,6 +16,11 @@ export const shootKnife = ({ scene, from, to, builderId }) => {
   matter.setIgnoreGravity(true)
   matter.setAngularVelocity(0.7)
 
+  matter.setCollisionCategory(
+    isUser
+      ? collisionCategories.CATEGORY_PLAYER_BULLET
+      : collisionCategories.CATEGORY_ENEMY_BULLET
+  )
 
   const update = () => {
 

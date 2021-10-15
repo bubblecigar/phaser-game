@@ -1,7 +1,8 @@
 import { v4 } from 'uuid'
 import bulletsRef from './ref'
+import collisionCategories from '../scene/basescene/collisionCategories'
 
-export const shootFireBall = ({ scene, from, to, builderId }) => {
+export const shootFireBall = ({ scene, from, to, builderId, isUser }) => {
   const velocity = 3
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
@@ -13,9 +14,14 @@ export const shootFireBall = ({ scene, from, to, builderId }) => {
   matter.setVelocityX(velocity * Math.cos(angle))
   matter.setVelocityY(velocity * Math.sin(angle))
   matter.setIgnoreGravity(true)
-  // matter.setSensor(true)
   matter.setDepth(50)
   matter.play('fireball_idle')
+
+  matter.setCollisionCategory(
+    isUser
+      ? collisionCategories.CATEGORY_PLAYER_BULLET
+      : collisionCategories.CATEGORY_ENEMY_BULLET
+  )
 
 
   const update = () => {
