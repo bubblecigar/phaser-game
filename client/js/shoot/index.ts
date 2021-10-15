@@ -5,6 +5,7 @@ import { shootFireBall } from './fireball'
 
 const shoot = ({ scene, from, to, builderId, type }) => {
   const isUser = getLocalUserData().userId === builderId
+  from.y -= 4
   switch (type) {
     case 'arrow': {
       shootArrow({ scene, from, to, builderId, isUser })

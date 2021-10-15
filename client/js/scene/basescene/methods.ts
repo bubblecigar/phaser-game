@@ -55,10 +55,12 @@ const createPlayerMatter = (scene, player: Player) => {
   phaserObject.setData(player)
   phaserObject.setData({ touched: true })
   phaserObject.setCollisionCategory(collisionCategories.CATEGORY_PLAYER)
-  phaserObject.setCollidesWith([
-    collisionCategories.CATEGORY_MAP_BLOCK,
-    collisionCategories.CATEGORY_ENEMY_BULLET
-  ])
+
+  phaserObject.setCollidesWith(
+    player.id === userId
+      ? [collisionCategories.CATEGORY_ENEMY_BULLET, collisionCategories.CATEGORY_MAP_BLOCK]
+      : [collisionCategories.CATEGORY_PLAYER_BULLET]
+  )
 
   if (player.health <= 0) {
     phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)

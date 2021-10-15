@@ -155,7 +155,6 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
           socketMethods.server('addItem', coinConstructor)
         }
       }
-      bullet.data.destroy()
     } else if (bullet && terrainBlock) {
       // do nothing
     } else if (player && item) {

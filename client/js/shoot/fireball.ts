@@ -13,8 +13,10 @@ export const shootFireBall = ({ scene, from, to, builderId, isUser }) => {
   matter.setAngle((angle * 180 / Math.PI) + 90)
   matter.setVelocityX(velocity * Math.cos(angle))
   matter.setVelocityY(velocity * Math.sin(angle))
+  matter.setFixedRotation(true)
   matter.setIgnoreGravity(true)
   matter.setDepth(50)
+  matter.setFriction(1, 0, 1)
   matter.play('fireball_idle')
 
   matter.setCollisionCategory(
@@ -22,6 +24,10 @@ export const shootFireBall = ({ scene, from, to, builderId, isUser }) => {
       ? collisionCategories.CATEGORY_PLAYER_BULLET
       : collisionCategories.CATEGORY_ENEMY_BULLET
   )
+  matter.setCollidesWith([
+    collisionCategories.CATEGORY_PLAYER,
+    collisionCategories.CATEGORY_MAP_BLOCK
+  ])
 
 
   const update = () => {
