@@ -18,7 +18,6 @@ const createPlayerMatter = (scene, player: Player) => {
   const { x, y } = player.position
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
   const rect = Bodies.rectangle(x, y, size.width, size.height, { label: 'player-body' })
-  // const sensor = Bodies.circle(x, y, 1, { isSensor: true, label: 'body-sensor' })
   const compound = Phaser.Physics.Matter.Matter.Body.create({
     parts: [rect],
     inertia: Infinity,
@@ -63,6 +62,7 @@ const createPlayerMatter = (scene, player: Player) => {
 
   if (player.health <= 0) {
     phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
+    phaserObject.setCollidesWith([collisionCategories.CATEGORY_MAP_BLOCK])
     phaserObject.setIgnoreGravity(true)
   }
 
