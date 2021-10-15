@@ -12,6 +12,7 @@ import targetUrl from '../../../statics/tile/target.png'
 import { socketMethods } from '../../index'
 import gameState from '../../game/state'
 import bulletsRef from '../../shoot/ref'
+import collisionCategories from './collisionCategories'
 
 const userId = getLocalUserData().userId
 
@@ -25,7 +26,7 @@ const registerAimingTarget = scene => {
     isSensor: true,
     ignoreGravity: true
   })
-  aim.setCollisionGroup(-1)
+  aim.setCollisionGroup(collisionCategories.CATEGORY_TRANSPARENT)
   aim.setDepth(11)
 }
 

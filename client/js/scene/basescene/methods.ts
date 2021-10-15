@@ -7,6 +7,7 @@ import { getLocalUserData } from '../../user'
 import { Player, Bullet, Item, GameState, Monster, Point } from '../../Interface'
 import gameState from '../../game/state'
 import gameConfig from '../../game/config'
+import collisionCategories from './collisionCategories'
 import { shoot } from '../../shoot/index'
 
 const userId = getLocalUserData().userId
@@ -51,13 +52,17 @@ const createPlayerMatter = (scene, player: Player) => {
     frictionAir: 0,
   })
   phaserObject.setExistingBody(compound)
-  phaserObject.setCollisionGroup(-1)
   phaserObject.setDepth(3)
   phaserObject.setData(player)
   phaserObject.setData({ touched: true })
+  phaserObject.setCollisionCategory(collisionCategories.CATEGORY_PLAYER)
+  phaserObject.setCollidesWith([
+    collisionCategories.CATEGORY_MAP_BLOCK,
+    collisionCategories.CATEGORY_ENEMY_BULLET
+  ])
 
   if (player.health <= 0) {
-    phaserObject.setCollidesWith(-10)
+    phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
     phaserObject.setIgnoreGravity(true)
   }
 
