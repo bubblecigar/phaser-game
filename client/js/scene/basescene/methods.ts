@@ -58,8 +58,16 @@ const createPlayerMatter = (scene, player: Player) => {
 
   phaserObject.setCollidesWith(
     player.id === userId
-      ? [collisionCategories.CATEGORY_ENEMY_BULLET, collisionCategories.CATEGORY_MAP_BLOCK]
-      : [collisionCategories.CATEGORY_PLAYER_BULLET]
+      ? [
+        collisionCategories.CATEGORY_ENEMY_BULLET,
+        collisionCategories.CATEGORY_ITEM,
+        collisionCategories.CATEGORY_MAP_BLOCK
+      ]
+      : [
+        collisionCategories.CATEGORY_PLAYER_BULLET,
+        collisionCategories.CATEGORY_ITEM,
+        collisionCategories.CATEGORY_MAP_BLOCK
+      ]
   )
 
   if (player.health <= 0) {
@@ -99,6 +107,7 @@ const createItemMatter = (scene, itemConstructor: Item | Bullet) => {
   const angle = Math.atan2(itemConstructor.velocity.y, itemConstructor.velocity.x)
   const degree = 180 * angle / Math.PI
   phaserObject.setAngle(degree)
+  phaserObject.setCollisionCategory(collisionCategories.CATEGORY_ITEM)
 
   return phaserObject
 }
