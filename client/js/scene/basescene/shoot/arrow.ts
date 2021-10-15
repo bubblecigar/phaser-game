@@ -15,6 +15,10 @@ const createArrowHead = (scene, position, isUser) => {
       ? collisionCategories.CATEGORY_PLAYER_BULLET
       : collisionCategories.CATEGORY_ENEMY_BULLET
   )
+  headMatter.setCollidesWith([
+    collisionCategories.CATEGORY_PLAYER,
+    collisionCategories.CATEGORY_MAP_BLOCK
+  ])
 
   return headMatter
 }
@@ -27,7 +31,7 @@ const createArrowFeather = (scene, position) => {
   featherMatter.setExistingBody(featherBody)
   featherMatter.setMass(0.001)
   featherMatter.setFriction(0, 0.4, 0)
-  featherMatter.setCollisionCategory(collisionCategories.CATEGORY_PLAYER)
+  featherMatter.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
 
   return featherMatter
 }
