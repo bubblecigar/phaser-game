@@ -264,15 +264,20 @@ const gameMethods = scene => {
         player.health = charactor.maxHealth
       }
       methods.updatePlayerHealthBar(playerId)
-
-      // invincible for one second
+      methods.setInvincibale(player)
+    },
+    setInvincibale: (player) => {
       const originCollisionCategory = player.phaserObject.body.collisionFilter.category
       player.phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
+      player.phaserObject.setAlpha(0.3)
       scene.time.delayedCall(
-        1000,
+        500,
         () => {
           try {
-            player.phaserObject.setCollisionCategory(originCollisionCategory)
+            if (player.phaserObject) {
+              player.phaserObject.setAlpha(1)
+              player.phaserObject.setCollisionCategory(originCollisionCategory)
+            }
           } catch (error) {
             console.log(error)
           }
