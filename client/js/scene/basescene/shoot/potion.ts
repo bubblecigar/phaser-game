@@ -4,7 +4,8 @@ import collisionCategories from '../collisionCategories'
 import potions from '../../../items/potion'
 
 export const shootPotion = ({ scene, from, to, builderId, isUser, options }) => {
-  const velocity = 2
+  const randomIndex = Math.floor(options.randomNumber * 16)
+  const velocity = randomIndex * 0.25
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
   const id = v4()
@@ -43,13 +44,12 @@ export const shootPotion = ({ scene, from, to, builderId, isUser, options }) => 
     }
   }
 
-  const randomIndex = Math.floor(options.randomNumber * 4)
-
+  const potionIndex = Math.floor(randomIndex / 4)
   let potionType
-  if (randomIndex === 0) { potionType = 'potion_heal' } else
-    if (randomIndex === 1) { potionType = 'potion_ice' } else
-      if (randomIndex === 2) { potionType = 'potion_thunder' } else
-        if (randomIndex === 3) { potionType = 'potion_fire' }
+  if (potionIndex === 0) { potionType = 'potion_heal' } else
+    if (potionIndex === 1) { potionType = 'potion_ice' } else
+      if (potionIndex === 2) { potionType = 'potion_thunder' } else
+        if (potionIndex === 3) { potionType = 'potion_fire' }
 
   matter.play(potionType)
   matter.setData({
