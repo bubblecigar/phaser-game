@@ -56,7 +56,7 @@ export const shootPotion = ({ scene, from, to, builderId, isUser, options }) => 
     id,
     interface: 'Bullet',
     builderId,
-    damage: randomIndex === 0 ? -5 : randomIndex * -5,
+    damage: randomIndex === 0 ? -5 : randomIndex * 5,
     phaserObject: matter,
     destroy
   })
