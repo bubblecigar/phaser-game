@@ -11,7 +11,7 @@ import registerInputEvents from './inputEvents'
 import targetUrl from '../../../statics/tile/target.png'
 import { socketMethods } from '../../index'
 import gameState from '../../game/state'
-import bulletsRef from '../../shoot/ref'
+import bulletsRef from './shoot/ref'
 import collisionCategories from './collisionCategories'
 
 const userId = getLocalUserData().userId

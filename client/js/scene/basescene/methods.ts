@@ -8,7 +8,7 @@ import { Player, Bullet, Item, GameState, Monster, Point } from '../../Interface
 import gameState from '../../game/state'
 import gameConfig from '../../game/config'
 import collisionCategories from './collisionCategories'
-import { shoot } from '../../shoot/index'
+import { shoot } from './shoot/index'
 
 const userId = getLocalUserData().userId
 

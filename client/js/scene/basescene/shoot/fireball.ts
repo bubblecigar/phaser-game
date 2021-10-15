@@ -1,6 +1,6 @@
 import { v4 } from 'uuid'
 import bulletsRef from './ref'
-import collisionCategories from '../scene/basescene/collisionCategories'
+import collisionCategories from '../collisionCategories'
 
 export const shootFireBall = ({ scene, from, to, builderId, isUser }) => {
   const velocity = 3

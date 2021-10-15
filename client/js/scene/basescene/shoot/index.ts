@@ -1,4 +1,4 @@
-import { getLocalUserData } from '../user'
+import { getLocalUserData } from '../../../user'
 import { shootArrow } from './arrow'
 import { shootKnife } from './knife'
 import { shootFireBall } from './fireball'

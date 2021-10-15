@@ -1,6 +1,6 @@
 import { v4 } from 'uuid'
 import bulletsRef from './ref'
-import collisionCategories from '../scene/basescene/collisionCategories'
+import collisionCategories from '../collisionCategories'
 
 const createArrowHead = (scene, position, isUser) => {
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
