@@ -35,6 +35,10 @@ const createPlayerMatter = (scene, player: Player) => {
   healthBar.name = 'health-bar'
 
   const maximumHealth = charactors[player.charactorKey].maxHealth
+  if (player.health > maximumHealth) {
+    player.health = maximumHealth
+  }
+
   const percentage = player.health / maximumHealth
   healthBar.setSize(percentage * (healthBarLength - 2), healthBar.height)
 
@@ -217,7 +221,7 @@ const gameMethods = scene => {
       sprite.setFlipX(direction === 'right' ? false : true)
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
-    shoot: ({ from, to, builderId, type }) => shoot({ scene, from, to, builderId, type }),
+    shoot: ({ from, to, builderId, type, options }) => shoot({ scene, from, to, builderId, type, options }),
     updatePlayerHealthBar: (playerId: string) => {
       const player = methods.getPlayer(playerId)
       const maximumHealth = charactors[player.charactorKey].maxHealth
@@ -252,9 +256,12 @@ const gameMethods = scene => {
     },
     onHit: (playerId: string, bullet: Bullet) => {
       const player = methods.getPlayer(playerId)
+      const charactor = charactors[player.charactorKey]
       player.health -= bullet.damage
       if (player.health < 0) {
         player.health = 0
+      } else if (player.health > charactor.maxHealth) {
+        player.health = charactor.maxHealth
       }
       methods.updatePlayerHealthBar(playerId)
     },

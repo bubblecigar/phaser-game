@@ -5,6 +5,7 @@ import hammer from './hammer'
 import fireball from './fireball'
 import iceFlask from './iceFlask'
 import shadowBall from './shadowBall'
+import potion from './potion'
 
 export interface AnimConfig {
   key: string,
@@ -38,6 +39,6 @@ export interface Bullet extends Item {
 
 }
 
-const items = { shadowBall, iceFlask, fireball, coin, hammer, arrow, dagger }
+const items = { shadowBall, iceFlask, fireball, coin, hammer, arrow, dagger, potion }
 
 export default items
