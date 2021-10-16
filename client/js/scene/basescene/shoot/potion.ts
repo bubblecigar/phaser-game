@@ -5,7 +5,7 @@ import potions from '../../../items/potion'
 
 export const shootPotion = ({ scene, from, to, builderId, isUser, options }) => {
   const randomIndex = Math.floor(options.randomNumber * 16)
-  const velocity = randomIndex * 0.25
+  const velocity = 2 + randomIndex * 0.25
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
   const id = v4()
@@ -14,13 +14,15 @@ export const shootPotion = ({ scene, from, to, builderId, isUser, options }) => 
     shape: {
       type: potions.matterConfig.type,
       ...potions.matterConfig.size
-    }
+    },
+    ignoreGravity: true
   })
   matter.setDepth(9)
   matter.setMass(0.1)
   matter.setVelocityX(velocity * Math.cos(angle))
   matter.setVelocityY(velocity * Math.sin(angle))
-  matter.setFriction(1, 0.01, 1)
+  matter.setAngularVelocity(0.3)
+  matter.setFriction(1, 0.03, 1)
   matter.setBounce(0.1)
 
   matter.setCollisionCategory(
@@ -62,7 +64,7 @@ export const shootPotion = ({ scene, from, to, builderId, isUser, options }) => 
   })
 
   scene.time.delayedCall(
-    3000,
+    1000,
     () => destroy(),
     null,
     scene
