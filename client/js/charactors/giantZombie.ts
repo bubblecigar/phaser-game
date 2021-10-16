@@ -25,7 +25,7 @@ const createCharactor = (key, spritesheetUrl): Charactor => ({
     size: { width: 16, height: 30 },
     origin: { x: 0.5, y: 0.6 }
   },
-  shootType: 'potion'
+  shootType: 'muddy'
 })
 
 export default createCharactor('giant_zombie', zombieSpriteUrl)
