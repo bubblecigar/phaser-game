@@ -2,35 +2,17 @@ import gameConfig from '../../game/config'
 
 export const generateInputForm = () => {
 
-  const width = `80%`
+  const width = `40%`
   const height = gameConfig.canvasHeight * 0.8
   const marginTop = gameConfig.canvasHeight * 0.2
 
   return `
   <style>
     .login {
-      background: #eceeee;
-      border: 1px solid #42464b;
-      border-radius: 6px;
       height: ${height}px;
       margin: ${marginTop}px auto 0;
-      width: 80%;
+      width: 100%;
       transform: scale(.5);
-    }
-
-    .login h1 {
-      background-image: linear-gradient(top, #f1f3f3, #d4dae0);
-      border-bottom: 1px solid #a6abaf;
-      border-radius: 6px 6px 0 0;
-      box-sizing: border-box;
-      color: #727678;
-      display: block;
-      height: 43px;
-      font: 600 14px/1 'Open Sans', sans-serif;
-      padding-top: 14px;
-      margin: 0;
-      text-align: center;
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 #fff;
     }
 
     input[type="Room-ID"],
@@ -43,7 +25,7 @@ export const generateInputForm = () => {
       color: #696969;
       height: 39px;
       margin: 31px 0 0 29px;
-      padding-left: 37px;
+      padding-left: 20px;
       transition: box-shadow 0.3s;
       width: ${width};
     }
@@ -87,7 +69,7 @@ export const generateInputForm = () => {
     }
 
     input[type="submit"] {
-      width: ${width};
+      width: 89%;
       height: 35px;
       display: block;
       font-family: Arial, "Helvetica", sans-serif;
@@ -109,22 +91,12 @@ export const generateInputForm = () => {
       border-top-right-radius: 5px;
       border-bottom-right-radius: 5px;
       border-bottom-left-radius: 5px;
-      box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #497a78, 0px 10px 5px #999;
-    }
-
-    .shadow {
-      background: #000;
-      border-radius: 12px 12px 4px 4px;
-      box-shadow: 0 0 20px 10px #000;
-      height: 12px;
-      margin: 30px auto;
-      opacity: 0.2;
-      width: 270px;
+      box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #497a78, 0px 5px 5px #999;
     }
 
     input[type="submit"]:active {
       top: 3px;
-      box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #31524d, 0px 5px 3px #999;
+      box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #31524d, 0px 0px 3px #999;
     }
   </style>
 
@@ -133,7 +105,6 @@ export const generateInputForm = () => {
     <input type="Room-ID" placeholder="Room-ID" id="Room-ID" name="Room-ID">
     <input type="submit" value="Join" name="joinButton">
   </div>
-  <div class="shadow"></div>  
   `
 }
 

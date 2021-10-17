@@ -13,12 +13,11 @@ function preload() {
 
 function create() {
   const scene = this
-  this.scene.launch('GUI')
 
   const sceneKey = scene.scene.key
   socketMethods.registerSceneSocketEvents(sceneKey, {})
 
-  const element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2).createFromHTML(generateInputForm())
+  const element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.6).createFromHTML(generateInputForm())
   const inputUsername = element.getChildByName('username')
   const inputRoomId = element.getChildByName('Room-ID')
   inputUsername.value = getLocalUserData().username || ''

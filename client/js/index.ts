@@ -35,7 +35,7 @@ const game = new Phaser.Game({
   dom: {
     createContainer: true
   },
-  scene: [loginScene, GUIScene, waitingRoomScene, dungeonScene, endingRoomScene],
+  scene: [loginScene, waitingRoomScene, dungeonScene, endingRoomScene],
   // scene: [dungeonScene, GUIScene],
   plugins: {
     scene: [
@@ -47,6 +47,8 @@ const game = new Phaser.Game({
     ]
   }
 })
+
+game.scene.add('GUI', GUIScene, true)
 
 const socket = connectToServer()
 const socketMethods = getSocketMethods(socket)
