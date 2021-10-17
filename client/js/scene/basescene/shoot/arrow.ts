@@ -30,14 +30,14 @@ const createArrowFeather = (scene, position) => {
   const featherMatter = scene.matter.add.gameObject(feather)
   featherMatter.setExistingBody(featherBody)
   featherMatter.setMass(0.001)
-  featherMatter.setFriction(0, 0.4, 0)
+  featherMatter.setFriction(0, 0.2, 0)
   featherMatter.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
 
   return featherMatter
 }
 
 export const shootArrow = ({ scene, from, to, builderId, isUser }) => {
-  const velocity = 10
+  const velocity = 7
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
   const id = v4()

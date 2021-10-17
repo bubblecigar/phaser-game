@@ -18,7 +18,7 @@ const registerInputEvents = (scene, methods, socketMethods) => {
           break
         }
         case 'c': {
-          const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * 10) % (Object.keys(charactors).length)]
+          const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * Object.keys(charactors).length) % (Object.keys(charactors).length)]
           const player: Player = methods.getPlayer(getLocalUserData().userId)
           const _player: Player = _.omit(_.clone(player), 'phaserObject')
           _player.charactorKey = randomCharactorKey
