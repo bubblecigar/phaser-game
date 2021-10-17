@@ -15,7 +15,7 @@ export const shootFireBall = ({ scene, from, to, builderId, isUser }) => {
   matter.setVelocityY(velocity * Math.sin(angle))
   matter.setFixedRotation(true)
   matter.setIgnoreGravity(true)
-  matter.setDepth(50)
+  matter.setDepth(11)
   matter.setFriction(1, 0, 1)
   matter.play('fireball_idle')
 
@@ -29,10 +29,13 @@ export const shootFireBall = ({ scene, from, to, builderId, isUser }) => {
     collisionCategories.CATEGORY_MAP_BLOCK
   ])
 
-
   const update = () => {
-
+    const velocity = matter.body.velocity
+    if (Math.abs(velocity.x) + Math.abs(velocity.y) <= 1) {
+      destroy()
+    }
   }
+
   const destroy = () => {
     if (bulletsRef[id]) {
       delete bulletsRef[id]
@@ -50,7 +53,7 @@ export const shootFireBall = ({ scene, from, to, builderId, isUser }) => {
   })
 
   scene.time.delayedCall(
-    700,
+    5000,
     () => destroy(),
     null,
     scene
