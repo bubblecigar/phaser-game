@@ -25,7 +25,8 @@ const charactor: Charactor = {
   matterConfig: {
     size: { width: 12, height: 20 },
     origin: { x: 0.5, y: 0.6 }
-  }
+  },
+  shootType: 'fireball'
 }
 
 export default charactor
