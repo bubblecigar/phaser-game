@@ -4,11 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Farmer</title>
+  <script>
+    window.onload = () => {
+      const loadingTextDOM = document.querySelector('#loading-text')
+      loadingTextDOM.remove()
+    }
+  </script>
 </head>
 
 <body>
+  <div id='loading-text'>第一次載入需時較長... 請稍等...</div>
 </body>
-<script src="./js/index.ts" type="text/javascript">
-</script>
+
+<script src="./js/index.ts" type="text/javascript"></script>
 
 </html>
