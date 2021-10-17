@@ -6,6 +6,7 @@ import { shootShadowBall } from './shadowball'
 import { shootPotion } from './potion'
 import { shootHammer } from './hammer'
 import { shootMuddy } from './muddy'
+import { shootIce } from './ice'
 
 const shoot = ({ scene, from, to, builderId, type, options }) => {
   const isUser = getLocalUserData().userId === builderId
@@ -37,6 +38,10 @@ const shoot = ({ scene, from, to, builderId, type, options }) => {
     }
     case 'muddy': {
       shootMuddy({ scene, from, to, builderId, isUser, options })
+      break
+    }
+    case 'ice': {
+      shootIce({ scene, from, to, builderId, isUser, options })
       break
     }
     default: {
