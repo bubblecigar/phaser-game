@@ -41,8 +41,6 @@ function create() {
   createResurrectCountDownText(this, centerX, coinY)
 
   transitionScreen = this.add.container(0, 0)
-  const background = this.add.rectangle(0, 0, gameConfig.canvasWidth, gameConfig.canvasHeight, 0x000000)
-  background.setOrigin(0, 0)
   const text = this.add.text(centerX, centerY, 'loading...', {
     fontSize: setting.fontSize
   })
@@ -57,7 +55,7 @@ function create() {
   const char = this.add.sprite(centerX - padding, centerY, randomCharactorConfig.spritesheetConfig.spritesheetKey)
   char.play(charAnimsConfig.key)
 
-  transitionScreen.add([background, text, char])
+  transitionScreen.add([text, char])
 }
 
 const createCoinGroup = (scene, x, y) => {

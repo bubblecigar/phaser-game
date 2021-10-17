@@ -14,6 +14,7 @@ const game = new Phaser.Game({
   width: gameConfig.canvasWidth,
   height: gameConfig.canvasHeight,
   pixelArt: true,
+  transparent: true,
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
