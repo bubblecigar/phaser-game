@@ -83,19 +83,6 @@ function preload() {
   const mapConfig = clientMap[this.scene.key]
   this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
   this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
-
-  Object.keys(charactors).forEach(
-    key => {
-      const char = charactors[key]
-      this.load.spritesheet(char.spritesheetConfig.spritesheetKey, char.spritesheetConfig.spritesheetUrl, char.spritesheetConfig.options)
-    }
-  )
-  Object.keys(items).forEach(
-    key => {
-      const item = items[key]
-      this.load.spritesheet(item.spritesheetConfig.spritesheetKey, item.spritesheetConfig.spritesheetUrl, item.spritesheetConfig.options)
-    }
-  )
 }
 
 function create() {
@@ -103,39 +90,6 @@ function create() {
   pointer = this.input.activePointer
   registerAimingTarget(this)
   backgroundMap.registerMap(this, clientMap[this.scene.key])
-
-  Object.keys(charactors).forEach(
-    key => {
-      const char = charactors[key]
-      Object.keys(char.animsConfig).forEach(
-        _key => {
-          const animConfig = char.animsConfig[_key]
-          this.anims.create({
-            key: animConfig.key,
-            frames: this.anims.generateFrameNumbers(char.spritesheetConfig.spritesheetKey, { frames: animConfig.frames }),
-            frameRate: 8,
-            repeat: -1
-          })
-        }
-      )
-    }
-  )
-  Object.keys(items).forEach(
-    key => {
-      const item = items[key]
-      Object.keys(item.animsConfig).forEach(
-        _key => {
-          const animConfig = item.animsConfig[_key]
-          this.anims.create({
-            key: animConfig.key,
-            frames: this.anims.generateFrameNumbers(item.spritesheetConfig.spritesheetKey, { frames: animConfig.frames }),
-            frameRate: 8,
-            repeat: -1
-          })
-        }
-      )
-    }
-  )
 
   socketMethods.registerSceneSocketEvents(this.scene.key, methods)
   registerWorldEvents(this, methods, socketMethods)
