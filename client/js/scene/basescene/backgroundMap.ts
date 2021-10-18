@@ -55,6 +55,7 @@ const setUpBackgroundRenderer = (scene, mask, layers) => {
   renderTexture.setDepth(10)
   renderTexture.setMask(mask)
   renderTexture.clear()
+  renderTexture.fill(0x101010)
   renderTexture.draw(layers)
   return renderTexture
 }
