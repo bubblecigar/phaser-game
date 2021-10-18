@@ -7,6 +7,7 @@ import { shootPotion } from './potion'
 import { shootHammer } from './hammer'
 import { shootMuddy } from './muddy'
 import { shootIce } from './ice'
+import { shootCoin } from './coin'
 
 export const bulletsRefKey = 'bullets_storage'
 
@@ -50,6 +51,10 @@ const shoot = ({ scene, from, to, builderId, type, options }) => {
     }
     case 'ice': {
       shootIce({ scene, bulletsRef, from, to, builderId, isUser, options })
+      break
+    }
+    case 'coin': {
+      shootCoin({ scene, bulletsRef, from, to, builderId, isUser })
       break
     }
     default: {
