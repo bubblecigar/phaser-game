@@ -62,6 +62,7 @@ function create() {
       )
     }
   )
+
   const element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.6).createFromHTML(generateInputForm())
   const inputUsername = element.getChildByName('username')
   const inputRoomId = element.getChildByName('Room-ID')
@@ -82,6 +83,61 @@ function create() {
       }
     }
   })
+
+  const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2 + 5, gameConfig.canvasHeight * 0.72, gameConfig.canvasWidth * 0.45, 100)
+  scene.matter.add.gameObject(rectangle, {
+    isStatic: true
+  })
+
+  this.time.addEvent({
+    callback: generateRandomCharactor(this),
+    callbackScope: this,
+    delay: 1000,
+    loop: true
+  })
+}
+
+const randomCharactors = []
+const generateRandomCharactor = scene => () => {
+  const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * Object.keys(charactors).length) % (Object.keys(charactors).length)]
+  const charactorConfig = charactors[randomCharactorKey]
+  const { size, origin } = charactorConfig.matterConfig
+
+  const randomX = gameConfig.canvasWidth / 2 + gameConfig.canvasWidth * 0.45 * (Math.random() - 0.5)
+  const sprite = scene.add.sprite(randomX, -20)
+  const matter = scene.matter.add.gameObject(sprite, {
+    friction: 0,
+    frictionStatic: 0,
+    frictionAir: 0,
+    shape: {
+      type: 'rectangle',
+      width: size.width,
+      height: size.height
+    }
+  })
+  sprite.setOrigin(origin.x, origin.y)
+  sprite.play(charactorConfig.animsConfig.idle.key)
+  sprite.name = 'player-sprite'
+  matter.setBounce(1)
+  randomCharactors.push(matter)
+
+  scene.time.delayedCall(
+    1500,
+    () => {
+      const randomVX = (Math.random() - 0.5) * 5
+      matter.setVelocityX(randomVX)
+      if (randomVX < 0) {
+        matter.setFlipX(true)
+      }
+    },
+    null,
+    scene
+  )
+
+  if (randomCharactors.length > 15) {
+    const charToRemove = randomCharactors.shift()
+    charToRemove.destroy()
+  }
 }
 
 function update(t, dt) {
