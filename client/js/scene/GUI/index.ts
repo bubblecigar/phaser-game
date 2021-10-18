@@ -73,10 +73,16 @@ function update() {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (gameState.scene === 'loginScene') {
     transitionScreen.setVisible(false)
+    coinGroup.setVisible(false)
+    resurrectCountDownText.setVisible(false)
   } else if (!player || !player.phaserObject) {
     transitionScreen.setVisible(true)
+    coinGroup.setVisible(false)
+    resurrectCountDownText.setVisible(false)
   } else {
     transitionScreen.setVisible(false)
+    coinGroup.setVisible(true)
+    resurrectCountDownText.setVisible(true)
     showCoinCount(player.coins)
     showResurrectCountDown(player)
   }
