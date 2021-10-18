@@ -1,8 +1,7 @@
 import { v4 } from 'uuid'
-import bulletsRef from './ref'
 import collisionCategories from '../collisionCategories'
 import iceFlask from '../../../items/iceFlask'
-export const shootIce = ({ scene, from, to, builderId, isUser, options }) => {
+export const shootIce = ({ scene, bulletsRef, from, to, builderId, isUser, options }) => {
   const id = v4()
   const randomString = options.randomNumber.toFixed(5)
   const randomIndex_1 = randomString[2]

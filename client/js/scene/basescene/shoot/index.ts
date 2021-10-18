@@ -8,40 +8,48 @@ import { shootHammer } from './hammer'
 import { shootMuddy } from './muddy'
 import { shootIce } from './ice'
 
+export const bulletsRefKey = 'bullets_storage'
+
 const shoot = ({ scene, from, to, builderId, type, options }) => {
   const isUser = getLocalUserData().userId === builderId
   from.y -= 4
+
+  if (!scene[bulletsRefKey]) {
+    scene[bulletsRefKey] = {}
+  }
+  const bulletsRef = scene[bulletsRefKey]
+
   switch (type) {
     case 'arrow': {
-      shootArrow({ scene, from, to, builderId, isUser })
+      shootArrow({ scene, bulletsRef, from, to, builderId, isUser })
       break
     }
     case 'knife': {
-      shootKnife({ scene, from, to, builderId, isUser })
+      shootKnife({ scene, bulletsRef, from, to, builderId, isUser })
       break
     }
     case 'fireball': {
-      shootFireBall({ scene, from, to, builderId, isUser })
+      shootFireBall({ scene, bulletsRef, from, to, builderId, isUser })
       break
     }
     case 'shadowball': {
-      shootShadowBall({ scene, from, to, builderId, isUser })
+      shootShadowBall({ scene, bulletsRef, from, to, builderId, isUser })
       break
     }
     case 'potion': {
-      shootPotion({ scene, from, to, builderId, isUser, options })
+      shootPotion({ scene, bulletsRef, from, to, builderId, isUser, options })
       break
     }
     case 'hammer': {
-      shootHammer({ scene, from, to, builderId, isUser })
+      shootHammer({ scene, bulletsRef, from, to, builderId, isUser })
       break
     }
     case 'muddy': {
-      shootMuddy({ scene, from, to, builderId, isUser, options })
+      shootMuddy({ scene, bulletsRef, from, to, builderId, isUser, options })
       break
     }
     case 'ice': {
-      shootIce({ scene, from, to, builderId, isUser, options })
+      shootIce({ scene, bulletsRef, from, to, builderId, isUser, options })
       break
     }
     default: {

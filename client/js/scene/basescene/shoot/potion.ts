@@ -1,9 +1,8 @@
 import { v4 } from 'uuid'
-import bulletsRef from './ref'
 import collisionCategories from '../collisionCategories'
 import potions from '../../../items/potion'
 
-export const shootPotion = ({ scene, from, to, builderId, isUser, options }) => {
+export const shootPotion = ({ scene, bulletsRef, from, to, builderId, isUser, options }) => {
   const randomIndex = Math.floor(options.randomNumber * 16)
   const velocity = 2 + randomIndex * 0.25
   const angle = Math.atan2(to.y - from.y, to.x - from.x)

@@ -1,9 +1,8 @@
 import { v4 } from 'uuid'
-import bulletsRef from './ref'
 import collisionCategories from '../collisionCategories'
 import hammer from '../../../items/hammer'
 
-export const shootHammer = ({ scene, from, to, builderId, isUser }) => {
+export const shootHammer = ({ scene, bulletsRef, from, to, builderId, isUser }) => {
   const velocity = 1
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
   const id = v4()

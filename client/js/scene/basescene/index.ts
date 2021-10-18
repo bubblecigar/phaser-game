@@ -3,7 +3,6 @@ import gameMethods from './methods'
 import { Player } from '../../Interface'
 import { getLocalUserData } from '../../user'
 import charactors from '../../charactors/index'
-import items from '../../items/index'
 import clientMap from '../../../../share/clientMap'
 import backgroundMap from './backgroundMap'
 import registerWorldEvents from './WorldEvents'
@@ -11,7 +10,7 @@ import registerInputEvents from './inputEvents'
 import targetUrl from '../../../statics/tile/target.png'
 import { socketMethods } from '../../index'
 import gameState from '../../game/state'
-import bulletsRef from './shoot/ref'
+import { bulletsRefKey } from './shoot/index'
 import collisionCategories from './collisionCategories'
 
 const userId = getLocalUserData().userId
@@ -142,9 +141,11 @@ function update(t, dt) {
     movePlayer(this, player)
     updateAim(this, player)
 
-    Object.keys(bulletsRef).forEach(
-      id => bulletsRef[id].update()
-    )
+    if (this[bulletsRefKey]) {
+      Object.keys(this[bulletsRefKey]).forEach(
+        id => this[bulletsRefKey][id].update()
+      )
+    }
 
     player.position = { x: player.phaserObject.x, y: player.phaserObject.y }
     player.scene = this.scene.key

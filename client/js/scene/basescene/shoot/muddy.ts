@@ -1,9 +1,8 @@
 import { v4 } from 'uuid'
-import bulletsRef from './ref'
 import collisionCategories from '../collisionCategories'
 import muddy from '../../../items/muddy'
 
-export const shootMuddy = ({ scene, from, to, builderId, isUser, options }) => {
+export const shootMuddy = ({ scene, bulletsRef, from, to, builderId, isUser, options }) => {
   const velocity = 2
   const id = v4()
 

@@ -1,5 +1,4 @@
 import { v4 } from 'uuid'
-import bulletsRef from './ref'
 import collisionCategories from '../collisionCategories'
 
 const createArrowHead = (scene, position, isUser) => {
@@ -36,7 +35,7 @@ const createArrowFeather = (scene, position) => {
   return featherMatter
 }
 
-export const shootArrow = ({ scene, from, to, builderId, isUser }) => {
+export const shootArrow = ({ scene, bulletsRef, from, to, builderId, isUser }) => {
   const velocity = 7
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
