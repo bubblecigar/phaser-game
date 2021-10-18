@@ -3,7 +3,7 @@
   "initHealth": 20,
   "deadCharactor": "skull",
   "resurrectCharactor": "tinyZombie",
-  "minumumPlayers": 2,
+  "minumumPlayers": 1,
   "resurrectCountDown": 5000,
   "gameStartCountDown": 5000,
   "coinsToWin": 3,

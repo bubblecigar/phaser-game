@@ -147,10 +147,10 @@
         },
         "readyRoom.tmx": {
             "scale": 2.12,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 132.7830188679245,
-                "y": 144.10377358490564
+                "x": 142.21698113207546,
+                "y": 103.06603773584904
             }
         },
         "readyRoom.tmx#forestTileSet": {
@@ -235,7 +235,7 @@
         }
     },
     "last.exportedFilePath": "/Users/roywang/Desktop/typeScript/share/map",
-    "last.imagePath": "/Users/roywang/Desktop/typeScript/client/statics/tile",
+    "last.imagePath": "/Users/roywang/Desktop/typeScript/share/map",
     "map.fixedSize": true,
     "map.height": 20,
     "map.lastUsedExportFilter": "JSON map files (*.json)",
