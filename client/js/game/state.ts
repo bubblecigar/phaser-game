@@ -6,6 +6,7 @@ const gameState: GameState = {
   items: [],
   winner: null,
   gameStatus: 'waiting',
+  scene: 'loginScene',
   gameStartCountDown: setting.gameStartCountDown
 }
 
@@ -14,6 +15,7 @@ const initGameState = () => {
   gameState.items = []
   gameState.winner = null
   gameState.gameStatus = 'waiting'
+  gameState.scene = 'loginScene'
   gameState.gameStartCountDown = setting.gameStartCountDown
 }
 
