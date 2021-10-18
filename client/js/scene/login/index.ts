@@ -2,13 +2,19 @@ import gameConfig from '../../game/config'
 import { generateInputForm } from './form'
 import { setLocalUserData, getLocalUserData } from '../../user'
 import { socketMethods } from '../../index'
+import charactors from '../../charactors/index'
 
 function init() {
 
 }
 
 function preload() {
-
+  Object.keys(charactors).forEach(
+    key => {
+      const char = charactors[key]
+      this.load.spritesheet(char.spritesheetConfig.spritesheetKey, char.spritesheetConfig.spritesheetUrl, char.spritesheetConfig.options)
+    }
+  )
 }
 
 function create() {
@@ -16,6 +22,23 @@ function create() {
 
   const sceneKey = scene.scene.key
   socketMethods.registerSceneSocketEvents(sceneKey, {})
+
+  Object.keys(charactors).forEach(
+    key => {
+      const char = charactors[key]
+      Object.keys(char.animsConfig).forEach(
+        _key => {
+          const animConfig = char.animsConfig[_key]
+          this.anims.create({
+            key: animConfig.key,
+            frames: this.anims.generateFrameNumbers(char.spritesheetConfig.spritesheetKey, { frames: animConfig.frames }),
+            frameRate: 8,
+            repeat: -1
+          })
+        }
+      )
+    }
+  )
 
   const element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.6).createFromHTML(generateInputForm())
   const inputUsername = element.getChildByName('username')

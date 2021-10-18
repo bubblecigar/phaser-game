@@ -18,7 +18,6 @@ function preload() {
 
   const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * 10) % (Object.keys(charactors).length)]
   randomCharactorConfig = charactors[randomCharactorKey]
-  this.load.spritesheet(randomCharactorConfig.spritesheetConfig.spritesheetKey, randomCharactorConfig.spritesheetConfig.spritesheetUrl, randomCharactorConfig.spritesheetConfig.options)
 }
 
 function create() {
@@ -45,15 +44,9 @@ function create() {
     fontSize: setting.fontSize
   })
 
-  const charAnimsConfig = randomCharactorConfig.animsConfig['move']
-  this.anims.create({
-    key: charAnimsConfig.key,
-    frames: this.anims.generateFrameNumbers(randomCharactorConfig.spritesheetConfig.spritesheetKey, { frames: charAnimsConfig.frames }),
-    frameRate: 8,
-    repeat: -1
-  })
+
   const char = this.add.sprite(centerX - padding, centerY, randomCharactorConfig.spritesheetConfig.spritesheetKey)
-  char.play(charAnimsConfig.key)
+  char.play(randomCharactorConfig.animsConfig.move.key)
 
   transitionScreen.add([text, char])
 }
