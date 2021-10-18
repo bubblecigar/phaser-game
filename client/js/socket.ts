@@ -42,7 +42,7 @@ export const getSocketMethods = socket => {
               game.scene.stop(sceneToStop)
               game.scene.start(sceneToRun, serverGameState)
               game.scene.bringToTop('GUI')
-              game.scene.getScene('GUI').cameras.main.fadeIn(2000, 0, 0, 0)
+              game.scene.getScene('GUI').cameras.main.fadeIn(1500, 0, 0, 0)
             }
 
           }
