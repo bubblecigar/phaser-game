@@ -29,7 +29,6 @@ export const getSocketMethods = socket => {
             const { gameStatus } = serverGameState
             const sceneToRun = serverMap[gameStatus].scene
             const scenesActived = game.scene.getScenes(true).map(s => s.scene.key)
-            const sceneToStop = scenesActived.filter(key => (key !== sceneToRun && key !== 'GUI'))[0]
 
             gameState.gameStatus = gameStatus
             gameState.scene = sceneToRun
@@ -39,9 +38,11 @@ export const getSocketMethods = socket => {
               // do nothing
             } else {
               // switch scene
+              const sceneToStop = scenesActived.filter(key => (key !== sceneToRun && key !== 'GUI'))[0]
               game.scene.stop(sceneToStop)
               game.scene.start(sceneToRun, serverGameState)
               game.scene.bringToTop('GUI')
+              game.scene.getScene('GUI').cameras.main.fadeIn(2000, 0, 0, 0)
             }
 
           }
