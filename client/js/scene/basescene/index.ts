@@ -75,6 +75,7 @@ function init(serverGameState) {
     }
   )
   methods = gameMethods(this)
+  readyToShoot = true
 }
 
 function preload() {
