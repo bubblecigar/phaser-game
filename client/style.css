@@ -80,6 +80,10 @@ body {
   width: 100vw;
 }
 
+.loading-text {
+  font-size: 20px;
+}
+
 input {
   width: 180px;
   padding: 8px;
