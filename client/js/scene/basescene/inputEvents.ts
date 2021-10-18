@@ -7,12 +7,6 @@ const registerInputEvents = (scene, methods, socketMethods) => {
   scene.input.keyboard.on(
     'keydown', e => {
       switch (e.key) {
-        case 'q': {
-          socketMethods.disconnect()
-          scene.scene.stop('GUI')
-          scene.scene.start('loginScene')
-          break
-        }
         case 'w': {
           scene.scale.toggleFullscreen();
           break
