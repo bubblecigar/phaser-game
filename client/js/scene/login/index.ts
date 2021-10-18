@@ -89,6 +89,7 @@ function create() {
     isStatic: true
   })
 
+  generateRandomCharactor(this)
   this.time.addEvent({
     callback: generateRandomCharactor(this),
     callbackScope: this,
