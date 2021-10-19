@@ -15,7 +15,6 @@ export const shootShadowBall = ({ scene, bulletsRef, from, to, builderId, isUser
   matter.setVelocityX(velocity * Math.cos(angle))
   matter.setVelocityY(velocity * Math.sin(angle))
   matter.setIgnoreGravity(true)
-  matter.setDepth(50)
   matter.setBounce(1.3)
   matter.play('shadow_ball_idle')
 

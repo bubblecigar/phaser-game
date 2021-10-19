@@ -14,7 +14,6 @@ export const shootFireBall = ({ scene, bulletsRef, from, to, builderId, isUser }
   matter.setVelocityY(velocity * Math.sin(angle))
   matter.setFixedRotation(true)
   matter.setIgnoreGravity(true)
-  matter.setDepth(11)
   matter.setFriction(1, 0, 1)
   matter.play('fireball_idle')
 

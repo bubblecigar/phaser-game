@@ -15,7 +15,6 @@ export const shootHammer = ({ scene, bulletsRef, from, to, builderId, isUser }) 
   })
 
   const matter = scene.matter.add.sprite(from.x, from.y, hammer.spritesheetConfig.spritesheetKey)
-  matter.setDepth(11)
   matter.setExistingBody(body)
   matter.setAngle((angle * 180 / Math.PI) + 90)
   matter.setAngularVelocity(0.3)

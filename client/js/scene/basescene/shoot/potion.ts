@@ -16,7 +16,6 @@ export const shootPotion = ({ scene, bulletsRef, from, to, builderId, isUser, op
     },
     ignoreGravity: true
   })
-  matter.setDepth(9)
   matter.setMass(0.1)
   matter.setVelocityX(velocity * Math.cos(angle))
   matter.setVelocityY(velocity * Math.sin(angle))
