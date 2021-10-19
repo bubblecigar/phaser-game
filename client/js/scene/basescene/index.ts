@@ -12,6 +12,7 @@ import { socketMethods } from '../../index'
 import gameState from '../../game/state'
 import { bulletsRefKey } from './shoot/index'
 import collisionCategories from './collisionCategories'
+import { sounds } from '../../sounds/index'
 
 const userId = getLocalUserData().userId
 
@@ -83,9 +84,23 @@ function preload() {
   const mapConfig = clientMap[this.scene.key]
   this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
   this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
+
+
+  Object.keys(sounds).forEach(
+    key => {
+      this.load.audio(key, sounds[key].url)
+    }
+  )
 }
 
+let backgroundMusic
+
 function create() {
+  if (!backgroundMusic) {
+    backgroundMusic = this.sound.add('background')
+    backgroundMusic.play({ loop: true })
+  }
+
   cursors = this.input.keyboard.createCursorKeys()
   pointer = this.input.activePointer
   registerAimingTarget(this)

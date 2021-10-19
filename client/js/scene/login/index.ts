@@ -4,7 +4,6 @@ import { setLocalUserData, getLocalUserData } from '../../user'
 import { socketMethods } from '../../index'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
-import { sounds } from '../../sounds/index'
 
 function init() {
 }
@@ -22,22 +21,13 @@ function preload() {
       this.load.spritesheet(item.spritesheetConfig.spritesheetKey, item.spritesheetConfig.spritesheetUrl, item.spritesheetConfig.options)
     }
   )
-  Object.keys(sounds).forEach(
-    key => {
-      this.load.audio(key, sounds[key].url)
-    }
-  )
 }
 
 
-let backgroundMusic
 
 function create() {
   const scene = this
-  if (!backgroundMusic) {
-    backgroundMusic = this.sound.add('background')
-    backgroundMusic.play({ loop: true })
-  }
+
   const sceneKey = scene.scene.key
   socketMethods.registerSceneSocketEvents(sceneKey, {})
 
