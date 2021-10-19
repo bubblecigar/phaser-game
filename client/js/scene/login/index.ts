@@ -87,7 +87,10 @@ function create() {
         if (bgmusic.isPlaying) {
           bgmusic.setMute(false)
         } else {
-          bgmusic.play()
+          bgmusic.play({
+            loop: true,
+            volume: 0.3
+          })
         }
       } else {
         bgmusic.setMute(true)
@@ -112,10 +115,7 @@ function create() {
 
   this.load.audio('background_music', bgmusicUrl)
   this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-    bgmusic = this.sound.add('background_music', {
-      loop: true,
-      volume: 0.5
-    })
+    bgmusic = this.sound.add('background_music')
   })
   this.load.start()
 }
