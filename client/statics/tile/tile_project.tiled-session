@@ -1,0 +1,260 @@
+{
+    "activeFile": "/Users/roywang/Desktop/typeScript/share/map/login.tmx",
+    "fileStates": {
+        "": {
+            "scaleInDock": 2.4261,
+            "scaleInEditor": 3.2
+        },
+        "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 2.67
+        },
+        "/Users/roywang/Desktop/tile_trial/dungeon_map.tmx": {
+            "scale": 0.51,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 882.3529411764705,
+                "y": 742.156862745098
+            }
+        },
+        "/Users/roywang/Desktop/tile_trial/dungeon_map.tmx#tileset": {
+            "scaleInDock": 1.7418
+        },
+        "/Users/roywang/Desktop/tile_trial/ghost_room.tmx": {
+            "scale": 1.8,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 385.27777777777777,
+                "y": 225.83333333333337
+            }
+        },
+        "/Users/roywang/Desktop/tile_trial/ghost_room.tmx#Tileset_Large": {
+            "scaleInDock": 2.5901
+        },
+        "/Users/roywang/Desktop/tile_trial/ghost_room.tmx#tinyroom": {
+            "scaleInDock": 3.215
+        },
+        "/Users/roywang/Desktop/tile_trial/mapp.tmx": {
+            "scale": 2.84,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 128.16901408450704,
+                "y": -1.9366197183098564
+            }
+        },
+        "/Users/roywang/Desktop/tile_trial/room_map.tmx": {
+            "scale": 1.16,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 393.5344827586207,
+                "y": 371.9827586206897
+            }
+        },
+        "/Users/roywang/Desktop/tile_trial/room_map.tmx#tileset": {
+            "scaleInDock": 1.995,
+            "scaleInEditor": 1
+        },
+        "/Users/roywang/Desktop/tile_trial/small_map.tmx": {
+            "scale": 2.95,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 346.4406779661017,
+                "y": 214.74576271186442
+            }
+        },
+        "/Users/roywang/Desktop/tile_trial/small_map.tmx#Tileset_Large": {
+            "scaleInDock": 2.8573
+        },
+        "/Users/roywang/Desktop/tile_trial/small_map.tmx#tileset": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2.5423,
+            "scaleInEditor": 4.3
+        },
+        "/Users/roywang/Desktop/tile_trial/tileset.tsx": {
+            "scaleInDock": 1.5572,
+            "scaleInEditor": 2.72
+        },
+        "/Users/roywang/Desktop/tile_trial/tileset_test.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 2.8474
+        },
+        "/Users/roywang/Desktop/tile_trial/tiny_map.tmx": {
+            "scale": 1.69,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 388.4615384615385,
+                "y": 277.2189349112426
+            }
+        },
+        "/Users/roywang/Desktop/tile_trial/tiny_map.tmx#tileset": {
+            "scaleInDock": 2.5982
+        },
+        "/Users/roywang/Desktop/tile_trial/tiny_map.tmx#tinyroom": {
+            "scaleInDock": 3.189
+        },
+        "/Users/roywang/Desktop/typeScript/share/map/login.tmx": {
+            "scale": 1.967857142857143,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 152.19600725952813,
+                "y": 97.31397459165154
+            }
+        },
+        "/Users/roywang/Desktop/typeScript/share/map/login.tmx#forestTileSet": {
+            "scaleInDock": 2.2353
+        },
+        "anim.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 3.0295
+        },
+        "endingRoom.tmx": {
+            "scale": 1.87,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 165.50802139037432,
+                "y": 199.73262032085557
+            }
+        },
+        "endingRoom.tmx#forestTileSet": {
+            "scaleInDock": 2.6637,
+            "scaleInEditor": 1.82
+        },
+        "endingRoom.tmx#ghost_tileset": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "hhh.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.83
+        },
+        "jumpPlatForm.tmx": {
+            "scale": 2.61,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 90.22988505747126,
+                "y": 361.1111111111111
+            }
+        },
+        "jumpPlatForm.tmx#forestTileSet": {
+            "scaleInDock": 2.8218
+        },
+        "map.tmx": {
+            "scale": 2.56,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": -51.3671875,
+                "y": -174.4140625
+            }
+        },
+        "map.tmx#tileset": {
+            "scaleInDock": 1
+        },
+        "readyRoom.tmx": {
+            "scale": 2.12,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 142.21698113207546,
+                "y": 103.06603773584904
+            }
+        },
+        "readyRoom.tmx#forestTileSet": {
+            "scaleInDock": 2.14,
+            "scaleInEditor": 2.71
+        },
+        "shootingPlatform.tmx": {
+            "scale": 3.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 163.53846153846155,
+                "y": 319.53846153846155
+            }
+        },
+        "shootingPlatform.tmx#cavesofgallet_tiles": {
+            "scaleInDock": 7.7696
+        },
+        "shootingPlatform.tmx#dungeon_": {
+            "scaleInDock": 3.44,
+            "scaleInEditor": 4.54
+        },
+        "shootingPlatform.tmx#forestTileSet": {
+            "scaleInDock": 3.204
+        },
+        "shootingPlatform.tmx#imageedit_2_5988257424": {
+            "scaleInDock": 2.6857
+        },
+        "shootingPlatform.tmx#tiles": {
+            "scaleInDock": 3.5304
+        },
+        "shootingPlatform.tmx#tileset": {
+            "scaleInDock": 3.0642
+        },
+        "shootingPlatform.tmx#tinyroom": {
+            "scaleInDock": 2.9716
+        },
+        "tileset.tsx": {
+            "scaleInDock": 2.2919,
+            "scaleInEditor": 2.47
+        },
+        "tiny_map.json": {
+            "scale": 1.37,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.0729927007299,
+                "y": 320.0729927007299
+            }
+        },
+        "tiny_map.json#tileset": {
+            "scaleInDock": 1
+        },
+        "tiny_map.json#tinyroom": {
+            "scaleInDock": 1
+        },
+        "waitingRoom.json": {
+            "scale": 2.74,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.03649635036496,
+                "y": 160.03649635036496
+            }
+        },
+        "waitingRoom.json#tinyroom": {
+            "scaleInDock": 1
+        },
+        "waitingRoom.tmx": {
+            "scale": 1.85,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 117.56756756756754,
+                "y": 139.7297297297297
+            }
+        },
+        "waitingRoom.tmx#anim": {
+            "scaleInDock": 1.3083
+        },
+        "waitingRoom.tmx#tileset": {
+            "scaleInDock": 1.6263
+        },
+        "waitingRoom.tmx#tinyroom": {
+            "scaleInDock": 3
+        }
+    },
+    "openFiles": [
+        "endingRoom.tmx",
+        "readyRoom.tmx",
+        "/Users/roywang/Desktop/typeScript/share/map/login.tmx"
+    ],
+    "recentFiles": [
+        "endingRoom.tmx",
+        "readyRoom.tmx",
+        "/Users/roywang/Desktop/typeScript/share/map/login.tmx",
+        "jumpPlatForm.tmx",
+        "waitingRoom.tmx",
+        "shootingPlatform.tmx",
+        "anim.tsx",
+        "waitingRoom.json",
+        "tiny_map.json",
+        "/Users/roywang/Desktop/tile_trial/tiny_map.tmx",
+        "/Users/roywang/Desktop/tile_trial/ghost_room.tmx",
+        "/Users/roywang/Desktop/tile_trial/small_map.tmx"
+    ]
+}
