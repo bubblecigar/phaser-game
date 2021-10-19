@@ -29,13 +29,6 @@ function preload() {
 function create() {
   const scene = this
 
-  this.load.audio('background_music', bgmusic)
-  this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-    this.sound.play('background_music')
-  })
-  this.load.start()
-
-
   const sceneKey = scene.scene.key
   socketMethods.registerSceneSocketEvents(sceneKey, {})
 
@@ -105,6 +98,13 @@ function create() {
     delay: 1000,
     loop: true
   })
+
+
+  this.load.audio('background_music', bgmusic)
+  this.load.once(Phaser.Loader.Events.COMPLETE, () => {
+    this.sound.play('background_music')
+  })
+  this.load.start()
 }
 
 const randomCharactors = []
