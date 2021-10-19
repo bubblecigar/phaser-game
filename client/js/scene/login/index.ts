@@ -7,7 +7,6 @@ import items from '../../items/index'
 import { sounds } from '../../sounds/index'
 
 function init() {
-
 }
 
 function preload() {
@@ -30,9 +29,15 @@ function preload() {
   )
 }
 
+
+let backgroundMusic
+
 function create() {
   const scene = this
-
+  if (!backgroundMusic) {
+    backgroundMusic = this.sound.add('background')
+    backgroundMusic.play({ loop: true })
+  }
   const sceneKey = scene.scene.key
   socketMethods.registerSceneSocketEvents(sceneKey, {})
 
