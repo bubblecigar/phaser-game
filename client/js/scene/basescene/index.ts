@@ -93,13 +93,7 @@ function preload() {
   )
 }
 
-let backgroundMusic
-
 function create() {
-  if (!backgroundMusic) {
-    backgroundMusic = this.sound.add('background')
-    backgroundMusic.play({ loop: true, volume: 0.5 })
-  }
   this.game.scene.getScene('GUI').cameras.main.fadeIn(1500, 0, 0, 0)
 
   cursors = this.input.keyboard.createCursorKeys()
