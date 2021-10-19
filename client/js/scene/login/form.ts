@@ -43,29 +43,12 @@ export const generateInputForm = () => {
       width: 87px;
     }
 
-    input[type="checkbox"] {
-      cursor: pointer;
-      height: 16px;
-      opacity: 0;
-      position: relative;
-      width: 64px;
-    }
-
-    input[type="checkbox"]:checked {
-      left: 29px;
-      width: 58px;
-    }
-
     .toggle {
       display: block;
       height: 16px;
       margin-top: -20px;
       width: 87px;
       z-index: -1;
-    }
-
-    input[type="checkbox"]:checked+.toggle {
-      background-position: 0 -16px
     }
 
     input[type="submit"] {
@@ -98,12 +81,38 @@ export const generateInputForm = () => {
       top: 3px;
       box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #31524d, 0px 0px 3px #999;
     }
+
+    #sound {
+      margin: 28px 17px 29px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: end;
+    }
+
+    #sound-checkbox {
+      border-radius: 5px;
+      cursor: pointer;
+      height: 16px;
+      width: 16px;
+      margin: 0px;
+      margin-right: 10px;
+    }
+
+    label {
+      cursor: pointer;
+    }
+
   </style>
 
   <div class="login">
-    <input type="text" placeholder="Username" id="username" name="username">
-    <input type="Room-ID" placeholder="Room-ID" id="Room-ID" name="Room-ID">
-    <input type="submit" value="Join" name="joinButton">
+    <input type="text" placeholder="Username" id="username" name="username" />
+    <input type="Room-ID" placeholder="Room-ID" id="Room-ID" name="Room-ID" />
+    <input type="submit" value="Join" name="joinButton" />
+    <div id="sound">
+      <input type="checkbox" id="sound-checkbox" name="sound-checkbox" />
+      <label for="sound-checkbox">Sounds</label>
+    </div>
   </div>
   `
 }

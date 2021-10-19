@@ -4,7 +4,7 @@ import { setLocalUserData, getLocalUserData } from '../../user'
 import { socketMethods } from '../../index'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
-import bgmusic from '../../../statics/sound/game-music-7408.mp3'
+import bgmusicUrl from '../../../statics/sound/game-music-7408.mp3'
 
 function init() {
 }
@@ -73,7 +73,6 @@ function create() {
   element.addListener('click')
   element.on('click', function (event) {
     if (event.target.name === 'joinButton') {
-
       if (inputUsername.value !== '' && inputRoomId.value !== '') {
         setLocalUserData({
           username: inputUsername.value,
@@ -82,6 +81,16 @@ function create() {
         socketMethods.changeRoom(inputRoomId.value)
         scene.scene.stop('GUI')
         scene.scene.launch('GUI')
+      }
+    } else if (event.target.name === 'sound-checkbox') {
+      if (event.target.checked) {
+        if (bgmusic.isPlaying) {
+          bgmusic.setMute(false)
+        } else {
+          bgmusic.play()
+        }
+      } else {
+        bgmusic.setMute(true)
       }
     }
   })
@@ -99,10 +108,11 @@ function create() {
     loop: true
   })
 
+  let bgmusic
 
-  this.load.audio('background_music', bgmusic)
+  this.load.audio('background_music', bgmusicUrl)
   this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-    this.sound.play('background_music', {
+    bgmusic = this.sound.add('background_music', {
       loop: true,
       volume: 0.5
     })
