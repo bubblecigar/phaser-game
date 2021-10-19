@@ -15,11 +15,12 @@ export const shootIce = ({ scene, bulletsRef, from, to, builderId, isUser, optio
   matter.setCircle(8 * randomSizeFactor)
   matter.play(iceFlask.animsConfig.idle.key)
 
-  matter.setVelocityY(-velocity * randomIndex_1 * 0.1)
-  matter.setVelocityX(velocity * randomIndex_2 * 0.1 * (Math.sign(from.x - to.x)))
-  matter.setAngularVelocity(0.2)
+  matter.setX(from.x + 2 * randomIndex_1 * (Math.sign(from.x - to.x)))
+  matter.setY(from.y - 2 * randomIndex_2)
+  matter.setVelocityX(0.2 * randomIndex_1 * (Math.sign(from.x - to.x)))
+  matter.setVelocityY(-0.08 * randomIndex_2)
+  matter.setAngularVelocity(0.15)
   matter.setIgnoreGravity(true)
-  matter.setFriction(1, 0, 1)
 
   matter.setCollisionCategory(
     isUser
@@ -37,8 +38,6 @@ export const shootIce = ({ scene, bulletsRef, from, to, builderId, isUser, optio
     const angle = Math.atan2(to.y - from.y, to.x - from.x)
     matter.setVelocityX(rushVelocity * Math.cos(angle))
     matter.setVelocityY(rushVelocity * Math.sin(angle))
-    matter.setAngularVelocity(0)
-
   }
   scene.time.delayedCall(500, () => rush(), null, scene)
 
