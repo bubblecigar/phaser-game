@@ -4,7 +4,7 @@ import { setLocalUserData, getLocalUserData } from '../../user'
 import { socketMethods } from '../../index'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
-import bgmusic from '../../../statics/sound/8-bit-game-music_by_turpak_preview.mp3'
+import bgmusic from '../../../statics/sound/game-music-7408.mp3'
 
 function init() {
 }
@@ -102,7 +102,10 @@ function create() {
 
   this.load.audio('background_music', bgmusic)
   this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-    this.sound.play('background_music')
+    this.sound.play('background_music', {
+      loop: true,
+      volume: 0.5
+    })
   })
   this.load.start()
 }
