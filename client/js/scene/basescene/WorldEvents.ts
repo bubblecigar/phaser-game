@@ -162,7 +162,7 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
         if (player.isUser) {
           socketMethods.clientsInScene(scene.scene.key, methods, 'collectItem', player.data.id, _.omit(item.data, 'phaserObject'))
           socketMethods.server('collectItem', item.data.id)
-          scene.cameras.main.shake(100, 0.01)
+          scene.sound.play('collect')
         } else {
           item.data.phaserObject.destroy()
         }
