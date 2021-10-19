@@ -70,6 +70,10 @@ function create() {
   const inputRoomId = element.getChildByName('Room-ID')
   inputUsername.value = getLocalUserData().username || ''
   inputRoomId.value = getLocalUserData().roomId || ''
+
+  const soundCheckBox = element.getChildByName('sound-checkbox')
+  soundCheckBox.checked = bgmusic ? !bgmusic.mute : false
+
   element.addListener('click')
   element.on('click', function (event) {
     if (event.target.name === 'joinButton') {
@@ -111,14 +115,16 @@ function create() {
     loop: true
   })
 
-  let bgmusic
-
-  this.load.audio('background_music', bgmusicUrl)
-  this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-    bgmusic = this.sound.add('background_music')
-  })
-  this.load.start()
+  if (!bgmusic) {
+    this.load.audio('background_music', bgmusicUrl)
+    this.load.once(Phaser.Loader.Events.COMPLETE, () => {
+      bgmusic = this.sound.add('background_music')
+    })
+    this.load.start()
+  }
 }
+
+let bgmusic
 
 const randomCharactors = []
 const generateRandomCharactor = scene => () => {
