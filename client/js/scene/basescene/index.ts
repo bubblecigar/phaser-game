@@ -98,7 +98,7 @@ let backgroundMusic
 function create() {
   if (!backgroundMusic) {
     backgroundMusic = this.sound.add('background')
-    backgroundMusic.play({ loop: true })
+    backgroundMusic.play({ loop: true, volume: 0.5 })
   }
 
   cursors = this.input.keyboard.createCursorKeys()
