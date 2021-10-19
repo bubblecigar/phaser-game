@@ -6,7 +6,7 @@ npm run server
 parcel watch 
 parcel watch client/index.html
 
-# deploy:
+# deploy: (.gitignore should not ignore /dist)
 parcel build client/index.html
 git push
 git push heroku master
