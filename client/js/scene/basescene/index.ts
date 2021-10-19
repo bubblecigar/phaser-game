@@ -98,24 +98,29 @@ function create() {
   methods.createPlayers()
   methods.createItems()
 
+  const scene = this
   cursors.up.on(
     'down', () => {
       const player = methods.getPlayer(userId)
       if (player.phaserObject.data.values.touched) {
+        scene.sound.play('quickJump')
         player.phaserObject.setVelocityY(-5)
         player.phaserObject.setData({ touched: false })
       }
     }
   )
-  const scene = this
   this.input.on('pointerdown', function () {
     const player = methods.getPlayer(userId)
-    if (readyToShoot && player) {
+    if (!player) return
+
+    const shootType = charactors[player.charactorKey].shootType
+    if (readyToShoot && player && shootType) {
+      scene.sound.play('shoot')
       socketMethods.clientsInScene(scene.scene.key, methods, 'shoot', {
         builderId: player.id,
-        type: charactors[player.charactorKey].shootType,
+        type: shootType,
         options: {
-          type: charactors[player.charactorKey].shootType,
+          type: shootType,
           randomNumber: Math.random()
         },
         from: player.position,
