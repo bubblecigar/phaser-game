@@ -38,7 +38,7 @@ io.on('connection', async function (socket) {
       room = roomMethods.connectToRoom(roomId, userState.userId, userState.username, socket)
       const connectionFail = room === false
       if (connectionFail) {
-        const errorMessage = 'Room in used, please change RoomId'
+        const errorMessage = 'Room unavailable'
         io.to(socket.id).emit('game', 'connectionFail', errorMessage)
       } else {
         const gameState = roomMethods.getEmittableFieldOfRoom(room)
