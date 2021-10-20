@@ -221,7 +221,21 @@ const gameMethods = scene => {
       sprite.setFlipX(direction === 'right' ? false : true)
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
-    shoot: ({ from, to, builderId, type, options }) => shoot({ scene, from, to, builderId, type, options }),
+    shoot: ({ from, to, builderId, type, options }) => {
+      shoot({ scene, from, to, builderId, type, options })
+      const player = methods.getPlayer(builderId)
+      const sprite = player.phaserObject.getByName('player-sprite')
+      const hitConfig = charactors[player.charactorKey].animsConfig.hit
+      if (hitConfig) {
+        sprite.play({
+          key: hitConfig.key,
+          repeat: false,
+        })
+        sprite.once('animationcomplete-' + hitConfig.key, function (currentAnim, currentFrame, sprite) {
+          sprite.play(charactors[player.charactorKey].animsConfig.idle.key)
+        })
+      }
+    },
     updatePlayerHealthBar: (playerId: string) => {
       const player = methods.getPlayer(playerId)
       const maximumHealth = charactors[player.charactorKey].maxHealth
