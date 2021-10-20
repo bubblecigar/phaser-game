@@ -149,11 +149,22 @@ const getEmittableFieldOfRoom = (room) => {
   }
 }
 
+const getRoomList = () => {
+  return Object.keys(rooms).map(
+    key => ({
+      roomId: rooms[key].id,
+      players: rooms[key].players.length,
+      gameStatus: rooms[key].gameStatus
+    })
+  )
+}
+
 exports.roomMethods = {
   closeRoom,
   createRoom,
   connectToRoom,
   disconnectFromRoom,
   leaveRoom,
-  getEmittableFieldOfRoom
+  getEmittableFieldOfRoom,
+  getRoomList
 }

@@ -18,6 +18,11 @@ io.on('connection', async function (socket) {
 
     let room
 
+
+    socket.on('update-room-list', () => {
+      io.to(socket.id).emit('loginScene', 'updateRoomList', roomMethods.getRoomList())
+    })
+
     socket.on('leave-room', () => {
       if (room) {
         roomMethods.leaveRoom(room, userState.userId, socket)

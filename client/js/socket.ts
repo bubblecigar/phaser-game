@@ -74,6 +74,9 @@ export const getSocketMethods = socket => {
         }
       })
     },
+    updateRoomList: () => {
+      socket.emit('update-room-list')
+    },
     leaveRoom: () => {
       socket.emit('leave-room')
       initGameState()

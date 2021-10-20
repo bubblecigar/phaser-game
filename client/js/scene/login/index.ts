@@ -24,13 +24,26 @@ function preload() {
   )
 }
 
-
+let element
 
 function create() {
   const scene = this
 
   const sceneKey = scene.scene.key
-  socketMethods.registerSceneSocketEvents(sceneKey, {})
+  socketMethods.registerSceneSocketEvents(sceneKey, {
+    updateRoomList: (rooms) => {
+      const roomList = element.getChildByID("room-list")
+      roomList.innerHTML = ''
+      rooms.forEach(
+        room => {
+          const div = document.createElement('DIV')
+          div.textContent = `${room.roomId} ${room.players}/${room.players} ${room.gameStatus}`
+          div.dataset.roomId = room.roomId
+          roomList.appendChild(div)
+        }
+      )
+    }
+  })
 
   Object.keys(charactors).forEach(
     key => {
@@ -65,7 +78,7 @@ function create() {
     }
   )
 
-  const element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.6).createFromHTML(generateInputForm())
+  element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.6).createFromHTML(generateInputForm())
   const inputUsername = element.getChildByName('username')
   const inputRoomId = element.getChildByName('Room-ID')
   inputUsername.value = getLocalUserData().username || ''
@@ -73,17 +86,6 @@ function create() {
 
   const soundCheckBox = element.getChildByName('sound-checkbox')
   soundCheckBox.checked = bgmusic ? !bgmusic.mute : false
-
-  const roomList = element.getChildByID("room-list")
-  const rooms = [{ roomId: 'akb48', players: [{}, {}] }]
-  rooms.forEach(
-    room => {
-      const div = document.createElement('DIV')
-      div.textContent = `${room.roomId} ${room.players.length}/${room.players.length}`
-      div.dataset.roomId = room.roomId
-      roomList.appendChild(div)
-    }
-  )
 
   element.addListener('click')
   element.on('click', function (event) {
@@ -135,6 +137,8 @@ function create() {
     })
     this.load.start()
   }
+
+  socketMethods.updateRoomList()
 }
 
 let bgmusic
