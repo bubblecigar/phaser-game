@@ -13,7 +13,7 @@ const updateReadyHintText = () => {
     const countDownInSeconds = Math.ceil(gameState.gameStartCountDown / 1000) || 1
     readyHintText.setText(countDownInSeconds)
   } else {
-    readyHintText.setText(`${playersReady}/${totalPlayers} ready`)
+    readyHintText.setText(`${playersReady}/${totalPlayers} players`)
   }
 }
 
