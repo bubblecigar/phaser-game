@@ -3,7 +3,6 @@ https://github.com/bubblecigar/phaser-game
 
 # development
 npm run server
-parcel watch 
 parcel watch client/index.html
 
 # deploy: (.gitignore should not ignore /dist)
