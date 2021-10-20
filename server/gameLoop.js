@@ -96,6 +96,8 @@ const registerProcessingIntervals = room => setInterval(
     if (winners.length > 0) {
       room.winner = winners[0]
       changeGameStatus(room, 'ending')
+      const { io } = require('./index.js')
+      io.to(room.id).emit('game', 'showEndgameReport', room.winner)
     }
   }, intervalTimeStep
 )

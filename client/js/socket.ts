@@ -19,6 +19,11 @@ export const getSocketMethods = socket => {
     registerGameSocketEvents: game => {
       socket.on('game', (key, ...args) => {
         const methods = {
+          showEndgameReport: (data) => {
+            const gui = game.scene.getScene('GUI')
+            gui.scene.launch('endgameReport', data)
+            game.scene.bringToTop('endgameReport')
+          },
           connectionFail: errorMessage => {
             window.alert(errorMessage)
           },
