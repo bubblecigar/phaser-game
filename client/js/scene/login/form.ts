@@ -114,6 +114,7 @@ export const generateInputForm = () => {
     #room-list img {
       padding-left: 6px;
       padding-right: 3px;
+      pointer-events: none;
     }
 
     input[type="submit"]:active {

@@ -122,7 +122,13 @@ function create() {
         bgmusic.setMute(true)
       }
     } else if (event.target.dataset.roomId) {
-      inputRoomId.value = event.target.dataset.roomId
+      setLocalUserData({
+        username: inputUsername.value,
+        roomId: event.target.dataset.roomId
+      })
+      socketMethods.changeRoom(event.target.dataset.roomId)
+      scene.scene.stop('GUI')
+      scene.scene.launch('GUI')
     }
   })
 
