@@ -74,6 +74,17 @@ function create() {
   const soundCheckBox = element.getChildByName('sound-checkbox')
   soundCheckBox.checked = bgmusic ? !bgmusic.mute : false
 
+  const roomList = element.getChildByID("room-list")
+  const rooms = [{ roomId: 'akb48', players: [{}, {}] }]
+  rooms.forEach(
+    room => {
+      const div = document.createElement('DIV')
+      div.textContent = `${room.roomId} ${room.players.length}/${room.players.length}`
+      div.dataset.roomId = room.roomId
+      roomList.appendChild(div)
+    }
+  )
+
   element.addListener('click')
   element.on('click', function (event) {
     if (event.target.name === 'joinButton') {
@@ -99,6 +110,8 @@ function create() {
       } else {
         bgmusic.setMute(true)
       }
+    } else if (event.target.dataset.roomId) {
+      inputRoomId.value = event.target.dataset.roomId
     }
   })
 

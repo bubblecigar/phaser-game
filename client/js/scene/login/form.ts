@@ -9,8 +9,7 @@ export const generateInputForm = () => {
   return `
   <style>
     .login {
-      height: ${height}px;
-      margin: ${marginTop}px auto 0;
+      margin: 0;
       width: 100%;
       transform: scale(.5);
     }
@@ -77,6 +76,34 @@ export const generateInputForm = () => {
       box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #497a78, 0px 5px 5px #999;
     }
 
+    #room-list {
+      padding-top: 6px;
+      margin: 29px 0 0 29px;
+      font-size: 12px;
+      height: 100px;
+      width: 89%;
+      border-radius: 3px;
+      box-shadow: none;
+      text-shadow: none;
+      color: black;
+    }
+
+    #room-list > div {
+      cursor: pointer;
+      border: none;
+      background-image: linear-gradient(top, #3db0a6, #3111);
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+      box-shadow: inset 0px 0px 5px gray;
+      width: initial;
+      font-weight: bold;
+      display: inline-block;
+      padding: 12px;
+      color: white;
+    }
+
     input[type="submit"]:active {
       top: 3px;
       box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #31524d, 0px 0px 3px #999;
@@ -106,6 +133,7 @@ export const generateInputForm = () => {
   </style>
 
   <div class="login">
+    <div id="room-list" name="room-list"></div>
     <input type="text" placeholder="Username" id="username" name="username" />
     <input type="Room-ID" placeholder="Room-ID" id="Room-ID" name="Room-ID" />
     <input type="submit" value="Join" name="joinButton" />
