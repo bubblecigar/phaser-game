@@ -44,7 +44,7 @@ function create() {
               <img src='${doorIcon}' width='16px' height='16px' />
               ${room.roomId} 
               <img src='${manIcon}' width='16px' height='16px' />
-              ${room.players}/${room.players} 
+              ${room.players}
             `
             div.dataset.roomId = room.roomId
             roomList.appendChild(div)
@@ -148,6 +148,12 @@ function create() {
   }
 
   socketMethods.updateRoomList()
+  scene.time.addEvent({
+    delay: 1000,
+    callback: socketMethods.updateRoomList,
+    callbackScope: scene,
+    loop: true
+  })
 }
 
 let bgmusic
