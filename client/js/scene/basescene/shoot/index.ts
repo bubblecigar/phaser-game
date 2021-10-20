@@ -13,7 +13,6 @@ export const bulletsRefKey = 'bullets_storage'
 
 const shoot = ({ scene, from, to, builderId, type, options }) => {
   const isUser = getLocalUserData().userId === builderId
-  from.y -= 4
 
   if (!scene[bulletsRefKey]) {
     scene[bulletsRefKey] = {}
