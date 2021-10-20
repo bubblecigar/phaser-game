@@ -126,7 +126,7 @@ function create() {
     }
   })
 
-  const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2 + 5, gameConfig.canvasHeight * 0.72, gameConfig.canvasWidth * 0.45, 100)
+  const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2 + 5, gameConfig.canvasHeight * 0.75, gameConfig.canvasWidth * 0.45, 100)
   scene.matter.add.gameObject(rectangle, {
     isStatic: true
   })
@@ -164,7 +164,7 @@ const generateRandomCharactor = scene => () => {
   const charactorConfig = charactors[randomCharactorKey]
   const { size, origin } = charactorConfig.matterConfig
 
-  const randomX = gameConfig.canvasWidth / 2 + gameConfig.canvasWidth * 0.45 * (Math.random() - 0.5)
+  const randomX = gameConfig.canvasWidth / 2 + gameConfig.canvasWidth * 0.4 * (Math.random() - 0.5)
   const sprite = scene.add.sprite(randomX, -20)
   const matter = scene.matter.add.gameObject(sprite, {
     friction: 0,
