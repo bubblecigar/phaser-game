@@ -91,17 +91,24 @@ export const generateInputForm = () => {
     #room-list > div {
       cursor: pointer;
       border: none;
-      background-image: linear-gradient(top, #3db0a6, #3111);
+      background: rgba(255, 255, 255, 0.4);
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
       border-bottom-right-radius: 5px;
       border-bottom-left-radius: 5px;
-      box-shadow: inset 0px 0px 5px gray;
+      box-shadow: inset 0px 0px 5px #777;
       width: initial;
       font-weight: bold;
-      display: inline-block;
-      padding: 12px;
-      color: white;
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 0;
+      padding-right: 10px;
+      margin: 12px 12px 12px 0;
+    }
+
+    #room-list img {
+      padding-left: 6px;
+      padding-right: 3px;
     }
 
     input[type="submit"]:active {

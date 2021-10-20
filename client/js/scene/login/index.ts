@@ -5,6 +5,8 @@ import { socketMethods } from '../../index'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
 import bgmusicUrl from '../../../statics/sound/game-music-7408.mp3'
+import doorIcon from '../../../statics/icons8-door-30.png'
+import manIcon from '../../../statics/icons8-standing-man-24.png'
 
 function init() {
 }
@@ -36,10 +38,17 @@ function create() {
       roomList.innerHTML = ''
       rooms.forEach(
         room => {
-          const div = document.createElement('DIV')
-          div.textContent = `${room.roomId} ${room.players}/${room.players} ${room.gameStatus}`
-          div.dataset.roomId = room.roomId
-          roomList.appendChild(div)
+          if (room.gameStatus !== 'processing') {
+            const div = document.createElement('DIV')
+            div.innerHTML = `
+              <img src='${doorIcon}' width='16px' height='16px' />
+              ${room.roomId} 
+              <img src='${manIcon}' width='16px' height='16px' />
+              ${room.players}/${room.players} 
+            `
+            div.dataset.roomId = room.roomId
+            roomList.appendChild(div)
+          }
         }
       )
     }
