@@ -90,6 +90,7 @@ export const generateInputForm = () => {
 
     #room-list > div {
       cursor: pointer;
+      background-color: white;
       border: none;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
@@ -97,19 +98,17 @@ export const generateInputForm = () => {
       border-bottom-left-radius: 5px;
       box-shadow: inset 0px 0px 5px #777;
       width: initial;
-      font-weight: bold;
       display: inline-flex;
       align-items: center;
       padding: 10px 0;
       padding-right: 10px;
       margin: 12px 12px 12px 0;
-      background: lemonchiffon;
-      box-shadow: inset 0px 1px 0px lemonchiffon, 0px 5px 0px 0px darkgoldenrod, 0px 5px 5px #999;
+      box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #497a78, 0px 5px 5px #999;5px 5px #999;
       position: relative;
     }
     #room-list > div:active {
       top: 3px;
-      box-shadow: inset 0px 1px 0px lemonchiffon, 0px 2px 0px 0px darkgoldenrod, 0px 0px 3px #999;
+      box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #31524d, 0px 0px 3px #999;0px 3px #999;
     }
 
     #room-list img {
