@@ -32,7 +32,8 @@ export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser 
 
   const update = (t, dt) => {
     circle.setRadius(circle.radius + dt * 0.1)
-    body.circleRadius = body.circleRadius + dt * 0.1
+    const ratio = circle.radius / body.circleRadius
+    Phaser.Physics.Matter.Matter.Body.scale(body, ratio, ratio)
     if (builder) {
       matter.setX(builder.position.x)
       matter.setY(builder.position.y)
