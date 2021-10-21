@@ -26,7 +26,8 @@ const charactor: Charactor = {
     size: { width: 12, height: 20 },
     origin: { x: 0.5, y: 0.6 }
   },
-  shootType: 'fireball'
+  shootType: 'fireball',
+  velocity: 3
 }
 
 export default charactor
