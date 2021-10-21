@@ -1,27 +1,23 @@
 import { v4 } from 'uuid'
 import collisionCategories from '../collisionCategories'
-import hammer from '../../../items/hammer'
+import gameState from '../../../game/state'
 
-export const shootHammer = ({ scene, bulletsRef, from, to, builderId, isUser }) => {
-  const velocity = 1
-  const angle = Math.atan2(to.y - from.y, to.x - from.x)
+export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser }) => {
   const id = v4()
 
-  const { size, origin } = hammer.matterConfig
+  const builder = gameState.players.find(p => p.id === builderId)
+
+  const circle = scene.add.circle(from.x, from.y, 8)
+  circle.setStrokeStyle(2, 0xffffff, 0.7)
+
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
-  const body = Bodies.rectangle(from.x, from.y, size.width, size.height, {
+  const body = Bodies.circle(from.x, from.y, 8, {
     ignoreGravity: true,
     isSensor: true
   })
 
-  const matter = scene.matter.add.sprite(from.x, from.y, hammer.spritesheetConfig.spritesheetKey)
+  const matter = scene.matter.add.gameObject(circle)
   matter.setExistingBody(body)
-  matter.setAngle((angle * 180 / Math.PI) + 90)
-  matter.setAngularVelocity(0.3)
-  matter.setVelocityX(velocity * Math.cos(angle))
-  matter.setVelocityY(velocity * Math.sin(angle))
-  matter.setFriction(0, 0.01, 0)
-
   matter.setCollisionCategory(
     isUser
       ? collisionCategories.CATEGORY_PLAYER_BULLET
@@ -32,8 +28,15 @@ export const shootHammer = ({ scene, bulletsRef, from, to, builderId, isUser }) 
     collisionCategories.CATEGORY_MAP_BLOCK
   ])
 
-  const update = () => {
+  matter.setDepth(11)
 
+  const update = (t, dt) => {
+    circle.setRadius(circle.radius + dt * 0.1)
+    body.circleRadius = body.circleRadius + dt * 0.1
+    if (builder) {
+      matter.setX(builder.position.x)
+      matter.setY(builder.position.y)
+    }
   }
   const destroy = () => {
     if (bulletsRef[id]) {
@@ -46,13 +49,13 @@ export const shootHammer = ({ scene, bulletsRef, from, to, builderId, isUser }) 
     id,
     interface: 'Bullet',
     builderId,
-    damage: 2,
+    damage: 5,
     phaserObject: matter,
     destroy
   })
 
   scene.time.delayedCall(
-    1500,
+    500,
     () => destroy(),
     null,
     scene

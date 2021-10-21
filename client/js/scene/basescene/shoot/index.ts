@@ -4,7 +4,7 @@ import { shootKnife } from './knife'
 import { shootFireBall } from './fireball'
 import { shootShadowBall } from './shadowball'
 import { shootPotion } from './potion'
-import { shootHammer } from './hammer'
+import { shootSoundWave } from './soundwave'
 import { shootMuddy } from './muddy'
 import { shootIce } from './ice'
 import { shootCoin } from './coin'
@@ -40,8 +40,8 @@ const shoot = ({ scene, from, to, builderId, type, options }) => {
       shootPotion({ scene, bulletsRef, from, to, builderId, isUser, options })
       break
     }
-    case 'hammer': {
-      shootHammer({ scene, bulletsRef, from, to, builderId, isUser })
+    case 'soundwave': {
+      shootSoundWave({ scene, bulletsRef, from, to, builderId, isUser })
       break
     }
     case 'muddy': {
