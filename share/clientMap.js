@@ -1,12 +1,12 @@
 import forestTileSetUrl from './map/forestTileSet.png'
-import jumpPlatFormUrl from './map/jumpPlatForm.json'
 import readyRoomUrl from './map/readyRoom.json'
 import endingRoomUrl from './map/endingRoom.json'
+import battleFieldUrl from './map/battle_field.json'
 
 export default {
   "dungeon": {
-    mapKey: 'jumpPlatForm',
-    mapUrl: jumpPlatFormUrl,
+    mapKey: 'battleField',
+    mapUrl: battleFieldUrl,
     tilesetKey: 'forestTileSet',
     tilesetUrl: forestTileSetUrl
   },

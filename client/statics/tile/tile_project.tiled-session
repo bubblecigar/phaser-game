@@ -1,5 +1,12 @@
 {
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
     "activeFile": "/Users/roywang/Desktop/typeScript/share/map/login.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
             "scaleInDock": 2.4261,
@@ -91,6 +98,17 @@
         },
         "/Users/roywang/Desktop/tile_trial/tiny_map.tmx#tinyroom": {
             "scaleInDock": 3.189
+        },
+        "/Users/roywang/Desktop/typeScript/share/map/jumpPlatForm.tmx": {
+            "scale": 1.07,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 225.70093457943926,
+                "y": 324.76635514018693
+            }
+        },
+        "/Users/roywang/Desktop/typeScript/share/map/jumpPlatForm.tmx#forestTileSet": {
+            "scaleInDock": 1
         },
         "/Users/roywang/Desktop/typeScript/share/map/login.tmx": {
             "scale": 1.967857142857143,
@@ -238,15 +256,20 @@
             "scaleInDock": 3
         }
     },
+    "last.exportedFilePath": "/Users/roywang/Desktop/typeScript/share/map",
+    "map.lastUsedExportFilter": "JSON map files (*.json)",
+    "map.lastUsedFormat": "tmx",
     "openFiles": [
         "endingRoom.tmx",
         "readyRoom.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/login.tmx"
     ],
+    "project": "",
     "recentFiles": [
+        "/Users/roywang/Desktop/typeScript/share/map/jumpPlatForm.tmx",
+        "/Users/roywang/Desktop/typeScript/share/map/login.tmx",
         "endingRoom.tmx",
         "readyRoom.tmx",
-        "/Users/roywang/Desktop/typeScript/share/map/login.tmx",
         "jumpPlatForm.tmx",
         "waitingRoom.tmx",
         "shootingPlatform.tmx",
@@ -254,7 +277,6 @@
         "waitingRoom.json",
         "tiny_map.json",
         "/Users/roywang/Desktop/tile_trial/tiny_map.tmx",
-        "/Users/roywang/Desktop/tile_trial/ghost_room.tmx",
-        "/Users/roywang/Desktop/tile_trial/small_map.tmx"
+        "/Users/roywang/Desktop/tile_trial/ghost_room.tmx"
     ]
 }
