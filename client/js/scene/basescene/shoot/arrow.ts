@@ -8,7 +8,7 @@ const createArrowHead = (scene, position, isUser) => {
   headMatter.setExistingBody(headBody)
   headMatter.setOrigin(0.5, 0.1)
   headMatter.setFriction(1, 0, 0)
-  headMatter.setMass(0.01)
+  headMatter.setMass(0.05)
   headMatter.setCollisionCategory(
     isUser
       ? collisionCategories.CATEGORY_PLAYER_BULLET
