@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="20">
  <editorsettings>
-  <export target="../../../share/map/endingRoom.json" format="json"/>
+  <export target="endingRoom.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="forestTileSet" tilewidth="16" tileheight="16" tilecount="48" columns="8">
   <image source="forestTileSet.png" width="128" height="96"/>
@@ -121,8 +121,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,25,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,25,34,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,34,34,29,44,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,33,45,36,29,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,33,37,36,44,
@@ -146,8 +146,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 2,2,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,2,2,2,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,19,17,18,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,2,3,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,18,19,0,
 0,0,0,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,30,32,0,0,0,0,30,31,31,32,0,0,0,0,0,0,0,0,
@@ -189,7 +189,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="4" name="sensor_layer">
+ <objectgroup id="4" name="sensor_layer" visible="0">
   <object id="7" name="ready_zone" x="266.311" y="189.84" width="54.0107" height="85.5616"/>
   <object id="10" name="exit_room_zone" x="-5.88235" y="280.749" width="44.385" height="42.246"/>
  </objectgroup>
