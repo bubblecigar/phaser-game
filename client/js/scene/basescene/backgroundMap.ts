@@ -8,9 +8,6 @@ const setUpMap = (scene, key) => {
   const map = scene.make.tilemap({ key })
   scene.matter.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels)
   const wallLabel = 'world-bound-wall'
-  scene.matter.world.walls.left.label = wallLabel
-  scene.matter.world.walls.right.label = wallLabel
-  scene.matter.world.walls.top.label = wallLabel
   scene.matter.world.walls.bottom.label = wallLabel
   return map
 }
@@ -37,7 +34,7 @@ const setUpRayCaster = (scene) => {
   const wallLayerData = scene.map.layers.find(o => o.name === 'wall_layer')
   raycaster.mapGameObjects([wallLayerData.tilemapLayer], false, {
     //array of tile types which collide with rays
-    collisionTiles: [1, 2, 3, 22, 30, 31, 32, 38, 39, 40]
+    collisionTiles: [1, 2, 3, 9, 11, 17, 18, 19, 22, 30, 31, 32, 38, 40]
   })
 
   return raycaster
