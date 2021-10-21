@@ -5,7 +5,7 @@
   },
   "processing": {
     "scene": "dungeon",
-    "map": "jumpPlatForm.json"
+    "map": "battle_field.json"
   },
   "ending": {
     "scene": "endingRoom",
