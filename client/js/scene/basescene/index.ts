@@ -112,10 +112,14 @@ function create() {
   cursors.up.on(
     'down', () => {
       const player = methods.getPlayer(userId)
-      if (player.phaserObject.data.values.touched) {
-        scene.sound.play('quickJump')
-        player.phaserObject.setVelocityY(-5)
-        player.phaserObject.setData({ touched: false })
+      const playerData = player.phaserObject.data.values
+      if (playerData.touched) {
+        if (!playerData.touchTop) {
+          scene.sound.play('quickJump')
+          player.phaserObject.setVelocityY(-5)
+          player.phaserObject.setVelocityX(playerData.touchLeft ? 0.1 : -0.1)
+          player.phaserObject.setData({ touched: false })
+        }
       }
     }
   )
