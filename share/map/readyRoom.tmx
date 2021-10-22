@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="8">
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="13">
  <editorsettings>
-  <export target="readyRoom.json" format="json"/>
+  <export target="../../../share/map/readyRoom.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="forestTileSet" tilewidth="16" tileheight="16" tilecount="48" columns="8">
   <image source="forestTileSet.png" width="128" height="96"/>
@@ -58,12 +58,13 @@
  </tileset>
  <objectgroup id="2" name="sensor_layer">
   <object id="4" name="ready_zone" type="sensor" x="190.227" y="69.5454" width="90" height="64.5455"/>
+  <object id="8" name="exit_room_zone" x="-3.30189" y="109.434" width="20.7547" height="23.5849"/>
  </objectgroup>
- <objectgroup id="4" name="fov_layer" visible="0">
-  <object id="5" name="room_fov" x="186.364" y="75.4545" width="92.2727" height="60"/>
- </objectgroup>
- <objectgroup id="5" name="info_layer" visible="0">
-  <object id="7" name="spawn_point" x="29.5455" y="106.364">
+ <objectgroup id="5" name="info_layer">
+  <object id="7" name="spawn_point" x="95.1115" y="91.2697">
+   <point/>
+  </object>
+  <object id="12" name="monster_point" x="228.702" y="47.675">
    <point/>
   </object>
  </objectgroup>
@@ -72,11 +73,11 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,22,0,0,1,2,3,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,30,31,31,31,31,31,32,0,0,
 0,0,0,0,0,0,0,0,0,0,0,38,0,0,0,0,0,40,0,0,
-0,0,0,0,0,0,0,22,0,0,0,38,0,0,0,0,0,40,0,0,
-0,0,0,0,1,2,3,0,0,0,0,0,0,0,0,0,0,40,0,0,
+2,3,0,0,0,0,0,0,0,0,30,39,0,0,0,0,0,40,0,0,
+12,12,0,0,0,38,40,0,0,0,0,0,0,0,0,0,0,40,0,0,
 31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,
 39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39
 </data>
@@ -88,11 +89,19 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,34,34,34,34,34,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,25,34,34,34,34,34,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,33,34,34,34,34,34,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,45,34,34,34,44,0,0,0,
+31,32,0,0,0,0,0,0,0,0,0,25,34,34,37,34,36,0,0,0,
+26,26,27,0,0,0,0,0,0,0,33,37,44,34,34,28,34,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="7" name="text_layer">
+  <object id="10" x="7.07415" y="114.635" width="18.3989" height="13.6551">
+   <text fontfamily=".AppleSystemUIFont" pixelsize="10" wrap="1">exit</text>
+  </object>
+  <object id="11" x="146.461" y="113.927" width="28.3046" height="13.6551">
+   <text fontfamily=".AppleSystemUIFont" pixelsize="10" wrap="1">ready</text>
+  </object>
+ </objectgroup>
 </map>

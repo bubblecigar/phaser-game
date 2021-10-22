@@ -4,7 +4,7 @@
      "export":
         {
          "format":"json",
-         "target":"readyRoom.json"
+         "target":"..\/..\/..\/share\/map\/readyRoom.json"
         }
     },
  "height":10,
@@ -27,15 +27,15 @@
                  "y":69.5454
                 }, 
                 {
-                 "height":23.5849056603774,
+                 "height":23.5849,
                  "id":8,
                  "name":"exit_room_zone",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":20.7547169811321,
-                 "x":-3.30188679245285,
-                 "y":109.433962264151
+                 "width":20.7547,
+                 "x":-3.30189,
+                 "y":109.434
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -57,8 +57,20 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":95.1115377358491,
-                 "y":91.2696603773585
+                 "x":95.1115,
+                 "y":91.2697
+                }, 
+                {
+                 "height":0,
+                 "id":12,
+                 "name":"monster_point",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":228.701720444966,
+                 "y":47.6749809991018
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -96,7 +108,7 @@
          "name":"text_layer",
          "objects":[
                 {
-                 "height":13.655070754717,
+                 "height":13.6551,
                  "id":10,
                  "name":"",
                  "rotation":0,
@@ -109,9 +121,9 @@
                     },
                  "type":"",
                  "visible":true,
-                 "width":18.3988797169811,
-                 "x":7.07414504716981,
-                 "y":114.634728773585
+                 "width":18.3989,
+                 "x":7.07415,
+                 "y":114.635
                 }, 
                 {
                  "height":13.6551,
@@ -127,9 +139,9 @@
                     },
                  "type":"",
                  "visible":true,
-                 "width":28.3045603773585,
-                 "x":146.460927358491,
-                 "y":113.927166981132
+                 "width":28.3046,
+                 "x":146.461,
+                 "y":113.927
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -138,7 +150,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":12,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.0",
@@ -147,7 +159,7 @@
         {
          "columns":8,
          "firstgid":1,
-         "image":"..\/..\/client\/statics\/tile\/forestTileSet.png",
+         "image":"forestTileSet.png",
          "imageheight":96,
          "imagewidth":128,
          "margin":0,

@@ -292,6 +292,8 @@
     ],
     "project": "",
     "recentFiles": [
+        "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx",
+        "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/endingRoom.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/login.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/jumpPlatForm.tmx",
@@ -301,8 +303,6 @@
         "waitingRoom.tmx",
         "shootingPlatform.tmx",
         "anim.tsx",
-        "waitingRoom.json",
-        "tiny_map.json",
-        "/Users/roywang/Desktop/tile_trial/tiny_map.tmx"
+        "waitingRoom.json"
     ]
 }
