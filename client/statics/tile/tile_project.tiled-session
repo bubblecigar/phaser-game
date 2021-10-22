@@ -99,6 +99,32 @@
         "/Users/roywang/Desktop/tile_trial/tiny_map.tmx#tinyroom": {
             "scaleInDock": 3.189
         },
+        "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx": {
+            "scale": 1.5476,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 238.75678469888857,
+                "y": 176.07909020418714
+            }
+        },
+        "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx#forestTileSet": {
+            "scaleInDock": 1.6447,
+            "scaleInEditor": 3.5
+        },
+        "/Users/roywang/Desktop/typeScript/share/map/endingRoom.tmx": {
+            "scale": 2.205,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 206.57596371882087,
+                "y": 224.71655328798184
+            }
+        },
+        "/Users/roywang/Desktop/typeScript/share/map/endingRoom.tmx#forestTileSet": {
+            "scaleInDock": 1.4829
+        },
+        "/Users/roywang/Desktop/typeScript/share/map/endingRoom.tmx#ghost_tileset": {
+            "scaleInDock": 1
+        },
         "/Users/roywang/Desktop/typeScript/share/map/jumpPlatForm.tmx": {
             "scale": 1.07,
             "selectedLayer": 1,
@@ -266,8 +292,9 @@
     ],
     "project": "",
     "recentFiles": [
-        "/Users/roywang/Desktop/typeScript/share/map/jumpPlatForm.tmx",
+        "/Users/roywang/Desktop/typeScript/share/map/endingRoom.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/login.tmx",
+        "/Users/roywang/Desktop/typeScript/share/map/jumpPlatForm.tmx",
         "endingRoom.tmx",
         "readyRoom.tmx",
         "jumpPlatForm.tmx",
@@ -276,7 +303,6 @@
         "anim.tsx",
         "waitingRoom.json",
         "tiny_map.json",
-        "/Users/roywang/Desktop/tile_trial/tiny_map.tmx",
-        "/Users/roywang/Desktop/tile_trial/ghost_room.tmx"
+        "/Users/roywang/Desktop/tile_trial/tiny_map.tmx"
     ]
 }
