@@ -65,7 +65,8 @@ const createPlayerMatter = (scene, player: Player) => {
       ? [
         collisionCategories.CATEGORY_ENEMY_BULLET,
         collisionCategories.CATEGORY_ITEM,
-        collisionCategories.CATEGORY_MAP_BLOCK
+        collisionCategories.CATEGORY_MAP_BLOCK,
+        collisionCategories.CATEGORY_MONSTER
       ]
       : [
         collisionCategories.CATEGORY_PLAYER_BULLET,
@@ -363,7 +364,7 @@ const gameMethods = scene => {
       const { size, origin } = charactor.matterConfig
       const { x, y } = monsterConstructor.position
       const Bodies = Phaser.Physics.Matter.Matter.Bodies
-      const rect = Bodies.rectangle(x, y, size.width, size.height, { label: 'monster-body' })
+      const rect = Bodies.rectangle(x, y, size.width, size.height)
       const compound = Phaser.Physics.Matter.Matter.Body.create({
         parts: [rect],
         inertia: Infinity,
@@ -387,18 +388,22 @@ const gameMethods = scene => {
       const sprite = scene.add.sprite(0, 0)
       sprite.setOrigin(origin.x, origin.y)
       sprite.play(charactor.animsConfig.idle.key)
-      sprite.name = 'monster-sprite'
 
       const container = scene.add.container(x, y, [sprite, maximumBar, healthBar])
 
-      const phaserObject = scene.matter.add.gameObject(container, {
-        friction: 0,
-        frictionStatic: 0,
-        frictionAir: 0,
-      })
+      const phaserObject = scene.matter.add.gameObject(container)
       phaserObject.setExistingBody(compound)
-      phaserObject.setDepth(3)
       phaserObject.setData(monsterConstructor)
+
+      phaserObject.setCollisionCategory(collisionCategories.CATEGORY_MONSTER)
+      phaserObject.setCollidesWith(
+        [
+          collisionCategories.CATEGORY_PLAYER,
+          collisionCategories.CATEGORY_PLAYER_BULLET,
+          collisionCategories.CATEGORY_ENEMY_BULLET,
+          collisionCategories.CATEGORY_MAP_BLOCK
+        ]
+      )
 
       return phaserObject
     }

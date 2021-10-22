@@ -25,7 +25,8 @@ export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser 
   )
   matter.setCollidesWith([
     collisionCategories.CATEGORY_PLAYER,
-    collisionCategories.CATEGORY_MAP_BLOCK
+    collisionCategories.CATEGORY_MAP_BLOCK,
+    collisionCategories.CATEGORY_MONSTER
   ])
 
   matter.setDepth(11)

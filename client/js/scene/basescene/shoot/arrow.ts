@@ -16,7 +16,8 @@ const createArrowHead = (scene, position, isUser) => {
   )
   headMatter.setCollidesWith([
     collisionCategories.CATEGORY_PLAYER,
-    collisionCategories.CATEGORY_MAP_BLOCK
+    collisionCategories.CATEGORY_MAP_BLOCK,
+    collisionCategories.CATEGORY_MONSTER
   ])
 
   return headMatter

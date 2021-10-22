@@ -29,7 +29,8 @@ export const shootIce = ({ scene, bulletsRef, from, to, builderId, isUser, optio
   )
   matter.setCollidesWith([
     collisionCategories.CATEGORY_PLAYER,
-    collisionCategories.CATEGORY_MAP_BLOCK
+    collisionCategories.CATEGORY_MAP_BLOCK,
+    collisionCategories.CATEGORY_MONSTER
   ])
 
   const rush = () => {

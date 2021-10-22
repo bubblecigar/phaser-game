@@ -29,7 +29,8 @@ export const shootCoin = ({ scene, bulletsRef, from, to, builderId, isUser }) =>
   )
   matter.setCollidesWith([
     collisionCategories.CATEGORY_PLAYER,
-    collisionCategories.CATEGORY_MAP_BLOCK
+    collisionCategories.CATEGORY_MAP_BLOCK,
+    collisionCategories.CATEGORY_MONSTER
   ])
 
   scene.time.delayedCall(400, () => {

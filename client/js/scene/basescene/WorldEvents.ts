@@ -6,6 +6,7 @@ import { Item } from '../../Interface'
 const classifyCollisionTargets = (bodyA, bodyB) => {
   const collisionTargets = {
     player: null,
+    monster: null,
     bullet: null,
     terrainBlock: null,
     item: null,
@@ -30,6 +31,24 @@ const classifyCollisionTargets = (bodyA, bodyB) => {
     }
   } catch (e) {
     // no player
+  }
+
+  try {
+    const dataA = bodyA?.gameObject?.data?.getAll()
+    const dataB = bodyB?.gameObject?.data?.getAll()
+    if (dataA && dataA.interface === 'Monster') {
+      collisionTargets.monster = {
+        data: dataA,
+        body: bodyA
+      }
+    } else if (dataB && dataB.interface === 'Monster') {
+      collisionTargets.monster = {
+        data: dataB,
+        body: bodyB
+      }
+    }
+  } catch (e) {
+    // no monster
   }
 
   try {
@@ -106,7 +125,7 @@ const classifyCollisionTargets = (bodyA, bodyB) => {
 const registerWorldEvents = (scene, methods, socketMethods) => {
   scene.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
     const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
-    const { player, bullet, terrainBlock, item, sensor } = collistionTargets
+    const { player, monster, bullet, terrainBlock, item, sensor } = collistionTargets
     if (player && player.isUser && terrainBlock) {
       const playerTileXY = scene.map.worldToTileXY(player.body.position.x, player.body.position.y)
       const blockTileXY = scene.map.worldToTileXY(terrainBlock.body.position.x, terrainBlock.body.position.y)
@@ -158,6 +177,14 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
       }
     } else if (bullet && terrainBlock) {
       // do nothing
+    } else if (player && monster) {
+      console.log('player collide with monster')
+    } else if (bullet && monster) {
+      if (getLocalUserData().userId === bullet.data.builderId) {
+        console.log('we hit the monster')
+      } else {
+        // do nothing, none of our business
+      }
     } else if (player && item) {
       if (item.data.itemKey === 'coin') {
         if (player.isUser) {

@@ -22,7 +22,8 @@ export const shootKnife = ({ scene, bulletsRef, from, to, builderId, isUser }) =
   )
   matter.setCollidesWith([
     collisionCategories.CATEGORY_PLAYER,
-    collisionCategories.CATEGORY_MAP_BLOCK
+    collisionCategories.CATEGORY_MAP_BLOCK,
+    collisionCategories.CATEGORY_MONSTER
   ])
 
   const update = () => {
