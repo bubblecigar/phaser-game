@@ -4,7 +4,14 @@ const registerGameLoop = require('./gameLoop').gameLoop.registerGameLoop
 const registerRoomMethods = require('./room').room.registerRoomMethods
 
 const rooms = {}
-
+const logs = []
+const pushLogs = message => {
+  console.log('message:', message)
+  logs.push(message)
+  if (logs.length > 10) {
+    logs.shift()
+  }
+}
 
 const closeRoom = (roomId) => {
   const room = rooms[roomId]
@@ -18,6 +25,7 @@ const closeRoom = (roomId) => {
     }
   )
   delete rooms[roomId]
+  pushLogs(`Room ${roomId} has been idled for too long, auto closed`)
 }
 
 const createRoom = (roomId) => {
@@ -38,6 +46,7 @@ const createRoom = (roomId) => {
   registerGameLoop(room)
   registerRoomMethods(room)
 
+  pushLogs(`Room ${roomId} has been opened, new players are welcomed`)
   return room
 }
 
@@ -108,12 +117,17 @@ const connectToRoom = (roomId, userId, username, socket) => {
     room.players.push(playerConstructor)
   }
 
+  pushLogs(`${username} join room ${roomId}`)
   return room
 }
 
 const leaveRoom = (room, userId, socket) => {
   disconnectFromRoom(room, userId, socket)
   const userIndex = room.disconnectedPlayers.findIndex(player => player.id === userId)
+  const player = room.disconnectedPlayers[userIndex]
+  const username = player ? player.name : 'someone'
+  pushLogs(`${username} leave room ${room.id}`)
+
   room.disconnectedPlayers.splice(userIndex, 1)
 }
 
@@ -159,6 +173,11 @@ const getRoomList = () => {
   )
 }
 
+const getLogs = () => {
+  console.log('logs:', logs)
+  return logs
+}
+
 exports.roomMethods = {
   closeRoom,
   createRoom,
@@ -166,5 +185,6 @@ exports.roomMethods = {
   disconnectFromRoom,
   leaveRoom,
   getEmittableFieldOfRoom,
-  getRoomList
+  getRoomList,
+  getLogs
 }

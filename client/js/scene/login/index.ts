@@ -5,8 +5,7 @@ import { socketMethods } from '../../index'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
 import bgmusicUrl from '../../../statics/sound/game-music-7408.mp3'
-import doorIcon from '../../../statics/icons8-door-30.png'
-import manIcon from '../../../statics/icons8-standing-man-24.png'
+import setting from '../../../../share/setting.json'
 
 function init() {
 }
@@ -32,25 +31,16 @@ function create() {
   const scene = this
 
   const sceneKey = scene.scene.key
+  const logsText = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, '', {
+    fontSize: setting.fontSize,
+    lineSpacing: 5
+  })
+  logsText.setOrigin(0.5, 1)
+
   socketMethods.registerSceneSocketEvents(sceneKey, {
-    updateRoomList: (rooms) => {
-      const roomList = element.getChildByID("room-list")
-      roomList.innerHTML = ''
-      rooms.forEach(
-        room => {
-          if (room.gameStatus !== 'processing') {
-            const div = document.createElement('DIV')
-            div.innerHTML = `
-              <img src='${doorIcon}' width='16px' height='16px' />
-              ${room.roomId} 
-              <img src='${manIcon}' width='16px' height='16px' />
-              ${room.players}
-            `
-            div.dataset.roomId = room.roomId
-            roomList.appendChild(div)
-          }
-        }
-      )
+    updateRoomLog: (logs) => {
+      const allMessages = logs.map(log => '-> ' + log).join('\n')
+      logsText.setText(allMessages)
     }
   })
 
@@ -132,7 +122,7 @@ function create() {
     }
   })
 
-  const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2 + 5, gameConfig.canvasHeight * 0.75, gameConfig.canvasWidth * 0.45, 100)
+  const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2 + 5, gameConfig.canvasHeight * 0.71, gameConfig.canvasWidth * 0.45, 100)
   scene.matter.add.gameObject(rectangle, {
     isStatic: true
   })
@@ -153,10 +143,10 @@ function create() {
     this.load.start()
   }
 
-  socketMethods.updateRoomList()
+  socketMethods.updateRoomLog()
   scene.time.addEvent({
     delay: 1000,
-    callback: socketMethods.updateRoomList,
+    callback: socketMethods.updateRoomLog,
     callbackScope: scene,
     loop: true
   })

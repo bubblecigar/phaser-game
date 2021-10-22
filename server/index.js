@@ -19,8 +19,8 @@ io.on('connection', async function (socket) {
     let room
 
 
-    socket.on('update-room-list', () => {
-      io.to(socket.id).emit('loginScene', 'updateRoomList', roomMethods.getRoomList())
+    socket.on('update-room-log', () => {
+      io.to(socket.id).emit('loginScene', 'updateRoomLog', roomMethods.getLogs())
     })
 
     socket.on('leave-room', () => {
@@ -38,7 +38,7 @@ io.on('connection', async function (socket) {
       room = roomMethods.connectToRoom(roomId, userState.userId, userState.username, socket)
       const connectionFail = room === false
       if (connectionFail) {
-        const errorMessage = 'Room unavailable'
+        const errorMessage = 'Room unavailable, others are playing now'
         io.to(socket.id).emit('game', 'connectionFail', errorMessage)
       } else {
         const gameState = roomMethods.getEmittableFieldOfRoom(room)

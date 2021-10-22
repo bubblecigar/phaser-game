@@ -83,8 +83,8 @@ export const getSocketMethods = socket => {
         }
       })
     },
-    updateRoomList: () => {
-      socket.emit('update-room-list')
+    updateRoomLog: () => {
+      socket.emit('update-room-log')
     },
     leaveRoom: () => {
       socket.emit('leave-room')
