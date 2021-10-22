@@ -27,7 +27,7 @@ const charactor: Charactor = {
     origin: { x: 0.5, y: 0.7 }
   },
   velocity: 1,
-  shootType: ''
+  shootType: 'tab'
 }
 
 export default charactor

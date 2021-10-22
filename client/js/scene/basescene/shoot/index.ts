@@ -8,6 +8,7 @@ import { shootSoundWave } from './soundwave'
 import { shootMuddy } from './muddy'
 import { shootIce } from './ice'
 import { shootCoin } from './coin'
+import { tab } from './tab'
 
 export const bulletsRefKey = 'bullets_storage'
 
@@ -20,6 +21,10 @@ const shoot = ({ scene, from, to, builderId, type, options }) => {
   const bulletsRef = scene[bulletsRefKey]
 
   switch (type) {
+    case 'tab': {
+      tab({ scene, bulletsRef, from, to, builderId, isUser })
+      break
+    }
     case 'arrow': {
       shootArrow({ scene, bulletsRef, from, to, builderId, isUser })
       break
