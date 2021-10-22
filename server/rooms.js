@@ -177,7 +177,6 @@ const getRoomList = () => {
 }
 
 const getLogs = () => {
-  console.log('logs:', logs)
   return logs
 }
 
