@@ -41,10 +41,7 @@ export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser 
     }
   }
   const destroy = () => {
-    if (bulletsRef[id]) {
-      delete bulletsRef[id]
-      matter.destroy()
-    }
+    // would not destroy on collide with player
   }
 
   matter.setData({
@@ -58,7 +55,12 @@ export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser 
 
   scene.time.delayedCall(
     500,
-    () => destroy(),
+    () => {
+      if (bulletsRef[id]) {
+        delete bulletsRef[id]
+        matter.destroy()
+      }
+    },
     null,
     scene
   )

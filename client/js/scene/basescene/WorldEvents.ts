@@ -175,6 +175,7 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
           socketMethods.server('addItem', coinConstructor)
         }
       }
+      bullet.data.destroy()
     } else if (bullet && terrainBlock) {
       // do nothing
     } else if (player && monster) {
@@ -185,6 +186,7 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
       } else {
         // do nothing, none of our business
       }
+      bullet.data.destroy()
     } else if (player && item) {
       if (item.data.itemKey === 'coin') {
         if (player.isUser) {
