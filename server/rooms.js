@@ -6,7 +6,6 @@ const registerRoomMethods = require('./room').room.registerRoomMethods
 const rooms = {}
 const logs = []
 const pushLogs = message => {
-  console.log('message:', message)
   logs.push(message)
   if (logs.length > 10) {
     logs.shift()
