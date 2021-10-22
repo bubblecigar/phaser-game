@@ -269,10 +269,10 @@ const gameMethods = scene => {
       }
       methods.rebuildPlayer(ghostCharactor)
     },
-    onHit: (playerId: string, bullet: Bullet) => {
+    onHit: (playerId: string, damage: number) => {
       const player = methods.getPlayer(playerId)
       const charactor = charactors[player.charactorKey]
-      player.health -= bullet.damage
+      player.health -= damage
       if (player.health < 0) {
         player.health = 0
       } else if (player.health > charactor.maxHealth) {

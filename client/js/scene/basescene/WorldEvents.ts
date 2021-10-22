@@ -155,25 +155,7 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
         return
       }
       if (player.isUser) {
-        socketMethods.clientsInScene(scene.scene.key, methods, 'onHit', player.data.id, _.omit(bullet.data, 'phaserObject'))
-        scene.cameras.main.shake(100, 0.01)
-        const _player = methods.getPlayer(player.data.id)
-        if (_player.health <= 0) {
-          socketMethods.clientsInScene(scene.scene.key, methods, 'onDead', player.data.id)
-
-          const coinConstructor: Item = {
-            interface: 'Item',
-            builderId: player.data.id,
-            id: v4(),
-            itemKey: 'coin',
-            position: _player.position,
-            velocity: { x: 0, y: -0.2 },
-            phaserObject: null
-          }
-
-          socketMethods.clientsInScene(scene.scene.key, methods, 'addItem', coinConstructor)
-          socketMethods.server('addItem', coinConstructor)
-        }
+        playerOnHit(scene, socketMethods, methods, player, bullet.data.damage)
       }
       bullet.data.destroy()
     } else if (bullet && terrainBlock) {
@@ -215,6 +197,28 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
       }
     }
   })
+}
+
+const playerOnHit = (scene, socketMethods, methods, player, damage) => {
+  socketMethods.clientsInScene(scene.scene.key, methods, 'onHit', player.data.id, damage)
+  scene.cameras.main.shake(100, 0.01)
+  const _player = methods.getPlayer(player.data.id)
+  if (_player.health <= 0) {
+    socketMethods.clientsInScene(scene.scene.key, methods, 'onDead', player.data.id)
+
+    const coinConstructor: Item = {
+      interface: 'Item',
+      builderId: player.data.id,
+      id: v4(),
+      itemKey: 'coin',
+      position: _player.position,
+      velocity: { x: 0, y: -0.2 },
+      phaserObject: null
+    }
+
+    socketMethods.clientsInScene(scene.scene.key, methods, 'addItem', coinConstructor)
+    socketMethods.server('addItem', coinConstructor)
+  }
 }
 
 export default registerWorldEvents
