@@ -61,6 +61,25 @@ const createCoin = () => {
   return coinConstructor
 }
 
+const createMonster = () => {
+  const mapFile = serverMap.processing.map
+  const mapUrl = `../share/map/${mapFile}`
+  const map = require(mapUrl)
+  const infoLayer = map.layers.find(layer => layer.name === 'info_layer')
+  const monsterSpawnPoints = infoLayer.objects.filter(object => object.name === 'monster_point')
+  const monsterSpawnPoint = monsterSpawnPoints[0]
+  const monsterConstructor = {
+    interface: 'Monster',
+    id: uuid(),
+    builderId: 'server',
+    charactorKey: 'orge',
+    position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },
+    velocity: { x: 0, y: 0 },
+    phaserObject: null
+  }
+  return monsterConstructor
+}
+
 const detectWinners = room => {
   const winners = []
   room.players.forEach(
@@ -92,6 +111,13 @@ const registerProcessingIntervals = room => setInterval(
       }
     }
 
+    if (room.monsters.length === 0) {
+      const monsterConstructor = createMonster()
+      room.monsters.push(monsterConstructor)
+      const { io } = require('./index.js')
+      io.in(room.id).emit('dungeon', 'createMonster', monsterConstructor)
+    }
+
     const winners = detectWinners(room)
     if (winners.length > 0) {
       room.winner = winners[0]
@@ -99,14 +125,6 @@ const registerProcessingIntervals = room => setInterval(
       const { io } = require('./index.js')
       io.to(room.id).emit('game', 'showEndgameReport', room.winner)
     }
-  }, intervalTimeStep
-)
-
-const registerEndingIntervals = room => setInterval(
-  () => {
-    // generate end game report
-    // -> emit end game report to clients
-    // -> setTimeout and cycle gameStatus to waiting
   }, intervalTimeStep
 )
 

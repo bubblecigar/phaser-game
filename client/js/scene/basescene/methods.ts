@@ -351,6 +351,13 @@ const gameMethods = scene => {
       }
       methods.removeItem(item.id)
     },
+    createMonsters: () => {
+      gameState.monsters.forEach(
+        monster => {
+          methods.createMonster(monster)
+        }
+      )
+    },
     createMonster: (monsterConstructor: Monster) => {
       const charactor = charactors[monsterConstructor.charactorKey]
       const { size, origin } = charactor.matterConfig

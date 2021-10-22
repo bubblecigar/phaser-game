@@ -102,6 +102,7 @@ function create() {
 
   methods.createPlayers()
   methods.createItems()
+  methods.createMonsters()
 
   const scene = this
   cursors.up.on(

@@ -33,6 +33,7 @@ const createRoom = (roomId) => {
     id: roomId,
     players: [],
     items: [],
+    monsters: [],
     disconnectedPlayers: [],
     idleTime: 0,
     coinSpawnTime: 0,
@@ -152,14 +153,16 @@ const getEmittableFieldOfRoom = (room) => {
     players,
     items,
     gameStatus,
-    winner
+    winner,
+    monsters
   } = room
 
   return {
     players,
     items,
     gameStatus,
-    winner
+    winner,
+    monsters
   }
 }
 

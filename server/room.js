@@ -4,6 +4,7 @@ const registerRoomMethods = room => {
   room.methods = {
     initialize: () => {
       room.items = []
+      room.monsters = []
       room.idleTime = 0
       room.allPlayerReadyTime = 0
       room.coinSpawnTime = 0
