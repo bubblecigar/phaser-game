@@ -35,7 +35,11 @@ export const getSocketMethods = socket => {
             const sceneToRun = serverMap[gameStatus].scene
             const scenesActived = game.scene.getScenes(true).map(s => s.scene.key)
 
-            gameState.gameStatus = gameStatus
+            Object.keys(serverGameState).forEach(
+              key => {
+                gameState[key] = serverGameState[key]
+              }
+            )
             gameState.scene = sceneToRun
 
             const isSynced = scenesActived.includes(sceneToRun)

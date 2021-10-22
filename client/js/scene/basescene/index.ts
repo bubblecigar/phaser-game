@@ -69,12 +69,7 @@ const movePlayer = (scene, player: Player) => {
   }
 }
 
-function init(serverGameState) {
-  Object.keys(serverGameState).forEach(
-    key => {
-      gameState[key] = serverGameState[key]
-    }
-  )
+function init() {
   methods = gameMethods(this)
   readyToShoot = true
 }
