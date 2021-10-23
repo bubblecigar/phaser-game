@@ -13,7 +13,7 @@ export const tab = ({ scene, bulletsRef, from, to, builderId, isUser }) => {
 
   matter.setAngle((angle * 180 / Math.PI) + 90)
   matter.setIgnoreGravity(true)
-
+  matter.setDepth(3)
   matter.setCollisionCategory(
     isUser
       ? collisionCategories.CATEGORY_PLAYER_BULLET
@@ -34,10 +34,7 @@ export const tab = ({ scene, bulletsRef, from, to, builderId, isUser }) => {
     }
   }
   const destroy = () => {
-    if (bulletsRef[id]) {
-      delete bulletsRef[id]
-      matter.destroy()
-    }
+
   }
 
   matter.setData({
@@ -51,7 +48,12 @@ export const tab = ({ scene, bulletsRef, from, to, builderId, isUser }) => {
 
   scene.time.delayedCall(
     200,
-    () => destroy(),
+    () => {
+      if (bulletsRef[id]) {
+        delete bulletsRef[id]
+        matter.destroy()
+      }
+    },
     null,
     scene
   )
