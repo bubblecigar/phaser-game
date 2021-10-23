@@ -2,7 +2,7 @@ import _ from 'lodash'
 import Phaser from 'phaser'
 import charactors from '../../../charactors'
 import { getLocalUserData } from '../../../user'
-import { Player, Bullet, Item, GameState, Monster, Point } from '../../../Interface'
+import { Player, Monster } from '../../../Interface'
 import collisionCategories from '../collisionCategories'
 
 export const createCharactor = (scene, constructor: Player | Monster) => {
