@@ -17,7 +17,7 @@ const createPlayerMatter = (scene, player: Player) => {
   const { size, origin } = charactor.matterConfig
   const { x, y } = player.position
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
-  const rect = Bodies.rectangle(x, y, size.width, size.height, { label: 'player-body' })
+  const rect = Bodies.rectangle(x, y, size.width, size.height)
   const compound = Phaser.Physics.Matter.Matter.Body.create({
     parts: [rect],
     inertia: Infinity,
@@ -78,7 +78,6 @@ const createPlayerMatter = (scene, player: Player) => {
   if (player.health <= 0) {
     phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
     phaserObject.setCollidesWith([collisionCategories.CATEGORY_MAP_BLOCK])
-    phaserObject.setIgnoreGravity(true)
   }
 
   return phaserObject
@@ -398,7 +397,6 @@ const gameMethods = scene => {
       phaserObject.setCollisionCategory(collisionCategories.CATEGORY_MONSTER)
       phaserObject.setCollidesWith(
         [
-          collisionCategories.CATEGORY_PLAYER,
           collisionCategories.CATEGORY_PLAYER_BULLET,
           collisionCategories.CATEGORY_ENEMY_BULLET,
           collisionCategories.CATEGORY_MAP_BLOCK
