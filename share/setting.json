@@ -8,6 +8,7 @@
   "gameStartCountDown": 3000,
   "coinsToWin": 10,
   "coinSpawnInterval": 2000,
+  "monsterSpawnInterval": 10000,
   "endGameMapConfigKey": "waitingRoomConfig",
   "roomAutoCloseIdleTime": 20000,
   "fontSize": "10px"

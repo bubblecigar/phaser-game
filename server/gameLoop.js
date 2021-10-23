@@ -114,11 +114,18 @@ const registerProcessingIntervals = room => setInterval(
       }
     }
 
-    if (room.monsters.length === 0) {
-      const monsterConstructor = createMonster()
-      room.monsters.push(monsterConstructor)
-      const { io } = require('./index.js')
-      io.in(room.id).emit('dungeon', 'createMonster', monsterConstructor)
+    if (room.monsters.length > 0) {
+      room.monsterSpawnTime = 0
+    } else {
+      if (room.monsterSpawnTime >= setting.monsterSpawnInterval) {
+        const monsterConstructor = createMonster()
+        room.monsters.push(monsterConstructor)
+        const { io } = require('./index.js')
+        io.in(room.id).emit('dungeon', 'createMonster', monsterConstructor)
+        room.monsterSpawnTime = 0
+      } else {
+        room.monsterSpawnTime += intervalTimeStep
+      }
     }
 
     const winners = detectWinners(room)
