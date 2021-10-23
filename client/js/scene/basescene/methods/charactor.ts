@@ -84,7 +84,7 @@ export const setInvincibale = (scene, player) => {
     500,
     () => {
       try {
-        if (player.phaserObject) {
+        if (player.phaserObject && player.phaserObject.body) {
           player.phaserObject.setAlpha(1)
           player.phaserObject.setCollisionCategory(originCollisionCategory)
         }
