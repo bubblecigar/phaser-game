@@ -1,14 +1,14 @@
 import _ from 'lodash'
 import Phaser from 'phaser'
-import setting from '../../../../share/setting.json'
-import charactors from '../../charactors'
-import items from '../../items'
-import { getLocalUserData } from '../../user'
-import { Player, Bullet, Item, GameState, Monster, Point } from '../../Interface'
-import gameState from '../../game/state'
-import gameConfig from '../../game/config'
-import collisionCategories from './collisionCategories'
-import { shoot } from './shoot/index'
+import setting from '../../../../../share/setting.json'
+import charactors from '../../../charactors'
+import items from '../../../items'
+import { getLocalUserData } from '../../../user'
+import { Player, Bullet, Item, GameState, Monster, Point } from '../../../Interface'
+import gameState from '../../../game/state'
+import gameConfig from '../../../game/config'
+import collisionCategories from '../collisionCategories'
+import { shoot } from '../shoot/index'
 
 const userId = getLocalUserData().userId
 

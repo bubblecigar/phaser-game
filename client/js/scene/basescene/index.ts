@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import gameMethods from './methods'
+import gameMethods from './methods/index'
 import { Player } from '../../Interface'
 import { getLocalUserData } from '../../user'
 import charactors from '../../charactors/index'
