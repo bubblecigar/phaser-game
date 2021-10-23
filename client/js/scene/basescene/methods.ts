@@ -12,16 +12,16 @@ import { shoot } from './shoot/index'
 
 const userId = getLocalUserData().userId
 
-const createPlayerMatter = (scene, player: Player) => {
-  const charactor = charactors[player.charactorKey]
+const createCharactor = (scene, constructor: Player | Monster) => {
+  const charactor = charactors[constructor.charactorKey]
   const { size, origin } = charactor.matterConfig
-  const { x, y } = player.position
+  const { x, y } = constructor.position
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
   const rect = Bodies.rectangle(x, y, size.width, size.height)
   const compound = Phaser.Physics.Matter.Matter.Body.create({
     parts: [rect],
     inertia: Infinity,
-    ignoreGravity: player.id === getLocalUserData().userId ? false : true
+    ignoreGravity: constructor.id === getLocalUserData().userId ? false : true
   })
 
   const charatorHeight = charactor.spritesheetConfig.options.frameHeight
@@ -34,34 +34,30 @@ const createPlayerMatter = (scene, player: Player) => {
   healthBar.setOrigin(0, 0.5)
   healthBar.name = 'health-bar'
 
-  const maximumHealth = charactors[player.charactorKey].maxHealth
-  if (player.health > maximumHealth) {
-    player.health = maximumHealth
+  const maximumHealth = charactor.maxHealth
+  if (constructor.health > maximumHealth) {
+    constructor.health = maximumHealth
   }
 
-  const percentage = player.health / maximumHealth
+  const percentage = constructor.health / maximumHealth
   healthBar.setSize(percentage * (healthBarLength - 2), healthBar.height)
 
   const sprite = scene.add.sprite(0, 0)
   sprite.setOrigin(origin.x, origin.y)
   sprite.play(charactor.animsConfig.idle.key)
-  sprite.name = 'player-sprite'
+  sprite.name = 'charactor-sprite'
 
   const container = scene.add.container(x, y, [sprite, maximumBar, healthBar])
 
-  const phaserObject = scene.matter.add.gameObject(container, {
-    friction: 0,
-    frictionStatic: 0,
-    frictionAir: 0,
-  })
+  const phaserObject = scene.matter.add.gameObject(container)
   phaserObject.setExistingBody(compound)
   phaserObject.setDepth(3)
-  phaserObject.setData(player)
+  phaserObject.setData(constructor)
   phaserObject.setData({ touched: true })
-  phaserObject.setCollisionCategory(collisionCategories.CATEGORY_PLAYER)
 
+  phaserObject.setCollisionCategory(collisionCategories.CATEGORY_PLAYER)
   phaserObject.setCollidesWith(
-    player.id === userId
+    constructor.id === userId
       ? [
         collisionCategories.CATEGORY_ENEMY_BULLET,
         collisionCategories.CATEGORY_ITEM,
@@ -75,7 +71,7 @@ const createPlayerMatter = (scene, player: Player) => {
       ]
   )
 
-  if (player.health <= 0) {
+  if (constructor.health <= 0) {
     phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
     phaserObject.setCollidesWith([collisionCategories.CATEGORY_MAP_BLOCK])
   }
@@ -135,7 +131,7 @@ const gameMethods = scene => {
         player.health = setting.initHealth
         player.resurrectCountDown = setting.resurrectCountDown
       }
-      player.phaserObject = createPlayerMatter(scene, player)
+      player.phaserObject = createCharactor(scene, player)
 
       if (player.id === userId) {
         const camera = scene.cameras.main
@@ -208,7 +204,7 @@ const gameMethods = scene => {
         console.log('player not initialized')
         return
       }
-      const sprite = player.phaserObject.getByName('player-sprite')
+      const sprite = player.phaserObject.getByName('charactor-sprite')
       sprite.play(charactors[player.charactorKey].animsConfig[animation].key)
     },
     updatePlayerDirection: (playerId: string, direction: 'left' | 'right') => {
@@ -217,14 +213,14 @@ const gameMethods = scene => {
         console.log('player not initialized')
         return
       }
-      const sprite = player.phaserObject.getByName('player-sprite')
+      const sprite = player.phaserObject.getByName('charactor-sprite')
       sprite.setFlipX(direction === 'right' ? false : true)
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
     shoot: ({ from, to, builderId, type, options }) => {
       shoot({ scene, from, to, builderId, type, options })
       const player = methods.getPlayer(builderId)
-      const sprite = player.phaserObject.getByName('player-sprite')
+      const sprite = player.phaserObject.getByName('charactor-sprite')
       const hitConfig = charactors[player.charactorKey].animsConfig.hit
       if (hitConfig) {
         sprite.play({
@@ -358,52 +354,14 @@ const gameMethods = scene => {
         }
       )
     },
-    createMonster: (monsterConstructor: Monster) => {
-      const charactor = charactors[monsterConstructor.charactorKey]
-      const { size, origin } = charactor.matterConfig
-      const { x, y } = monsterConstructor.position
-      const Bodies = Phaser.Physics.Matter.Matter.Bodies
-      const rect = Bodies.rectangle(x, y, size.width, size.height)
-      const compound = Phaser.Physics.Matter.Matter.Body.create({
-        parts: [rect],
-        inertia: Infinity,
-        isStatic: true
-      })
-
-      const charatorHeight = charactor.spritesheetConfig.options.frameHeight
-
-      const healthBarLength = 20
-      const maximumBar = scene.add.rectangle(-healthBarLength / 2, -charatorHeight / 2 - 2, healthBarLength, 4, 0xDDDDDD)
-      maximumBar.setOrigin(0, 0.5)
-      maximumBar.name = 'maximum-bar'
-      const healthBar = scene.add.rectangle(-healthBarLength / 2 + 1, -charatorHeight / 2 - 2, healthBarLength - 2, 2, 0xda4e38)
-      healthBar.setOrigin(0, 0.5)
-      healthBar.name = 'health-bar'
-
-      const maximumHealth = charactor.maxHealth
-      const percentage = monsterConstructor.health / maximumHealth
-      healthBar.setSize(percentage * (healthBarLength - 2), healthBar.height)
-
-      const sprite = scene.add.sprite(0, 0)
-      sprite.setOrigin(origin.x, origin.y)
-      sprite.play(charactor.animsConfig.idle.key)
-
-      const container = scene.add.container(x, y, [sprite, maximumBar, healthBar])
-
-      const phaserObject = scene.matter.add.gameObject(container)
-      phaserObject.setExistingBody(compound)
-      phaserObject.setData(monsterConstructor)
-
-      phaserObject.setCollisionCategory(collisionCategories.CATEGORY_MONSTER)
-      phaserObject.setCollidesWith(
-        [
-          collisionCategories.CATEGORY_PLAYER_BULLET,
-          collisionCategories.CATEGORY_ENEMY_BULLET,
-          collisionCategories.CATEGORY_MAP_BLOCK
-        ]
-      )
-
-      return phaserObject
+    getMonster: (id: string): Monster => gameState.monsters.find(m => m.id === id),
+    createMonster: (monster: Monster) => {
+      const isInState = methods.getMonster(monster.id)
+      if (!isInState) {
+        gameState.monsters.push(monster)
+      }
+      const m = createCharactor(scene, monster)
+      console.log(m)
     }
   }
   return methods
