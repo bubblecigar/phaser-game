@@ -158,13 +158,9 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
         playerOnHit(scene, socketMethods, methods, player, bullet.data.damage)
       }
       bullet.data.destroy()
-    } else if (bullet && terrainBlock) {
-      // do nothing
-    } else if (player && monster) {
-      console.log('player collide with monster')
     } else if (bullet && monster) {
       if (getLocalUserData().userId === bullet.data.builderId) {
-        console.log('we hit the monster')
+        monsterOnHit(scene, socketMethods, methods, monster, bullet.data.damage)
       } else {
         // do nothing, none of our business
       }
@@ -212,6 +208,31 @@ const playerOnHit = (scene, socketMethods, methods, player, damage) => {
       id: v4(),
       itemKey: 'coin',
       position: _player.position,
+      velocity: { x: 0, y: -0.2 },
+      phaserObject: null
+    }
+
+    socketMethods.clientsInScene(scene.scene.key, methods, 'addItem', coinConstructor)
+    socketMethods.server('addItem', coinConstructor)
+  }
+}
+
+const monsterOnHit = (scene, socketMethods, methods, monster, damage) => {
+  socketMethods.server('monsterOnHit', monster.data.id, damage)
+  socketMethods.clientsInScene(scene.scene.key, methods, 'monsterOnHit', monster.data.id, damage)
+
+  const _monster = methods.getMonster(monster.data.id)
+  const deadPosition = { x: _monster.phaserObject.x, y: _monster.phaserObject.y }
+  if (_monster.health <= 0) {
+    socketMethods.clientsInScene(scene.scene.key, methods, 'onMonsterDead', monster.data.id)
+    socketMethods.server('onMonsterDead', monster.data.id)
+
+    const coinConstructor: Item = {
+      interface: 'Item',
+      builderId: monster.data.id,
+      id: v4(),
+      itemKey: 'coin',
+      position: deadPosition,
       velocity: { x: 0, y: -0.2 },
       phaserObject: null
     }

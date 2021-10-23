@@ -227,14 +227,40 @@ const gameMethods = scene => {
         }
       )
     },
+    monsterOnHit: (monsterId: string, damage, number) => {
+      const monster = methods.getMonster(monsterId)
+      if (!monster) { return }
+      const charactor = charactors[monster.charactorKey]
+      monster.health -= damage
+      if (monster.health < 0) {
+        monster.health = 0
+      } else if (monster.health > charactor.maxHealth) {
+        monster.health = charactor.maxHealth
+      }
+      updatePlayerHealthBar(monster)
+      setInvincible(scene, monster)
+    },
+    onMonsterDead: (monsterId: string) => {
+      methods.removeMonster(monsterId)
+    },
     getMonster: (id: string): Monster => gameState.monsters.find(m => m.id === id),
+    removeMonster: (id: string) => {
+      const monsterIndex = gameState.monsters.findIndex(monster => monster.id === id)
+      const monster = gameState.monsters[monsterIndex]
+      if (!monster) {
+        console.log('no such monster')
+        return
+      }
+      gameState.monsters = gameState.monsters.filter(monster => monster.id !== id)
+
+      monster.phaserObject.destroy()
+    },
     createMonster: (monster: Monster) => {
       const isInState = methods.getMonster(monster.id)
       if (!isInState) {
         gameState.monsters.push(monster)
       }
-      const m = createCharactor(scene, monster)
-      console.log(m)
+      monster.phaserObject = createCharactor(scene, monster)
     }
   }
   return methods

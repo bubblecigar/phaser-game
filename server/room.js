@@ -1,5 +1,3 @@
-const setting = require('../share/setting.json')
-
 const registerRoomMethods = room => {
   room.methods = {
     initialize: () => {
@@ -27,6 +25,26 @@ const registerRoomMethods = room => {
       } else {
         // collect effect 
         room.items.splice(itemIndex, 1)
+      }
+    },
+    monsterOnHit: (monsterId, damage) => {
+      const monsterIndex = room.monsters.findIndex(monster => monster.id === monsterId)
+      if (monsterIndex < 0) {
+        // monster already die
+      } else {
+        const monster = room.monsters[monsterIndex]
+        monster.health -= damage
+        if (monster.health < 0) {
+          monster.health = 0
+        }
+      }
+    },
+    onMonsterDead: (monsterId) => {
+      const monsterIndex = room.monsters.findIndex(monster => monster.id === monsterId)
+      if (monsterIndex < 0) {
+        // monster already die
+      } else {
+        room.monsters.splice(monsterIndex, 1)
       }
     }
   }
