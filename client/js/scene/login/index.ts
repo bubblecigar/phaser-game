@@ -174,7 +174,6 @@ const generateRandomCharactor = scene => () => {
   })
   sprite.setOrigin(origin.x, origin.y)
   sprite.play(charactorConfig.animsConfig.idle.key)
-  sprite.name = 'player-sprite'
   matter.setBounce(1)
   randomCharactors.push(matter)
 
