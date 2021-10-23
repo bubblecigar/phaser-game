@@ -104,3 +104,17 @@ export const updatePlayerHealthBar = player => {
   const healthBar = player.phaserObject.getByName('health-bar')
   healthBar.setSize(percentage * (maxBar.width - 2), healthBar.height)
 }
+
+export const playShootAnimation = (charactor) => {
+  const sprite = charactor.phaserObject.getByName('charactor-sprite')
+  const hitConfig = charactors[charactor.charactorKey].animsConfig.hit
+  if (hitConfig) {
+    sprite.play({
+      key: hitConfig.key,
+      repeat: false,
+    })
+    sprite.once('animationcomplete-' + hitConfig.key, function (currentAnim, currentFrame, sprite) {
+      sprite.play(charactors[charactor.charactorKey].animsConfig.idle.key)
+    })
+  }
+}

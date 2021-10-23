@@ -7,7 +7,7 @@ import { Player, Item, Monster } from '../../../Interface'
 import gameState from '../../../game/state'
 import gameConfig from '../../../game/config'
 import { shoot } from '../shoot/index'
-import { createCharactor, setInvincible, updatePlayerHealthBar } from './charactor'
+import { createCharactor, setInvincible, updatePlayerHealthBar, playShootAnimation } from './charactor'
 import { createItemMatter } from './item'
 
 const userId = getLocalUserData().userId
@@ -119,17 +119,9 @@ const gameMethods = scene => {
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
     shoot: ({ from, to, builderId, type, options }) => {
       shoot({ scene, from, to, builderId, type, options })
-      const player = methods.getPlayer(builderId)
-      const sprite = player.phaserObject.getByName('charactor-sprite')
-      const hitConfig = charactors[player.charactorKey].animsConfig.hit
-      if (hitConfig) {
-        sprite.play({
-          key: hitConfig.key,
-          repeat: false,
-        })
-        sprite.once('animationcomplete-' + hitConfig.key, function (currentAnim, currentFrame, sprite) {
-          sprite.play(charactors[player.charactorKey].animsConfig.idle.key)
-        })
+      const charactor = methods.getPlayer(builderId) || methods.getMonster(builderId)
+      if (charactor) {
+        playShootAnimation(charactor)
       }
     },
     resurrect: (playerId: string) => {
