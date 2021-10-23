@@ -34,11 +34,13 @@ export const shootIce = ({ scene, bulletsRef, from, to, builderId, isUser, optio
   ])
 
   const rush = () => {
-    const from = matter.body.position
-    const rushVelocity = 5 * velocity
-    const angle = Math.atan2(to.y - from.y, to.x - from.x)
-    matter.setVelocityX(rushVelocity * Math.cos(angle))
-    matter.setVelocityY(rushVelocity * Math.sin(angle))
+    if (bulletsRef[id]) {
+      const from = matter.body.position
+      const rushVelocity = 5 * velocity
+      const angle = Math.atan2(to.y - from.y, to.x - from.x)
+      matter.setVelocityX(rushVelocity * Math.cos(angle))
+      matter.setVelocityY(rushVelocity * Math.sin(angle))
+    }
   }
   scene.time.delayedCall(500, () => rush(), null, scene)
 
