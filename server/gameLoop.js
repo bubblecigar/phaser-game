@@ -71,6 +71,7 @@ const createMonster = () => {
   const monsterConstructor = {
     interface: 'Monster',
     id: uuid(),
+    health: 100,
     builderId: 'server',
     charactorKey: 'orge',
     position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },
