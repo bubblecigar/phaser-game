@@ -18,7 +18,7 @@ const createWinnerStatue = (scene) => {
   winnerSprite.setScale(2, 2)
 
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
-  const rect = Bodies.rectangle(winnerPoint.x, winnerPoint.y, 2 * size.width, 2 * size.height, { label: 'player-body' })
+  const rect = Bodies.rectangle(winnerPoint.x, winnerPoint.y, 2 * size.width, 2 * size.height)
   const winnerMatter = scene.matter.add.gameObject(winnerSprite)
   winnerMatter.setExistingBody(rect)
 
