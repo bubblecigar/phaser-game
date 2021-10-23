@@ -2,14 +2,13 @@ import _ from 'lodash'
 import Phaser from 'phaser'
 import setting from '../../../../../share/setting.json'
 import charactors from '../../../charactors'
-import items from '../../../items'
 import { getLocalUserData } from '../../../user'
 import { Player, Bullet, Item, GameState, Monster, Point } from '../../../Interface'
 import gameState from '../../../game/state'
 import gameConfig from '../../../game/config'
 import collisionCategories from '../collisionCategories'
 import { shoot } from '../shoot/index'
-import { createCharactor } from './charactor'
+import { createCharactor, setInvincibale, updatePlayerHealthBar } from './charactor'
 import { createItemMatter } from './item'
 
 const userId = getLocalUserData().userId
@@ -134,14 +133,6 @@ const gameMethods = scene => {
         })
       }
     },
-    updatePlayerHealthBar: (playerId: string) => {
-      const player = methods.getPlayer(playerId)
-      const maximumHealth = charactors[player.charactorKey].maxHealth
-      const maxBar = player.phaserObject.getByName('maximum-bar')
-      const percentage = player.health / maximumHealth
-      const healthBar = player.phaserObject.getByName('health-bar')
-      healthBar.setSize(percentage * (maxBar.width - 2), healthBar.height)
-    },
     resurrect: (playerId: string) => {
       const player = methods.getPlayer(playerId)
       const playerConstructor = {
@@ -168,6 +159,7 @@ const gameMethods = scene => {
     },
     onHit: (playerId: string, damage: number) => {
       const player = methods.getPlayer(playerId)
+      if (!player) { return }
       const charactor = charactors[player.charactorKey]
       player.health -= damage
       if (player.health < 0) {
@@ -175,28 +167,8 @@ const gameMethods = scene => {
       } else if (player.health > charactor.maxHealth) {
         player.health = charactor.maxHealth
       }
-      methods.updatePlayerHealthBar(playerId)
-      methods.setInvincibale(player)
-    },
-    setInvincibale: (player) => {
-      const originCollisionCategory = player.phaserObject.body.collisionFilter.category
-      player.phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
-      player.phaserObject.setAlpha(0.3)
-      scene.time.delayedCall(
-        500,
-        () => {
-          try {
-            if (player.phaserObject) {
-              player.phaserObject.setAlpha(1)
-              player.phaserObject.setCollisionCategory(originCollisionCategory)
-            }
-          } catch (error) {
-            console.log(error)
-          }
-        },
-        null,
-        scene
-      )
+      updatePlayerHealthBar(player)
+      setInvincibale(scene, player)
     },
     addItem: (itemConstructor: Item): Item => {
       const { id, position, itemKey, velocity, builderId } = itemConstructor

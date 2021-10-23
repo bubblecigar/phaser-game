@@ -75,3 +75,32 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
 
   return phaserObject
 }
+
+export const setInvincibale = (scene, player) => {
+  const originCollisionCategory = player.phaserObject.body.collisionFilter.category
+  player.phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
+  player.phaserObject.setAlpha(0.3)
+  scene.time.delayedCall(
+    500,
+    () => {
+      try {
+        if (player.phaserObject) {
+          player.phaserObject.setAlpha(1)
+          player.phaserObject.setCollisionCategory(originCollisionCategory)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    null,
+    scene
+  )
+}
+
+export const updatePlayerHealthBar = player => {
+  const maximumHealth = charactors[player.charactorKey].maxHealth
+  const maxBar = player.phaserObject.getByName('maximum-bar')
+  const percentage = player.health / maximumHealth
+  const healthBar = player.phaserObject.getByName('health-bar')
+  healthBar.setSize(percentage * (maxBar.width - 2), healthBar.height)
+}
