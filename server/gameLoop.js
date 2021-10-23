@@ -118,11 +118,30 @@ const registerProcessingIntervals = room => setInterval(
       room.monsterSpawnTime = 0
     } else {
       if (room.monsterSpawnTime >= setting.monsterSpawnInterval) {
-        const monsterConstructor = createMonster()
-        room.monsters.push(monsterConstructor)
+        const monster = createMonster()
+        room.monsters.push(monster)
         const { io } = require('./index.js')
-        io.in(room.id).emit('dungeon', 'createMonster', monsterConstructor)
+        io.in(room.id).emit('dungeon', 'createMonster', monster)
         room.monsterSpawnTime = 0
+        monster.shootTime = 0
+        const shoot = () => {
+          const shootType = 'soundwave'
+          const shootOption = {
+            from: monster.position,
+            to: { x: monster.position.x + 10, y: monster.position.y },
+            builderId: monster.id,
+            type: shootType,
+            options: {
+              type: shootType,
+              randomNumber: Math.random()
+            }
+          }
+          io.in(room.id).emit('dungeon', 'shoot', shootOption)
+          if (room.monsters.find(m => m.id === monster.id)) {
+            setTimeout(() => shoot(), 3000)
+          }
+        }
+        setTimeout(() => shoot(), 3000)
       } else {
         room.monsterSpawnTime += intervalTimeStep
       }
