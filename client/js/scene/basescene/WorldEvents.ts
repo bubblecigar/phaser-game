@@ -231,7 +231,7 @@ const monsterOnHit = (scene, socketMethods, methods, monster, damage) => {
       interface: 'Item',
       builderId: monster.data.id,
       id: v4(),
-      itemKey: 'coin',
+      itemKey: monster.data.drop,
       position: deadPosition,
       velocity: { x: 0, y: -0.2 },
       phaserObject: null

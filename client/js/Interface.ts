@@ -36,6 +36,7 @@ export interface Monster {
   velocity: Point,
   position: Point,
   charactorKey: string,
+  drop: string,
   phaserObject: any,
   health: number
 }

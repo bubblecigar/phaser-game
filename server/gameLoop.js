@@ -74,6 +74,7 @@ const createMonster = () => {
     health: 100,
     builderId: 'server',
     charactorKey: 'orge',
+    drop: 'coin',
     position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },
     velocity: { x: 0, y: 0 },
     phaserObject: null
