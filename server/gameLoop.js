@@ -77,8 +77,7 @@ const createMonster = () => {
     charactorKey: 'orge',
     drop: 'coin',
     position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },
-    velocity: { x: 0, y: 0 },
-    phaserObject: null
+    velocity: { x: 0, y: 0 }
   }
   return monsterConstructor
 }
@@ -116,6 +115,9 @@ const registerProcessingIntervals = room => setInterval(
 
     if (room.monsters.length > 0) {
       room.monsterSpawnTime = 0
+      const { io } = require('./index.js')
+      const monster = room.monsters[0]
+      io.in(room.id).emit('dungeon', 'writeMonster', monster)
     } else {
       if (room.monsterSpawnTime >= setting.monsterSpawnInterval) {
         const monster = createMonster()
@@ -125,6 +127,8 @@ const registerProcessingIntervals = room => setInterval(
         room.monsterSpawnTime = 0
         monster.shootTime = 0
         const shoot = () => {
+          const monsterAlive = room.monsters.find(m => m.id === monster.id)
+          if (!monsterAlive) { return }
           const shootType = 'soundwave'
           const shootOption = {
             from: monster.position,
@@ -137,9 +141,7 @@ const registerProcessingIntervals = room => setInterval(
             }
           }
           io.in(room.id).emit('dungeon', 'shoot', shootOption)
-          if (room.monsters.find(m => m.id === monster.id)) {
-            setTimeout(() => shoot(), 3000)
-          }
+          setTimeout(() => shoot(), 3000)
         }
         setTimeout(() => shoot(), 3000)
       } else {
