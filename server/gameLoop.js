@@ -125,7 +125,6 @@ const registerProcessingIntervals = room => setInterval(
         const { io } = require('./index.js')
         io.in(room.id).emit('dungeon', 'createMonster', monster)
         room.monsterSpawnTime = 0
-        monster.shootTime = 0
         const shoot = () => {
           const monsterAlive = room.monsters.find(m => m.id === monster.id)
           if (!monsterAlive) { return }
