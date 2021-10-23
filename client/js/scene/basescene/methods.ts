@@ -18,10 +18,12 @@ const createCharactor = (scene, constructor: Player | Monster) => {
   const { x, y } = constructor.position
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
   const rect = Bodies.rectangle(x, y, size.width, size.height)
+  const isUser = constructor.id === getLocalUserData().userId
+  const isMonster = constructor.interface === "Monster"
   const compound = Phaser.Physics.Matter.Matter.Body.create({
     parts: [rect],
     inertia: Infinity,
-    ignoreGravity: constructor.id === getLocalUserData().userId ? false : true
+    ignoreGravity: (isUser || isMonster) ? false : true
   })
 
   const charatorHeight = charactor.spritesheetConfig.options.frameHeight
@@ -55,21 +57,27 @@ const createCharactor = (scene, constructor: Player | Monster) => {
   phaserObject.setData(constructor)
   phaserObject.setData({ touched: true })
 
-  phaserObject.setCollisionCategory(collisionCategories.CATEGORY_PLAYER)
-  phaserObject.setCollidesWith(
-    constructor.id === userId
-      ? [
-        collisionCategories.CATEGORY_ENEMY_BULLET,
-        collisionCategories.CATEGORY_ITEM,
-        collisionCategories.CATEGORY_MAP_BLOCK,
-        collisionCategories.CATEGORY_MONSTER
-      ]
-      : [
-        collisionCategories.CATEGORY_PLAYER_BULLET,
-        collisionCategories.CATEGORY_ITEM,
-        collisionCategories.CATEGORY_MAP_BLOCK
-      ]
+  const collisionCategory = isMonster
+    ? collisionCategories.CATEGORY_MONSTER
+    : collisionCategories.CATEGORY_PLAYER
+  phaserObject.setCollisionCategory(collisionCategory)
+
+  const collideTargets = isMonster ? [
+    collisionCategories.CATEGORY_PLAYER_BULLET,
+    collisionCategories.CATEGORY_ENEMY_BULLET,
+    collisionCategories.CATEGORY_MAP_BLOCK
+  ] : (
+    isUser ? [
+      collisionCategories.CATEGORY_ENEMY_BULLET,
+      collisionCategories.CATEGORY_ITEM,
+      collisionCategories.CATEGORY_MAP_BLOCK
+    ] : [
+      collisionCategories.CATEGORY_PLAYER_BULLET,
+      collisionCategories.CATEGORY_ITEM,
+      collisionCategories.CATEGORY_MAP_BLOCK
+    ]
   )
+  phaserObject.setCollidesWith(collideTargets)
 
   if (constructor.health <= 0) {
     phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
