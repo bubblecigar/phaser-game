@@ -98,6 +98,20 @@ const gameMethods = scene => {
         player.phaserObject.setY(player.position.y)
       }
     },
+    writeMonster: (_monster: Monster) => {
+      const monster = methods.getMonster(_monster.id)
+      if (!monster || !monster.phaserObject || !monster.phaserObject.body) {
+        console.log('monster not initialized')
+        return
+      }
+      Object.keys(_monster).forEach(
+        key => {
+          monster[key] = _monster[key]
+        }
+      )
+
+      monster.phaserObject.setX(monster.position.x)
+    },
     updatePlayerAnimation: (playerId: string, animation: 'idle' | 'move') => {
       const player = methods.getPlayer(playerId)
       if (!player || !player.phaserObject || !player.phaserObject.body) {
@@ -253,6 +267,7 @@ const gameMethods = scene => {
         gameState.monsters.push(monster)
       }
       monster.phaserObject = createCharactor(scene, monster)
+      console.log(gameState)
     }
   }
   return methods
