@@ -60,8 +60,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":228.812563168777,
-                 "y":59.8461863530628
+                 "x":228.813,
+                 "y":59.8462
                 }, 
                 {
                  "height":0,
@@ -72,8 +72,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":438.74386146291,
-                 "y":218.402688033083
+                 "x":438.744,
+                 "y":218.403
                 }, 
                 {
                  "height":0,
@@ -84,8 +84,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":48.4621349185836,
-                 "y":80.770224864306
+                 "x":48.4621,
+                 "y":80.7702
                 }, 
                 {
                  "height":0,
@@ -96,8 +96,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":111.432153011114,
-                 "y":274.618764538641
+                 "x":111.432,
+                 "y":274.619
                 }, 
                 {
                  "height":0,
@@ -108,8 +108,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":64.6161798914448,
-                 "y":210.64874644611
+                 "x":64.6162,
+                 "y":210.649
                 }, 
                 {
                  "height":0,
@@ -120,8 +120,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":401.266477125872,
-                 "y":147.324890152494
+                 "x":401.266,
+                 "y":147.325
                 }, 
                 {
                  "height":0,
@@ -132,8 +132,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":264.280175756009,
-                 "y":191.910054277591
+                 "x":264.28,
+                 "y":191.91
                 }, 
                 {
                  "height":0,
@@ -144,17 +144,29 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":449.082450245541,
-                 "y":39.4158697337813
+                 "x":449.082,
+                 "y":39.4159
+                }, 
+                {
+                 "height":0,
+                 "id":23,
+                 "name":"monster_point",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":165.417420522099,
+                 "y":288.834324114758
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":23,
+ "nextobjectid":24,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.0",

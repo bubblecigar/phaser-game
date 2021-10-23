@@ -4,7 +4,7 @@
      "export":
         {
          "format":"json",
-         "target":"..\/..\/..\/share\/map\/readyRoom.json"
+         "target":"readyRoom.json"
         }
     },
  "height":10,
@@ -69,8 +69,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":228.701720444966,
-                 "y":47.6749809991018
+                 "x":134.733641953983,
+                 "y":111.932564084848
                 }],
          "opacity":1,
          "type":"objectgroup",
