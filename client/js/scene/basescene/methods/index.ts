@@ -7,7 +7,7 @@ import { Player, Item, Monster } from '../../../Interface'
 import gameState from '../../../game/state'
 import gameConfig from '../../../game/config'
 import { shoot } from '../shoot/index'
-import { createCharactor, setInvincibale, updatePlayerHealthBar } from './charactor'
+import { createCharactor, setInvincible, updatePlayerHealthBar } from './charactor'
 import { createItemMatter } from './item'
 
 const userId = getLocalUserData().userId
@@ -167,7 +167,7 @@ const gameMethods = scene => {
         player.health = charactor.maxHealth
       }
       updatePlayerHealthBar(player)
-      setInvincibale(scene, player)
+      setInvincible(scene, player)
     },
     addItem: (itemConstructor: Item): Item => {
       const { id, position, itemKey, velocity, builderId } = itemConstructor

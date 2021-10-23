@@ -76,7 +76,7 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   return phaserObject
 }
 
-export const setInvincibale = (scene, player) => {
+export const setInvincible = (scene, player) => {
   const originCollisionCategory = player.phaserObject.body.collisionFilter.category
   player.phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
   player.phaserObject.setAlpha(0.3)
