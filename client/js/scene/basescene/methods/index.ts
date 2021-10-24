@@ -111,11 +111,14 @@ const gameMethods = scene => {
       )
 
       const sprite = monster.phaserObject.getByName('charactor-sprite')
-      if (monster.position.x > monster.phaserObject.x) {
-        monster.phaserObject.setVelocity(0.5)
+      const dx = monster.position.x - monster.phaserObject.x
+      if (Math.abs(dx) < 5) {
+        // stay, do nothing
+      } else if (monster.position.x > monster.phaserObject.x) {
+        monster.phaserObject.setVelocityX(1)
         sprite.setFlipX(false)
       } else {
-        monster.phaserObject.setVelocity(-0.5)
+        monster.phaserObject.setVelocityX(-1)
         sprite.setFlipX(true)
       }
     },
