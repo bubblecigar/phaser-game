@@ -81,7 +81,7 @@ export const setInvincible = (scene, player) => {
   player.phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
   player.phaserObject.setAlpha(0.3)
   scene.time.delayedCall(
-    500,
+    100,
     () => {
       try {
         if (player.phaserObject && player.phaserObject.body) {
