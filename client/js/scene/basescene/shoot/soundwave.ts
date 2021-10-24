@@ -2,10 +2,8 @@ import { v4 } from 'uuid'
 import collisionCategories from '../collisionCategories'
 import gameState from '../../../game/state'
 
-export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser }) => {
+export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser, shooter }) => {
   const id = v4()
-
-  const builder = gameState.players.find(p => p.id === builderId)
 
   const circle = scene.add.circle(from.x, from.y, 8)
   circle.setStrokeStyle(2, 0xffffff, 0.7)
@@ -35,9 +33,9 @@ export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser 
     circle.setRadius(circle.radius + dt * 0.1)
     const ratio = circle.radius / body.circleRadius
     Phaser.Physics.Matter.Matter.Body.scale(body, ratio, ratio)
-    if (builder) {
-      matter.setX(builder.position.x)
-      matter.setY(builder.position.y)
+    if (shooter) {
+      matter.setX(shooter.phaserObject.x)
+      matter.setY(shooter.phaserObject.y)
     }
   }
   const destroy = () => {
