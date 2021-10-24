@@ -48,6 +48,10 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   phaserObject.setData(constructor)
   phaserObject.setData({ touched: true })
 
+  if (isMonster) {
+    container.setFriction(0, 0, 0)
+  }
+
   const collisionCategory = isMonster
     ? collisionCategories.CATEGORY_MONSTER
     : collisionCategories.CATEGORY_PLAYER
