@@ -14,6 +14,7 @@ const createMonster = () => {
     interface: 'Monster',
     id: uuid(),
     health: 100,
+    properties: monsterSpawnPoint.properties,
     builderId: 'server',
     charactorKey: 'orge',
     drop: 'coin',
@@ -44,7 +45,7 @@ const runMonsterScript = (room, monster) => {
   }
   setTimeout(() => shoot(), 3000)
 
-  const dx = 20
+  const dx = monster.properties ? monster.properties[0].value : 0
   const centralPosition = { x: monster.position.x, y: monster.position.y }
   const leftPosition = { x: centralPosition.x - dx, y: centralPosition.y }
   const rightPosition = { x: centralPosition.x + dx, y: centralPosition.y }
