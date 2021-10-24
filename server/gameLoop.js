@@ -1,7 +1,7 @@
 const uuid = require('uuid')
 const setting = require('../share/setting.json')
 const serverMap = require('../share/serverMap.json')
-const { createMonster } = require('./monster.js').monsterMethods
+const { createMonster, runMonsterScript } = require('./monster.js').monsterMethods
 const intervalTimeStep = 200
 
 const registerRoomAutoCloseInterval = room => setInterval(
@@ -104,24 +104,7 @@ const registerProcessingIntervals = room => setInterval(
         const { io } = require('./index.js')
         io.in(room.id).emit('dungeon', 'createMonster', monster)
         room.monsterSpawnTime = 0
-        const shoot = () => {
-          const monsterAlive = room.monsters.find(m => m.id === monster.id)
-          if (!monsterAlive) { return }
-          const shootType = 'soundwave'
-          const shootOption = {
-            from: monster.position,
-            to: { x: monster.position.x + 10, y: monster.position.y },
-            builderId: monster.id,
-            type: shootType,
-            options: {
-              type: shootType,
-              randomNumber: Math.random()
-            }
-          }
-          io.in(room.id).emit('dungeon', 'shoot', shootOption)
-          setTimeout(() => shoot(), 3000)
-        }
-        setTimeout(() => shoot(), 3000)
+        runMonsterScript(room, monster)
       } else {
         room.monsterSpawnTime += intervalTimeStep
       }
