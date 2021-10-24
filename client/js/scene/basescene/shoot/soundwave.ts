@@ -1,6 +1,5 @@
 import { v4 } from 'uuid'
 import collisionCategories from '../collisionCategories'
-import gameState from '../../../game/state'
 
 export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser, shooter }) => {
   const id = v4()
