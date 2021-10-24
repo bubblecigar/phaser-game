@@ -110,7 +110,14 @@ const gameMethods = scene => {
         }
       )
 
-      monster.phaserObject.setX(monster.position.x)
+      const sprite = monster.phaserObject.getByName('charactor-sprite')
+      if (monster.position.x > monster.phaserObject.x) {
+        monster.phaserObject.setVelocity(0.5)
+        sprite.setFlipX(false)
+      } else {
+        monster.phaserObject.setVelocity(-0.5)
+        sprite.setFlipX(true)
+      }
     },
     updatePlayerAnimation: (playerId: string, animation: 'idle' | 'move') => {
       const player = methods.getPlayer(playerId)
@@ -267,7 +274,6 @@ const gameMethods = scene => {
         gameState.monsters.push(monster)
       }
       monster.phaserObject = createCharactor(scene, monster)
-      console.log(gameState)
     }
   }
   return methods
