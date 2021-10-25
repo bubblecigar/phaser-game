@@ -166,15 +166,12 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
       }
       bullet.data.destroy()
     } else if (player && item) {
-      if (item.data.itemKey === 'coin') {
-        if (player.isUser) {
-          socketMethods.clientsInScene(scene.scene.key, methods, 'collectItem', player.data.id, _.omit(item.data, 'phaserObject'))
-          socketMethods.server('collectItem', item.data.id)
-          scene.sound.play('collect')
-        } else {
-          item.data.phaserObject.destroy()
-        }
+      if (player.isUser) {
+        socketMethods.clientsInScene(scene.scene.key, methods, 'collectItem', player.data.id, _.omit(item.data, 'phaserObject'))
+        socketMethods.server('collectItem', item.data.id)
+        scene.sound.play('collect')
       }
+      item.data.phaserObject.destroy()
     }
   })
 
@@ -208,7 +205,7 @@ const playerOnHit = (scene, socketMethods, methods, player, damage) => {
       id: v4(),
       itemKey: 'coin',
       position: _player.position,
-      velocity: { x: 0, y: -0.2 },
+      velocity: { x: 0, y: -0.1 },
       phaserObject: null
     }
 
@@ -227,18 +224,18 @@ const monsterOnHit = (scene, socketMethods, methods, monster, damage) => {
     socketMethods.clientsInScene(scene.scene.key, methods, 'onMonsterDead', monster.data.id)
     socketMethods.server('onMonsterDead', monster.data.id)
 
-    const coinConstructor: Item = {
+    const potionConstructor: Item = {
       interface: 'Item',
       builderId: monster.data.id,
       id: v4(),
-      itemKey: monster.data.drop,
+      itemKey: 'potion',
       position: deadPosition,
-      velocity: { x: 0, y: -0.2 },
+      velocity: { x: 0.0001, y: -0 },
       phaserObject: null
     }
 
-    socketMethods.clientsInScene(scene.scene.key, methods, 'addItem', coinConstructor)
-    socketMethods.server('addItem', coinConstructor)
+    socketMethods.clientsInScene(scene.scene.key, methods, 'addItem', potionConstructor)
+    socketMethods.server('addItem', potionConstructor)
   }
 }
 

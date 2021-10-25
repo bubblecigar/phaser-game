@@ -237,7 +237,13 @@ const gameMethods = scene => {
       }
       switch (item.itemKey) {
         case 'coin': {
-          player.coins++
+          break
+        }
+        case 'potion': {
+          const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * Object.keys(charactors).length) % (Object.keys(charactors).length)]
+          const _player: Player = _.omit(_.clone(player), 'phaserObject')
+          _player.charactorKey = randomCharactorKey
+          methods.rebuildPlayer(_player)
           break
         }
         default: {

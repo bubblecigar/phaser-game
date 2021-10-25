@@ -13,21 +13,9 @@ const item: Bullet = {
     }
   },
   animsConfig: {
-    poison: {
-      key: `${key}_ice`,
-      frames: [0]
-    },
-    fire: {
-      key: `${key}_heal`,
-      frames: [1]
-    },
-    ice: {
-      key: `${key}_fire`,
-      frames: [2]
-    },
-    heal: {
-      key: `${key}_thunder`,
-      frames: [3]
+    idle: {
+      key: `${key}_idle`,
+      frames: [0, 1, 2, 3]
     }
   },
   matterConfig: {
