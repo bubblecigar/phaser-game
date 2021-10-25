@@ -12,7 +12,7 @@ import { tab } from './tab'
 
 export const bulletsRefKey = 'bullets_storage'
 
-const shoot = ({ scene, from, to, builderId, type, options }) => {
+const shoot = ({ scene, from, to, builderId, type, options, shooter }) => {
   const isUser = getLocalUserData().userId === builderId
 
   if (!scene[bulletsRefKey]) {
@@ -46,7 +46,7 @@ const shoot = ({ scene, from, to, builderId, type, options }) => {
       break
     }
     case 'soundwave': {
-      shootSoundWave({ scene, bulletsRef, from, to, builderId, isUser })
+      shootSoundWave({ scene, bulletsRef, from, to, builderId, isUser, shooter })
       break
     }
     case 'muddy': {

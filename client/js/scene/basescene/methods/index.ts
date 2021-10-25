@@ -142,10 +142,10 @@ const gameMethods = scene => {
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
     shoot: ({ from, to, builderId, type, options }) => {
-      shoot({ scene, from, to, builderId, type, options })
-      const charactor = methods.getPlayer(builderId) || methods.getMonster(builderId)
-      if (charactor) {
-        playShootAnimation(charactor)
+      const shooter = methods.getPlayer(builderId) || methods.getMonster(builderId)
+      if (shooter) {
+        shoot({ scene, from, to, builderId, type, options, shooter })
+        playShootAnimation(shooter)
       }
     },
     resurrect: (playerId: string) => {
