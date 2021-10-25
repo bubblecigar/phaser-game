@@ -2,55 +2,55 @@
   "wizzardMale": {
     "key": "wizzardMale",
     "shootType": "ice",
-    "shootInterval": 3000,
-    "health": 20
+    "shootInterval": 600,
+    "health": 51
   },
   "knightFemale": {
     "key": "knightFemale",
     "shootType": "knife",
-    "shootInterval": 3000,
-    "health": 20
+    "shootInterval": 300,
+    "health": 51
   },
   "orge": {
     "key": "orge",
     "shootType": "soundwave",
     "shootInterval": 3000,
-    "health": 20
+    "health": 112
   },
   "chort": {
     "key": "chort",
     "shootType": "fireball",
-    "shootInterval": 3000,
-    "health": 20
+    "shootInterval": 800,
+    "health": 48
   },
   "giantDemon": {
     "key": "giantDemon",
     "shootType": "shadowball",
-    "shootInterval": 3000,
-    "health": 20
+    "shootInterval": 1500,
+    "health": 96
   },
   "giantZombie": {
     "key": "giantZombie",
     "shootType": "muddy",
-    "shootInterval": 3000,
-    "health": 20
+    "shootInterval": 1000,
+    "health": 96
   },
   "lizardFemale": {
     "key": "lizardFemale",
     "shootType": "coin",
-    "shootInterval": 3000,
-    "health": 20
+    "shootInterval": 500,
+    "health": 51
   },
   "elfFemale": {
     "key": "elfFemale",
     "shootType": "arrow",
-    "shootInterval": 3000,
-    "health": 20
+    "shootInterval": 500,
+    "health": 51
   },
   "elfMale": {
     "key": "elfMale",
     "shootType": "arrow",
-    "shootInterval": 3000,
-    "health": 20
+    "shootInterval": 500,
+    "health": 51
   }
 }
