@@ -32,9 +32,12 @@ const runMonsterScript = (room, monster) => {
   const shoot = () => {
     const monsterAlive = room.monsters.find(m => m.id === monster.id)
     if (!monsterAlive) { return }
+    const randomShootDirection = Math.random() * Math.PI
+    const dx = 10 * Math.cos(randomShootDirection)
+    const dy = -10 * Math.sin(randomShootDirection)
     const shootOption = {
       from: monster.position,
-      to: { x: monster.position.x + 10, y: monster.position.y },
+      to: { x: monster.position.x + dx, y: monster.position.y + dy },
       builderId: monster.id,
       type: neutrals[monster.charactorKey].shootType,
       options: {
@@ -64,7 +67,6 @@ const runMonsterScript = (room, monster) => {
   move()
   setTimeout(() => move(), 2000)
 }
-
 
 exports.monsterMethods = {
   createMonster,
