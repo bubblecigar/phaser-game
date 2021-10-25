@@ -29,12 +29,14 @@ export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser,
   matter.setDepth(11)
 
   const update = (t, dt) => {
-    circle.setRadius(circle.radius + dt * 0.1)
-    const ratio = circle.radius / body.circleRadius
-    Phaser.Physics.Matter.Matter.Body.scale(body, ratio, ratio)
-    if (shooter) {
-      matter.setX(shooter.phaserObject.x)
-      matter.setY(shooter.phaserObject.y)
+    if (bulletsRef[id]) {
+      circle.setRadius(circle.radius + dt * 0.1)
+      const ratio = circle.radius / body.circleRadius
+      Phaser.Physics.Matter.Matter.Body.scale(body, ratio, ratio)
+      if (shooter && shooter.phaserObject && shooter.phaserObject.body) {
+        matter.setX(shooter.phaserObject.x)
+        matter.setY(shooter.phaserObject.y)
+      }
     }
   }
   const destroy = () => {
