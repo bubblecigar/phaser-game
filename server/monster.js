@@ -32,22 +32,34 @@ const runMonsterScript = (room, monster) => {
   const shoot = () => {
     const monsterAlive = room.monsters.find(m => m.id === monster.id)
     if (!monsterAlive) { return }
-    const randomShootDirection = Math.sign(Math.random() - 0.5)
-    const randomShootAngle = Math.random() * 0.25 * Math.PI
-    const dx = randomShootDirection * 10 * Math.cos(randomShootAngle)
-    const dy = -10 * Math.sin(randomShootAngle)
-    const shootOption = {
-      from: monster.position,
-      to: { x: monster.position.x + dx, y: monster.position.y + dy },
-      builderId: monster.id,
-      type: neutrals[monster.charactorKey].shootType,
-      options: {
+
+    const { player: neareastAlivePlayer, r2: distance } = room.players.reduce(
+      (acc, cur) => {
+        const alive = cur.health > 0
+        if (!alive) { return acc }
+        const dx = cur.position.x - monster.position.x
+        const dy = cur.position.y - monster.position.y
+        const r2 = dx * dx + dy * dy
+        return acc.r2 < r2 ? acc : { player: cur, r2 }
+      }, { r2: Infinity, player: null }
+    )
+
+    if (distance > 10000 || !neareastAlivePlayer) {
+      // outside of attcking range
+    } else {
+      const shootOption = {
+        from: monster.position,
+        to: neareastAlivePlayer.position,
+        builderId: monster.id,
         type: neutrals[monster.charactorKey].shootType,
-        randomNumber: Math.random()
+        options: {
+          type: neutrals[monster.charactorKey].shootType,
+          randomNumber: Math.random()
+        }
       }
+      const { io } = require('./index.js')
+      io.in(room.id).emit('dungeon', 'shoot', shootOption)
     }
-    const { io } = require('./index.js')
-    io.in(room.id).emit('dungeon', 'shoot', shootOption)
     setTimeout(() => shoot(), neutrals[monster.charactorKey].shootInterval)
   }
   setTimeout(() => shoot(), neutrals[monster.charactorKey].shootInterval)
