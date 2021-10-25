@@ -113,7 +113,7 @@ const gameMethods = scene => {
       const sprite = monster.phaserObject.getByName('charactor-sprite')
       const dx = monster.position.x - monster.phaserObject.x
       if (Math.abs(dx) < 5) {
-        // stay, do nothing
+        monster.phaserObject.setVelocityX(0)
       } else if (monster.position.x > monster.phaserObject.x) {
         monster.phaserObject.setVelocityX(1)
         sprite.setFlipX(false)
@@ -144,7 +144,7 @@ const gameMethods = scene => {
     shoot: ({ from, to, builderId, type, options }) => {
       const shooter = methods.getPlayer(builderId) || methods.getMonster(builderId)
       if (shooter) {
-        shoot({ scene, from, to, builderId, type, options, shooter })
+        shoot({ scene, to, builderId, type, options, shooter })
         playShootAnimation(shooter)
       }
     },

@@ -12,7 +12,11 @@ import { tab } from './tab'
 
 export const bulletsRefKey = 'bullets_storage'
 
-const shoot = ({ scene, from, to, builderId, type, options, shooter }) => {
+const shoot = ({ scene, to, builderId, type, options, shooter }) => {
+  if (!shooter || !shooter.phaserObject) {
+    return
+  }
+  const from = { x: shooter.phaserObject.x, y: shooter.phaserObject.y }
   const isUser = getLocalUserData().userId === builderId
 
   if (!scene[bulletsRefKey]) {
