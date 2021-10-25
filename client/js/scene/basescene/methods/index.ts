@@ -185,6 +185,16 @@ const gameMethods = scene => {
       updatePlayerHealthBar(player)
       setInvincible(scene, player)
     },
+    onHeal: (playerId: string, heal: number) => {
+      const player = methods.getPlayer(playerId)
+      if (!player) { return }
+      const charactor = charactors[player.charactorKey]
+      player.health += heal
+      if (player.health > charactor.maxHealth) {
+        player.health = charactor.maxHealth
+      }
+      updatePlayerHealthBar(player)
+    },
     addItem: (itemConstructor: Item): Item => {
       const { id, position, itemKey, velocity, builderId } = itemConstructor
       const item: Item = {

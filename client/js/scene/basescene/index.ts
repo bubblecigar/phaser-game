@@ -9,7 +9,7 @@ import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
 import targetUrl from '../../../statics/tile/target.png'
 import { socketMethods } from '../../index'
-import gameState from '../../game/state'
+import setting from '../../../../share/setting.json'
 import { bulletsRefKey } from './shoot/index'
 import collisionCategories from './collisionCategories'
 import { sounds } from '../../sounds/index'
@@ -20,6 +20,7 @@ let methods
 let cursors, pointer
 let aim, aimDirection
 let readyToShoot = true
+let restTime = 0
 
 const registerAimingTarget = scene => {
   aim = scene.matter.add.image(-20, -20, 'target', undefined, {
@@ -180,6 +181,12 @@ function update(t, dt) {
           player.id
         )
       }
+    } else {
+      if (restTime >= setting.healInterval) {
+        restTime = 0
+        socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, 1)
+      }
+      restTime += dt
     }
   } catch (error) {
     console.log(error)
