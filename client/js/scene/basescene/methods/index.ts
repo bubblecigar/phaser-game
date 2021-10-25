@@ -240,10 +240,10 @@ const gameMethods = scene => {
           break
         }
         case 'potion': {
-          const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * Object.keys(charactors).length) % (Object.keys(charactors).length)]
           const _player: Player = _.omit(_.clone(player), 'phaserObject')
-          _player.charactorKey = randomCharactorKey
+          _player.charactorKey = item.type
           methods.rebuildPlayer(_player)
+          methods.onHeal(_player.id, 20)
           break
         }
         default: {
