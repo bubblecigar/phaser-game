@@ -28,7 +28,7 @@ export const shootIce = ({ scene, bulletsRef, from, to, builderId, isUser, optio
   const rush = () => {
     if (bulletsRef[id]) {
       const from = matter.body.position
-      const rushVelocity = 5 * velocity
+      const rushVelocity = 3 * velocity
       const angle = Math.atan2(to.y - from.y, to.x - from.x)
       matter.setVelocityX(rushVelocity * Math.cos(angle))
       matter.setVelocityY(rushVelocity * Math.sin(angle))
