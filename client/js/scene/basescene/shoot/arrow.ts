@@ -1,7 +1,7 @@
 import { v4 } from 'uuid'
 import collisionCategories from '../collisionCategories'
 
-const createArrowHead = (scene, position, isUser) => {
+const createArrowHead = (scene, position, collisionCategory, collisionTargets) => {
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
   const headBody = Bodies.rectangle(position.x, position.y - 6, 2, 2)
   const headMatter = scene.matter.add.sprite(position.x, position.y, 'arrow_sprite')
@@ -9,16 +9,8 @@ const createArrowHead = (scene, position, isUser) => {
   headMatter.setOrigin(0.5, 0.1)
   headMatter.setFriction(1, 0, 0)
   headMatter.setMass(0.05)
-  headMatter.setCollisionCategory(
-    isUser
-      ? collisionCategories.CATEGORY_PLAYER_BULLET
-      : collisionCategories.CATEGORY_ENEMY_BULLET
-  )
-  headMatter.setCollidesWith([
-    collisionCategories.CATEGORY_PLAYER,
-    collisionCategories.CATEGORY_MAP_BLOCK,
-    collisionCategories.CATEGORY_MONSTER
-  ])
+  headMatter.setCollisionCategory(collisionCategory)
+  headMatter.setCollidesWith(collisionTargets)
 
   return headMatter
 }
@@ -36,12 +28,12 @@ const createArrowFeather = (scene, position) => {
   return featherMatter
 }
 
-export const shootArrow = ({ scene, bulletsRef, from, to, builderId, isUser }) => {
+export const shootArrow = ({ scene, bulletsRef, from, to, builderId, isUser, collisionCategory, collisionTargets }) => {
   const velocity = 7
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
   const id = v4()
-  const headMatter = createArrowHead(scene, from, isUser)
+  const headMatter = createArrowHead(scene, from, collisionCategory, collisionTargets)
   const featherMatter = createArrowFeather(scene, from)
   const constraint = scene.matter.add.constraint(headMatter.body, featherMatter.body, 12)
   headMatter.setVelocityX(velocity * Math.cos(angle))

@@ -2,7 +2,7 @@ import { v4 } from 'uuid'
 import collisionCategories from '../collisionCategories'
 import gameState from '../../../game/state'
 
-export const tab = ({ scene, bulletsRef, from, to, builderId, isUser }) => {
+export const tab = ({ scene, bulletsRef, from, to, builderId, isUser, collisionCategory, collisionTargets }) => {
   const builder = gameState.players.find(p => p.id === builderId)
   const velocity = 5
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
@@ -14,16 +14,8 @@ export const tab = ({ scene, bulletsRef, from, to, builderId, isUser }) => {
   matter.setAngle((angle * 180 / Math.PI) + 90)
   matter.setIgnoreGravity(true)
   matter.setDepth(3)
-  matter.setCollisionCategory(
-    isUser
-      ? collisionCategories.CATEGORY_PLAYER_BULLET
-      : collisionCategories.CATEGORY_ENEMY_BULLET
-  )
-  matter.setCollidesWith([
-    collisionCategories.CATEGORY_PLAYER,
-    collisionCategories.CATEGORY_MAP_BLOCK,
-    collisionCategories.CATEGORY_MONSTER
-  ])
+  matter.setCollisionCategory(collisionCategory)
+  matter.setCollidesWith(collisionTargets)
 
   let distance = 0
   const update = (t, dt) => {

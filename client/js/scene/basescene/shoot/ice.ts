@@ -1,7 +1,7 @@
 import { v4 } from 'uuid'
 import collisionCategories from '../collisionCategories'
 import iceFlask from '../../../items/iceFlask'
-export const shootIce = ({ scene, bulletsRef, from, to, builderId, isUser, options }) => {
+export const shootIce = ({ scene, bulletsRef, from, to, builderId, isUser, options, collisionCategory, collisionTargets }) => {
   const id = v4()
   const randomString = options.randomNumber.toFixed(5)
   const randomIndex_1 = randomString[2]
@@ -22,16 +22,8 @@ export const shootIce = ({ scene, bulletsRef, from, to, builderId, isUser, optio
   matter.setAngularVelocity(0.15)
   matter.setIgnoreGravity(true)
 
-  matter.setCollisionCategory(
-    isUser
-      ? collisionCategories.CATEGORY_PLAYER_BULLET
-      : collisionCategories.CATEGORY_ENEMY_BULLET
-  )
-  matter.setCollidesWith([
-    collisionCategories.CATEGORY_PLAYER,
-    collisionCategories.CATEGORY_MAP_BLOCK,
-    collisionCategories.CATEGORY_MONSTER
-  ])
+  matter.setCollisionCategory(collisionCategory)
+  matter.setCollidesWith(collisionTargets)
 
   const rush = () => {
     if (bulletsRef[id]) {

@@ -63,11 +63,13 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   ] : (
     isUser ? [
       collisionCategories.CATEGORY_ENEMY_BULLET,
+      collisionCategories.CATEGORY_MOSNTER_BULLET,
       collisionCategories.CATEGORY_ITEM,
       collisionCategories.CATEGORY_MAP_BLOCK
     ] : [
       collisionCategories.CATEGORY_PLAYER_BULLET,
       collisionCategories.CATEGORY_ITEM,
+      collisionCategories.CATEGORY_MOSNTER_BULLET,
       collisionCategories.CATEGORY_MAP_BLOCK
     ]
   )

@@ -2,7 +2,7 @@ import { v4 } from 'uuid'
 import collisionCategories from '../collisionCategories'
 import muddy from '../../../items/muddy'
 
-export const shootMuddy = ({ scene, bulletsRef, from, to, builderId, isUser, options }) => {
+export const shootMuddy = ({ scene, bulletsRef, from, to, builderId, isUser, options, collisionCategory, collisionTargets }) => {
   const velocity = 2
   const id = v4()
 
@@ -26,16 +26,8 @@ export const shootMuddy = ({ scene, bulletsRef, from, to, builderId, isUser, opt
     matter.setVelocityX(-velocity)
   }
 
-  matter.setCollisionCategory(
-    isUser
-      ? collisionCategories.CATEGORY_PLAYER_BULLET
-      : collisionCategories.CATEGORY_ENEMY_BULLET
-  )
-  matter.setCollidesWith([
-    collisionCategories.CATEGORY_PLAYER,
-    collisionCategories.CATEGORY_MAP_BLOCK,
-    collisionCategories.CATEGORY_MONSTER
-  ])
+  matter.setCollisionCategory(collisionCategory)
+  matter.setCollidesWith(collisionTargets)
 
   const update = () => {
 

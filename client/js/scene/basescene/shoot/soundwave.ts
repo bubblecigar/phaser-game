@@ -1,7 +1,7 @@
 import { v4 } from 'uuid'
 import collisionCategories from '../collisionCategories'
 
-export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser, shooter }) => {
+export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser, shooter, collisionCategory, collisionTargets }) => {
   const id = v4()
 
   const circle = scene.add.circle(from.x, from.y, 8)
@@ -15,16 +15,8 @@ export const shootSoundWave = ({ scene, bulletsRef, from, to, builderId, isUser,
 
   const matter = scene.matter.add.gameObject(circle)
   matter.setExistingBody(body)
-  matter.setCollisionCategory(
-    isUser
-      ? collisionCategories.CATEGORY_PLAYER_BULLET
-      : collisionCategories.CATEGORY_ENEMY_BULLET
-  )
-  matter.setCollidesWith([
-    collisionCategories.CATEGORY_PLAYER,
-    collisionCategories.CATEGORY_MAP_BLOCK,
-    collisionCategories.CATEGORY_MONSTER
-  ])
+  matter.setCollisionCategory(collisionCategory)
+  matter.setCollidesWith(collisionTargets)
 
   matter.setDepth(11)
 
