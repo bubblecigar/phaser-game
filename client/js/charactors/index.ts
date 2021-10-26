@@ -40,7 +40,8 @@ export interface Charactor {
   velocity?: number,
   maxHealth?: number,
   shootType: string,
-  shootInterval: number
+  shootInterval: number,
+  vision: number
 }
 
 const charactors = { skull, tinyZombie, wizzardMale, knightFemale, orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
@@ -58,9 +59,6 @@ Object.keys(charactors).forEach(
     }
     if (char.maxHealth === undefined) {
       char.maxHealth = Math.round(weight / 5)
-    }
-    if (char.shootInterval === undefined) {
-      char.shootInterval = 500
     }
   }
 )

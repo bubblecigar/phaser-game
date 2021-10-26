@@ -36,7 +36,8 @@ const gameMethods = scene => {
       if (player.id === userId) {
         const camera = scene.cameras.main
         camera.startFollow(player.phaserObject, true, 0.5, 0.5)
-        const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 100)
+        const vision = charactors[player.charactorKey].vision || 100
+        const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, vision)
         const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
         camera.setMask(mask)
       }

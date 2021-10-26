@@ -31,7 +31,8 @@ const charactor: Charactor = {
     origin: { x: 0.5, y: 0.7 }
   },
   shootType: 'arrow',
-  shootInterval: 333
+  shootInterval: 333,
+  vision: 150
 }
 
 export default charactor

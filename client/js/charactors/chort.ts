@@ -28,7 +28,8 @@ const charactor: Charactor = {
   },
   shootType: 'fireball',
   shootInterval: 500,
-  velocity: 3
+  velocity: 3,
+  vision: 150
 }
 
 export default charactor
