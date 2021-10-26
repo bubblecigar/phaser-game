@@ -39,7 +39,7 @@ function create() {
 
   socketMethods.registerSceneSocketEvents(sceneKey, {
     updateRoomLog: (logs) => {
-      const allMessages = logs.map(log => '-> ' + log).join('\n')
+      const allMessages = logs.join('\n')
       logsText.setText(allMessages)
     }
   })
