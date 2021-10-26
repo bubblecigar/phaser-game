@@ -20,7 +20,7 @@ export const tab = ({ scene, bulletsRef, from, to, builderId, isUser, collisionC
   let distance = 0
   const update = (t, dt) => {
     if (builder) {
-      distance += dt * 0.05
+      distance += dt * 0.1
       matter.setX(builder.position.x + distance * Math.cos(angle))
       matter.setY(builder.position.y + distance * Math.sin(angle))
     }
@@ -33,7 +33,7 @@ export const tab = ({ scene, bulletsRef, from, to, builderId, isUser, collisionC
     id,
     interface: 'Bullet',
     builderId,
-    damage: 2,
+    damage: 3,
     phaserObject: matter,
     destroy
   })
