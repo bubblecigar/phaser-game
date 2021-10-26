@@ -237,6 +237,7 @@ const gameMethods = scene => {
       }
       switch (item.itemKey) {
         case 'coin': {
+          player.coins++
           break
         }
         case 'potion': {
