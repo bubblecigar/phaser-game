@@ -15,7 +15,7 @@ export const shootShadowBall = ({ scene, bulletsRef, from, to, builderId, isUser
   matter.setVelocityX(velocity * Math.cos(angle))
   matter.setVelocityY(velocity * Math.sin(angle))
   matter.setIgnoreGravity(true)
-  matter.setBounce(1.3)
+  matter.setBounce(1.2)
   matter.play('shadow_ball_idle')
 
   matter.setCollisionCategory(collisionCategory)
@@ -35,7 +35,7 @@ export const shootShadowBall = ({ scene, bulletsRef, from, to, builderId, isUser
     id,
     interface: 'Bullet',
     builderId,
-    damage: 10,
+    damage: 15,
     phaserObject: matter,
     destroy
   })

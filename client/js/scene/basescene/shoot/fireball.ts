@@ -2,7 +2,7 @@ import { v4 } from 'uuid'
 import collisionCategories from '../collisionCategories'
 
 export const shootFireBall = ({ scene, bulletsRef, from, to, builderId, isUser, collisionCategory, collisionTargets }) => {
-  const velocity = 3
+  const velocity = 4
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
   const id = v4()
@@ -38,7 +38,7 @@ export const shootFireBall = ({ scene, bulletsRef, from, to, builderId, isUser, 
     id,
     interface: 'Bullet',
     builderId,
-    damage: 10,
+    damage: 12,
     phaserObject: matter,
     destroy
   })

@@ -27,6 +27,7 @@ const charactor: Charactor = {
     origin: { x: 0.5, y: 0.6 }
   },
   shootType: 'fireball',
+  shootInterval: 500,
   velocity: 3
 }
 

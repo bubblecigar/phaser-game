@@ -57,7 +57,7 @@ export const shootArrow = ({ scene, bulletsRef, from, to, builderId, isUser, col
     id,
     interface: 'Bullet',
     builderId,
-    damage: 5,
+    damage: 8,
     phaserObject: headMatter,
     destroy
   })

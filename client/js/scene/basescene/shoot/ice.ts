@@ -55,7 +55,7 @@ export const shootIce = ({ scene, bulletsRef, from, to, builderId, isUser, optio
     id,
     interface: 'Bullet',
     builderId,
-    damage: 10 * randomSizeFactor,
+    damage: 7 * randomSizeFactor,
     phaserObject: matter,
     destroy
   })

@@ -32,7 +32,7 @@ export const shootKnife = ({ scene, bulletsRef, from, to, builderId, isUser, col
     id,
     interface: 'Bullet',
     builderId,
-    damage: 2,
+    damage: 4,
     phaserObject: matter,
     destroy
   })

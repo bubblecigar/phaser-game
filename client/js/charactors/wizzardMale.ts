@@ -30,7 +30,8 @@ const charactor: Charactor = {
     size: { width: 16, height: 16 },
     origin: { x: 0.5, y: 0.7 }
   },
-  shootType: 'ice'
+  shootType: 'ice',
+  shootInterval: 200
 }
 
 export default charactor

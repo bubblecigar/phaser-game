@@ -30,7 +30,9 @@ const charactor: Charactor = {
     size: { width: 16, height: 16 },
     origin: { x: 0.5, y: 0.7 }
   },
-  shootType: 'knife'
+  maxHealth: 70,
+  shootType: 'knife',
+  shootInterval: 200
 }
 
 export default charactor

@@ -31,7 +31,8 @@ const charactor: Charactor = {
     origin: { x: 0.5, y: 0.7 }
   },
   shootType: 'coin',
-  velocity: 3
+  velocity: 3,
+  shootInterval: 200
 }
 
 export default charactor

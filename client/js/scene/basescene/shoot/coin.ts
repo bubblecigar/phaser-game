@@ -45,7 +45,7 @@ export const shootCoin = ({ scene, bulletsRef, from, to, builderId, isUser, coll
     id,
     interface: 'Bullet',
     builderId,
-    damage: 2,
+    damage: 3,
     phaserObject: matter,
     destroy
   })

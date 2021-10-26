@@ -26,7 +26,8 @@ const charactor: Charactor = {
     size: { width: 20, height: 28 },
     origin: { x: 0.5, y: 0.6 }
   },
-  shootType: 'soundwave'
+  shootType: 'soundwave',
+  shootInterval: 333
 }
 
 export default charactor
