@@ -46,7 +46,7 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   phaserObject.setExistingBody(compound)
   phaserObject.setDepth(3)
   phaserObject.setData(constructor)
-  phaserObject.setData({ touched: true })
+  phaserObject.setData({ touched: true, invincible: false })
 
   if (isMonster) {
     container.setFriction(0, 0, 0)
@@ -83,16 +83,15 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
 }
 
 export const setInvincible = (scene, player) => {
-  const originCollisionCategory = player.phaserObject.body.collisionFilter.category
-  player.phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
   player.phaserObject.setAlpha(0.3)
+  player.phaserObject.setData({ invincible: true })
   scene.time.delayedCall(
     100,
     () => {
       try {
         if (player.phaserObject && player.phaserObject.body) {
           player.phaserObject.setAlpha(1)
-          player.phaserObject.setCollisionCategory(originCollisionCategory)
+          player.phaserObject.setData({ invincible: false })
         }
       } catch (error) {
         console.log(error)
