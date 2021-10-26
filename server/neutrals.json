@@ -11,17 +11,35 @@
     "shootInterval": 300,
     "health": 51
   },
-  "orge": {
-    "key": "orge",
-    "shootType": "soundwave",
-    "shootInterval": 3000,
-    "health": 112
+  "elfFemale": {
+    "key": "elfFemale",
+    "shootType": "arrow",
+    "shootInterval": 500,
+    "health": 51
+  },
+  "elfMale": {
+    "key": "elfMale",
+    "shootType": "arrow",
+    "shootInterval": 500,
+    "health": 51
   },
   "chort": {
     "key": "chort",
     "shootType": "fireball",
     "shootInterval": 800,
     "health": 48
+  },
+  "lizardFemale": {
+    "key": "lizardFemale",
+    "shootType": "coin",
+    "shootInterval": 500,
+    "health": 51
+  },
+  "orge": {
+    "key": "orge",
+    "shootType": "soundwave",
+    "shootInterval": 3000,
+    "health": 112
   },
   "giantDemon": {
     "key": "giantDemon",
@@ -34,23 +52,5 @@
     "shootType": "muddy",
     "shootInterval": 1000,
     "health": 96
-  },
-  "lizardFemale": {
-    "key": "lizardFemale",
-    "shootType": "coin",
-    "shootInterval": 500,
-    "health": 51
-  },
-  "elfFemale": {
-    "key": "elfFemale",
-    "shootType": "arrow",
-    "shootInterval": 500,
-    "health": 51
-  },
-  "elfMale": {
-    "key": "elfMale",
-    "shootType": "arrow",
-    "shootInterval": 500,
-    "health": 51
   }
 }
