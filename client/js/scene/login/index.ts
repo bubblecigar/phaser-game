@@ -4,7 +4,6 @@ import { setLocalUserData, getLocalUserData } from '../../user'
 import { socketMethods } from '../../index'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
-import bgmusicUrl from '../../../statics/sound/game-music-7408.mp3'
 import setting from '../../../../share/setting.json'
 
 function init() {
@@ -83,8 +82,7 @@ function create() {
   inputUsername.value = getLocalUserData().username || ''
   inputRoomId.value = getLocalUserData().roomId || ''
 
-  const soundCheckBox = element.getChildByName('sound-checkbox')
-  soundCheckBox.checked = bgmusic ? !bgmusic.mute : false
+  const bgmusic = document.getElementById('bgmusic')
 
   element.addListener('click')
   element.on('click', function (event) {
@@ -100,16 +98,13 @@ function create() {
       }
     } else if (event.target.name === 'sound-checkbox') {
       if (event.target.checked) {
-        if (bgmusic.isPlaying) {
-          bgmusic.setMute(false)
-        } else {
-          bgmusic.play({
-            loop: true,
-            volume: 0.3
-          })
-        }
+        bgmusic.muted = false
+        bgmusic.volume = 0.4
+        bgmusic.play()
+        scene.game.sound.mute = false
       } else {
-        bgmusic.setMute(true)
+        scene.game.sound.mute = true
+        bgmusic.muted = true
       }
     } else if (event.target.dataset.roomId) {
       setLocalUserData({
@@ -135,14 +130,6 @@ function create() {
     loop: true
   })
 
-  if (!bgmusic) {
-    this.load.audio('background_music', bgmusicUrl)
-    this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-      bgmusic = this.sound.add('background_music')
-    })
-    this.load.start()
-  }
-
   socketMethods.updateRoomLog()
   scene.time.addEvent({
     delay: 1000,
@@ -151,8 +138,6 @@ function create() {
     loop: true
   })
 }
-
-let bgmusic
 
 const randomCharactors = []
 const generateRandomCharactor = scene => () => {
