@@ -38,7 +38,7 @@
   "orge": {
     "key": "orge",
     "shootType": "soundwave",
-    "shootInterval": 3000,
+    "shootInterval": 1000,
     "health": 112
   },
   "giantDemon": {
