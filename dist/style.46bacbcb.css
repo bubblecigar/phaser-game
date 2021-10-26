@@ -1,0 +1,2 @@
+body{margin:0;background-color:#101010}#loading-screen{position:fixed;width:100vw;height:100vh;justify-content:center}#loading-screen,.loading-hint{display:flex;align-items:center}.loading-hint{flex-flow:column}.loading-hint img{margin:10px}#login-form{position:fixed;display:flex;justify-content:center;margin-top:70vh;width:100vw}input{width:180px;padding:8px;margin:8px}input[type=submit]{width:80px}
+/*# sourceMappingURL=/style.46bacbcb.css.map */
