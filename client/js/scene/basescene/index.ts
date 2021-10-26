@@ -125,6 +125,7 @@ function create() {
     if (!player) return
 
     const shootType = charactors[player.charactorKey].shootType
+    const shootInterval = charactors[player.charactorKey].shootInterval
     if (readyToShoot && player && shootType) {
       scene.sound.play('shoot')
       socketMethods.clientsInScene(scene.scene.key, methods, 'shoot', {
@@ -139,7 +140,7 @@ function create() {
       })
       readyToShoot = false
       scene.time.delayedCall(
-        333,
+        shootInterval,
         () => {
           readyToShoot = true
         },
