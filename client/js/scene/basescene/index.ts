@@ -160,7 +160,13 @@ function update(t, dt) {
 
     if (this[bulletsRefKey]) {
       Object.keys(this[bulletsRefKey]).forEach(
-        id => this[bulletsRefKey][id].update(t, dt)
+        id => {
+          try {
+            this[bulletsRefKey][id].update(t, dt)
+          } catch (error) {
+            delete this[bulletsRefKey][id]
+          }
+        }
       )
     }
 
