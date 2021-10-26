@@ -8,7 +8,7 @@
   "minumumPlayers": 1,
   "resurrectCountDown": 5000,
   "gameStartCountDown": 3000,
-  "coinsToWin": 1,
+  "coinsToWin": 10,
   "coinSpawnInterval": 2000,
   "monsterSpawnInterval": 20000,
   "endGameMapConfigKey": "waitingRoomConfig",
