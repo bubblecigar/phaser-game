@@ -104,7 +104,7 @@ export const generateInputForm = () => {
   </style>
 
   <div class="login">
-    <input type="text" placeholder="Username" id="username" name="username" />
+    <input type="text" placeholder="Username" maxlength="6" id="username" name="username" />
     <input type="Room-ID" placeholder="Room-ID" maxlength="6" id="Room-ID" name="Room-ID" />
     <input type="submit" value="Join" name="joinButton" />
     <div id="sound">
