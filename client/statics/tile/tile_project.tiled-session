@@ -101,10 +101,10 @@
         },
         "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx": {
             "scale": 1.5476,
-            "selectedLayer": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 238.75678469888857,
-                "y": 176.07909020418714
+                "x": 307.8960971827346,
+                "y": 251.68002067717757
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx#forestTileSet": {
@@ -146,6 +146,17 @@
         },
         "/Users/roywang/Desktop/typeScript/share/map/login.tmx#forestTileSet": {
             "scaleInDock": 2.2353
+        },
+        "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx": {
+            "scale": 1.4473,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 200.71857942375456,
+                "y": 119.18745249775444
+            }
+        },
+        "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx#forestTileSet": {
+            "scaleInDock": 1
         },
         "anim.tsx": {
             "scaleInDock": 1,
@@ -291,6 +302,7 @@
         "/Users/roywang/Desktop/typeScript/share/map/login.tmx"
     ],
     "project": "",
+    "property.type": "int",
     "recentFiles": [
         "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx",

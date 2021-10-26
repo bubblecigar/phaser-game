@@ -113,18 +113,6 @@
                 }, 
                 {
                  "height":0,
-                 "id":19,
-                 "name":"treasure_point",
-                 "point":true,
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":401.266,
-                 "y":147.325
-                }, 
-                {
-                 "height":0,
                  "id":20,
                  "name":"coin_point",
                  "point":true,
@@ -152,12 +140,54 @@
                  "id":23,
                  "name":"monster_point",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"move",
+                         "type":"int",
+                         "value":20
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":165.417420522099,
-                 "y":288.834324114758
+                 "x":295.295900558105,
+                 "y":310.695058378245
+                }, 
+                {
+                 "height":0,
+                 "id":24,
+                 "name":"monster_point",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"move",
+                         "type":"int",
+                         "value":5
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":399.922844467305,
+                 "y":147.238474892304
+                }, 
+                {
+                 "height":0,
+                 "id":25,
+                 "name":"monster_point",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"move",
+                         "type":"int",
+                         "value":5
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":95.1584903234103,
+                 "y":166.527358065968
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -166,7 +196,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":24,
+ "nextobjectid":26,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.0",
