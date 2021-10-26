@@ -23,6 +23,7 @@ const registerRoomAutoCloseInterval = room => setInterval(
 
 const registerWaitingIntervals = room => setInterval(
   () => {
+    const { io } = require('./index.js')
     const allPlayerReady = !room.players.some(player => !player.ready)
     const enoughPlayers = room.players.length >= setting.minumumPlayers
     const readyForEnoughTime = room.allPlayerReadyTime >= setting.gameStartCountDown
@@ -30,9 +31,9 @@ const registerWaitingIntervals = room => setInterval(
       if (readyForEnoughTime) {
         room.allPlayerReadyTime = 0
         changeGameStatus(room, 'processing')
+        io.to(room.id).emit('game', 'showStartGameScreen', room.players)
       } else {
         room.allPlayerReadyTime += intervalTimeStep
-        const { io } = require('./index.js')
         io.in(room.id).emit('game', 'gameStartCountDown', setting.gameStartCountDown - room.allPlayerReadyTime)
       }
     } else {

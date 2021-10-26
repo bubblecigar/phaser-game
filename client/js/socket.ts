@@ -19,6 +19,11 @@ export const getSocketMethods = socket => {
     registerGameSocketEvents: game => {
       socket.on('game', (key, ...args) => {
         const methods = {
+          showStartGameScreen: (data) => {
+            const gui = game.scene.getScene('GUI')
+            gui.scene.launch('startGameScreen', data)
+            game.scene.bringToTop('startGameScreen')
+          },
           showEndgameReport: (data) => {
             const gui = game.scene.getScene('GUI')
             gui.scene.launch('endgameReport', data)

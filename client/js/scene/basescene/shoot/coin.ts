@@ -1,5 +1,4 @@
 import { v4 } from 'uuid'
-import collisionCategories from '../collisionCategories'
 import coin from '../../../items/coin'
 
 export const shootCoin = ({ scene, bulletsRef, from, to, builderId, isUser, collisionCategory, collisionTargets }) => {
