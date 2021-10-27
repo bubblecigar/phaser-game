@@ -166,8 +166,11 @@ const gameMethods = scene => {
       const sprite = player.phaserObject.getByName('charactor-sprite')
       const skullSize = charactors["skull"].matterConfig.size
       const playerSize = charactors[player.charactorKey].matterConfig.size
-      const areaScale = (playerSize.width * playerSize.height) / (skullSize.width * skullSize.height)
-      sprite.setScale(Math.sqrt(areaScale))
+      const widthScale = skullSize.width / playerSize.width
+      const heightScale = skullSize.height / playerSize.height
+      const sizeFactor = 1 / Math.sqrt(Math.sqrt(widthScale * heightScale))
+      Phaser.Physics.Matter.Matter.Body.scale(player.phaserObject.body, sizeFactor * widthScale, sizeFactor * heightScale)
+      sprite.setScale(sizeFactor)
       sprite.play(skull.animsConfig.idle.key)
       const halfCoinsCount = Math.floor((player.coins) / 2)
       player.coins = halfCoinsCount
