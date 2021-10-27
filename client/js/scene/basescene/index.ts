@@ -122,7 +122,7 @@ function create() {
   )
   this.input.on('pointerdown', function () {
     const player = methods.getPlayer(userId)
-    if (!player) return
+    if (!player || player.health <= 0) return
 
     const shootType = charactors[player.charactorKey].shootType
     const shootInterval = charactors[player.charactorKey].shootInterval
@@ -156,7 +156,9 @@ function update(t, dt) {
     const player = methods.getPlayer(userId)
     if (!player || !player.phaserObject) return
     backgroundMap.updateFOV(this, player.position)
-    movePlayer(this, player)
+    if (player.health > 0) {
+      movePlayer(this, player)
+    }
     updateAim(this, player)
 
     if (this[bulletsRefKey]) {
