@@ -19,6 +19,21 @@ const registerRoomMethods = room => {
     },
     addItem: (item) => {
       room.items.push(item)
+
+      if (item.itemKey === 'potion') {
+        setTimeout(
+          () => {
+            const itemIndex = room.items.find(i => i.id === item.id)
+            if (itemIndex < 0) {
+              // item has already been destroyed
+            } else {
+              const { io } = require('./index.js')
+              room.items.splice(itemIndex, 1)
+              io.in(room.id).emit('dungeon', 'removeItem', item.id)
+            }
+          }, 5000
+        )
+      }
     },
     collectItem: (itemId) => {
       const itemIndex = room.items.findIndex(item => item.id === itemId)
