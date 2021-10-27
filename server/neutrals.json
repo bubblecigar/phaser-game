@@ -2,7 +2,7 @@
   "tinyZombie": {
     "key": "tinyZombie",
     "shootType": "tab",
-    "shootInterval": 999999,
+    "shootInterval": 2000,
     "health": 20
   },
   "wizzardMale": {
@@ -14,7 +14,7 @@
   "knightFemale": {
     "key": "knightFemale",
     "shootType": "knife",
-    "shootInterval": 300,
+    "shootInterval": 500,
     "health": 51
   },
   "elfFemale": {
