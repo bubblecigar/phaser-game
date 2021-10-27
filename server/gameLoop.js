@@ -94,14 +94,14 @@ const registerProcessingIntervals = room => setInterval(
       }
     }
 
-    if (Object.keys(room.monstersById).length > 5) {
+    if (Object.keys(room.monstersById).length > setting.maxMonsters) {
       room.monsterSpawnTime = 0
     } else {
       if (room.monsterSpawnTime >= setting.monsterSpawnInterval) {
         const monster = createMonster()
         room.monstersById[monster.id] = monster
-        io.in(room.id).emit('dungeon', 'createMonster', monster)
         room.monsterSpawnTime = 0
+        io.in(room.id).emit('dungeon', 'createMonster', monster)
         runMonsterScript(room, monster)
       } else {
         room.monsterSpawnTime += intervalTimeStep
