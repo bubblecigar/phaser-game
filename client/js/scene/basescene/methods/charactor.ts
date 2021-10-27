@@ -74,10 +74,6 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
     ]
   )
   phaserObject.setCollidesWith(collideTargets)
-  if (constructor.health <= 0) {
-    phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
-    phaserObject.setCollidesWith([collisionCategories.CATEGORY_MAP_BLOCK])
-  }
 
   return phaserObject
 }

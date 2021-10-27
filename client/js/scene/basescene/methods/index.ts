@@ -9,6 +9,7 @@ import gameConfig from '../../../game/config'
 import { shoot } from '../shoot/index'
 import { createCharactor, setInvincible, updatePlayerHealthBar, playShootAnimation } from './charactor'
 import { createItemMatter } from './item'
+import collisionCategories from '../collisionCategories'
 
 const userId = getLocalUserData().userId
 
@@ -40,6 +41,10 @@ const gameMethods = scene => {
         const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, vision)
         const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
         camera.setMask(mask)
+      }
+
+      if (player.health === 0) {
+        methods.onDead(player.id)
       }
     },
     removePlayer: (id: string) => {
@@ -153,25 +158,27 @@ const gameMethods = scene => {
       const player = methods.getPlayer(playerId)
       const playerConstructor = {
         ...player,
-        charactorKey: setting.resurrectCharactor,
-        health: charactors[setting.resurrectCharactor].maxHealth,
+        health: charactors[player.charactorKey].maxHealth,
         resurrectCountDown: setting.resurrectCountDown
       }
       methods.rebuildPlayer(playerConstructor)
     },
     onDead: (playerId: string) => {
       const player = methods.getPlayer(playerId)
+      const skull = charactors.skull
+      const sprite = player.phaserObject.getByName('charactor-sprite')
+      const skullSize = charactors["skull"].matterConfig.size
+      const playerSize = charactors[player.charactorKey].matterConfig.size
+      const areaScale = (playerSize.width * playerSize.height) / (skullSize.width * skullSize.height)
+      sprite.setScale(Math.sqrt(areaScale))
+      sprite.play(skull.animsConfig.idle.key)
       const halfCoinsCount = Math.floor((player.coins) / 2)
-      const ghostCharactor: Player = {
-        ...player,
-        charactorKey: 'skull',
-        velocity: { x: 0, y: 0 },
-        health: 0,
-        coins: halfCoinsCount,
-        resurrectCountDown: setting.resurrectCountDown,
-        phaserObject: null
-      }
-      methods.rebuildPlayer(ghostCharactor)
+      player.coins = halfCoinsCount
+      player.phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
+      player.phaserObject.setCollidesWith([collisionCategories.CATEGORY_MAP_BLOCK])
+
+      const healthBar = player.phaserObject.getByName('maximum-bar')
+      healthBar.setVisible(false)
     },
     onHit: (playerId: string, damage: number) => {
       const player = methods.getPlayer(playerId)
