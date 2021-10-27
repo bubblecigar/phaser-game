@@ -3,6 +3,38 @@ const setting = require('../share/setting.json')
 const serverMap = require('../share/serverMap.json')
 const neutrals = require('./neutrals.json')
 
+
+const getMonsterPossibilityPool = (monsterKilled) => {
+  let possibilityPool
+  if (monsterKilled < 8) {
+    possibilityPool = [
+      { possibility: 1.00, keys: ['tinyZombie'] }
+    ]
+  }
+  if (monsterKilled < 16) {
+    possibilityPool = [
+      { possibility: 0.90, keys: ['tinyZombie'] },
+      { possibility: 1.00, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'] }
+    ]
+  }
+  if (monsterKilled < 24) {
+    possibilityPool = [
+      { possibility: 0.80, keys: ['tinyZombie'] },
+      { possibility: 0.92, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'] },
+      { possibility: 1.00, keys: ['chort', 'lizardFemale'] }
+    ]
+  }
+  if (monsterKilled >= 24) {
+    possibilityPool = [
+      { possibility: 0.70, keys: ['tinyZombie'] },
+      { possibility: 0.84, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'] },
+      { possibility: 0.94, keys: ['chort', 'lizardFemale'] },
+      { possibility: 1.00, keys: ['orge', 'giantDemon', 'giantZombie'] }
+    ]
+  }
+  return possibilityPool
+}
+
 const createMonster = (room) => {
   const mapFile = serverMap.processing.map
   const mapUrl = `../share/map/${mapFile}`
@@ -11,16 +43,20 @@ const createMonster = (room) => {
   const monsterSpawnPoints = infoLayer.objects.filter(object => object.name === 'monster_point')
   const randomMonsterSpawnIndex = Math.floor(Math.random() * (monsterSpawnPoints.length))
   const monsterSpawnPoint = monsterSpawnPoints[randomMonsterSpawnIndex]
-  const monsterKeys = Object.keys(neutrals)
-  const randomMonsterKey = monsterKeys[Math.floor(Math.random() * (monsterKeys.length))]
-  const randomMonster = neutrals.tinyZombie
+
+  const monsterPossibilityPool = getMonsterPossibilityPool(room.monsterKilled)
+  const roll = Math.random()
+  const rolledPool = monsterPossibilityPool.find(p => p.possibility >= roll)
+  const rolledMonsterKey = rolledPool.keys[Math.floor(Math.random() * rolledPool.keys.length)] || 'tinyZombie'
+  const rolledMonster = neutrals[rolledMonsterKey]
+
   const monster = {
     interface: 'Monster',
     id: uuid(),
     properties: monsterSpawnPoint.properties,
     builderId: 'server',
-    charactorKey: randomMonster.key,
-    health: randomMonster.health,
+    charactorKey: rolledMonster.key,
+    health: rolledMonster.health,
     drop: 'coin',
     position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },
     velocity: { x: 0, y: 0 }

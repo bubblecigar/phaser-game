@@ -37,10 +37,11 @@ const createRoom = (roomId) => {
     players: [],
     items: [],
     monstersById: {},
+    monsterSpawnTime: 0,
+    monsterKilled: 0,
     disconnectedPlayers: [],
     idleTime: 0,
     coinSpawnTime: 0,
-    monsterSpawnTime: 0,
     allPlayerReadyTime: 0,
     gameStatus: 'waiting', // -> waiting -> processing -> ending -> waiting
     winner: null,

@@ -3,6 +3,7 @@ const registerRoomMethods = room => {
     initialize: () => {
       room.items = []
       room.monstersById = {}
+      room.monsterKilled = 0
       room.idleTime = 0
       room.allPlayerReadyTime = 0
       room.coinSpawnTime = 0
@@ -44,6 +45,7 @@ const registerRoomMethods = room => {
       if (!monster) {
         // monster already die
       } else {
+        room.monsterKilled++
         delete room.monstersById[monsterId]
       }
     }
