@@ -13,7 +13,7 @@ const createMonster = () => {
   const monsterSpawnPoint = monsterSpawnPoints[randomMonsterSpawnIndex]
   const monsterKeys = Object.keys(neutrals)
   const randomMonsterKey = monsterKeys[Math.floor(Math.random() * (monsterKeys.length))]
-  const randomMonster = neutrals[randomMonsterKey]
+  const randomMonster = neutrals.tinyZombie
   const monsterConstructor = {
     interface: 'Monster',
     id: uuid(),
