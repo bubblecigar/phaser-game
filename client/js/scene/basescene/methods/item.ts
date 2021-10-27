@@ -34,5 +34,10 @@ export const createItemMatter = (scene, itemConstructor: Item | Bullet) => {
   phaserObject.setAngle(degree)
   phaserObject.setCollisionCategory(collisionCategories.CATEGORY_ITEM)
 
+  if (itemConstructor.itemKey === 'potion') {
+    phaserObject.setSensor(false)
+    phaserObject.setIgnoreGravity(false)
+  }
+
   return phaserObject
 }
