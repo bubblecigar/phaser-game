@@ -28,9 +28,6 @@ const gameMethods = scene => {
         player.position = spawnPoint
         player.coins = 0
         player.ready = false
-        player.charactorKey = setting.initCharactor
-        player.health = setting.initHealth
-        player.resurrectCountDown = setting.resurrectCountDown
       }
       player.phaserObject = createCharactor(scene, player)
 
