@@ -10,6 +10,7 @@ import { shoot } from '../shoot/index'
 import { createCharactor, setInvincible, updatePlayerHealthBar, playShootAnimation } from './charactor'
 import { createItemMatter } from './item'
 import collisionCategories from '../collisionCategories'
+import items from '../../../items'
 
 const userId = getLocalUserData().userId
 
@@ -205,6 +206,9 @@ const gameMethods = scene => {
     },
     addItem: (itemConstructor: Item): Item => {
       const { id, position, itemKey, velocity, builderId } = itemConstructor
+      if (!items[itemKey]) {
+        return // invalid itemKey
+      }
       const item: Item = {
         interface: 'Item',
         builderId,

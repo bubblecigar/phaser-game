@@ -224,19 +224,19 @@ const monsterOnHit = (scene, socketMethods, methods, monster, damage) => {
     socketMethods.clientsInScene(scene.scene.key, methods, 'onMonsterDead', monster.data.id)
     socketMethods.server('onMonsterDead', monster.data.id)
 
-    const potionConstructor: Item = {
+    const itemConstructor: Item = {
       interface: 'Item',
       builderId: monster.data.id,
       id: v4(),
-      itemKey: 'potion',
+      itemKey: monster.data.drop,
       type: monster.data.charactorKey,
       position: deadPosition,
       velocity: { x: 0.0001, y: -0 },
       phaserObject: null
     }
 
-    socketMethods.clientsInScene(scene.scene.key, methods, 'addItem', potionConstructor)
-    socketMethods.server('addItem', potionConstructor)
+    socketMethods.clientsInScene(scene.scene.key, methods, 'addItem', itemConstructor)
+    socketMethods.server('addItem', itemConstructor)
   }
 }
 

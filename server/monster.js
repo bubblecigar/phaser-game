@@ -3,33 +3,66 @@ const setting = require('../share/setting.json')
 const serverMap = require('../share/serverMap.json')
 const neutrals = require('./neutrals.json')
 
+const getItemDropPossibilityPool = (rarity) => {
+  let possibilityPool
+  switch (rarity) {
+    case 1: {
+      possibilityPool = [
+        { possibility: 0.90, key: '' },
+        { possibility: 1.00, key: 'coin' }
+      ]
+      break
+    }
+    case 2: {
+      possibilityPool = [
+        { possibility: 0.10, key: '' },
+        { possibility: 0.50, key: 'potion' },
+        { possibility: 1.00, key: 'coin' }
+      ]
+      break
+    }
+    case 3: {
+      possibilityPool = [
+        { possibility: 0.4, key: 'potion' },
+        { possibility: 1.00, key: 'coin' }
+      ]
+      break
+    }
+    default: {
+      possibilityPool = [
+        { possibility: 1.00, key: '' }
+      ]
+    }
+  }
+  return possibilityPool
+}
 
 const getMonsterPossibilityPool = (monsterKilled) => {
   let possibilityPool
   if (monsterKilled < 8) {
     possibilityPool = [
-      { possibility: 1.00, keys: ['tinyZombie'] }
+      { possibility: 1.00, keys: ['tinyZombie'], itemRarity: 1 }
     ]
   }
   if (monsterKilled < 16) {
     possibilityPool = [
-      { possibility: 0.90, keys: ['tinyZombie'] },
-      { possibility: 1.00, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'] }
+      { possibility: 0.90, keys: ['tinyZombie'], itemRarity: 1 },
+      { possibility: 1.00, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 }
     ]
   }
   if (monsterKilled < 24) {
     possibilityPool = [
-      { possibility: 0.80, keys: ['tinyZombie'] },
-      { possibility: 0.92, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'] },
-      { possibility: 1.00, keys: ['chort', 'lizardFemale'] }
+      { possibility: 0.80, keys: ['tinyZombie'], itemRarity: 1 },
+      { possibility: 0.92, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 },
+      { possibility: 1.00, keys: ['chort', 'lizardFemale'], itemRarity: 2 }
     ]
   }
   if (monsterKilled >= 24) {
     possibilityPool = [
-      { possibility: 0.70, keys: ['tinyZombie'] },
-      { possibility: 0.84, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'] },
-      { possibility: 0.94, keys: ['chort', 'lizardFemale'] },
-      { possibility: 1.00, keys: ['orge', 'giantDemon', 'giantZombie'] }
+      { possibility: 0.70, keys: ['tinyZombie'], itemRarity: 1 },
+      { possibility: 0.84, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 },
+      { possibility: 0.94, keys: ['chort', 'lizardFemale'], itemRarity: 2 },
+      { possibility: 1.00, keys: ['orge', 'giantDemon', 'giantZombie'], itemRarity: 3 }
     ]
   }
   return possibilityPool
@@ -45,10 +78,11 @@ const createMonster = (room) => {
   const monsterSpawnPoint = monsterSpawnPoints[randomMonsterSpawnIndex]
 
   const monsterPossibilityPool = getMonsterPossibilityPool(room.monsterKilled)
-  const roll = Math.random()
-  const rolledPool = monsterPossibilityPool.find(p => p.possibility >= roll)
+  const rolledPool = monsterPossibilityPool.find(p => p.possibility >= Math.random())
   const rolledMonsterKey = rolledPool.keys[Math.floor(Math.random() * rolledPool.keys.length)] || 'tinyZombie'
   const rolledMonster = neutrals[rolledMonsterKey]
+  const dropPossibilityPool = getItemDropPossibilityPool(rolledPool.itemRarity)
+  const rolledDrop = dropPossibilityPool.find(p => p.possibility >= Math.random())
 
   const monster = {
     interface: 'Monster',
@@ -57,7 +91,7 @@ const createMonster = (room) => {
     builderId: 'server',
     charactorKey: rolledMonster.key,
     health: rolledMonster.health,
-    drop: 'coin',
+    drop: rolledDrop.key,
     position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },
     velocity: { x: 0, y: 0 }
   }

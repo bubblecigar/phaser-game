@@ -94,7 +94,7 @@ const registerProcessingIntervals = room => setInterval(
       }
     }
 
-    if (Object.keys(room.monstersById).length > setting.maxMonsters) {
+    if (Object.keys(room.monstersById).length >= setting.maxMonsters) {
       room.monsterSpawnTime = 0
     } else {
       if (room.monsterSpawnTime >= setting.monsterSpawnInterval) {
