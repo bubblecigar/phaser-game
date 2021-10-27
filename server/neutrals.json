@@ -1,4 +1,10 @@
 {
+  "tinyZombie": {
+    "key": "tinyZombie",
+    "shootType": "tab",
+    "shootInterval": 200,
+    "health": 20
+  },
   "wizzardMale": {
     "key": "wizzardMale",
     "shootType": "ice",

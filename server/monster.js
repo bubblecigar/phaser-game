@@ -30,7 +30,7 @@ const createMonster = () => {
 
 const runMonsterScript = (room, monster) => {
   const shoot = () => {
-    const monsterAlive = room.monsters.find(m => m.id === monster.id)
+    const monsterAlive = room.monstersById[monster.id]
     if (!monsterAlive) { return }
 
     const { player: neareastAlivePlayer, r2: distance } = room.players.reduce(
@@ -70,7 +70,7 @@ const runMonsterScript = (room, monster) => {
   const rightPosition = { x: centralPosition.x + dx, y: centralPosition.y }
   const positions = [leftPosition, centralPosition, rightPosition]
   const move = () => {
-    const monsterAlive = room.monsters.find(m => m.id === monster.id)
+    const monsterAlive = room.monstersById[monster.id]
     if (!monsterAlive) { return }
     const randomPositionIndex = (Math.floor(Math.random() * 3))
     const randomPosition = positions[randomPositionIndex] || centralPosition

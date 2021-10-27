@@ -4,7 +4,7 @@ import { GameState } from '../Interface'
 const gameState: GameState = {
   players: [],
   items: [],
-  monsters: [],
+  monstersById: {},
   winner: null,
   gameStatus: 'waiting',
   scene: 'loginScene',
@@ -14,7 +14,7 @@ const gameState: GameState = {
 const initGameState = () => {
   gameState.players = []
   gameState.items = []
-  gameState.monsters = []
+  gameState.monstersById = {}
   gameState.winner = null
   gameState.gameStatus = 'waiting'
   gameState.scene = 'loginScene'

@@ -93,15 +93,19 @@ const registerProcessingIntervals = room => setInterval(
       }
     }
 
-    if (room.monsters.length > 0) {
+    if (Object.keys(room.monstersById).length > 0) {
       room.monsterSpawnTime = 0
       const { io } = require('./index.js')
-      const monster = room.monsters[0]
-      io.in(room.id).emit('dungeon', 'writeMonster', monster)
+      Object.keys(room.monstersById).forEach(
+        id => {
+          const monster = room.monstersById[id]
+          io.in(room.id).emit('dungeon', 'writeMonster', monster)
+        }
+      )
     } else {
       if (room.monsterSpawnTime >= setting.monsterSpawnInterval) {
         const monster = createMonster()
-        room.monsters.push(monster)
+        room.monstersById[monster.id] = monster
         const { io } = require('./index.js')
         io.in(room.id).emit('dungeon', 'createMonster', monster)
         room.monsterSpawnTime = 0

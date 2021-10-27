@@ -262,14 +262,15 @@ const gameMethods = scene => {
       methods.removeItem(item.id)
     },
     createMonsters: () => {
-      gameState.monsters.forEach(
-        monster => {
+      Object.keys(gameState.monstersById).forEach(
+        id => {
+          const monster = gameState.monstersById[id]
           methods.createMonster(monster)
         }
       )
     },
-    monsterOnHit: (monsterId: string, damage, number) => {
-      const monster = methods.getMonster(monsterId)
+    monsterOnHit: (monsterId: string, damage: number) => {
+      const monster = gameState.monstersById[monsterId]
       if (!monster) { return }
       const charactor = charactors[monster.charactorKey]
       monster.health -= damage
@@ -284,22 +285,20 @@ const gameMethods = scene => {
     onMonsterDead: (monsterId: string) => {
       methods.removeMonster(monsterId)
     },
-    getMonster: (id: string): Monster => gameState.monsters.find(m => m.id === id),
+    getMonster: (id: string): Monster => gameState.monstersById[id],
     removeMonster: (id: string) => {
-      const monsterIndex = gameState.monsters.findIndex(monster => monster.id === id)
-      const monster = gameState.monsters[monsterIndex]
+      const monster = gameState.monstersById[id]
       if (!monster) {
         console.log('no such monster')
         return
       }
-      gameState.monsters = gameState.monsters.filter(monster => monster.id !== id)
-
       monster.phaserObject.destroy()
+      delete gameState.monstersById[id]
     },
     createMonster: (monster: Monster) => {
-      const isInState = methods.getMonster(monster.id)
+      const isInState = gameState.monstersById[monster.id]
       if (!isInState) {
-        gameState.monsters.push(monster)
+        gameState.monstersById[monster.id] = monster
       }
       monster.phaserObject = createCharactor(scene, monster)
     }

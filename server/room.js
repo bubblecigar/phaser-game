@@ -2,7 +2,7 @@ const registerRoomMethods = room => {
   room.methods = {
     initialize: () => {
       room.items = []
-      room.monsters = []
+      room.monstersById = {}
       room.idleTime = 0
       room.allPlayerReadyTime = 0
       room.coinSpawnTime = 0
@@ -29,11 +29,10 @@ const registerRoomMethods = room => {
       }
     },
     monsterOnHit: (monsterId, damage) => {
-      const monsterIndex = room.monsters.findIndex(monster => monster.id === monsterId)
-      if (monsterIndex < 0) {
+      const monster = room.monstersById[monsterId]
+      if (!monster) {
         // monster already die
       } else {
-        const monster = room.monsters[monsterIndex]
         monster.health -= damage
         if (monster.health < 0) {
           monster.health = 0
@@ -41,11 +40,11 @@ const registerRoomMethods = room => {
       }
     },
     onMonsterDead: (monsterId) => {
-      const monsterIndex = room.monsters.findIndex(monster => monster.id === monsterId)
-      if (monsterIndex < 0) {
+      const monster = room.monstersById[monsterId]
+      if (!monster) {
         // monster already die
       } else {
-        room.monsters.splice(monsterIndex, 1)
+        delete room.monstersById[monsterId]
       }
     }
   }
