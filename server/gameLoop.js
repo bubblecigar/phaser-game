@@ -76,6 +76,8 @@ const detectWinners = room => {
 
 const registerProcessingIntervals = room => setInterval(
   () => {
+    const { io } = require('./index.js')
+
     const serverSpawnCoins = room.items.filter(
       item => item.itemKey === 'coin' && item.builderId === 'server'
     )
@@ -85,7 +87,6 @@ const registerProcessingIntervals = room => setInterval(
       if (room.coinSpawnTime >= setting.coinSpawnInterval) {
         const coinConstructor = createCoin()
         room.items.push(coinConstructor)
-        const { io } = require('./index.js')
         io.in(room.id).emit('dungeon', 'addItem', coinConstructor)
         room.coinSpawnTime = 0
       } else {
@@ -95,7 +96,6 @@ const registerProcessingIntervals = room => setInterval(
 
     if (Object.keys(room.monstersById).length > 0) {
       room.monsterSpawnTime = 0
-      const { io } = require('./index.js')
       Object.keys(room.monstersById).forEach(
         id => {
           const monster = room.monstersById[id]
@@ -106,7 +106,6 @@ const registerProcessingIntervals = room => setInterval(
       if (room.monsterSpawnTime >= setting.monsterSpawnInterval) {
         const monster = createMonster()
         room.monstersById[monster.id] = monster
-        const { io } = require('./index.js')
         io.in(room.id).emit('dungeon', 'createMonster', monster)
         room.monsterSpawnTime = 0
         runMonsterScript(room, monster)
@@ -119,7 +118,6 @@ const registerProcessingIntervals = room => setInterval(
     if (winners.length > 0) {
       room.winner = winners[0]
       changeGameStatus(room, 'ending')
-      const { io } = require('./index.js')
       io.to(room.id).emit('game', 'showEndgameReport', room.winner)
     }
   }, intervalTimeStep
