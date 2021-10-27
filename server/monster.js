@@ -39,16 +39,16 @@ const getItemDropPossibilityPool = (rarity) => {
 
 const getMonsterPossibilityPool = (monsterKilled) => {
   let possibilityPool
-  if (monsterKilled < 8) {
+  if (monsterKilled < 5) {
     possibilityPool = [
       { possibility: 1.00, keys: ['tinyZombie'], itemRarity: 1 }
     ]
-  } else if (monsterKilled < 16) {
+  } else if (monsterKilled < 10) {
     possibilityPool = [
       { possibility: 0.90, keys: ['tinyZombie'], itemRarity: 1 },
       { possibility: 1.00, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 }
     ]
-  } else if (monsterKilled < 24) {
+  } else if (monsterKilled < 15) {
     possibilityPool = [
       { possibility: 0.80, keys: ['tinyZombie'], itemRarity: 1 },
       { possibility: 0.92, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 },
