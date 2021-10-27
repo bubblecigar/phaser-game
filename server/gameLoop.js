@@ -1,7 +1,7 @@
 const uuid = require('uuid')
 const setting = require('../share/setting.json')
 const serverMap = require('../share/serverMap.json')
-const { createMonster, runMonsterScript } = require('./monster.js').monsterMethods
+const { createMonster } = require('./monster.js').monsterMethods
 const intervalTimeStep = 200
 
 const registerRoomAutoCloseInterval = room => setInterval(
@@ -98,11 +98,10 @@ const registerProcessingIntervals = room => setInterval(
       room.monsterSpawnTime = 0
     } else {
       if (room.monsterSpawnTime >= setting.monsterSpawnInterval) {
-        const monster = createMonster()
+        const monster = createMonster(room)
         room.monstersById[monster.id] = monster
         room.monsterSpawnTime = 0
         io.in(room.id).emit('dungeon', 'createMonster', monster)
-        runMonsterScript(room, monster)
       } else {
         room.monsterSpawnTime += intervalTimeStep
       }

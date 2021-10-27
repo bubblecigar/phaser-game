@@ -3,7 +3,7 @@ const setting = require('../share/setting.json')
 const serverMap = require('../share/serverMap.json')
 const neutrals = require('./neutrals.json')
 
-const createMonster = () => {
+const createMonster = (room) => {
   const mapFile = serverMap.processing.map
   const mapUrl = `../share/map/${mapFile}`
   const map = require(mapUrl)
@@ -14,7 +14,7 @@ const createMonster = () => {
   const monsterKeys = Object.keys(neutrals)
   const randomMonsterKey = monsterKeys[Math.floor(Math.random() * (monsterKeys.length))]
   const randomMonster = neutrals.tinyZombie
-  const monsterConstructor = {
+  const monster = {
     interface: 'Monster',
     id: uuid(),
     properties: monsterSpawnPoint.properties,
@@ -25,7 +25,10 @@ const createMonster = () => {
     position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },
     velocity: { x: 0, y: 0 }
   }
-  return monsterConstructor
+
+  runMonsterScript(room, monster)
+
+  return monster
 }
 
 const runMonsterScript = (room, monster) => {
