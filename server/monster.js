@@ -43,21 +43,18 @@ const getMonsterPossibilityPool = (monsterKilled) => {
     possibilityPool = [
       { possibility: 1.00, keys: ['tinyZombie'], itemRarity: 1 }
     ]
-  }
-  if (monsterKilled < 16) {
+  } else if (monsterKilled < 16) {
     possibilityPool = [
       { possibility: 0.90, keys: ['tinyZombie'], itemRarity: 1 },
       { possibility: 1.00, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 }
     ]
-  }
-  if (monsterKilled < 24) {
+  } else if (monsterKilled < 24) {
     possibilityPool = [
       { possibility: 0.80, keys: ['tinyZombie'], itemRarity: 1 },
       { possibility: 0.92, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 },
       { possibility: 1.00, keys: ['chort', 'lizardFemale'], itemRarity: 2 }
     ]
-  }
-  if (monsterKilled >= 24) {
+  } else {
     possibilityPool = [
       { possibility: 0.70, keys: ['tinyZombie'], itemRarity: 1 },
       { possibility: 0.84, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 },
