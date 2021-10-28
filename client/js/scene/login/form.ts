@@ -1,8 +1,6 @@
 import gameConfig from '../../game/config'
 
 export const generateInputForm = () => {
-
-  const width = `40%`
   const marginTop = gameConfig.canvasHeight * 0.2
 
   return `
@@ -13,7 +11,6 @@ export const generateInputForm = () => {
       transform: scale(.5);
     }
 
-    input[type="Room-ID"],
     input[type="text"] {
       background: linear-gradient(top, #d6d7d7, #dee0e0);
       border: 1px solid #a1a3a3;
@@ -22,35 +19,23 @@ export const generateInputForm = () => {
       box-sizing: border-box;
       color: #696969;
       height: 39px;
-      margin: 31px 0 0 29px;
+      margin: 31px 0 0;
       padding-left: 20px;
       transition: box-shadow 0.3s;
-      width: ${width};
+      width: 46%;
     }
 
-    input[type="Room-ID"]:focus,
+    #Room-ID {
+      margin-left: 6%;
+    }
+
     input[type="text"]:focus {
       box-shadow: 0 0 4px 1px rgba(55, 166, 155, 0.3);
       outline: 0;
     }
 
-    .show-password {
-      display: block;
-      height: 16px;
-      margin: 26px 0 0 28px;
-      width: 87px;
-    }
-
-    .toggle {
-      display: block;
-      height: 16px;
-      margin-top: -20px;
-      width: 87px;
-      z-index: -1;
-    }
-
     input[type="submit"] {
-      width: 89%;
+      width: 100%;
       height: 35px;
       display: block;
       font-family: Arial, "Helvetica", sans-serif;
@@ -62,7 +47,7 @@ export const generateInputForm = () => {
       text-align: center;
       text-shadow: 1px 1px 0px #37a69b;
       padding-top: 6px;
-      margin: 29px 0 0 29px;
+      margin: 29px 0 0 0;
       position: relative;
       cursor: pointer;
       border: none;
@@ -105,7 +90,7 @@ export const generateInputForm = () => {
 
   <div class="login">
     <input type="text" placeholder="Username" maxlength="6" id="username" name="username" />
-    <input type="Room-ID" placeholder="Room-ID" maxlength="6" id="Room-ID" name="Room-ID" />
+    <input type="text" placeholder="Room-ID" maxlength="6" id="Room-ID" name="Room-ID" />
     <input type="submit" value="Join" name="joinButton" />
     <div id="sound">
       <input type="checkbox" id="sound-checkbox" name="sound-checkbox" />
