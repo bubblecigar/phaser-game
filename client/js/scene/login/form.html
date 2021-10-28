@@ -4,7 +4,8 @@
     transform: scale(.5);
   }
 
-  input[type="text"] {
+  input[type="text"],
+  #skin-box {
     background: linear-gradient(top, #d6d7d7, #dee0e0);
     border: 1px solid #a1a3a3;
     border-radius: 4px;
@@ -83,20 +84,35 @@
   #skin-menu {
     display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
   }
 
   #skin-box {
-    width: 72px;
-    height: 72px;
+    width: 80px;
+    height: 80px;
+    margin: 0 10px 0 9px;
+  }
+
+  .arrow {
+    color: #37a69b;
+    background-color: transparent;
+    font-size: 20px;
+    text-shadow: 0px -1px 1px #2ab7ec, 0px 3px 3px #31524d, 0px 0px 3px #999;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .arrow:active {
+    top: 3px;
+    text-shadow: 0px 0px 3px #31524d, 0px 0px 3px #999;
   }
 </style>
 
 <div class="login">
   <div id="skin-menu">
-    <button id="left-skin">left</button>
-    <div id="skin-box">skin</div>
-    <button id="right-skin">right</button>
+    <a class="arrow" name="skin-left">◀</a>
+    <div id="skin-box"></div>
+    <a class="arrow" name="skin-right">▶</a>
   </div>
   <input type="text" placeholder="Username" maxlength="6" id="username" name="username" />
   <input type="text" placeholder="Room-ID" maxlength="6" id="Room-ID" name="Room-ID" />
