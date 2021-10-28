@@ -1,8 +1,8 @@
 {
   "tinyZombie": {
     "key": "tinyZombie",
-    "shootType": "tab",
-    "shootInterval": 2000,
+    "shootType": "knife",
+    "shootInterval": 3000,
     "health": 20
   },
   "wizzardMale": {
