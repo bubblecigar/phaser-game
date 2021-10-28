@@ -5,13 +5,25 @@ const localKey = 'farm-user'
 interface User {
   userId: string,
   username: string,
-  roomId: string
+  roomId: string,
+  kills: number,
+  wins: number,
+  loses: number,
+  historyCoins: number,
+  coins: number,
+  skins: string[]
 }
 
 const defaultUserData: User = {
   userId: v4(),
   username: '',
-  roomId: ''
+  roomId: '',
+  kills: 0,
+  wins: 0,
+  loses: 0,
+  historyCoins: 0,
+  coins: 0,
+  skins: []
 }
 
 const getLocalUserData = (): User => {
@@ -31,6 +43,15 @@ const getLocalUserData = (): User => {
 
 const setLocalUserData = data => {
   const oldData = getLocalUserData()
+  const mergedData = { ...oldData, ...data }
+  // normalize data with defined format
+  Object.keys(defaultUserData).forEach(
+    key => {
+      if (mergedData[key] === undefined) {
+        mergedData[key] = defaultUserData[key]
+      }
+    }
+  )
   localStorage.setItem(localKey, JSON.stringify({ ...oldData, ...data }))
 }
 
