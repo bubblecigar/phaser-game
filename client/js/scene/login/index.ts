@@ -1,5 +1,5 @@
 import gameConfig from '../../game/config'
-import { generateInputForm } from './form'
+import formHtml from './form.html'
 import { setLocalUserData, getLocalUserData } from '../../user'
 import { socketMethods } from '../../index'
 import charactors from '../../charactors/index'
@@ -76,7 +76,7 @@ function create() {
     }
   )
 
-  element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.6).createFromHTML(generateInputForm())
+  element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.6).createFromHTML(formHtml)
   const inputUsername = element.getChildByName('username')
   const inputRoomId = element.getChildByName('Room-ID')
   inputUsername.value = getLocalUserData().username || ''
