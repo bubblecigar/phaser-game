@@ -92,19 +92,20 @@ let coinCount
 let coin
 const displayCurrentCoins = (scene) => {
   const userData = getLocalUserData()
-  if (!coin) {
-    const coinConfig = items.coin
-    coin = scene.add.sprite(30, 30, coinConfig.spritesheetConfig.spritesheetKey)
-    coin.play(coinConfig.animsConfig.idle.key)
+  if (coin) {
+    coin.destroy()
   }
-  if (!coinCount) {
-    coinCount = scene.add.text(38, 31, `x ${userData.coins}`, {
-      fontSize: setting.fontSize
-    })
-    coinCount.setOrigin(0, 0.5)
-  } else {
-    coinCount.setText(`x ${userData.coins}`)
+  const coinConfig = items.coin
+  coin = scene.add.sprite(30, 30, coinConfig.spritesheetConfig.spritesheetKey)
+  coin.play(coinConfig.animsConfig.idle.key)
+  if (coinCount) {
+    coinCount.destroy()
   }
+  coinCount = scene.add.text(38, 31, `x ${userData.coins}`, {
+    fontSize: setting.fontSize
+  })
+  coinCount.setOrigin(0, 0.5)
+  coinCount.setText(`x ${userData.coins}`)
 }
 
 function create() {
