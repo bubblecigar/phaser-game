@@ -30,7 +30,12 @@ io.on('connection', async function (socket) {
       }
     })
 
-    socket.on('change-room', (roomId) => {
+    socket.on('change-room', (_userState) => {
+      Object.keys(_userState).forEach(
+        key => userState[key] = _userState[key]
+      )
+      const roomId = userState.roomId
+
       if (room) {
         roomMethods.disconnectFromRoom(room, userState.userId, socket)
         socket.to(room.id).emit('all-scene', 'removePlayer', userState.userId)

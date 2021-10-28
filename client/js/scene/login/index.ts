@@ -146,7 +146,7 @@ function create() {
           username: inputUsername.value,
           roomId: inputRoomId.value
         })
-        socketMethods.changeRoom(inputRoomId.value)
+        socketMethods.changeRoom(getLocalUserData())
         scene.scene.stop('GUI')
         scene.scene.launch('GUI')
       }
@@ -160,14 +160,6 @@ function create() {
         scene.game.sound.mute = true
         bgmusic.muted = true
       }
-    } else if (event.target.dataset.roomId) {
-      setLocalUserData({
-        username: inputUsername.value,
-        roomId: event.target.dataset.roomId
-      })
-      socketMethods.changeRoom(event.target.dataset.roomId)
-      scene.scene.stop('GUI')
-      scene.scene.launch('GUI')
     }
   })
 
