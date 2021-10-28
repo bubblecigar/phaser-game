@@ -29,13 +29,17 @@ let element
 
 
 let displayedSkin
+const skinBoxCenter = {
+  x: gameConfig.canvasWidth / 2 - 31,
+  y: gameConfig.canvasHeight / 2 - 16
+}
 const displaySkin = (scene, skin) => {
   if (displayedSkin) {
     displayedSkin.destroy()
   }
 
   const offsetY = -20
-  const sprite = scene.add.sprite(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + offsetY)
+  const sprite = scene.add.sprite(skinBoxCenter.x, skinBoxCenter.y + offsetY)
   const { size, origin } = skin.matterConfig
   displayedSkin = scene.matter.add.gameObject(sprite, {
     friction: 0,
@@ -51,14 +55,9 @@ const displaySkin = (scene, skin) => {
   sprite.play(skin.animsConfig.idle.key)
   displayedSkin.setBounce(1)
 }
-
 const createSkinBoundingBox = (scene) => {
   const skinBoxSize = 40
   const wallThickness = 5
-  const skinBoxCenter = {
-    x: gameConfig.canvasWidth / 2,
-    y: gameConfig.canvasHeight / 2 - 16
-  }
   const leftWall = scene.add.rectangle(skinBoxCenter.x - skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness)
   scene.matter.add.gameObject(leftWall, { isStatic: true })
   const rightWall = scene.add.rectangle(skinBoxCenter.x + skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness)
