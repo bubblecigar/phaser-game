@@ -3,7 +3,14 @@ import { getLocalUserData, setLocalUserData } from '../../user'
 
 const skins = Object.keys(charactors).filter(c => c !== 'skull')
 
+
+
 let currentIndex = 0
+const initIndex = () => {
+  const { activatedSkin } = getLocalUserData()
+  currentIndex = skins.findIndex(skinKey => skinKey === activatedSkin)
+}
+initIndex()
 
 const browseSkin = (direction: number) => {
   currentIndex += direction
