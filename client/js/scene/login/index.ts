@@ -28,12 +28,23 @@ function preload() {
 let element
 
 
+const updateSkinButton = (skin, skinButton) => {
+  const { skins } = getLocalUserData()
+  if (skins.includes(skin.key)) {
+    skinButton.textContent = 'Activate'
+    skinButton.name = 'activate'
+  } else {
+    skinButton.textContent = `Buy`
+    skinButton.name = 'buy'
+  }
+}
+
 let displayedSkin
 const skinBoxCenter = {
   x: gameConfig.canvasWidth / 2 - 31,
   y: gameConfig.canvasHeight / 2 - 16
 }
-const displaySkin = (scene, skin) => {
+const displaySkin = (scene, skin, skinButton) => {
   if (displayedSkin) {
     displayedSkin.destroy()
   }
@@ -54,6 +65,8 @@ const displaySkin = (scene, skin) => {
   sprite.setOrigin(origin.x, origin.y)
   sprite.play(skin.animsConfig.idle.key)
   displayedSkin.setBounce(1)
+
+  updateSkinButton(skin, skinButton)
 }
 const createSkinBoundingBox = (scene) => {
   const skinBoxSize = 40
@@ -146,9 +159,11 @@ function create() {
   const bgmusic = document.getElementById('bgmusic')
 
 
+  const skinButton = element.getChildByID('skin-button')
+
   createSkinBoundingBox(scene)
   const currentSkin = browseSkin(0)
-  displaySkin(scene, currentSkin)
+  displaySkin(scene, currentSkin, skinButton)
 
   displayCurrentCoins(scene)
 
@@ -156,10 +171,10 @@ function create() {
   element.on('click', function (event) {
     if (event.target.name === 'skin-left') {
       const skin = browseSkin(-1)
-      displaySkin(scene, skin)
+      displaySkin(scene, skin, skinButton)
     } else if (event.target.name === 'skin-right') {
       const skin = browseSkin(1)
-      displaySkin(scene, skin)
+      displaySkin(scene, skin, skinButton)
     } else if (event.target.name === 'joinButton') {
       if (inputUsername.value !== '' && inputRoomId.value !== '') {
         setLocalUserData({
@@ -180,6 +195,10 @@ function create() {
         scene.game.sound.mute = true
         bgmusic.muted = true
       }
+    } else if (event.target.name === 'buy') {
+      console.log('buy', ' ', browseSkin(0).key)
+    } else if (event.target.name === 'activate') {
+      console.log('activate', ' ', browseSkin(0).key)
     }
   })
 
