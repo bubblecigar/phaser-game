@@ -11,7 +11,8 @@ interface User {
   loses: number,
   historyCoins: number,
   coins: number,
-  skins: string[]
+  skins: string[],
+  activatedSkin: string
 }
 
 const defaultUserData: User = {
@@ -23,7 +24,8 @@ const defaultUserData: User = {
   loses: 0,
   historyCoins: 0,
   coins: 0,
-  skins: ['tinyZombie']
+  skins: ['tinyZombie'],
+  activatedSkin: 'tinyZombie'
 }
 
 const getLocalUserData = (): User => {
@@ -52,7 +54,7 @@ const setLocalUserData = data => {
       }
     }
   )
-  localStorage.setItem(localKey, JSON.stringify({ ...oldData, ...data }))
+  localStorage.setItem(localKey, JSON.stringify(mergedData))
 }
 
 export { getLocalUserData, setLocalUserData }
