@@ -40,7 +40,7 @@ io.on('connection', async function (socket) {
         roomMethods.disconnectFromRoom(room, userState.userId, socket)
         socket.to(room.id).emit('all-scene', 'removePlayer', userState.userId)
       }
-      room = roomMethods.connectToRoom(roomId, userState.userId, userState.username, socket)
+      room = roomMethods.connectToRoom(roomId, userState, socket)
       const connectionFail = room === false
       if (connectionFail) {
         const errorMessage = 'Room unavailable, others are playing now'

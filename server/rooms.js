@@ -82,7 +82,8 @@ const isRoomOpenForUser = (roomId, userId) => {
   }
 }
 
-const connectToRoom = (roomId, userId, username, socket) => {
+const connectToRoom = (roomId, userState, socket) => {
+  const { userId, username, activatedSkin } = userState
   const ableToConnect = isRoomOpenForUser(roomId, userId)
   if (!ableToConnect) {
     return false
@@ -109,7 +110,7 @@ const connectToRoom = (roomId, userId, username, socket) => {
       name: username,
       ready: false,
       scene: 'waitingRoom',
-      charactorKey: setting.initCharactor,
+      charactorKey: activatedSkin,
       position: { x: spawnPoint.x, y: spawnPoint.y },
       velocity: { x: 0, y: 0 },
       health: initHealth,
