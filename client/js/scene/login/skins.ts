@@ -7,8 +7,12 @@ const skins = Object.keys(charactors).filter(c => c !== 'skull')
 
 let currentIndex = 0
 const initIndex = () => {
-  const { activatedSkin } = getLocalUserData()
-  currentIndex = skins.findIndex(skinKey => skinKey === activatedSkin)
+  try {
+    const { activatedSkin } = getLocalUserData()
+    currentIndex = skins.findIndex(skinKey => skinKey === activatedSkin)
+  } catch (error) {
+    // do nothing
+  }
 }
 initIndex()
 
