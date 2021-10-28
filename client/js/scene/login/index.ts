@@ -5,7 +5,7 @@ import { socketMethods } from '../../index'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
 import setting from '../../../../share/setting.json'
-import { browseSkin, buySkin } from './skins'
+import { browseSkin, buySkin, activateSkin } from './skins'
 
 function init() {
 }
@@ -29,8 +29,11 @@ let element
 
 
 const updateSkinButton = (skinKey, skinButton) => {
-  const { skins } = getLocalUserData()
-  if (skins.includes(skinKey)) {
+  const { skins, activatedSkin } = getLocalUserData()
+  if (activatedSkin === skinKey) {
+    skinButton.textContent = 'In Use'
+    skinButton.name = 'activated'
+  } else if (skins.includes(skinKey)) {
     skinButton.textContent = 'Activate'
     skinButton.name = 'activate'
   } else {
@@ -201,6 +204,8 @@ function create() {
       updateSkinButton(browseSkin(0), skinButton)
     } else if (event.target.name === 'activate') {
       // activate the skin
+      activateSkin(browseSkin(0))
+      updateSkinButton(browseSkin(0), skinButton)
     }
   })
 

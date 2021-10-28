@@ -33,8 +33,24 @@ const buySkin = (skinKey) => {
   return true
 }
 
+const activateSkin = (skinKey) => {
+  const { skins } = getLocalUserData()
+  if (!skins.includes(skinKey)) {
+    console.log('You dont have the skin!')
+    return false
+  }
+
+  // activate the skin
+  setLocalUserData({
+    activatedSkin: skinKey
+  })
+
+  return true
+}
+
 export {
   browseSkin,
-  buySkin
+  buySkin,
+  activateSkin
 }
 
