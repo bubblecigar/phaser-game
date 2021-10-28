@@ -197,6 +197,8 @@ function create() {
       }
     } else if (event.target.name === 'buy') {
       buySkin(browseSkin(0))
+      displayCurrentCoins(scene)
+      updateSkinButton(browseSkin(0), skinButton)
     } else if (event.target.name === 'activate') {
       // activate the skin
     }
