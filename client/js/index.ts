@@ -49,6 +49,8 @@ const game = new Phaser.Game({
   }
 })
 
+game.sound.mute = true
+
 const socket = connectToServer()
 const socketMethods = getSocketMethods(socket)
 socketMethods.registerGameSocketEvents(game)
