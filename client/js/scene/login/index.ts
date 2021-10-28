@@ -30,15 +30,19 @@ let element
 
 const updateSkinButton = (skinKey, skinButton) => {
   const { skins, activatedSkin } = getLocalUserData()
+
   if (activatedSkin === skinKey) {
-    skinButton.textContent = 'In Use'
+    skinButton.textContent = 'Activated'
     skinButton.name = 'activated'
+    skinButton.className = 'activated'
   } else if (skins.includes(skinKey)) {
     skinButton.textContent = 'Activate'
     skinButton.name = 'activate'
+    skinButton.className = 'activate'
   } else {
     skinButton.textContent = `Buy`
     skinButton.name = 'buy'
+    skinButton.className = 'buy'
   }
 }
 

@@ -55,8 +55,7 @@
     box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #497a78, 0px 5px 5px #999;
   }
 
-  input[type="submit"]:active,
-  #skin-button:active {
+  input[type="submit"]:active {
     top: 3px;
     box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #31524d, 0px 0px 3px #999;
   }
@@ -107,6 +106,30 @@
     margin: 0;
     font-size: 12px;
     text-transform: none;
+  }
+
+
+  #skin-button.activated {
+    background-color: #666;
+    text-shadow: none;
+    top: 3px;
+    box-shadow: inset 0px 1px 0px #555;
+  }
+
+  #skin-button.activate {
+    background-color: indianred;
+    box-shadow: inset 0px 1px 0px #ec7e2a, 0px 5px 0px 0px #59190e, 0px 5px 5px #999;
+  }
+
+  #skin-button.buy {
+    background-color: indianred;
+    box-shadow: inset 0px 1px 0px #ec7e2a, 0px 5px 0px 0px #59190e, 0px 5px 5px #999;
+  }
+
+  #skin-button.activate:active,
+  #skin-button.buy:active {
+    top: 3px;
+    box-shadow: inset 0px 1px 0px #ec7e2a, 0px 2px 0px 0px #59190e, 0px 0px 3px #999;
   }
 
   .arrow {
