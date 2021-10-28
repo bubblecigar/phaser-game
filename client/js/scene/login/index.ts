@@ -5,7 +5,7 @@ import { socketMethods } from '../../index'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
 import setting from '../../../../share/setting.json'
-import { browseSkin } from './skins'
+import { browseSkin, buySkin } from './skins'
 
 function init() {
 }
@@ -28,9 +28,9 @@ function preload() {
 let element
 
 
-const updateSkinButton = (skin, skinButton) => {
+const updateSkinButton = (skinKey, skinButton) => {
   const { skins } = getLocalUserData()
-  if (skins.includes(skin.key)) {
+  if (skins.includes(skinKey)) {
     skinButton.textContent = 'Activate'
     skinButton.name = 'activate'
   } else {
@@ -44,14 +44,14 @@ const skinBoxCenter = {
   x: gameConfig.canvasWidth / 2 - 31,
   y: gameConfig.canvasHeight / 2 - 16
 }
-const displaySkin = (scene, skin, skinButton) => {
+const displaySkin = (scene, skinKey, skinButton) => {
   if (displayedSkin) {
     displayedSkin.destroy()
   }
 
   const offsetY = -20
   const sprite = scene.add.sprite(skinBoxCenter.x, skinBoxCenter.y + offsetY)
-  const { size, origin } = skin.matterConfig
+  const { size, origin } = charactors[skinKey].matterConfig
   displayedSkin = scene.matter.add.gameObject(sprite, {
     friction: 0,
     frictionStatic: 0,
@@ -63,10 +63,10 @@ const displaySkin = (scene, skin, skinButton) => {
     }
   })
   sprite.setOrigin(origin.x, origin.y)
-  sprite.play(skin.animsConfig.idle.key)
+  sprite.play(charactors[skinKey].animsConfig.idle.key)
   displayedSkin.setBounce(1)
 
-  updateSkinButton(skin, skinButton)
+  updateSkinButton(skinKey, skinButton)
 }
 const createSkinBoundingBox = (scene) => {
   const skinBoxSize = 40
@@ -162,19 +162,19 @@ function create() {
   const skinButton = element.getChildByID('skin-button')
 
   createSkinBoundingBox(scene)
-  const currentSkin = browseSkin(0)
-  displaySkin(scene, currentSkin, skinButton)
+  const currentSkinKey = browseSkin(0)
+  displaySkin(scene, currentSkinKey, skinButton)
 
   displayCurrentCoins(scene)
 
   element.addListener('click')
   element.on('click', function (event) {
     if (event.target.name === 'skin-left') {
-      const skin = browseSkin(-1)
-      displaySkin(scene, skin, skinButton)
+      const skinKey = browseSkin(-1)
+      displaySkin(scene, skinKey, skinButton)
     } else if (event.target.name === 'skin-right') {
-      const skin = browseSkin(1)
-      displaySkin(scene, skin, skinButton)
+      const skinKey = browseSkin(1)
+      displaySkin(scene, skinKey, skinButton)
     } else if (event.target.name === 'joinButton') {
       if (inputUsername.value !== '' && inputRoomId.value !== '') {
         setLocalUserData({
@@ -196,9 +196,9 @@ function create() {
         bgmusic.muted = true
       }
     } else if (event.target.name === 'buy') {
-      console.log('buy', ' ', browseSkin(0).key)
+      buySkin(browseSkin(0))
     } else if (event.target.name === 'activate') {
-      console.log('activate', ' ', browseSkin(0).key)
+      // activate the skin
     }
   })
 
