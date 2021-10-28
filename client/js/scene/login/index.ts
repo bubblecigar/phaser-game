@@ -5,6 +5,7 @@ import { socketMethods } from '../../index'
 import charactors from '../../charactors/index'
 import items from '../../items/index'
 import setting from '../../../../share/setting.json'
+import { browseSkin } from './skins'
 
 function init() {
 }
@@ -25,6 +26,48 @@ function preload() {
 }
 
 let element
+
+
+let displayedSkin
+const displaySkin = (scene, skin) => {
+  if (displayedSkin) {
+    displayedSkin.destroy()
+  }
+
+  const offsetY = -20
+  const sprite = scene.add.sprite(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + offsetY)
+  const { size, origin } = skin.matterConfig
+  displayedSkin = scene.matter.add.gameObject(sprite, {
+    friction: 0,
+    frictionStatic: 0,
+    frictionAir: 0,
+    shape: {
+      type: 'rectangle',
+      width: size.width,
+      height: size.height
+    }
+  })
+  sprite.setOrigin(origin.x, origin.y)
+  sprite.play(skin.animsConfig.idle.key)
+  displayedSkin.setBounce(1)
+}
+
+const createSkinBoundingBox = (scene) => {
+  const skinBoxSize = 40
+  const wallThickness = 5
+  const skinBoxCenter = {
+    x: gameConfig.canvasWidth / 2,
+    y: gameConfig.canvasHeight / 2 - 16
+  }
+  const leftWall = scene.add.rectangle(skinBoxCenter.x - skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness)
+  scene.matter.add.gameObject(leftWall, { isStatic: true })
+  const rightWall = scene.add.rectangle(skinBoxCenter.x + skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness)
+  scene.matter.add.gameObject(rightWall, { isStatic: true })
+  const topWall = scene.add.rectangle(skinBoxCenter.x, skinBoxCenter.y - skinBoxSize / 2, skinBoxSize + wallThickness, wallThickness)
+  scene.matter.add.gameObject(topWall, { isStatic: true })
+  const downWall = scene.add.rectangle(skinBoxCenter.x, skinBoxCenter.y + skinBoxSize / 2, skinBoxSize + wallThickness, wallThickness)
+  scene.matter.add.gameObject(downWall, { isStatic: true })
+}
 
 function create() {
   const scene = this
@@ -84,9 +127,20 @@ function create() {
 
   const bgmusic = document.getElementById('bgmusic')
 
+
+  createSkinBoundingBox(scene)
+  const currentSkin = browseSkin(0)
+  displaySkin(scene, currentSkin)
+
   element.addListener('click')
   element.on('click', function (event) {
-    if (event.target.name === 'joinButton') {
+    if (event.target.name === 'skin-left') {
+      const skin = browseSkin(-1)
+      displaySkin(scene, skin)
+    } else if (event.target.name === 'skin-right') {
+      const skin = browseSkin(1)
+      displaySkin(scene, skin)
+    } else if (event.target.name === 'joinButton') {
       if (inputUsername.value !== '' && inputRoomId.value !== '') {
         setLocalUserData({
           username: inputUsername.value,
@@ -117,7 +171,7 @@ function create() {
     }
   })
 
-  const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2 + 5, gameConfig.canvasHeight * 0.71, gameConfig.canvasWidth * 0.45, 100)
+  const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.73, gameConfig.canvasWidth * 0.45, 100)
   scene.matter.add.gameObject(rectangle, {
     isStatic: true
   })
