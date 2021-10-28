@@ -73,7 +73,7 @@ function create() {
   const scene = this
 
   const sceneKey = scene.scene.key
-  const logsText = scene.add.text(32, gameConfig.canvasHeight, '', {
+  const logsText = scene.add.text(32, gameConfig.canvasHeight - 5, '', {
     fontSize: setting.fontSize,
     lineSpacing: 5
   })

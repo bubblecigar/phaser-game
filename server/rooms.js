@@ -11,7 +11,7 @@ const pushLogs = message => {
   const minutes = ("0" + date.getMinutes()).slice(-2)
   const _message = `[${hours}:${minutes}]: ${message}`
   logs.push(_message)
-  if (logs.length > 5) {
+  if (logs.length > 3) {
     logs.shift()
   }
 }
