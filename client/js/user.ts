@@ -7,6 +7,7 @@ interface User {
   username: string,
   roomId: string,
   kills: number,
+  death: number,
   wins: number,
   loses: number,
   historyCoins: number,
@@ -20,6 +21,7 @@ const defaultUserData: User = {
   username: '',
   roomId: '',
   kills: 0,
+  death: 0,
   wins: 0,
   loses: 0,
   historyCoins: 0,
@@ -57,4 +59,13 @@ const setLocalUserData = data => {
   localStorage.setItem(localKey, JSON.stringify(mergedData))
 }
 
-export { getLocalUserData, setLocalUserData }
+
+const countUpCoin = () => {
+  const userData = getLocalUserData()
+  setLocalUserData({
+    historyCoins: userData.historyCoins + 1,
+    coins: userData.coins + 1
+  })
+}
+
+export { getLocalUserData, setLocalUserData, countUpCoin }

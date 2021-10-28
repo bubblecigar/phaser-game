@@ -1,4 +1,4 @@
-import { getLocalUserData } from '../../user'
+import { getLocalUserData, countUpCoin } from '../../user'
 import _ from 'lodash'
 import { v4 } from 'uuid'
 import { Item } from '../../Interface'
@@ -170,6 +170,9 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
         socketMethods.clientsInScene(scene.scene.key, methods, 'collectItem', player.data.id, _.omit(item.data, 'phaserObject'))
         socketMethods.server('collectItem', item.data.id)
         scene.sound.play('collect')
+        if (item.data.itemKey === 'coin') {
+          countUpCoin()
+        }
       }
       item.data.phaserObject.destroy()
     }
