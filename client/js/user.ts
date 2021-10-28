@@ -23,7 +23,7 @@ const defaultUserData: User = {
   loses: 0,
   historyCoins: 0,
   coins: 0,
-  skins: []
+  skins: ['tinyZombie']
 }
 
 const getLocalUserData = (): User => {
