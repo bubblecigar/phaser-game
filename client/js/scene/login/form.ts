@@ -22,11 +22,11 @@ export const generateInputForm = () => {
       margin: 31px 0 0;
       padding-left: 20px;
       transition: box-shadow 0.3s;
-      width: 46%;
+      width: 47%;
     }
 
     #Room-ID {
-      margin-left: 6%;
+      margin-left: 4%;
     }
 
     input[type="text"]:focus {
