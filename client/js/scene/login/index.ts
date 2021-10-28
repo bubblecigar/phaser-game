@@ -69,6 +69,25 @@ const createSkinBoundingBox = (scene) => {
   scene.matter.add.gameObject(downWall, { isStatic: true })
 }
 
+let coinCount
+let coin
+const displayCurrentCoins = (scene) => {
+  const userData = getLocalUserData()
+  if (!coin) {
+    const coinConfig = items.coin
+    coin = scene.add.sprite(30, 30, coinConfig.spritesheetConfig.spritesheetKey)
+    coin.play(coinConfig.animsConfig.idle.key)
+  }
+  if (!coinCount) {
+    coinCount = scene.add.text(38, 31, `x ${userData.coins}`, {
+      fontSize: setting.fontSize
+    })
+    coinCount.setOrigin(0, 0.5)
+  } else {
+    coinCount.setText(`x ${userData.coins}`)
+  }
+}
+
 function create() {
   const scene = this
 
@@ -131,6 +150,8 @@ function create() {
   createSkinBoundingBox(scene)
   const currentSkin = browseSkin(0)
   displaySkin(scene, currentSkin)
+
+  displayCurrentCoins(scene)
 
   element.addListener('click')
   element.on('click', function (event) {
