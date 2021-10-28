@@ -30,11 +30,11 @@ function create() {
   const scene = this
 
   const sceneKey = scene.scene.key
-  const logsText = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight, '', {
+  const logsText = scene.add.text(32, gameConfig.canvasHeight, '', {
     fontSize: setting.fontSize,
     lineSpacing: 5
   })
-  logsText.setOrigin(0.5, 1)
+  logsText.setOrigin(0, 1)
 
   socketMethods.registerSceneSocketEvents(sceneKey, {
     updateRoomLog: (logs) => {
