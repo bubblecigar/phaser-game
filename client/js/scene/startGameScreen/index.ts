@@ -29,8 +29,7 @@ function create() {
   let offsetIndex = (players.length % 2 === 0) ? 1 : 0
   players.forEach(
     player => {
-      const charactor = charactors[player.charactorKey]
-      const skin = skins[charactor.skin]
+      const skin = skins[player.skin]
       const offsetX = offsetIndex * padding
       if (offsetIndex <= 0) {
         offsetIndex *= -1

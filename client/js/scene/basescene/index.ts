@@ -3,6 +3,7 @@ import gameMethods from './methods/index'
 import { Player } from '../../Interface'
 import { getLocalUserData } from '../../user'
 import charactors from '../../charactors/index'
+import units from '../../units/index'
 import clientMap from '../../../../share/clientMap'
 import backgroundMap from './backgroundMap'
 import registerWorldEvents from './WorldEvents'
@@ -44,8 +45,8 @@ const updateAim = (scene, player) => {
 }
 
 const movePlayer = (scene, player: Player) => {
-  const char = charactors[player.charactorKey]
-  const charVelocity = char.velocity
+  const unit = units[player.unit]
+  const charVelocity = unit.velocity
   const velocity = { x: 0, y: 0 }
   if (cursors.left.isDown) {
     velocity.x = -charVelocity
@@ -122,8 +123,8 @@ function create() {
     const player = methods.getPlayer(userId)
     if (!player || player.health <= 0) return
 
-    const shootType = charactors[player.charactorKey].shootType
-    const shootInterval = charactors[player.charactorKey].shootInterval
+    const shootType = 'tab'
+    const shootInterval = 200
     if (readyToShoot && player && shootType) {
       scene.sound.play('shoot')
       socketMethods.clientsInScene(scene.scene.key, methods, 'shoot', {
@@ -191,8 +192,8 @@ function update(t, dt) {
     } else {
       if (restTime >= setting.healInterval) {
         restTime = 0
-        const charactor = charactors[player.charactorKey]
-        socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, charactor.maxHealth * setting.healingPercentage)
+        const unit = units[player.unit]
+        socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, unit.maxHealth * setting.healingPercentage)
       }
       restTime += dt
     }

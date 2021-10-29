@@ -86,7 +86,8 @@ const createMonster = (room) => {
     id: uuid(),
     properties: monsterSpawnPoint.properties,
     builderId: 'server',
-    charactorKey: rolledMonster.key,
+    skin: rolledMonster.key,
+    unit: 'basic',
     health: rolledMonster.health,
     drop: rolledDrop.key,
     position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },
@@ -121,18 +122,18 @@ const runMonsterScript = (room, monster) => {
         from: monster.position,
         to: neareastAlivePlayer.position,
         builderId: monster.id,
-        type: neutrals[monster.charactorKey].shootType,
+        type: neutrals[monster.skin].shootType,
         options: {
-          type: neutrals[monster.charactorKey].shootType,
+          type: neutrals[monster.skin].shootType,
           randomNumber: Math.random()
         }
       }
       const { io } = require('./index.js')
       io.in(room.id).emit('dungeon', 'shoot', shootOption)
     }
-    setTimeout(() => shoot(), neutrals[monster.charactorKey].shootInterval)
+    setTimeout(() => shoot(), neutrals[monster.skin].shootInterval)
   }
-  setTimeout(() => shoot(), neutrals[monster.charactorKey].shootInterval)
+  setTimeout(() => shoot(), neutrals[monster.skin].shootInterval)
 
   const dx = monster.properties ? monster.properties[0].value : 0
   const centralPosition = { x: monster.position.x, y: monster.position.y }

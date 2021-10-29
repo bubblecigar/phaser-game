@@ -9,8 +9,7 @@ const createWinnerStatue = (scene) => {
   const infoLayer = scene.map.objects.find(layer => layer.name === 'info_layer')
   const winnerPoint = infoLayer.objects.find(object => object.name === 'winner_point')
   const winner = gameState.winner
-  const charactor = charactors[winner.charactorKey]
-  const skin = skins[charactor.skin]
+  const skin = skins[winner.skin]
   const spriteSheetKey = skin.spritesheetConfig.spritesheetKey
   const { size, origin } = skin.matterConfig
 

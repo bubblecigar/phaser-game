@@ -19,14 +19,12 @@ export interface Player {
   name: string,
   velocity: Point,
   position: Point,
-  charactorKey: string,
+  skin: string,
+  unit: string,
   ready: boolean,
   scene: string,
   phaserObject: any,
   health: number,
-  items: Item[],
-  bullet: string,
-  abilities: Abilities,
   coins: number,
   resurrectCountDown: number
 }
@@ -35,7 +33,8 @@ export interface Monster {
   id: string,
   velocity: Point,
   position: Point,
-  charactorKey: string,
+  skin: string,
+  unit: string,
   drop: string,
   phaserObject: any,
   health: number

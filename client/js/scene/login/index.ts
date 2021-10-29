@@ -205,7 +205,7 @@ function create() {
         bgmusic.muted = true
       }
     } else if (event.target.name === 'buy') {
-      buySkin(browseSkin(0))
+      buySkin(browseSkin(0).key)
       displayCurrentCoins(scene)
       updateSkinButton(browseSkin(0).key, skinButton)
     } else if (event.target.name === 'activate') {

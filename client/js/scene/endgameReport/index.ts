@@ -24,8 +24,7 @@ function create() {
   })
 
   const winner = data
-  const charactor = charactors[winner.charactorKey]
-  const skin = skins[charactor.skin]
+  const skin = skins[winner.skin]
   const spriteSheetKey = skin.spritesheetConfig.spritesheetKey
   const { origin } = skin.matterConfig
   const winnerSprite = scene.add.sprite(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, spriteSheetKey)

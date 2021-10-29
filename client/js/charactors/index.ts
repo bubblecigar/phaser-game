@@ -18,11 +18,12 @@ export interface AnimConfig {
 export interface Charactor {
   key: string,
   skin: string,
+  unit: string,
   velocity?: number,
   maxHealth?: number,
+  vision: number,
   shootType: string,
-  shootInterval: number,
-  vision: number
+  shootInterval: number
 }
 
 const charactors = { skull, tinyZombie, wizzardMale, knightFemale, orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }

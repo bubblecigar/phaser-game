@@ -2,6 +2,7 @@ import _ from 'lodash'
 import Phaser from 'phaser'
 import charactors from '../../../charactors'
 import skins from '../../../skins'
+import units from '../../../units'
 import { getLocalUserData } from '../../../user'
 import { Player, Monster } from '../../../Interface'
 import collisionCategories from '../collisionCategories'
@@ -10,8 +11,8 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   const isUser = constructor.id === getLocalUserData().userId
   const isMonster = constructor.interface === "Monster"
 
-  const charactor = charactors[constructor.charactorKey]
-  const skin = skins[charactor.skin]
+  const skin = skins[constructor.skin]
+  const unit = units[constructor.unit]
   const { size, origin } = skin.matterConfig
   const { x, y } = constructor.position
 
@@ -31,7 +32,7 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   const healthBar = scene.add.rectangle(-healthBarLength / 2 + 1, -charatorHeight / 2 - 2, healthBarLength - 2, 2, 0xda4e38)
   healthBar.setOrigin(0, 0.5)
   healthBar.name = 'health-bar'
-  const maximumHealth = charactor.maxHealth
+  const maximumHealth = unit.maxHealth
   if (constructor.health > maximumHealth) {
     constructor.health = maximumHealth
   }
@@ -101,7 +102,8 @@ export const setInvincible = (scene, player) => {
 }
 
 export const updatePlayerHealthBar = player => {
-  const maximumHealth = charactors[player.charactorKey].maxHealth
+  const unit = units[player.unit]
+  const maximumHealth = unit.maxHealth
   const maxBar = player.phaserObject.getByName('maximum-bar')
   const percentage = player.health / maximumHealth
   const healthBar = player.phaserObject.getByName('health-bar')
@@ -110,8 +112,7 @@ export const updatePlayerHealthBar = player => {
 
 export const playShootAnimation = (charactor) => {
   const sprite = charactor.phaserObject.getByName('charactor-sprite')
-  const charactorConfig = charactors[charactor.charactorKey]
-  const skin = skins[charactorConfig.skin]
+  const skin = skins[charactor.skin]
   const hitConfig = skin.animsConfig.hit
   if (hitConfig) {
     sprite.play({
