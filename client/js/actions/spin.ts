@@ -1,31 +1,41 @@
 import { v4 } from 'uuid'
-import coin from '../../../items/coin'
+import items from '../items/index'
+import { normalizeMatter, playAnimation } from './utils'
 
-export const shootCoin = ({ scene, bulletsRef, from, to, builderId, isUser, collisionCategory, collisionTargets }) => {
+export const spin = ({
+  scene,
+  itemStorage,
+  performer,
+  target,
+  collisionCategory,
+  collisionTargets,
+  options
+}) => {
+  const from = performer.position
+  const to = target
   const velocity = 4
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
   const id = v4()
 
-  const matter = scene.matter.add.sprite(from.x, from.y, coin.spritesheetConfig.spritesheetKey, undefined, {
-    shape: coin.matterConfig.type,
-    ...coin.matterConfig.size
-  })
+  const item = items[options.item] || items["dagger"]
+  const matter = scene.matter.add.sprite(from.x, from.y, item.spritesheetConfig.spritesheetKey)
+  normalizeMatter(performer, item, matter)
 
   matter.setFriction(0, 0, 0)
-  matter.setAngle((angle * 180 / Math.PI) + 90)
   matter.setVelocityX(velocity * Math.cos(angle))
   matter.setVelocityY(velocity * Math.sin(angle))
+  matter.setAngularVelocity(1)
   matter.setIgnoreGravity(true)
-  matter.setFixedRotation(true)
   matter.setBounce(1)
-  matter.play(coin.animsConfig.idle.key)
+
+  playAnimation(item, matter)
 
   matter.setCollisionCategory(collisionCategory)
   matter.setCollidesWith(collisionTargets)
 
   scene.time.delayedCall(400, () => {
-    if (bulletsRef[id]) {
+    if (itemStorage[id]) {
       matter.setVelocityX(-velocity * Math.cos(angle))
       matter.setVelocityY(-velocity * Math.sin(angle))
     }
@@ -35,8 +45,8 @@ export const shootCoin = ({ scene, bulletsRef, from, to, builderId, isUser, coll
 
   }
   const destroy = () => {
-    if (bulletsRef[id]) {
-      delete bulletsRef[id]
+    if (itemStorage[id]) {
+      delete itemStorage[id]
       matter.destroy()
     }
   }
@@ -44,7 +54,7 @@ export const shootCoin = ({ scene, bulletsRef, from, to, builderId, isUser, coll
   matter.setData({
     id,
     interface: 'Bullet',
-    builderId,
+    builderId: performer.id,
     damage: 3,
     phaserObject: matter,
     destroy
@@ -57,5 +67,5 @@ export const shootCoin = ({ scene, bulletsRef, from, to, builderId, isUser, coll
     scene
   )
 
-  bulletsRef[id] = { id, update, destroy }
+  itemStorage[id] = { id, update, destroy }
 }

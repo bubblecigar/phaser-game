@@ -1,21 +1,34 @@
 import { v4 } from 'uuid'
-import collisionCategories from '../collisionCategories'
-import muddy from '../../../items/muddy'
+import items from '../items/index'
+import { normalizeMatter, playAnimation } from './utils'
 
-export const shootMuddy = ({ scene, bulletsRef, from, to, builderId, isUser, options, collisionCategory, collisionTargets }) => {
+export const summon = ({
+  scene,
+  itemStorage,
+  performer,
+  target,
+  collisionCategory,
+  collisionTargets,
+  options
+}) => {
   const velocity = 2
   const id = v4()
+  const from = performer.position
+  const to = target
 
-  const { size, origin } = muddy.matterConfig
+  const item = items[options.item] || items["muddy"]
+  const { size, origin } = item.matterConfig
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
   const body = Bodies.rectangle(from.x, from.y, size.width, size.height)
 
-  const matter = scene.matter.add.sprite(from.x, from.y, muddy.spritesheetConfig.spritesheetKey)
+  const matter = scene.matter.add.sprite(from.x, from.y, item.spritesheetConfig.spritesheetKey)
+  normalizeMatter(performer, item, matter)
 
   matter.setExistingBody(body)
   matter.setFixedRotation(true)
   matter.setFriction(0, 0, 0)
-  matter.play(muddy.animsConfig.idle.key)
+
+  playAnimation(item, matter)
 
   const toRight = from.x < to.x
   if (toRight) {
@@ -33,8 +46,8 @@ export const shootMuddy = ({ scene, bulletsRef, from, to, builderId, isUser, opt
 
   }
   const destroy = () => {
-    if (bulletsRef[id]) {
-      delete bulletsRef[id]
+    if (itemStorage[id]) {
+      delete itemStorage[id]
       matter.destroy()
     }
   }
@@ -42,14 +55,14 @@ export const shootMuddy = ({ scene, bulletsRef, from, to, builderId, isUser, opt
   matter.setData({
     id,
     interface: 'Bullet',
-    builderId,
+    builderId: performer.id,
     damage: 8,
     phaserObject: matter,
     destroy
   })
 
   const move = (calls: number) => {
-    if (bulletsRef[id]) {
+    if (itemStorage[id]) {
       const behaviorIndex = Math.floor((options.randomNumber * (2 * calls)) % (2 * calls))
       const direction = behaviorIndex % 2 === 0 ? 1 : -1
       matter.setVelocityX(direction * velocity)
@@ -62,7 +75,7 @@ export const shootMuddy = ({ scene, bulletsRef, from, to, builderId, isUser, opt
     }
   }
   const rest = () => {
-    if (bulletsRef[id]) {
+    if (itemStorage[id]) {
       matter.setVelocityX(0)
     }
   }
@@ -79,5 +92,5 @@ export const shootMuddy = ({ scene, bulletsRef, from, to, builderId, isUser, opt
     scene
   )
 
-  bulletsRef[id] = { id, update, destroy }
+  itemStorage[id] = { id, update, destroy }
 }

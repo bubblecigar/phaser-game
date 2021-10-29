@@ -1,13 +1,28 @@
 import { v4 } from 'uuid'
-import collisionCategories from '../collisionCategories'
+import items from '../items/index'
+import { normalizeMatter, playAnimation } from './utils'
 
-export const shootFireBall = ({ scene, bulletsRef, from, to, builderId, isUser, collisionCategory, collisionTargets }) => {
-  const velocity = 4
+export const throws = ({
+  scene,
+  itemStorage,
+  performer,
+  target,
+  collisionCategory,
+  collisionTargets,
+  options
+}) => {
+  const from = performer.position
+  const to = target
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
   const id = v4()
+  const velocity = 4
 
-  const matter = scene.matter.add.sprite(from.x, from.y, 'fireball_sprite')
+  const item = items[options.item] || items["fireball"]
+
+  const matter = scene.matter.add.sprite(from.x, from.y, item.spritesheetConfig.spritesheetKey)
+
+  normalizeMatter(performer, item, matter)
 
   matter.setAngle((angle * 180 / Math.PI) + 90)
   matter.setVelocityX(velocity * Math.cos(angle))
@@ -15,7 +30,8 @@ export const shootFireBall = ({ scene, bulletsRef, from, to, builderId, isUser, 
   matter.setFixedRotation(true)
   matter.setIgnoreGravity(true)
   matter.setFriction(1, 0, 1)
-  matter.play('fireball_idle')
+
+  playAnimation(item, matter)
 
   matter.setCollisionCategory(collisionCategory)
   matter.setCollidesWith(collisionTargets)
@@ -28,8 +44,8 @@ export const shootFireBall = ({ scene, bulletsRef, from, to, builderId, isUser, 
   }
 
   const destroy = () => {
-    if (bulletsRef[id]) {
-      delete bulletsRef[id]
+    if (itemStorage[id]) {
+      delete itemStorage[id]
       matter.destroy()
     }
   }
@@ -37,7 +53,7 @@ export const shootFireBall = ({ scene, bulletsRef, from, to, builderId, isUser, 
   matter.setData({
     id,
     interface: 'Bullet',
-    builderId,
+    builderId: performer.id,
     damage: 12,
     phaserObject: matter,
     destroy
@@ -50,5 +66,5 @@ export const shootFireBall = ({ scene, bulletsRef, from, to, builderId, isUser, 
     scene
   )
 
-  bulletsRef[id] = { id, update, destroy }
+  itemStorage[id] = { id, update, destroy }
 }

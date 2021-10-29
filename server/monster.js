@@ -119,17 +119,15 @@ const runMonsterScript = (room, monster) => {
       // outside of attcking range
     } else {
       const shootOption = {
-        from: monster.position,
-        to: neareastAlivePlayer.position,
-        builderId: monster.id,
-        type: neutrals[monster.skin].shootType,
+        target: neareastAlivePlayer.position,
+        performerId: monster.id,
+        action: 'tab',
         options: {
-          type: neutrals[monster.skin].shootType,
           randomNumber: Math.random()
         }
       }
       const { io } = require('./index.js')
-      io.in(room.id).emit('dungeon', 'shoot', shootOption)
+      io.in(room.id).emit('dungeon', 'performAction', shootOption)
     }
     setTimeout(() => shoot(), neutrals[monster.skin].shootInterval)
   }

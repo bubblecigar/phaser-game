@@ -9,7 +9,7 @@ import registerWorldEvents from './WorldEvents'
 import targetUrl from '../../../statics/tile/target.png'
 import { socketMethods } from '../../index'
 import setting from '../../../../share/setting.json'
-import { bulletsRefKey } from './shoot/index'
+import { itemsStorageKey } from '../../actions/index'
 import collisionCategories from './collisionCategories'
 import { sounds } from '../../sounds/index'
 
@@ -122,19 +122,18 @@ function create() {
     const player = methods.getPlayer(userId)
     if (!player || player.health <= 0) return
 
-    const shootType = 'tab'
     const shootInterval = 200
-    if (readyToShoot && player && shootType) {
+    if (readyToShoot && player) {
       scene.sound.play('shoot')
-      socketMethods.clientsInScene(scene.scene.key, methods, 'shoot', {
-        builderId: player.id,
-        type: shootType,
+      socketMethods.clientsInScene(scene.scene.key, methods, 'performAction', {
+        performerId: player.id,
+        action: 'tab',
+        target: { x: aim.x, y: aim.y },
         options: {
-          type: shootType,
+          item: 'muddy',
           randomNumber: Math.random()
-        },
-        from: player.position,
-        to: { x: aim.x, y: aim.y }
+        }
+
       })
       readyToShoot = false
       scene.time.delayedCall(
@@ -159,13 +158,13 @@ function update(t, dt) {
     }
     updateAim(this, player)
 
-    if (this[bulletsRefKey]) {
-      Object.keys(this[bulletsRefKey]).forEach(
+    if (this[itemsStorageKey]) {
+      Object.keys(this[itemsStorageKey]).forEach(
         id => {
           try {
-            this[bulletsRefKey][id].update(t, dt)
+            this[itemsStorageKey][id].update(t, dt)
           } catch (error) {
-            delete this[bulletsRefKey][id]
+            delete this[itemsStorageKey][id]
           }
         }
       )

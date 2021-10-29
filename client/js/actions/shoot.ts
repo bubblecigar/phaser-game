@@ -1,10 +1,15 @@
 import { v4 } from 'uuid'
-import collisionCategories from '../collisionCategories'
+import collisionCategories from './collisionCategories'
+import { playAnimation, normalizeMatter } from './utils'
+import items from '../items/index'
 
-const createArrowHead = (scene, position, collisionCategory, collisionTargets) => {
+const createArrowHead = (scene, position, collisionCategory, collisionTargets, performer, options) => {
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
   const headBody = Bodies.rectangle(position.x, position.y - 6, 2, 2)
-  const headMatter = scene.matter.add.sprite(position.x, position.y, 'arrow_sprite')
+  const item = items[options.item] || items["arrow"]
+  const headMatter = scene.matter.add.sprite(position.x, position.y, item.spritesheetConfig.spritesheetKey)
+  normalizeMatter(performer, item, headMatter)
+  playAnimation(item, headMatter)
   headMatter.setExistingBody(headBody)
   headMatter.setOrigin(0.5, 0.1)
   headMatter.setFriction(1, 0, 0)
@@ -28,12 +33,22 @@ const createArrowFeather = (scene, position) => {
   return featherMatter
 }
 
-export const shootArrow = ({ scene, bulletsRef, from, to, builderId, isUser, collisionCategory, collisionTargets }) => {
+export const shoot = ({
+  scene,
+  itemStorage,
+  performer,
+  target,
+  collisionCategory,
+  collisionTargets,
+  options
+}) => {
   const velocity = 7
+  const from = performer.position
+  const to = target
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
   const id = v4()
-  const headMatter = createArrowHead(scene, from, collisionCategory, collisionTargets)
+  const headMatter = createArrowHead(scene, from, collisionCategory, collisionTargets, performer, options)
   const featherMatter = createArrowFeather(scene, from)
   const constraint = scene.matter.add.constraint(headMatter.body, featherMatter.body, 12)
   headMatter.setVelocityX(velocity * Math.cos(angle))
@@ -46,8 +61,8 @@ export const shootArrow = ({ scene, bulletsRef, from, to, builderId, isUser, col
     headMatter.setAngle(angleDeg + 90)
   }
   const destroy = () => {
-    if (bulletsRef[id]) {
-      delete bulletsRef[id]
+    if (itemStorage[id]) {
+      delete itemStorage[id]
       scene.matter.world.remove(constraint)
       headMatter.destroy()
       featherMatter.destroy()
@@ -56,7 +71,7 @@ export const shootArrow = ({ scene, bulletsRef, from, to, builderId, isUser, col
   headMatter.setData({
     id,
     interface: 'Bullet',
-    builderId,
+    builderId: performer.id,
     damage: 8,
     phaserObject: headMatter,
     destroy
@@ -69,5 +84,5 @@ export const shootArrow = ({ scene, bulletsRef, from, to, builderId, isUser, col
     scene
   )
 
-  bulletsRef[id] = { id, update, destroy }
+  itemStorage[id] = { id, update, destroy }
 }

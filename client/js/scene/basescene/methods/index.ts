@@ -7,11 +7,11 @@ import { getLocalUserData } from '../../../user'
 import { Player, Item, Monster } from '../../../Interface'
 import gameState from '../../../game/state'
 import gameConfig from '../../../game/config'
-import { shoot } from '../shoot/index'
 import { createCharactor, setInvincible, updatePlayerHealthBar, playShootAnimation } from './charactor'
 import { createItemMatter } from './item'
 import collisionCategories from '../collisionCategories'
 import items from '../../../items'
+import { perform } from '../../../actions'
 
 const userId = getLocalUserData().userId
 
@@ -148,11 +148,11 @@ const gameMethods = scene => {
       sprite.setFlipX(direction === 'right' ? false : true)
     },
     getItem: (id: string): Item => gameState.items.find(p => p.id === id),
-    shoot: ({ from, to, builderId, type, options }) => {
-      const shooter = methods.getPlayer(builderId) || methods.getMonster(builderId)
-      if (shooter) {
-        shoot({ scene, to, builderId, type, options, shooter })
-        playShootAnimation(shooter)
+    performAction: ({ performerId, target, action, options }) => {
+      const performer = methods.getPlayer(performerId) || methods.getMonster(performerId)
+      if (performer) {
+        perform(scene, performer, action, target, options)
+        playShootAnimation(performer)
       }
     },
     resurrect: (playerId: string) => {
