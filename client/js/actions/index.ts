@@ -23,7 +23,6 @@ export const perform = (scene, performer, action, target, options) => {
     scene[itemsStorageKey] = {}
   }
   const itemStorage = scene[itemsStorageKey]
-  // perform check
   let collisionCategory
   let collisionTargets
   if (performer.interface === 'Monster') {
@@ -45,7 +44,6 @@ export const perform = (scene, performer, action, target, options) => {
     ]
   }
 
-  // perform
   actions[action]({
     scene,
     itemStorage,

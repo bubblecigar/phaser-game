@@ -21,6 +21,8 @@ export interface Player {
   position: Point,
   skin: string,
   unit: string,
+  action: string,
+  item: string,
   ready: boolean,
   scene: string,
   phaserObject: any,

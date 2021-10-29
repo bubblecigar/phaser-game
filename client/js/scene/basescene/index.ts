@@ -127,10 +127,10 @@ function create() {
       scene.sound.play('shoot')
       socketMethods.clientsInScene(scene.scene.key, methods, 'performAction', {
         performerId: player.id,
-        action: 'tab',
+        action: player.action,
         target: { x: aim.x, y: aim.y },
         options: {
-          item: 'muddy',
+          item: player.item,
           randomNumber: Math.random()
         }
 
