@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import waitingScene from '../waitingRoom/index'
 import gameState from '../../game/state'
 import charactors from '../../charactors/index'
+import skins from '../../skins/index'
 import setting from '../../../../share/setting.json'
 
 const createWinnerStatue = (scene) => {
@@ -9,8 +10,9 @@ const createWinnerStatue = (scene) => {
   const winnerPoint = infoLayer.objects.find(object => object.name === 'winner_point')
   const winner = gameState.winner
   const charactor = charactors[winner.charactorKey]
-  const spriteSheetKey = charactor.spritesheetConfig.spritesheetKey
-  const { size, origin } = charactor.matterConfig
+  const skin = skins[charactor.skin]
+  const spriteSheetKey = skin.spritesheetConfig.spritesheetKey
+  const { size, origin } = skin.matterConfig
 
   const winnerSprite = scene.add.sprite(winnerPoint.x, winnerPoint.y, spriteSheetKey)
   winnerSprite.setOrigin(origin.x, origin.y)

@@ -5,8 +5,9 @@ import { getLocalUserData } from '../../user'
 import items from '../../items/index'
 import setting from '../../../../share/setting.json'
 import charactors from '../../charactors/index'
+import skins from '../../skins/index'
 
-let randomCharactorConfig
+let randomSkin
 
 let coinGroup
 let resurrectCountDownText
@@ -14,7 +15,9 @@ let transitionScreen
 
 function preload() {
   const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * 10) % (Object.keys(charactors).length)]
-  randomCharactorConfig = charactors[randomCharactorKey]
+  const randomCharactor = charactors[randomCharactorKey]
+  const skin = skins[randomCharactor.skin]
+  randomSkin = skin
 }
 
 function create() {
@@ -33,8 +36,8 @@ function create() {
     fontSize: setting.fontSize
   })
 
-  const char = this.add.sprite(centerX - padding, centerY, randomCharactorConfig.spritesheetConfig.spritesheetKey)
-  char.play(randomCharactorConfig.animsConfig.move.key)
+  const char = this.add.sprite(centerX - padding, centerY, randomSkin.spritesheetConfig.spritesheetKey)
+  char.play(randomSkin.animsConfig.move.key)
 
   transitionScreen.add([text, char])
 }

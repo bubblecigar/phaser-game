@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import Phaser from 'phaser'
 import charactors from '../../../charactors'
+import skins from '../../../skins'
 import { getLocalUserData } from '../../../user'
 import { Player, Monster } from '../../../Interface'
 import collisionCategories from '../collisionCategories'
@@ -10,7 +11,8 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   const isMonster = constructor.interface === "Monster"
 
   const charactor = charactors[constructor.charactorKey]
-  const { size, origin } = charactor.matterConfig
+  const skin = skins[charactor.skin]
+  const { size, origin } = skin.matterConfig
   const { x, y } = constructor.position
 
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
@@ -21,7 +23,7 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
     ignoreGravity: (isUser || isMonster) ? false : true
   })
 
-  const charatorHeight = charactor.spritesheetConfig.options.frameHeight
+  const charatorHeight = skin.spritesheetConfig.options.frameHeight
   const healthBarLength = 20
   const maximumBar = scene.add.rectangle(-healthBarLength / 2, -charatorHeight / 2 - 2, healthBarLength, 4, 0xDDDDDD)
   maximumBar.setOrigin(0, 0.5)
@@ -38,7 +40,7 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
 
   const sprite = scene.add.sprite(0, 0)
   sprite.setOrigin(origin.x, origin.y)
-  sprite.play(charactor.animsConfig.idle.key)
+  sprite.play(skin.animsConfig.idle.key)
   sprite.name = 'charactor-sprite'
 
   const container = scene.add.container(x, y, [sprite, maximumBar, healthBar])
@@ -108,14 +110,16 @@ export const updatePlayerHealthBar = player => {
 
 export const playShootAnimation = (charactor) => {
   const sprite = charactor.phaserObject.getByName('charactor-sprite')
-  const hitConfig = charactors[charactor.charactorKey].animsConfig.hit
+  const charactorConfig = charactors[charactor.charactorKey]
+  const skin = skins[charactorConfig.skin]
+  const hitConfig = skin.animsConfig.hit
   if (hitConfig) {
     sprite.play({
       key: hitConfig.key,
       repeat: false,
     })
     sprite.once('animationcomplete-' + hitConfig.key, function (currentAnim, currentFrame, sprite) {
-      sprite.play(charactors[charactor.charactorKey].animsConfig.idle.key)
+      sprite.play(skin.animsConfig.idle.key)
     })
   }
 }

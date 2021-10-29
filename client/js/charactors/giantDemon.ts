@@ -1,33 +1,11 @@
-import demonSpriteUrl from '../../statics/tile/anim_sprite/big_demon.png'
 import { Charactor } from '.'
 
-const createCharactor = (key, spritesheetUrl): Charactor => ({
+const createCharactor = (key): Charactor => ({
   key,
-  spritesheetConfig: {
-    spritesheetKey: `${key}_sprite`,
-    spritesheetUrl,
-    options: {
-      frameWidth: 32,
-      frameHeight: 34
-    }
-  },
-  animsConfig: {
-    idle: {
-      key: `${key}_idle`,
-      frames: [0, 1, 2, 3]
-    },
-    move: {
-      key: `${key}_move`,
-      frames: [4, 5, 6, 7]
-    }
-  },
-  matterConfig: {
-    size: { width: 16, height: 30 },
-    origin: { x: 0.5, y: 0.6 }
-  },
+  skin: key,
   shootType: 'shadowball',
   shootInterval: 500,
   vision: 200
 })
 
-export default createCharactor('giant_demon', demonSpriteUrl)
+export default createCharactor('giantDemon')

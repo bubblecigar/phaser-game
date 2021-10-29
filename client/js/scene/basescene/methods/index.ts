@@ -2,6 +2,7 @@ import _ from 'lodash'
 import Phaser from 'phaser'
 import setting from '../../../../../share/setting.json'
 import charactors from '../../../charactors'
+import skins from '../../../skins'
 import { getLocalUserData } from '../../../user'
 import { Player, Item, Monster } from '../../../Interface'
 import gameState from '../../../game/state'
@@ -133,7 +134,9 @@ const gameMethods = scene => {
         return
       }
       const sprite = player.phaserObject.getByName('charactor-sprite')
-      sprite.play(charactors[player.charactorKey].animsConfig[animation].key)
+      const charactor = charactors[player.charactorKey]
+      const skin = skins[charactor.skin]
+      sprite.play(skin.animsConfig[animation].key)
     },
     updatePlayerDirection: (playerId: string, direction: 'left' | 'right') => {
       const player = methods.getPlayer(playerId)
@@ -163,10 +166,11 @@ const gameMethods = scene => {
     },
     onDead: (playerId: string) => {
       const player = methods.getPlayer(playerId)
-      const skull = charactors.skull
+      const skin = skins[charactors[player.charactorKey].skin]
+      const skull = skins["skull"]
       const sprite = player.phaserObject.getByName('charactor-sprite')
-      const skullSize = charactors["skull"].matterConfig.size
-      const playerSize = charactors[player.charactorKey].matterConfig.size
+      const skullSize = skull.matterConfig.size
+      const playerSize = skin.matterConfig.size
       const widthScale = skullSize.width / playerSize.width
       const heightScale = skullSize.height / playerSize.height
       const sizeFactor = 1 / Math.sqrt(Math.sqrt(widthScale * heightScale))

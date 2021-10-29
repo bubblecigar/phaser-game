@@ -1,5 +1,6 @@
 import gameConfig from '../../game/config'
 import charactors from '../../charactors/index'
+import skins from '../../skins/index'
 import setting from '../../../../share/setting.json'
 import coin from '../../items/coin'
 
@@ -29,6 +30,7 @@ function create() {
   players.forEach(
     player => {
       const charactor = charactors[player.charactorKey]
+      const skin = skins[charactor.skin]
       const offsetX = offsetIndex * padding
       if (offsetIndex <= 0) {
         offsetIndex *= -1
@@ -36,12 +38,12 @@ function create() {
       } else {
         offsetIndex *= -1
       }
-      const spriteSheetKey = charactor.spritesheetConfig.spritesheetKey
-      const { origin } = charactor.matterConfig
+      const spriteSheetKey = skin.spritesheetConfig.spritesheetKey
+      const { origin } = skin.matterConfig
       const playerSprite = scene.add.sprite(gameConfig.canvasWidth / 2 + offsetX, gameConfig.canvasHeight / 2 - padding, spriteSheetKey)
       playerSprite.setOrigin(origin.x, origin.y)
       playerSprite.setFlipX(offsetIndex >= 0 ? false : true)
-      playerSprite.play(charactor.animsConfig.idle.key)
+      playerSprite.play(skin.animsConfig.idle.key)
 
       const text = this.add.text(gameConfig.canvasWidth / 2 + offsetX, gameConfig.canvasHeight / 2 + padding / 4 - padding, player.name, {
         fontSize: setting.fontSize

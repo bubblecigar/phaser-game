@@ -6,15 +6,16 @@ import charactors from '../../charactors/index'
 import items from '../../items/index'
 import setting from '../../../../share/setting.json'
 import { browseSkin, buySkin, activateSkin } from './skins'
+import skins from '../../skins/index'
 
 function init() {
 }
 
 function preload() {
-  Object.keys(charactors).forEach(
+  Object.keys(skins).forEach(
     key => {
-      const char = charactors[key]
-      this.load.spritesheet(char.spritesheetConfig.spritesheetKey, char.spritesheetConfig.spritesheetUrl, char.spritesheetConfig.options)
+      const skin = skins[key]
+      this.load.spritesheet(skin.spritesheetConfig.spritesheetKey, skin.spritesheetConfig.spritesheetUrl, skin.spritesheetConfig.options)
     }
   )
   Object.keys(items).forEach(
@@ -51,14 +52,14 @@ const skinBoxCenter = {
   x: gameConfig.canvasWidth / 2 - 31,
   y: gameConfig.canvasHeight / 2 - 16
 }
-const displaySkin = (scene, skinKey, skinButton) => {
+const displaySkin = (scene, skin, skinButton) => {
   if (displayedSkin) {
     displayedSkin.destroy()
   }
 
   const offsetY = -20
   const sprite = scene.add.sprite(skinBoxCenter.x, skinBoxCenter.y + offsetY)
-  const { size, origin } = charactors[skinKey].matterConfig
+  const { size, origin } = skin.matterConfig
   displayedSkin = scene.matter.add.gameObject(sprite, {
     friction: 0,
     frictionStatic: 0,
@@ -70,10 +71,10 @@ const displaySkin = (scene, skinKey, skinButton) => {
     }
   })
   sprite.setOrigin(origin.x, origin.y)
-  sprite.play(charactors[skinKey].animsConfig.idle.key)
+  sprite.play(skins[skin.key].animsConfig.idle.key)
   displayedSkin.setBounce(1)
 
-  updateSkinButton(skinKey, skinButton)
+  updateSkinButton(skin.key, skinButton)
 }
 const createSkinBoundingBox = (scene) => {
   const skinBoxSize = 40
@@ -125,15 +126,15 @@ function create() {
     }
   })
 
-  Object.keys(charactors).forEach(
+  Object.keys(skins).forEach(
     key => {
-      const char = charactors[key]
-      Object.keys(char.animsConfig).forEach(
+      const skin = skins[key]
+      Object.keys(skin.animsConfig).forEach(
         _key => {
-          const animConfig = char.animsConfig[_key]
+          const animConfig = skin.animsConfig[_key]
           this.anims.create({
             key: animConfig.key,
-            frames: this.anims.generateFrameNumbers(char.spritesheetConfig.spritesheetKey, { frames: animConfig.frames }),
+            frames: this.anims.generateFrameNumbers(skin.spritesheetConfig.spritesheetKey, { frames: animConfig.frames }),
             frameRate: 8,
             repeat: -1
           })
@@ -170,19 +171,19 @@ function create() {
   const skinButton = element.getChildByID('skin-button')
 
   createSkinBoundingBox(scene)
-  const currentSkinKey = browseSkin(0)
-  displaySkin(scene, currentSkinKey, skinButton)
+  const currentSkin = browseSkin(0)
+  displaySkin(scene, currentSkin, skinButton)
 
   displayCurrentCoins(scene)
 
   element.addListener('click')
   element.on('click', function (event) {
     if (event.target.name === 'skin-left') {
-      const skinKey = browseSkin(-1)
-      displaySkin(scene, skinKey, skinButton)
+      const skin = browseSkin(-1)
+      displaySkin(scene, skin, skinButton)
     } else if (event.target.name === 'skin-right') {
-      const skinKey = browseSkin(1)
-      displaySkin(scene, skinKey, skinButton)
+      const skin = browseSkin(1)
+      displaySkin(scene, skin, skinButton)
     } else if (event.target.name === 'joinButton') {
       if (inputUsername.value !== '' && inputRoomId.value !== '') {
         setLocalUserData({
@@ -206,11 +207,11 @@ function create() {
     } else if (event.target.name === 'buy') {
       buySkin(browseSkin(0))
       displayCurrentCoins(scene)
-      updateSkinButton(browseSkin(0), skinButton)
+      updateSkinButton(browseSkin(0).key, skinButton)
     } else if (event.target.name === 'activate') {
       // activate the skin
-      activateSkin(browseSkin(0))
-      updateSkinButton(browseSkin(0), skinButton)
+      activateSkin(browseSkin(0).key)
+      updateSkinButton(browseSkin(0).key, skinButton)
     }
   })
 
@@ -239,8 +240,9 @@ function create() {
 const randomCharactors = []
 const generateRandomCharactor = scene => () => {
   const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * Object.keys(charactors).length) % (Object.keys(charactors).length)]
-  const charactorConfig = charactors[randomCharactorKey]
-  const { size, origin } = charactorConfig.matterConfig
+  const charactor = charactors[randomCharactorKey]
+  const skin = skins[charactor.skin]
+  const { size, origin } = skin.matterConfig
 
   const randomX = gameConfig.canvasWidth / 2 + gameConfig.canvasWidth * 0.4 * (Math.random() - 0.5)
   const sprite = scene.add.sprite(randomX, -20)
@@ -255,7 +257,7 @@ const generateRandomCharactor = scene => () => {
     }
   })
   sprite.setOrigin(origin.x, origin.y)
-  sprite.play(charactorConfig.animsConfig.idle.key)
+  sprite.play(skin.animsConfig.idle.key)
   matter.setBounce(1)
   randomCharactors.push(matter)
 

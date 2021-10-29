@@ -1,15 +1,13 @@
-import charactors from '../../charactors/index'
+import skins from '../../skins/index'
 import { getLocalUserData, setLocalUserData } from '../../user'
 
-const skins = Object.keys(charactors).filter(c => c !== 'skull')
-
-
+const _skins = Object.keys(skins).filter(c => c !== 'skull')
 
 let currentIndex = 0
 const initIndex = () => {
   try {
     const { activatedSkin } = getLocalUserData()
-    currentIndex = skins.findIndex(skinKey => skinKey === activatedSkin)
+    currentIndex = _skins.findIndex(skinKey => skinKey === activatedSkin)
   } catch (error) {
     // do nothing
   }
@@ -18,9 +16,9 @@ initIndex()
 
 const browseSkin = (direction: number) => {
   currentIndex += direction
-  currentIndex = (currentIndex + skins.length) % skins.length
+  currentIndex = (currentIndex + _skins.length) % _skins.length
 
-  return skins[currentIndex]
+  return skins[_skins[currentIndex]]
 }
 
 const buySkin = (skinKey) => {
@@ -29,7 +27,8 @@ const buySkin = (skinKey) => {
     console.log('You already have the skin!')
     return false
   }
-  const price = charactors[skinKey].price || 10
+
+  const price = 10
   if (coins < price) {
     console.log("You don't have enough coins to buy the skin")
     return false

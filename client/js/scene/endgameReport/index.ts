@@ -1,6 +1,7 @@
 import gameConfig from '../../game/config'
 import charactors from '../../charactors/index'
 import setting from '../../../../share/setting.json'
+import skins from '../../skins/index'
 
 let data
 
@@ -24,12 +25,13 @@ function create() {
 
   const winner = data
   const charactor = charactors[winner.charactorKey]
-  const spriteSheetKey = charactor.spritesheetConfig.spritesheetKey
-  const { origin } = charactor.matterConfig
+  const skin = skins[charactor.skin]
+  const spriteSheetKey = skin.spritesheetConfig.spritesheetKey
+  const { origin } = skin.matterConfig
   const winnerSprite = scene.add.sprite(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, spriteSheetKey)
   winnerSprite.setOrigin(origin.x, origin.y)
   winnerSprite.setScale(2, 2)
-  winnerSprite.play(charactor.animsConfig.idle.key)
+  winnerSprite.play(skin.animsConfig.idle.key)
 
   const text = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + 32, winner.name + ' ' + 'win!', {
     fontSize: setting.fontSize
