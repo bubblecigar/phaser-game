@@ -4,7 +4,7 @@ import setting from '../../../../../share/setting.json'
 import skins from '../../../skins'
 import units from '../../../units'
 import { getLocalUserData } from '../../../user'
-import { Player, Item, Monster } from '../../../Interface'
+import { Player, Item, Monster, Point } from '../../../Interface'
 import gameState from '../../../game/state'
 import gameConfig from '../../../game/config'
 import { createCharactor, setInvincible, updatePlayerHealthBar, playShootAnimation } from './charactor'
@@ -12,6 +12,7 @@ import { createItemMatter } from './item'
 import collisionCategories from '../collisionCategories'
 import items from '../../../items'
 import { perform } from '../../../actions'
+import skull from '../../../skins/skull'
 
 const userId = getLocalUserData().userId
 
@@ -284,8 +285,14 @@ const gameMethods = scene => {
       updatePlayerHealthBar(monster)
       setInvincible(scene, monster)
     },
-    onMonsterDead: (monsterId: string) => {
+    onMonsterDead: (monsterId: string, deadPosition: Point) => {
       methods.removeMonster(monsterId)
+
+      const deadBody = scene.matter.add.sprite(deadPosition.x, deadPosition.y, skull.spritesheetConfig.spritesheetKey)
+      deadBody.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
+      deadBody.applyForce({ x: 0.006 * (Math.random() - 0.5), y: -0.003 })
+
+      scene.time.delayedCall(5000, () => deadBody.destroy(), null, scene)
     },
     getMonster: (id: string): Monster => gameState.monstersById[id],
     removeMonster: (id: string) => {

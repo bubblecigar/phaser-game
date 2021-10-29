@@ -224,7 +224,7 @@ const monsterOnHit = (scene, socketMethods, methods, monster, damage) => {
   const _monster = methods.getMonster(monster.data.id)
   const deadPosition = { x: _monster.phaserObject.x, y: _monster.phaserObject.y }
   if (_monster.health <= 0) {
-    socketMethods.clientsInScene(scene.scene.key, methods, 'onMonsterDead', monster.data.id)
+    socketMethods.clientsInScene(scene.scene.key, methods, 'onMonsterDead', monster.data.id, deadPosition)
     socketMethods.server('onMonsterDead', monster.data.id)
 
     if (monster.data.drop) {
