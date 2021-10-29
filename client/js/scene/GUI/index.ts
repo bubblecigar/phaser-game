@@ -4,7 +4,6 @@ import gameConfig from '../../game/config'
 import { getLocalUserData } from '../../user'
 import items from '../../items/index'
 import setting from '../../../../share/setting.json'
-import charactors from '../../charactors/index'
 import skins from '../../skins/index'
 
 let randomSkin
@@ -14,9 +13,8 @@ let resurrectCountDownText
 let transitionScreen
 
 function preload() {
-  const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * 10) % (Object.keys(charactors).length)]
-  const randomCharactor = charactors[randomCharactorKey]
-  const skin = skins[randomCharactor.skin]
+  const randomSkinKey = Object.keys(skins)[Math.floor(Math.random() * 10) % (Object.keys(skins).length)]
+  const skin = skins[randomSkinKey]
   randomSkin = skin
 }
 

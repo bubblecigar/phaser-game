@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import waitingScene from '../waitingRoom/index'
 import gameState from '../../game/state'
-import charactors from '../../charactors/index'
 import skins from '../../skins/index'
 import setting from '../../../../share/setting.json'
 

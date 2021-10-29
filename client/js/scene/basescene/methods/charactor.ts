@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import Phaser from 'phaser'
-import charactors from '../../../charactors'
 import skins from '../../../skins'
 import units from '../../../units'
 import { getLocalUserData } from '../../../user'

@@ -2,7 +2,6 @@ import gameConfig from '../../game/config'
 import formHtml from './form.html'
 import { setLocalUserData, getLocalUserData } from '../../user'
 import { socketMethods } from '../../index'
-import charactors from '../../charactors/index'
 import items from '../../items/index'
 import setting from '../../../../share/setting.json'
 import { browseSkin, buySkin, activateSkin } from './skins'
@@ -237,11 +236,10 @@ function create() {
   })
 }
 
-const randomCharactors = []
+const randomSkins = []
 const generateRandomCharactor = scene => () => {
-  const randomCharactorKey = Object.keys(charactors)[Math.floor(Math.random() * Object.keys(charactors).length) % (Object.keys(charactors).length)]
-  const charactor = charactors[randomCharactorKey]
-  const skin = skins[charactor.skin]
+  const randomSkinKey = Object.keys(skins)[Math.floor(Math.random() * Object.keys(skins).length) % (Object.keys(skins).length)]
+  const skin = skins[randomSkinKey]
   const { size, origin } = skin.matterConfig
 
   const randomX = gameConfig.canvasWidth / 2 + gameConfig.canvasWidth * 0.4 * (Math.random() - 0.5)
@@ -259,7 +257,7 @@ const generateRandomCharactor = scene => () => {
   sprite.setOrigin(origin.x, origin.y)
   sprite.play(skin.animsConfig.idle.key)
   matter.setBounce(1)
-  randomCharactors.push(matter)
+  randomSkins.push(matter)
 
   scene.time.delayedCall(
     1500,
@@ -274,8 +272,8 @@ const generateRandomCharactor = scene => () => {
     scene
   )
 
-  if (randomCharactors.length > 15) {
-    const charToRemove = randomCharactors.shift()
+  if (randomSkins.length > 15) {
+    const charToRemove = randomSkins.shift()
     charToRemove.destroy()
   }
 }

@@ -1,5 +1,4 @@
 import gameConfig from '../../game/config'
-import charactors from '../../charactors/index'
 import setting from '../../../../share/setting.json'
 import skins from '../../skins/index'
 
