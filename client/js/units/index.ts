@@ -5,6 +5,13 @@ export interface Class {
   vision: number
 }
 
+const noob: Class = {
+  key: 'noob',
+  velocity: 1,
+  maxHealth: 20,
+  vision: 75
+}
+
 const basic: Class = {
   key: 'basic',
   velocity: 2,
@@ -29,5 +36,6 @@ const giant: Class = {
 export default {
   basic,
   scout,
-  giant
+  giant,
+  noob
 }
