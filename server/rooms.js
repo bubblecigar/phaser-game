@@ -112,13 +112,14 @@ const connectToRoom = (roomId, userState, socket) => {
       scene: 'waitingRoom',
       skin: activatedSkin,
       unit: 'basic',
+      action: 'tab',
+      item: 'dagger',
       position: { x: spawnPoint.x, y: spawnPoint.y },
       velocity: { x: 0, y: 0 },
       health: initHealth,
       resurrectCountDown: setting.resurrectCountDown,
       coins: 0,
       items: [],
-      bullet: 'arrow',
       abilities: null,
       phaserObject: null
     }
