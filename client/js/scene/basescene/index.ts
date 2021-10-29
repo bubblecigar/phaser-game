@@ -6,6 +6,7 @@ import units from '../../units/index'
 import clientMap from '../../../../share/clientMap'
 import backgroundMap from './backgroundMap'
 import registerWorldEvents from './WorldEvents'
+import registerInputEvents from './inputEvents'
 import targetUrl from '../../../statics/tile/target.png'
 import { socketMethods } from '../../index'
 import setting from '../../../../share/setting.json'
@@ -98,6 +99,7 @@ function create() {
 
   socketMethods.registerSceneSocketEvents(this.scene.key, methods)
   registerWorldEvents(this, methods, socketMethods)
+  registerInputEvents(this, methods, socketMethods)
 
   methods.createPlayers()
   methods.createItems()
