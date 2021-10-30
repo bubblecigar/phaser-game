@@ -37,6 +37,16 @@ const registerInputEvents = (scene, methods, socketMethods) => {
           socketMethods.clientsInScene(scene.scene.key, methods, 'rebuildPlayer', _player)
           break
         }
+        case 'a': {
+          const shopOpened = scene.game.scene.isActive('cards')
+          if (shopOpened) {
+            scene.scene.stop('cards')
+          } else {
+            scene.scene.launch('cards')
+          }
+
+          break
+        }
         default: {
           // do nothing
         }
