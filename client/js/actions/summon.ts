@@ -17,9 +17,14 @@ export const summon = ({
   const to = target
 
   const item = items[options.item] || items["muddy"]
-  const { size, origin } = item.matterConfig
+  const { size, origin, type } = item.matterConfig
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
-  const body = Bodies.rectangle(from.x, from.y, size.width, size.height)
+  let body
+  if (type === 'rectangle') {
+    body = Bodies.rectangle(from.x, from.y, size.width, size.height)
+  } else {
+    body = Bodies.circle(from.x, from.y, size.radius)
+  }
 
   const matter = scene.matter.add.sprite(from.x, from.y, item.spritesheetConfig.spritesheetKey)
   normalizeMatter(performer, item, matter)
