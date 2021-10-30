@@ -4,8 +4,8 @@ import { createRandomSkinCard } from './skinCards'
 
 let methods
 
-function init(_data) {
-  methods = _data
+function init(data) {
+  methods = data
 }
 
 function preload() {
@@ -70,7 +70,7 @@ function update(t, dt) {
 }
 
 export default {
-  key: 'shop',
+  key: 'cards',
   init,
   preload,
   create,

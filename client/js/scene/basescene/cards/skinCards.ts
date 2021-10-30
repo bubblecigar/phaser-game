@@ -1,5 +1,9 @@
 import skins from '../../../skins/index'
 import setting from '../../../../../share/setting.json'
+import { Player } from '../../../Interface'
+import { getLocalUserData } from '../../../user'
+import _ from 'lodash'
+import { socketMethods } from '../../../index'
 
 export const createRandomSkinCard = (scene, emptyCard, methods) => {
   const {
@@ -26,6 +30,10 @@ export const createRandomSkinCard = (scene, emptyCard, methods) => {
   descriptionContainer.add(text)
 
   itemCell.on('pointerdown', () => {
-    // on choose card
+    const player: Player = methods.getPlayer(getLocalUserData().userId)
+    const _player = _.omit(_.clone(player), 'phaserObject')
+    _player.skin = randomSkin
+    socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
+    scene.scene.stop()
   }, scene)
 }
