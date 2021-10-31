@@ -4,6 +4,7 @@ import { drawSkinCard } from './skinCards'
 import { drawItemCard } from './itemCard'
 import { drawActionCard } from './actionCard'
 import { drawAttributeCard } from './attributeCard'
+import { drawResurrectCard } from './resurrectCard'
 import { Card } from './level'
 import setting from '../../../../../share/setting.json'
 
@@ -75,10 +76,10 @@ const drawCard = (scene, emptyCard, options: Card) => {
       drawAttributeCard(scene, emptyCard, methods)(options.value)
       break
     }
-    // case 'resurrect;': {
-    //   drawResurrectCard(scene,  emptyCard, methods)(options.value)
-    //   break
-    // }
+    case 'resurrect': {
+      drawResurrectCard(scene, emptyCard, methods)()
+      break
+    }
   }
 }
 

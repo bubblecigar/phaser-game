@@ -76,7 +76,7 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   )
   phaserObject.setCollidesWith(collideTargets)
 
-  phaserObject.setVelocityY(-2)
+  phaserObject.setVelocityY(-1)
 
   return phaserObject
 }

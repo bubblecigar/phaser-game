@@ -67,13 +67,17 @@ const createItemCard = (): Card => {
   }
 }
 
-
 const createActionCard = (): Card => {
   return {
     type: 'action',
     value: drawFromPool(Object.keys(actions))
   }
 }
+
+const createResurrectCard = (): Card => ({
+  type: 'resurrect',
+  value: ''
+})
 
 const openLevelUpPanel = (scene, methods, player) => {
   const cardSelectionOpened = scene.game.scene.isActive('cards')
@@ -95,7 +99,7 @@ const openLevelUpPanel = (scene, methods, player) => {
       typePool.push(createSkinCard)
     }
     if (player.level > 15) {
-      // typePool.push('resurrect')
+      typePool.push(createResurrectCard)
     }
 
     const cards: Card[] = [
