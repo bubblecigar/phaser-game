@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import Phaser from 'phaser'
 import skins from '../../../skins'
-import units from '../../../units'
 import { getLocalUserData } from '../../../user'
 import { Player, Monster } from '../../../Interface'
 import collisionCategories from '../collisionCategories'
@@ -11,7 +10,7 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   const isMonster = constructor.interface === "Monster"
 
   const skin = skins[constructor.skin]
-  const unit = units[constructor.unit]
+  const attributes = constructor.attributes
   const { size, origin } = skin.matterConfig
   const { x, y } = constructor.position
 
@@ -31,7 +30,7 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   const healthBar = scene.add.rectangle(-healthBarLength / 2 + 1, -charatorHeight / 2 - 2, healthBarLength - 2, 2, 0xda4e38)
   healthBar.setOrigin(0, 0.5)
   healthBar.name = 'health-bar'
-  const maximumHealth = unit.maxHealth
+  const maximumHealth = attributes.maxHealth
   if (constructor.health > maximumHealth) {
     constructor.health = maximumHealth
   }
@@ -101,8 +100,7 @@ export const setInvincible = (scene, player) => {
 }
 
 export const updatePlayerHealthBar = player => {
-  const unit = units[player.unit]
-  const maximumHealth = unit.maxHealth
+  const maximumHealth = player.attributes.maxHealth
   const maxBar = player.phaserObject.getByName('maximum-bar')
   const percentage = player.health / maximumHealth
   const healthBar = player.phaserObject.getByName('health-bar')

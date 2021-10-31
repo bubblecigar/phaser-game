@@ -2,7 +2,6 @@ import _ from 'lodash'
 import gameMethods from './methods/index'
 import { Player } from '../../Interface'
 import { getLocalUserData } from '../../user'
-import units from '../../units/index'
 import clientMap from '../../../../share/clientMap'
 import backgroundMap from './backgroundMap'
 import registerWorldEvents from './WorldEvents'
@@ -45,13 +44,12 @@ const updateAim = (scene, player) => {
 }
 
 const movePlayer = (scene, player: Player) => {
-  const unit = units[player.unit]
-  const charVelocity = unit.velocity
+  const { movementSpeed } = player.attributes
   const velocity = { x: 0, y: 0 }
   if (cursors.left.isDown) {
-    velocity.x = -charVelocity
+    velocity.x = -movementSpeed
   } else if (cursors.right.isDown) {
-    velocity.x = charVelocity
+    velocity.x = movementSpeed
   } else {
     velocity.x = 0
   }
@@ -192,8 +190,7 @@ function update(t, dt) {
     } else {
       if (restTime >= setting.healInterval) {
         restTime = 0
-        const unit = units[player.unit]
-        socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, unit.maxHealth * setting.healingPercentage)
+        socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, player.attributes.maxHealth * setting.healingPercentage)
       }
       restTime += dt
     }

@@ -2,7 +2,6 @@ import _ from 'lodash'
 import Phaser from 'phaser'
 import setting from '../../../../../share/setting.json'
 import skins from '../../../skins'
-import units from '../../../units'
 import { getLocalUserData } from '../../../user'
 import { Player, Item, Monster, Point } from '../../../Interface'
 import gameState from '../../../game/state'
@@ -37,8 +36,7 @@ const gameMethods = scene => {
       if (player.id === userId) {
         const camera = scene.cameras.main
         camera.startFollow(player.phaserObject, true, 0.5, 0.5)
-        const unit = units[player.unit]
-        const vision = unit.vision
+        const vision = player.attributes.vision
         const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, vision)
         const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
         camera.setMask(mask)
@@ -158,10 +156,9 @@ const gameMethods = scene => {
     },
     resurrect: (playerId: string) => {
       const player = methods.getPlayer(playerId)
-      const unit = units[player.unit]
       const playerConstructor = {
         ...player,
-        health: unit.maxHealth,
+        health: player.attributes.maxHealth,
         resurrectCountDown: setting.resurrectCountDown
       }
       methods.rebuildPlayer(playerConstructor)
@@ -190,12 +187,12 @@ const gameMethods = scene => {
     onHit: (playerId: string, damage: number) => {
       const player = methods.getPlayer(playerId)
       if (!player) { return }
-      const unit = units[player.unit]
+      const maxHealth = player.attributes.maxHealth
       player.health -= damage
       if (player.health < 0) {
         player.health = 0
-      } else if (player.health > unit.maxHealth) {
-        player.health = unit.maxHealth
+      } else if (player.health > maxHealth) {
+        player.health = maxHealth
       }
       updatePlayerHealthBar(player)
       setInvincible(scene, player)
@@ -203,10 +200,10 @@ const gameMethods = scene => {
     onHeal: (playerId: string, heal: number) => {
       const player = methods.getPlayer(playerId)
       if (!player) { return }
-      const unit = units[player.unit]
+      const maxHealth = player.attributes.maxHealth
       player.health += heal
-      if (player.health > unit.maxHealth) {
-        player.health = unit.maxHealth
+      if (player.health > maxHealth) {
+        player.health = maxHealth
       }
       updatePlayerHealthBar(player)
     },
@@ -275,12 +272,12 @@ const gameMethods = scene => {
     monsterOnHit: (monsterId: string, damage: number) => {
       const monster = gameState.monstersById[monsterId]
       if (!monster) { return }
-      const unit = units[monster.unit]
+      const maxHealth = monster.attributes.maxHealth
       monster.health -= damage
       if (monster.health < 0) {
         monster.health = 0
-      } else if (monster.health > unit.maxHealth) {
-        monster.health = unit.maxHealth
+      } else if (monster.health > maxHealth) {
+        monster.health = maxHealth
       }
       updatePlayerHealthBar(monster)
       setInvincible(scene, monster)

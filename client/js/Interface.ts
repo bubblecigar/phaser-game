@@ -20,9 +20,13 @@ export interface Player {
   velocity: Point,
   position: Point,
   skin: string,
-  unit: string,
   action: string,
   item: string,
+  attributes: {
+    maxHealth: number,
+    vision: 75 | 100 | 125 | 150 | 175 | 200,
+    movementSpeed: 1 | 2 | 3
+  },
   ready: boolean,
   scene: string,
   phaserObject: any,
@@ -36,7 +40,11 @@ export interface Monster {
   velocity: Point,
   position: Point,
   skin: string,
-  unit: string,
+  attributes: {
+    maxHealth: number,
+    vision: 75 | 100 | 125 | 150 | 175 | 200,
+    movementSpeed: 1 | 2 | 3
+  },
   drop: string,
   phaserObject: any,
   health: number

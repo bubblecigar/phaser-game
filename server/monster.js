@@ -87,7 +87,11 @@ const createMonster = (room) => {
     properties: monsterSpawnPoint.properties,
     builderId: 'server',
     skin: rolledMonster.key,
-    unit: 'basic',
+    attributes: {
+      maxHealth: 20,
+      movementSpeed: 1,
+      vision: 75
+    },
     health: rolledMonster.health,
     drop: rolledDrop.key,
     position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },

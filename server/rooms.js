@@ -111,8 +111,12 @@ const connectToRoom = (roomId, userState, socket) => {
       ready: false,
       scene: 'waitingRoom',
       skin: activatedSkin,
-      unit: 'basic',
       action: 'tab',
+      attributes: {
+        maxHealth: 20,
+        movementSpeed: 1,
+        vision: 75
+      },
       item: 'dagger',
       position: { x: spawnPoint.x, y: spawnPoint.y },
       velocity: { x: 0, y: 0 },
