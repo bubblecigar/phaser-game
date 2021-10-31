@@ -23,8 +23,8 @@ export interface Charactor {
   item: string,
   attributes: {
     maxHealth: number,
-    vision: 75 | 100 | 125 | 150 | 175 | 200,
-    movementSpeed: 1 | 2 | 3
+    vision: number,
+    movementSpeed: number
   },
   phaserObject: any,
   health: number,
