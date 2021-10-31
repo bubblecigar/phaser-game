@@ -9,6 +9,8 @@ import wizzardMale from './wizzardMale'
 import knightFemale from './knightFemale'
 import tinyZombie from './tinyZombie'
 import skull from './skull'
+import imp from './imp'
+import skeleton from './skeleton'
 
 export interface AnimConfig {
   key: string,
@@ -39,7 +41,7 @@ export interface Skin {
   }
 }
 
-const skins = { skull, tinyZombie, wizzardMale, knightFemale, orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale }
+const skins = { skull, tinyZombie, wizzardMale, knightFemale, orge, chort, giantDemon, giantZombie, lizardFemale, elfFemale, elfMale, imp, skeleton }
 
 
 export default skins

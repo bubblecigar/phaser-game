@@ -1,7 +1,7 @@
 import skins from '../../skins/index'
 import { getLocalUserData, setLocalUserData } from '../../user'
 
-const selectableNoob = ['tinyZombie']
+const selectableNoob = ['tinyZombie', 'skeleton', 'imp']
 
 let currentIndex = 0
 const initIndex = () => {
