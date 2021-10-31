@@ -1,13 +1,13 @@
 import skins from '../../skins/index'
 import { getLocalUserData, setLocalUserData } from '../../user'
 
-const _skins = Object.keys(skins).filter(c => c !== 'skull')
+const selectableNoob = ['tinyZombie']
 
 let currentIndex = 0
 const initIndex = () => {
   try {
     const { activatedSkin } = getLocalUserData()
-    currentIndex = _skins.findIndex(skinKey => skinKey === activatedSkin)
+    currentIndex = selectableNoob.findIndex(skinKey => skinKey === activatedSkin)
   } catch (error) {
     // do nothing
   }
@@ -16,9 +16,9 @@ initIndex()
 
 const browseSkin = (direction: number) => {
   currentIndex += direction
-  currentIndex = (currentIndex + _skins.length) % _skins.length
+  currentIndex = (currentIndex + selectableNoob.length) % selectableNoob.length
 
-  return skins[_skins[currentIndex]]
+  return skins[selectableNoob[currentIndex]]
 }
 
 const buySkin = (skinKey) => {
