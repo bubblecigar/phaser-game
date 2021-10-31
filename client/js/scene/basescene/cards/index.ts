@@ -33,10 +33,10 @@ const createEmptyCard = (scene, position, size) => {
   })
 
   const upperPosition = {
-    x: 0, y: - size.height / 4
+    x: 0, y: - size.height / 4 + size.padding
   }
   const lowerPosition = {
-    x: 0, y: + size.height / 4
+    x: 0, y: + size.height / 4 - size.padding
   }
 
   const imageContainer = scene.add.container(upperPosition.x, upperPosition.y)
@@ -54,7 +54,7 @@ const createEmptyCard = (scene, position, size) => {
 function create() {
   const center = { x: gameConfig.canvasWidth / 2, y: gameConfig.canvasHeight / 2 }
 
-  const cardSize = { width: 90, height: 70 }
+  const cardSize = { width: 90, height: 70, padding: 3 }
 
   const emptyCard1 = createEmptyCard(this, {
     x: center.x - cardSize.width * 1.2,
