@@ -5,15 +5,12 @@ import { getLocalUserData } from '../../../user'
 import _ from 'lodash'
 import { levelUp } from './level'
 
-export const drawRandomActionCard = (scene, emptyCard, methods) => {
+export const drawActionCard = (scene, emptyCard, methods) => action => {
   const {
     itemCell,
     imageContainer,
     descriptionContainer
   } = emptyCard
-
-  const availableActions = Object.keys(actions)
-  const randomAction = availableActions[Math.floor(Math.random() * availableActions.length)] || availableActions[0]
 
   const target = scene.matter.add.image(0, 0, 'target')
   target.setIgnoreGravity(true)
@@ -21,7 +18,7 @@ export const drawRandomActionCard = (scene, emptyCard, methods) => {
   target.setScale(1.5, 1.5)
   target.setFriction(0, 0, 0)
 
-  const text = scene.add.text(0, 0, randomAction, {
+  const text = scene.add.text(0, 0, action, {
     fontSize: setting.fontSize
   })
   text.setOrigin(0.5, 0.5)
@@ -31,7 +28,7 @@ export const drawRandomActionCard = (scene, emptyCard, methods) => {
 
   itemCell.on('pointerdown', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
-    player.action = randomAction
+    player.action = action
     levelUp(scene)
   }, scene)
 }

@@ -1,15 +1,18 @@
 import gameConfig from '../../../game/config'
 import itemCellUrl from '../../../../statics/tile/gui/floor_1.png'
-import { drawRandomSkinCard } from './skinCards'
-import { drawRandomItemCard } from './itemCard'
-import { drawRandomActionCard } from './actionCard'
-import { drawRandomAttributeCard } from './attributeCard'
+import { drawSkinCard } from './skinCards'
+import { drawItemCard } from './itemCard'
+import { drawActionCard } from './actionCard'
+import { drawAttributeCard } from './attributeCard'
+import { Card } from './level'
 import setting from '../../../../../share/setting.json'
 
 let methods
+let cards
 
 function init(data) {
   methods = data.methods
+  cards = data.cards
 }
 
 function preload() {
@@ -54,6 +57,31 @@ const createEmptyCard = (scene, position, size) => {
 
 let levelUpText
 
+const drawCard = (scene, emptyCard, options: Card) => {
+  switch (options.type) {
+    case 'skin': {
+      drawSkinCard(scene, emptyCard, methods)(options.value)
+      break
+    }
+    case 'item': {
+      drawItemCard(scene, emptyCard, methods)(options.value)
+      break
+    }
+    case 'action': {
+      drawActionCard(scene, emptyCard, methods)(options.value)
+      break
+    }
+    case 'attribute': {
+      drawAttributeCard(scene, emptyCard, methods)(options.value)
+      break
+    }
+    // case 'resurrect;': {
+    //   drawResurrectCard(scene,  emptyCard, methods)(options.value)
+    //   break
+    // }
+  }
+}
+
 function create() {
   const center = { x: gameConfig.canvasWidth / 2, y: gameConfig.canvasHeight / 2 }
 
@@ -72,9 +100,9 @@ function create() {
     y: gameConfig.canvasHeight - cardSize.height
   }, cardSize)
 
-  drawRandomSkinCard(this, emptyCard1, methods)
-  drawRandomItemCard(this, emptyCard2, methods)
-  drawRandomAttributeCard(this, emptyCard3, methods)
+  drawCard(this, emptyCard1, cards[0])
+  drawCard(this, emptyCard2, cards[1])
+  drawCard(this, emptyCard3, cards[2])
 
   levelUpText = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'level up', {
     fontSize: setting.fontSize

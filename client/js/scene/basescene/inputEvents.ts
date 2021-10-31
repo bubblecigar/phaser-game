@@ -4,6 +4,7 @@ import { getLocalUserData } from '../../user'
 import skins from '../../skins/index'
 import items from '../../items/index'
 import { actions } from '../../actions/index'
+import { playerGainExp } from './cards/level'
 
 const registerInputEvents = (scene, methods, socketMethods) => {
   scene.input.keyboard.on(
@@ -38,14 +39,7 @@ const registerInputEvents = (scene, methods, socketMethods) => {
           break
         }
         case 'a': {
-          const shopOpened = scene.game.scene.isActive('cards')
-          if (shopOpened) {
-            scene.scene.stop('cards')
-          } else {
-            const player: Player = methods.getPlayer(getLocalUserData().userId)
-            scene.scene.launch('cards', { methods, player })
-          }
-
+          playerGainExp(scene, methods, 10)
           break
         }
         default: {

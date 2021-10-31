@@ -5,36 +5,18 @@ import _ from 'lodash'
 import { socketMethods } from '../../../index'
 import { levelUp } from './level'
 
-export const drawRandomAttributeCard = (scene, emptyCard, methods) => {
+export const drawAttributeCard = (scene, emptyCard, methods) => attribute => {
   const {
     itemCell,
     imageContainer,
     descriptionContainer
   } = emptyCard
-
-  const availableAttributes = [
-    {
-      property: 'maxHealth',
-      value: 5
-    },
-    {
-      property: 'movementSpeed',
-      value: 1
-    },
-    {
-      property: 'vision',
-      value: 10
-    }
-  ]
-
-  const randomAttribute = availableAttributes[Math.floor(Math.random() * availableAttributes.length)] || availableAttributes[0]
-
-  const property = scene.add.text(0, 0, randomAttribute.property, {
+  const property = scene.add.text(0, 0, attribute.property, {
     fontSize: setting.fontSize
   })
   property.setOrigin(0.5, 0.5)
 
-  const valueText = `${randomAttribute.value > 0 ? '+' : '-'} ${Math.abs(randomAttribute.value)}`
+  const valueText = `${attribute.value > 0 ? '+' : '-'} ${Math.abs(attribute.value)}`
   const value = scene.add.text(0, 0, valueText, {
     fontSize: setting.fontSize
   })
@@ -46,7 +28,7 @@ export const drawRandomAttributeCard = (scene, emptyCard, methods) => {
   itemCell.on('pointerdown', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
     const _player = _.omit(_.clone(player), 'phaserObject')
-    _player.attributes[randomAttribute.property] += randomAttribute.value
+    _player.attributes[attribute.property] += attribute.value
     socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
     levelUp(scene)
   }, scene)

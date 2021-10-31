@@ -5,23 +5,20 @@ import { getLocalUserData } from '../../../user'
 import _ from 'lodash'
 import { levelUp } from './level'
 
-export const drawRandomItemCard = (scene, emptyCard, methods) => {
+export const drawItemCard = (scene, emptyCard, methods) => item => {
   const {
     itemCell,
     imageContainer,
     descriptionContainer
   } = emptyCard
 
-  const availableItems = Object.keys(items)
-  const randomItem = availableItems[Math.floor(Math.random() * availableItems.length)] || availableItems[0]
+  const sprite = scene.add.sprite(0, 0, items[item].spritesheetConfig.spritesheetKey)
 
-  const sprite = scene.add.sprite(0, 0, items[randomItem].spritesheetConfig.spritesheetKey)
-
-  if (items[randomItem].animsConfig?.idle?.key) {
-    sprite.play(items[randomItem].animsConfig?.idle?.key)
+  if (items[item].animsConfig?.idle?.key) {
+    sprite.play(items[item].animsConfig?.idle?.key)
   }
 
-  const text = scene.add.text(0, 0, randomItem, {
+  const text = scene.add.text(0, 0, item, {
     fontSize: setting.fontSize
   })
   text.setOrigin(0.5, 0.5)
@@ -31,7 +28,7 @@ export const drawRandomItemCard = (scene, emptyCard, methods) => {
 
   itemCell.on('pointerdown', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
-    player.item = randomItem
+    player.item = item
     levelUp(scene)
   }, scene)
 }

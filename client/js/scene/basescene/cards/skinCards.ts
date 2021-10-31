@@ -6,23 +6,20 @@ import _ from 'lodash'
 import { socketMethods } from '../../../index'
 import { levelUp } from './level'
 
-export const drawRandomSkinCard = (scene, emptyCard, methods) => {
+export const drawSkinCard = (scene, emptyCard, methods) => skin => {
   const {
     itemCell,
     imageContainer,
     descriptionContainer
   } = emptyCard
 
-  const availableSkins = Object.keys(skins).filter(key => key !== 'skull')
-  const randomSkin = availableSkins[Math.floor(Math.random() * availableSkins.length)] || availableSkins[0]
+  const sprite = scene.add.sprite(0, 0, skins[skin].spritesheetConfig.spritesheetKey)
 
-  const sprite = scene.add.sprite(0, 0, skins[randomSkin].spritesheetConfig.spritesheetKey)
-
-  if (skins[randomSkin].animsConfig?.idle?.key) {
-    sprite.play(skins[randomSkin].animsConfig?.idle?.key)
+  if (skins[skin].animsConfig?.idle?.key) {
+    sprite.play(skins[skin].animsConfig?.idle?.key)
   }
 
-  const text = scene.add.text(0, 0, randomSkin, {
+  const text = scene.add.text(0, 0, skin, {
     fontSize: setting.fontSize
   })
   text.setOrigin(0.5, 0.5)
@@ -33,7 +30,7 @@ export const drawRandomSkinCard = (scene, emptyCard, methods) => {
   itemCell.on('pointerdown', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
     const _player = _.omit(_.clone(player), 'phaserObject')
-    _player.skin = randomSkin
+    _player.skin = skin
     socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
     levelUp(scene)
   }, scene)
