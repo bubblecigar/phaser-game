@@ -13,10 +13,12 @@ export const drawActionCard = (scene, emptyCard, methods) => action => {
   } = emptyCard
 
   const target = scene.matter.add.image(0, 0, 'target')
+  target.setFriction(0, 0, 0)
   target.setIgnoreGravity(true)
   target.setAngularVelocity(0.05)
   target.setScale(1.5, 1.5)
-  target.setFriction(0, 0, 0)
+  target.setVelocityX(0)
+  target.setVelocityY(0)
 
   const text = scene.add.text(0, 0, action, {
     fontSize: setting.fontSize
