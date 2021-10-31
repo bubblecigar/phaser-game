@@ -1,6 +1,7 @@
 import gameConfig from '../../../game/config'
 import itemCellUrl from '../../../../statics/tile/gui/floor_1.png'
 import { drawRandomSkinCard } from './skinCards'
+import { drawRandomItemCard } from './itemCard'
 
 let methods
 
@@ -60,8 +61,7 @@ function create() {
   }, cardSize)
 
   drawRandomSkinCard(this, emptyCard1, methods)
-  drawRandomSkinCard(this, emptyCard2, methods)
-  drawRandomSkinCard(this, emptyCard3, methods)
+  drawRandomItemCard(this, emptyCard2, methods)
 
 }
 
