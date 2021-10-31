@@ -42,7 +42,7 @@ const registerInputEvents = (scene, methods, socketMethods) => {
           if (shopOpened) {
             scene.scene.stop('cards')
           } else {
-            scene.scene.launch('cards')
+            scene.scene.launch('cards', methods)
           }
 
           break
