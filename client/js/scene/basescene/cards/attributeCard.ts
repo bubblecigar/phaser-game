@@ -1,9 +1,9 @@
-import { actions } from '../../../actions/index'
 import setting from '../../../../../share/setting.json'
 import { Player } from '../../../Interface'
 import { getLocalUserData } from '../../../user'
 import _ from 'lodash'
 import { socketMethods } from '../../../index'
+import { levelUp } from '../playerGrow'
 
 export const drawRandomAttributeCard = (scene, emptyCard, methods) => {
   const {
@@ -48,6 +48,6 @@ export const drawRandomAttributeCard = (scene, emptyCard, methods) => {
     const _player = _.omit(_.clone(player), 'phaserObject')
     _player.attributes[randomAttribute.property] += randomAttribute.value
     socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
-    scene.scene.stop()
+    levelUp(scene)
   }, scene)
 }

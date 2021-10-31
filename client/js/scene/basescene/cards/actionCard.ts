@@ -3,7 +3,7 @@ import setting from '../../../../../share/setting.json'
 import { Player } from '../../../Interface'
 import { getLocalUserData } from '../../../user'
 import _ from 'lodash'
-import { socketMethods } from '../../../index'
+import { levelUp } from '../playerGrow'
 
 export const drawRandomActionCard = (scene, emptyCard, methods) => {
   const {
@@ -32,6 +32,6 @@ export const drawRandomActionCard = (scene, emptyCard, methods) => {
   itemCell.on('pointerdown', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
     player.action = randomAction
-    scene.scene.stop()
+    levelUp(scene)
   }, scene)
 }

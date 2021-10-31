@@ -36,6 +36,8 @@ export interface Player extends Omit<Charactor, 'interface'> {
   scene: string,
   phaserObject: any,
   coins: number,
+  exp: number,
+  level: number,
   resurrectCountDown: number
 }
 export interface Monster extends Omit<Charactor, 'interface'> {

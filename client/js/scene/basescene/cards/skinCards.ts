@@ -4,6 +4,7 @@ import { Player } from '../../../Interface'
 import { getLocalUserData } from '../../../user'
 import _ from 'lodash'
 import { socketMethods } from '../../../index'
+import { levelUp } from '../playerGrow'
 
 export const drawRandomSkinCard = (scene, emptyCard, methods) => {
   const {
@@ -34,6 +35,6 @@ export const drawRandomSkinCard = (scene, emptyCard, methods) => {
     const _player = _.omit(_.clone(player), 'phaserObject')
     _player.skin = randomSkin
     socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
-    scene.scene.stop()
+    levelUp(scene)
   }, scene)
 }

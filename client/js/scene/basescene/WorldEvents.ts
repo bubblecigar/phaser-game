@@ -2,6 +2,7 @@ import { getLocalUserData, countUpCoin } from '../../user'
 import _ from 'lodash'
 import { v4 } from 'uuid'
 import { Item } from '../../Interface'
+import { playerGainExp } from './playerGrow'
 
 const classifyCollisionTargets = (bodyA, bodyB) => {
   const collisionTargets = {
@@ -226,6 +227,8 @@ const monsterOnHit = (scene, socketMethods, methods, monster, damage) => {
   if (_monster.health <= 0) {
     socketMethods.clientsInScene(scene.scene.key, methods, 'onMonsterDead', monster.data.id, deadPosition)
     socketMethods.server('onMonsterDead', monster.data.id)
+
+    playerGainExp(scene, methods, monster.data.expDrop)
 
     if (monster.data.itemDrop) {
       const itemConstructor: Item = {
