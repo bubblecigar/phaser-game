@@ -227,12 +227,12 @@ const monsterOnHit = (scene, socketMethods, methods, monster, damage) => {
     socketMethods.clientsInScene(scene.scene.key, methods, 'onMonsterDead', monster.data.id, deadPosition)
     socketMethods.server('onMonsterDead', monster.data.id)
 
-    if (monster.data.drop) {
+    if (monster.data.itemDrop) {
       const itemConstructor: Item = {
         interface: 'Item',
         builderId: monster.data.id,
         id: v4(),
-        itemKey: monster.data.drop,
+        itemKey: monster.data.itemDrop,
         type: '?',
         position: deadPosition,
         velocity: { x: 0.0001, y: -0 },

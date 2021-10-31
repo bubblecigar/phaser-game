@@ -93,7 +93,8 @@ const createMonster = (room) => {
       vision: 75
     },
     health: rolledMonster.health,
-    drop: rolledDrop.key,
+    itemDrop: rolledDrop.key,
+    expDrop: 5,
     position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },
     velocity: { x: 0, y: 0 }
   }

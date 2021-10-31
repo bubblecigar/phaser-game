@@ -40,7 +40,8 @@ export interface Player extends Omit<Charactor, 'interface'> {
 }
 export interface Monster extends Omit<Charactor, 'interface'> {
   interface: 'Monster',
-  drop: string,
+  itemDrop: string,
+  expDrop: number,
   phaserObject: any
 }
 export interface Item {
