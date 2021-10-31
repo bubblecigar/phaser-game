@@ -3,7 +3,7 @@ import { getLocalUserData } from '../../../user'
 import gameState from '../../../game/state'
 import skins from '../../../skins'
 import items from '../../../items'
-import { actions } from '../../../actions'
+import { createActionPool, createAttributePool, createItemPool, createSkinPool } from './constraint'
 
 const base_level_exp_unit = 3
 
@@ -60,25 +60,6 @@ const createSkinCard = (): Card => {
   }
 }
 
-const createItemCard = (): Card => {
-  return {
-    type: 'item',
-    value: drawFromPool(Object.keys(items))
-  }
-}
-
-const createActionCard = (): Card => {
-  return {
-    type: 'action',
-    value: drawFromPool(Object.keys(actions))
-  }
-}
-
-const createResurrectCard = (): Card => ({
-  type: 'resurrect',
-  value: ''
-})
-
 const openLevelUpPanel = (scene, methods, player) => {
   const cardSelectionOpened = scene.game.scene.isActive('cards')
   if (cardSelectionOpened) {
@@ -94,18 +75,49 @@ const openLevelUpPanel = (scene, methods, player) => {
     // 5. resurrection would reset skin / action / item / exp / level to init state, but attributes would be retained
     // 6. movementSpeed has upperbound 3, and should be a very rare card
 
-    const typePool = [createAttributeCard, createItemCard, createActionCard]
-    if (player.level > 5) {
-      typePool.push(createSkinCard)
+    // createActionPool, createAttributePool, createItemPool, createSkinPool
+    const skinPool = {
+      type: 'skin',
+      pool: createSkinPool(player.level)
     }
-    if (player.level > 15) {
-      typePool.push(createResurrectCard)
+    const itemPool = {
+      type: 'item',
+      pool: createItemPool(player.skin, player.action)
+    }
+    const actionPool = {
+      type: 'action',
+      pool: createActionPool(player.skin, player.item)
+    }
+    const attributePool = {
+      type: 'attribute',
+      pool: createAttributePool(player.skin)
+    }
+    const resurrect = {
+      type: 'resurrect',
+      value: ''
+    }
+
+
+    const drawCard = () => {
+      const typePool = [skinPool, itemPool, actionPool, attributePool]
+      const randomPool = drawFromPool(typePool)
+      const randomCard: Card = {
+        type: randomPool.type,
+        value: drawFromPool(randomPool.pool)
+      }
+      return randomCard
     }
 
     const cards: Card[] = [
-      createAttributeCard(),
-      drawFromPool(typePool)(),
-      drawFromPool(typePool)()
+      {
+        type: 'attribute',
+        value: drawFromPool(attributePool.pool)
+      },
+      drawCard(),
+      player.level > 15 ? {
+        type: 'resurrect',
+        value: ''
+      } : drawCard()
     ]
     scene.scene.launch('cards', { methods, cards })
   }
