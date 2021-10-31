@@ -3,6 +3,7 @@ import itemCellUrl from '../../../../statics/tile/gui/floor_1.png'
 import { drawRandomSkinCard } from './skinCards'
 import { drawRandomItemCard } from './itemCard'
 import { drawRandomActionCard } from './actionCard'
+import { drawRandomAttributeCard } from './attributeCard'
 
 let methods
 
@@ -20,8 +21,15 @@ const createEmptyCard = (scene, position, size) => {
   const widthScaleFactor = size.width / itemCell.width
   const heightScaleFactor = size.height / itemCell.height
   itemCell.setScale(widthScaleFactor, heightScaleFactor)
+  itemCell.setAlpha(0.7)
   itemCell.setInteractive({
     cursor: 'pointer'
+  })
+  itemCell.on('pointermove', function (pointer, x, y, event) {
+    itemCell.setAlpha(1)
+  })
+  itemCell.on('pointerout', function (pointer, x, y, event) {
+    itemCell.setAlpha(0.7)
   })
 
   const upperPosition = {
@@ -63,7 +71,7 @@ function create() {
 
   drawRandomSkinCard(this, emptyCard1, methods)
   drawRandomItemCard(this, emptyCard2, methods)
-  drawRandomActionCard(this, emptyCard3, methods)
+  drawRandomAttributeCard(this, emptyCard3, methods)
 }
 
 function update(t, dt) {
