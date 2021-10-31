@@ -123,6 +123,8 @@ const connectToRoom = (roomId, userState, socket) => {
       health: initHealth,
       resurrectCountDown: setting.resurrectCountDown,
       coins: 0,
+      exp: 0,
+      level: 1,
       items: [],
       abilities: null,
       phaserObject: null
