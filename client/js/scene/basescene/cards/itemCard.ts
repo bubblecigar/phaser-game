@@ -3,7 +3,6 @@ import setting from '../../../../../share/setting.json'
 import { Player } from '../../../Interface'
 import { getLocalUserData } from '../../../user'
 import _ from 'lodash'
-import { socketMethods } from '../../../index'
 
 export const drawRandomItemCard = (scene, emptyCard, methods) => {
   const {
