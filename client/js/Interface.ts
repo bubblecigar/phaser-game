@@ -13,8 +13,7 @@ export interface Abilities {
   consectiveShooting: number
 }
 
-export interface Player {
-  interface: 'Player',
+export interface Charactor {
   id: string,
   name: string,
   velocity: Point,
@@ -27,27 +26,22 @@ export interface Player {
     vision: 75 | 100 | 125 | 150 | 175 | 200,
     movementSpeed: 1 | 2 | 3
   },
+  phaserObject: any,
+  health: number,
+}
+
+export interface Player extends Omit<Charactor, 'interface'> {
+  interface: 'Player',
   ready: boolean,
   scene: string,
   phaserObject: any,
-  health: number,
   coins: number,
   resurrectCountDown: number
 }
-export interface Monster {
+export interface Monster extends Omit<Charactor, 'interface'> {
   interface: 'Monster',
-  id: string,
-  velocity: Point,
-  position: Point,
-  skin: string,
-  attributes: {
-    maxHealth: number,
-    vision: 75 | 100 | 125 | 150 | 175 | 200,
-    movementSpeed: 1 | 2 | 3
-  },
   drop: string,
-  phaserObject: any,
-  health: number
+  phaserObject: any
 }
 export interface Item {
   interface: 'Item',
