@@ -4,6 +4,7 @@ import { drawRandomSkinCard } from './skinCards'
 import { drawRandomItemCard } from './itemCard'
 import { drawRandomActionCard } from './actionCard'
 import { drawRandomAttributeCard } from './attributeCard'
+import setting from '../../../../../share/setting.json'
 
 let methods
 
@@ -51,6 +52,8 @@ const createEmptyCard = (scene, position, size) => {
   }
 }
 
+let levelUpText
+
 function create() {
   const center = { x: gameConfig.canvasWidth / 2, y: gameConfig.canvasHeight / 2 }
 
@@ -72,10 +75,21 @@ function create() {
   drawRandomSkinCard(this, emptyCard1, methods)
   drawRandomItemCard(this, emptyCard2, methods)
   drawRandomAttributeCard(this, emptyCard3, methods)
+
+  levelUpText = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'level up', {
+    fontSize: setting.fontSize
+  })
+  this.sound.play('collect')
+  levelUpText.setOrigin(0.5, 0.5)
+  this.time.delayedCall(150, () => {
+    levelUpText && levelUpText.destroy()
+  }, null, this)
 }
 
 function update(t, dt) {
-
+  if (levelUpText) {
+    levelUpText.y -= dt / 5
+  }
 }
 
 export default {
