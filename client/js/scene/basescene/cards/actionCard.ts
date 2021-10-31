@@ -3,7 +3,7 @@ import setting from '../../../../../share/setting.json'
 import { Player } from '../../../Interface'
 import { getLocalUserData } from '../../../user'
 import _ from 'lodash'
-import { levelUp } from '../playerGrow'
+import { levelUp } from '../level'
 
 export const drawRandomActionCard = (scene, emptyCard, methods) => {
   const {

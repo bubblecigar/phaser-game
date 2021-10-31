@@ -2,7 +2,7 @@ import { getLocalUserData, countUpCoin } from '../../user'
 import _ from 'lodash'
 import { v4 } from 'uuid'
 import { Item } from '../../Interface'
-import { playerGainExp } from './playerGrow'
+import { playerGainExp } from './level'
 
 const classifyCollisionTargets = (bodyA, bodyB) => {
   const collisionTargets = {

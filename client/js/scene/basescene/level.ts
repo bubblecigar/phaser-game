@@ -19,12 +19,14 @@ const isAbleToLevelUp = player => {
   return player.exp >= levelupExpRequirement
 }
 
-const openLevelUpPanel = (scene, methods) => {
+const openLevelUpPanel = (scene, methods, player) => {
   const cardSelectionOpened = scene.game.scene.isActive('cards')
   if (cardSelectionOpened) {
     // do nothing, this should not happen
   } else {
-    scene.scene.launch('cards', methods)
+    // generate levelup cards according to player level
+    const cards = []
+    scene.scene.launch('cards', { methods, player, cards })
   }
 }
 
@@ -45,7 +47,7 @@ export const playerGainExp = (scene, methods, expGain) => {
 
   const ableToLevelUp = isAbleToLevelUp(player)
   if (ableToLevelUp) {
-    openLevelUpPanel(scene, methods)
+    openLevelUpPanel(scene, methods, player)
   }
 }
 
