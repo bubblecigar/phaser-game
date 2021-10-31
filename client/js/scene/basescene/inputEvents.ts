@@ -42,7 +42,8 @@ const registerInputEvents = (scene, methods, socketMethods) => {
           if (shopOpened) {
             scene.scene.stop('cards')
           } else {
-            scene.scene.launch('cards', methods)
+            const player: Player = methods.getPlayer(getLocalUserData().userId)
+            scene.scene.launch('cards', { methods, player })
           }
 
           break

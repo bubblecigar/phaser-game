@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import { getLocalUserData } from '../../user'
-import gameState from '../../game/state'
+import { getLocalUserData } from '../../../user'
+import gameState from '../../../game/state'
 
 const base_level_exp_unit = 3
 
@@ -25,8 +25,22 @@ const openLevelUpPanel = (scene, methods, player) => {
     // do nothing, this should not happen
   } else {
     // generate levelup cards according to player level
-    const cards = []
-    scene.scene.launch('cards', { methods, player, cards })
+
+    // rules:
+    // 1. at least one attribute card
+    // 2. skins can only be obtained over specific level
+    // 3. you can not change skin before resurrection
+    // 4. only specific action / item are allowed depends on skins
+    // 5. resurrection would reset skin / action / item / exp / level to init state, but attributes would be retained
+    // 6. movementSpeed has upperbound, and should be a very rare card
+
+    const cards = [
+      {
+        type: 'action' || 'item' || 'skin' || 'attribute',
+        pool: ''
+      }
+    ]
+    scene.scene.launch('cards', { methods, cards })
   }
 }
 

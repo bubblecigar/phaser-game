@@ -4,7 +4,7 @@ import { Player } from '../../../Interface'
 import { getLocalUserData } from '../../../user'
 import _ from 'lodash'
 import { socketMethods } from '../../../index'
-import { levelUp } from '../level'
+import { levelUp } from './level'
 
 export const drawRandomSkinCard = (scene, emptyCard, methods) => {
   const {
