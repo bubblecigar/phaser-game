@@ -5,7 +5,7 @@ import { getLocalUserData } from '../../../user'
 import _ from 'lodash'
 import { socketMethods } from '../../../index'
 
-export const createRandomSkinCard = (scene, emptyCard, methods) => {
+export const drawRandomSkinCard = (scene, emptyCard, methods) => {
   const {
     itemCell,
     imageContainer,
