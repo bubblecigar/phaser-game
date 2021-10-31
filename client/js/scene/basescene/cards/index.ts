@@ -9,7 +9,7 @@ import setting from '../../../../../share/setting.json'
 let methods
 
 function init(data) {
-  methods = data
+  methods = data.methods
 }
 
 function preload() {
