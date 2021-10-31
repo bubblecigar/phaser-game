@@ -2,6 +2,8 @@ import _ from 'lodash'
 import { getLocalUserData } from '../../../user'
 import gameState from '../../../game/state'
 import skins from '../../../skins'
+import items from '../../../items'
+import { actions } from '../../../actions'
 
 const base_level_exp_unit = 3
 
@@ -58,6 +60,21 @@ const createSkinCard = (): Card => {
   }
 }
 
+const createItemCard = (): Card => {
+  return {
+    type: 'item',
+    value: drawFromPool(Object.keys(items))
+  }
+}
+
+
+const createActionCard = (): Card => {
+  return {
+    type: 'action',
+    value: drawFromPool(Object.keys(actions))
+  }
+}
+
 const openLevelUpPanel = (scene, methods, player) => {
   const cardSelectionOpened = scene.game.scene.isActive('cards')
   if (cardSelectionOpened) {
@@ -71,9 +88,9 @@ const openLevelUpPanel = (scene, methods, player) => {
     // 3. you can not change skin before resurrection
     // 4. only specific action / item are allowed depends on skins
     // 5. resurrection would reset skin / action / item / exp / level to init state, but attributes would be retained
-    // 6. movementSpeed has upperbound, and should be a very rare card
+    // 6. movementSpeed has upperbound 3, and should be a very rare card
 
-    const typePool = [createAttributeCard]
+    const typePool = [createAttributeCard, createItemCard, createActionCard]
     if (player.level > 5) {
       typePool.push(createSkinCard)
     }
