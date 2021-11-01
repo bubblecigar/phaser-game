@@ -47,15 +47,15 @@ const availableAttributes = {
   },
   damage1: {
     property: 'damage',
-    value: 1
+    value: 0.1
   },
   damage2: {
     property: 'damage',
-    value: 2
+    value: 0.2
   },
   damage3: {
     property: 'damage',
-    value: 3
+    value: 0.3
   },
   jump: {
     property: 'jump',

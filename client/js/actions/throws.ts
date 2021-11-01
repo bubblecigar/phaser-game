@@ -72,7 +72,7 @@ export const throws = ({
     id,
     interface: 'Bullet',
     builderId: performer.id,
-    damage: 8,
+    damage: 8 * options.damage,
     phaserObject: headMatter,
     destroy
   })

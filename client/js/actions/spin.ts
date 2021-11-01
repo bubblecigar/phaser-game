@@ -55,7 +55,7 @@ export const spin = ({
     id,
     interface: 'Bullet',
     builderId: performer.id,
-    damage: 3,
+    damage: 3 * options.damage,
     phaserObject: matter,
     destroy
   })

@@ -130,6 +130,7 @@ function create() {
         target: { x: aim.x, y: aim.y },
         options: {
           item: player.item,
+          damage: player.attributes.damage,
           randomNumber: Math.random()
         }
 

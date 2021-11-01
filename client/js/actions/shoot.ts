@@ -54,7 +54,7 @@ export const shoot = ({
     id,
     interface: 'Bullet',
     builderId: performer.id,
-    damage: 12,
+    damage: 12 * options.damage,
     phaserObject: matter,
     destroy
   })

@@ -69,7 +69,7 @@ export const rain = ({
     id,
     interface: 'Bullet',
     builderId: performer.id,
-    damage: 7 * randomSizeFactor,
+    damage: 7 * options.damage * randomSizeFactor,
     phaserObject: matter,
     destroy
   })
