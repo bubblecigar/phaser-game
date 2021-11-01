@@ -61,7 +61,7 @@ export const summon = ({
     id,
     interface: 'Bullet',
     builderId: performer.id,
-    damage: 8 * options.damage,
+    damage: 7 * options.damage,
     phaserObject: matter,
     destroy
   })

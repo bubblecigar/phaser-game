@@ -44,7 +44,7 @@ export const tab = ({
     id,
     interface: 'Bullet',
     builderId: performer.id,
-    damage: 3 * options.damage,
+    damage: 10 * options.damage,
     phaserObject: matter,
     destroy
   })
