@@ -28,6 +28,30 @@ const availableAttributes = {
   vision3: {
     property: 'vision',
     value: 15
+  },
+  healthRegen: {
+    property: 'healthRegen',
+    value: 1
+  },
+  attackSpeed: {
+    property: 'attackSpeed',
+    value: 1
+  },
+  damage1: {
+    property: 'damage',
+    value: 1
+  },
+  damage2: {
+    property: 'damage',
+    value: 2
+  },
+  damage3: {
+    property: 'damage',
+    value: 3
+  },
+  jump: {
+    property: 'jump',
+    value: 1
   }
 }
 
@@ -35,15 +59,15 @@ export const skinLevelConstraint = {
   "tinyZombie": 0,
   "imp": 0,
   "skeleton": 0,
-  "wizzardMale": 5,
-  "knightFemale": 5,
-  "elfFemale": 5,
-  "elfMale": 5,
-  "lizardFemale": 8,
-  "chort": 8,
-  "orge": 12,
-  "giantDemon": 12,
-  "giantZombie": 12,
+  "wizzardMale": 3,
+  "knightFemale": 3,
+  "elfFemale": 3,
+  "elfMale": 3,
+  "lizardFemale": 5,
+  "chort": 5,
+  "orge": 8,
+  "giantDemon": 8,
+  "giantZombie": 8,
 }
 
 export const createSkinPool = (level, equippedSkin) => {
@@ -54,17 +78,17 @@ export const createSkinPool = (level, equippedSkin) => {
 
 export const skinAttributeConstraint = {
   "tinyZombie": ['maxhealth1'],
-  "imp": ['maxhealth1'],
-  "skeleton": ['maxhealth1'],
-  "wizzardMale": ['maxhealth1'],
-  "knightFemale": ['maxhealth3'],
-  "elfFemale": ['maxhealth1', 'vision3'],
-  "elfMale": ['maxhealth1', 'vision3'],
-  "lizardFemale": ['maxhealth1', 'movementSpeed'],
-  "chort": ['maxhealth1', 'movementSpeed'],
-  "orge": ['maxhealth3', 'vision1'],
-  "giantDemon": ['maxhealth3', 'vision1'],
-  "giantZombie": ['maxhealth3', 'vision1']
+  "imp": ['vision1'],
+  "skeleton": ['damage1'],
+  "wizzardMale": ['maxhealth1', 'damage1', 'vision1'],
+  "knightFemale": ['healthRegen', 'maxhealth3', 'damage1'],
+  "elfFemale": ['vision3', 'maxhealth1', 'damage2'],
+  "elfMale": ['vision3', 'maxhealth1', 'damage2'],
+  "lizardFemale": ['movementSpeed', 'maxhealth1', 'damage1'],
+  "chort": ['attackSpeed', 'maxhealth1', 'damage1'],
+  "orge": ['vision1', 'maxhealth1', 'damage1', 'vision2', 'maxhealth2', 'damage2', 'vision3', 'maxhealth3', 'damage3', 'jump'],
+  "giantDemon": ['vision1', 'maxhealth1', 'damage1', 'vision2', 'maxhealth2', 'damage2', 'vision3', 'maxhealth3', 'damage3', 'jump'],
+  "giantZombie": ['vision1', 'maxhealth1', 'damage1', 'vision2', 'maxhealth2', 'damage2', 'vision3', 'maxhealth3', 'damage3']
 }
 
 export const createAttributePool = (skin) => {

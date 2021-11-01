@@ -115,7 +115,11 @@ const connectToRoom = (roomId, userState, socket) => {
       attributes: {
         maxHealth: 20,
         movementSpeed: 1,
-        vision: 75
+        vision: 75,
+        healthRegen: 1,
+        attackSpeed: 1,
+        damage: 1,
+        jump: 1
       },
       item: 'dagger',
       position: { x: spawnPoint.x, y: spawnPoint.y },

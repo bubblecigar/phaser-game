@@ -24,7 +24,11 @@ export interface Charactor {
   attributes: {
     maxHealth: number,
     vision: number,
-    movementSpeed: number
+    movementSpeed: number,
+    healthRegen: number,
+    attackSpeed: number,
+    damage: number,
+    jump: number
   },
   phaserObject: any,
   health: number,

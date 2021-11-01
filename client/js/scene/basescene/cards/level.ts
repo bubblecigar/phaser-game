@@ -80,7 +80,7 @@ const openLevelUpPanel = (scene, methods, player) => {
         value: drawFromPool(attributePool.pool)
       },
       drawCard(),
-      player.level > 15 ? {
+      player.level > 14 ? {
         type: 'resurrect',
         value: ''
       } : drawCard()
