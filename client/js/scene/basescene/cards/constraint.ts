@@ -101,6 +101,9 @@ export const createAttributePool = (player) => {
   if (player.attributes.jump >= 3) {
     availAttributePool = availAttributePool.filter(a => a.property !== 'jump')
   }
+  if (player.attributes.attackSpeed >= 3) {
+    availAttributePool = availAttributePool.filter(a => a.property !== 'attackSpeed')
+  }
   return availAttributePool
 }
 

@@ -122,7 +122,6 @@ function create() {
     const player = methods.getPlayer(userId)
     if (!player || player.health <= 0) return
 
-    const shootInterval = 200
     if (readyToShoot && player) {
       scene.sound.play('shoot')
       socketMethods.clientsInScene(scene.scene.key, methods, 'performAction', {
@@ -137,7 +136,7 @@ function create() {
       })
       readyToShoot = false
       scene.time.delayedCall(
-        shootInterval,
+        500 / player.attributes.attackSpeed,
         () => {
           readyToShoot = true
         },
