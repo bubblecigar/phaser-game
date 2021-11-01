@@ -80,14 +80,14 @@ export const skinAttributeConstraint = {
   "tinyZombie": ['maxhealth1'],
   "imp": ['vision1'],
   "skeleton": ['damage1'],
-  "wizzardMale": ['maxhealth1', 'damage1', 'vision1'],
+  "wizzardMale": ['maxhealth1', 'damage1', 'vision1', 'attackSpeed'],
   "knightFemale": ['healthRegen', 'maxhealth3', 'damage1'],
   "elfFemale": ['vision3', 'maxhealth1', 'damage2'],
   "elfMale": ['vision3', 'maxhealth1', 'damage2'],
   "lizardFemale": ['movementSpeed', 'maxhealth1', 'damage1'],
-  "chort": ['attackSpeed', 'maxhealth1', 'damage1'],
+  "chort": ['jump', 'maxhealth1', 'damage1'],
   "orge": ['vision1', 'maxhealth1', 'damage1', 'vision2', 'maxhealth2', 'damage2', 'vision3', 'maxhealth3', 'damage3', 'jump'],
-  "giantDemon": ['vision1', 'maxhealth1', 'damage1', 'vision2', 'maxhealth2', 'damage2', 'vision3', 'maxhealth3', 'damage3', 'jump'],
+  "giantDemon": ['vision1', 'maxhealth1', 'damage1', 'vision2', 'maxhealth2', 'damage2', 'vision3', 'maxhealth3', 'damage3'],
   "giantZombie": ['vision1', 'maxhealth1', 'damage1', 'vision2', 'maxhealth2', 'damage2', 'vision3', 'maxhealth3', 'damage3']
 }
 
@@ -98,7 +98,7 @@ export const createAttributePool = (player) => {
   if (player.attributes.movementSpeed >= 3) {
     availAttributePool = availAttributePool.filter(a => a.property !== 'movementSpeed')
   }
-  if (player.attributes.jump >= 2) {
+  if (player.attributes.jump >= 3) {
     availAttributePool = availAttributePool.filter(a => a.property !== 'jump')
   }
   return availAttributePool
