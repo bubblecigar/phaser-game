@@ -59,7 +59,7 @@ const openLevelUpPanel = (scene, methods, player) => {
     }
     const attributePool = {
       type: 'attribute',
-      pool: createAttributePool(player.skin)
+      pool: createAttributePool(player)
     }
 
 

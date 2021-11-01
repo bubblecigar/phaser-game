@@ -91,10 +91,17 @@ export const skinAttributeConstraint = {
   "giantZombie": ['vision1', 'maxhealth1', 'damage1', 'vision2', 'maxhealth2', 'damage2', 'vision3', 'maxhealth3', 'damage3']
 }
 
-export const createAttributePool = (skin) => {
-  return skinAttributeConstraint[skin].map(
+export const createAttributePool = (player) => {
+  let availAttributePool = skinAttributeConstraint[player.skin].map(
     attr => availableAttributes[attr]
   )
+  if (player.attributes.movementSpeed >= 3) {
+    availAttributePool = availAttributePool.filter(a => a.property !== 'movementSpeed')
+  }
+  if (player.attributes.jump >= 2) {
+    availAttributePool = availAttributePool.filter(a => a.property !== 'jump')
+  }
+  return availAttributePool
 }
 
 export const skinActionConstraint = {
