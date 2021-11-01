@@ -29,7 +29,15 @@ const availableAttributes = {
     property: 'vision',
     value: 15
   },
-  healthRegen: {
+  healthRegen1: {
+    property: 'healthRegen',
+    value: 0.3
+  },
+  healthRegen2: {
+    property: 'healthRegen',
+    value: 0.7
+  },
+  healthRegen3: {
     property: 'healthRegen',
     value: 1
   },
@@ -86,23 +94,39 @@ export const createSkinPool = (level, equippedSkin) => {
 
 export const skinAttributeConstraint = {
   "tinyZombie": ['maxhealth1'],
-  "imp": ['attackSpeed1'],
-  "skeleton": ['damage1'],
-  "wizzardMale": ['maxhealth1', 'damage1', 'vision1', 'attackSpeed1'],
-  "knightFemale": ['healthRegen', 'maxhealth3', 'damage1', 'attackSpeed1'],
-  "elfFemale": ['vision3', 'maxhealth1', 'damage2', 'attackSpeed1'],
-  "elfMale": ['vision3', 'maxhealth1', 'damage2', 'attackSpeed1'],
-  "lizardFemale": ['movementSpeed', 'maxhealth1', 'damage1', 'attackSpeed2'],
-  "chort": ['jump', 'maxhealth1', 'damage1', 'attackSpeed2'],
-  "orge": ['vision1', 'maxhealth1', 'damage1', 'vision2', 'maxhealth2', 'damage2', 'vision3', 'maxhealth3', 'damage3', 'jump', 'attackSpeed1', 'attackSpeed2', 'attackSpeed3'],
-  "giantDemon": ['vision1', 'maxhealth1', 'damage1', 'vision2', 'maxhealth2', 'damage2', 'vision3', 'maxhealth3', 'damage3', 'attackSpeed1', 'attackSpeed2', 'attackSpeed3'],
-  "giantZombie": ['vision1', 'maxhealth1', 'damage1', 'vision2', 'maxhealth2', 'damage2', 'vision3', 'maxhealth3', 'damage3', 'attackSpeed1', 'attackSpeed2', 'attackSpeed3']
+  "imp": ['vision1'],
+  "skeleton": ['healthRegen1'],
+  "wizzardMale": ['maxhealth1', 'vision1'],
+  "knightFemale": ['healthRegen3', 'maxhealth3'],
+  "elfFemale": ['vision3', 'maxhealth1'],
+  "elfMale": ['vision3', 'maxhealth1'],
+  "lizardFemale": ['movementSpeed', 'maxhealth1'],
+  "chort": ['jump', 'maxhealth1'],
+  "orge": ['vision2', 'maxhealth2', 'vision3', 'maxhealth3', 'healthRegen2'],
+  "giantDemon": ['vision2', 'maxhealth2', 'vision3', 'maxhealth3', 'healthRegen2'],
+  "giantZombie": ['vision2', 'maxhealth2', 'vision3', 'maxhealth3', 'healthRegen2']
+}
+
+export const itemAttributeConstraint = {
+  dagger: ['attackSpeed1'],
+  coin: ['attackSpeed3'],
+  iceFlask: ['attackSpeed2'],
+  shadowBall: ['damage3'],
+  fireball: ['damage2'],
+  arrow: ['damage1'],
+  potion: ['damage2', 'healthRegen2'],
+  muddy: ['damage2', 'vision2']
 }
 
 export const createAttributePool = (player) => {
-  let availAttributePool = skinAttributeConstraint[player.skin].map(
+  const skinAttributePool = skinAttributeConstraint[player.skin].map(
     attr => availableAttributes[attr]
   )
+  const itemAttributePool = itemAttributeConstraint[player.item].map(
+    attr => availableAttributes[attr]
+  )
+  let availAttributePool = _.unionBy(skinAttributePool, itemAttributePool, attr => `${attr.property}-${attr.value}`)
+
   if (player.attributes.movementSpeed >= 3) {
     availAttributePool = availAttributePool.filter(a => a.property !== 'movementSpeed')
   }
