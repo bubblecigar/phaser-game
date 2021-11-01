@@ -190,7 +190,7 @@ function update(t, dt) {
     } else {
       if (restTime >= setting.healInterval) {
         restTime = 0
-        socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, player.attributes.maxHealth * setting.healingPercentage)
+        socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, player.attributes.maxHealth * player.attributes.healthRegen * 0.01)
       }
       restTime += dt
     }
