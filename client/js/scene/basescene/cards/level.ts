@@ -1,8 +1,6 @@
 import _ from 'lodash'
 import { getLocalUserData } from '../../../user'
 import gameState from '../../../game/state'
-import skins from '../../../skins'
-import items from '../../../items'
 import { createActionPool, createAttributePool, createItemPool, createSkinPool } from './constraint'
 
 const base_level_exp_unit = 3
@@ -27,37 +25,8 @@ export interface Card {
   value: any
 }
 
-const availableAttributes = [
-  {
-    property: 'maxHealth',
-    value: 5
-  },
-  {
-    property: 'movementSpeed',
-    value: 1
-  },
-  {
-    property: 'vision',
-    value: 10
-  }
-]
-
 const drawFromPool = (pool) => {
   return pool[Math.floor(Math.random() * pool.length)] || pool[0]
-}
-
-const createAttributeCard = (): Card => {
-  return {
-    type: 'attribute',
-    value: drawFromPool(availableAttributes)
-  }
-}
-
-const createSkinCard = (): Card => {
-  return {
-    type: 'skin',
-    value: drawFromPool(Object.keys(skins).filter(skin => skins[skin].key !== 'skull'))
-  }
 }
 
 const openLevelUpPanel = (scene, methods, player) => {
@@ -91,10 +60,6 @@ const openLevelUpPanel = (scene, methods, player) => {
     const attributePool = {
       type: 'attribute',
       pool: createAttributePool(player.skin)
-    }
-    const resurrect = {
-      type: 'resurrect',
-      value: ''
     }
 
 
