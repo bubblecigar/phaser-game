@@ -87,10 +87,16 @@ const createMonster = (room) => {
     properties: monsterSpawnPoint.properties,
     builderId: 'server',
     skin: rolledMonster.key,
+    item: 'dagger',
+    action: 'tab',
     attributes: {
       maxHealth: 20,
       movementSpeed: 1,
-      vision: 75
+      vision: 75,
+      healthRegen: 1,
+      attackSpeed: 1,
+      damage: 1,
+      jump: 1
     },
     health: rolledMonster.health,
     itemDrop: rolledDrop.key,
@@ -126,9 +132,11 @@ const runMonsterScript = (room, monster) => {
       const shootOption = {
         target: neareastAlivePlayer.position,
         performerId: monster.id,
-        action: 'tab',
+        action: monster.action,
         options: {
-          randomNumber: Math.random()
+          randomNumber: Math.random(),
+          damage: monster.attributes.damage,
+          item: monster.item
         }
       }
       const { io } = require('./index.js')
