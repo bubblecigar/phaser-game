@@ -26,15 +26,14 @@ const createEmptyCard = (scene, position, size) => {
   const widthScaleFactor = size.width / itemCell.width
   const heightScaleFactor = size.height / itemCell.height
   itemCell.setScale(widthScaleFactor, heightScaleFactor)
-  itemCell.setAlpha(0.7)
   itemCell.setInteractive({
     cursor: 'pointer'
   })
   itemCell.on('pointermove', function (pointer, x, y, event) {
-    itemCell.setAlpha(1)
+    container.setY(position.y - 10)
   })
   itemCell.on('pointerout', function (pointer, x, y, event) {
-    itemCell.setAlpha(0.7)
+    container.setY(position.y)
   })
 
   const upperPosition = {
