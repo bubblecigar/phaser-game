@@ -47,15 +47,15 @@ const openLevelUpPanel = (scene, methods, player) => {
     // createActionPool, createAttributePool, createItemPool, createSkinPool
     const skinPool = {
       type: 'skin',
-      pool: createSkinPool(player.level)
+      pool: createSkinPool(player.level, player.skin)
     }
     const itemPool = {
       type: 'item',
-      pool: createItemPool(player.skin, player.action)
+      pool: createItemPool(player.skin, player.action, player.item)
     }
     const actionPool = {
       type: 'action',
-      pool: createActionPool(player.skin, player.item)
+      pool: createActionPool(player.skin, player.item, player.action)
     }
     const attributePool = {
       type: 'attribute',
@@ -65,7 +65,8 @@ const openLevelUpPanel = (scene, methods, player) => {
 
     const drawCard = () => {
       const typePool = [skinPool, itemPool, actionPool, attributePool]
-      const randomPool = drawFromPool(typePool)
+      const nonEmptyPools = typePool.filter(pool => pool.pool.length)
+      const randomPool = drawFromPool(nonEmptyPools)
       const randomCard: Card = {
         type: randomPool.type,
         value: drawFromPool(randomPool.pool)

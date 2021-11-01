@@ -46,9 +46,9 @@ export const skinLevelConstraint = {
   "giantZombie": 12,
 }
 
-export const createSkinPool = (level) => {
+export const createSkinPool = (level, equippedSkin) => {
   return Object.keys(skinLevelConstraint).filter(
-    skin => level >= skinLevelConstraint[skin]
+    skin => level >= skinLevelConstraint[skin] && skin !== equippedSkin
   )
 }
 
@@ -123,14 +123,14 @@ export const itemActionConstraint = {
   muddy: ['summon', 'throws']
 }
 
-export const createActionPool = (skin, item) => {
+export const createActionPool = (skin, item, equippedAction) => {
   const availableSkinActions = skinActionConstraint[skin]
   const availableItemActions = itemActionConstraint[item]
-  return _.intersection(availableSkinActions, availableItemActions)
+  return _.intersection(availableSkinActions, availableItemActions).filter(action => action !== equippedAction)
 }
 
-export const createItemPool = (skin, action) => {
+export const createItemPool = (skin, action, equippedItem) => {
   const availableSkinItem = skinItemConstraint[skin]
   const availableActionItem = actionItemConstraint[action]
-  return _.intersection(availableSkinItem, availableActionItem)
+  return _.intersection(availableSkinItem, availableActionItem).filter(item => item !== equippedItem)
 }
