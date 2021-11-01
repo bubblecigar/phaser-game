@@ -84,7 +84,9 @@ const openLevelUpPanel = (scene, methods, player) => {
         type: 'resurrect',
         value: ''
       } : drawCard()
-    ].sort(
+    ]
+
+    cards.sort(
       () => (Math.random() - 0.5)
     )
 
