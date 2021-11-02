@@ -157,8 +157,10 @@ const gameMethods = scene => {
     },
     resurrect: (playerId: string) => {
       const player = methods.getPlayer(playerId)
+      const spawnPoint = methods.getSpawnPoint(player.team)
       const playerConstructor = {
         ...player,
+        position: spawnPoint,
         health: player.attributes.maxHealth,
         resurrectCountDown: setting.resurrectCountDown
       }
