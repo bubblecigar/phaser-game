@@ -1,12 +1,14 @@
 import _ from 'lodash'
 import Phaser from 'phaser'
 import skins from '../../../skins'
+import gameState from '../../../game/state'
 import { getLocalUserData } from '../../../user'
 import { Player, Monster } from '../../../Interface'
 import collisionCategories from '../collisionCategories'
 
 export const createCharactor = (scene, constructor: Player | Monster) => {
   const isUser = constructor.id === getLocalUserData().userId
+  const userTeam = gameState.players.find(player => player.id === getLocalUserData().userId).team
   const isMonster = constructor.interface === "Monster"
 
   const skin = skins[constructor.skin]
@@ -27,10 +29,10 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   const maximumBar = scene.add.rectangle(-healthBarLength / 2, -charatorHeight / 2 - 2, healthBarLength, 4, 0xDDDDDD)
   maximumBar.setOrigin(0, 0.5)
   maximumBar.name = 'maximum-bar'
-  const color1 = 0xda4e38 // red
-  const color2 = 0x3f9e34 // green
-  const teamColor = constructor.team === 'red' ? color1 : color2
-  const healthBar = scene.add.rectangle(-healthBarLength / 2 + 1, -charatorHeight / 2 - 2, healthBarLength - 2, 2, teamColor)
+  const allyColor = 0x3f9e34
+  const enemyColor = 0xda4e38
+  const healthBarColor = constructor.team === userTeam ? allyColor : enemyColor
+  const healthBar = scene.add.rectangle(-healthBarLength / 2 + 1, -charatorHeight / 2 - 2, healthBarLength - 2, 2, healthBarColor)
   healthBar.setOrigin(0, 0.5)
   healthBar.name = 'health-bar'
   const maximumHealth = attributes.maxHealth
