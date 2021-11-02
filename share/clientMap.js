@@ -18,8 +18,8 @@ export default {
     tilesetUrl: forestTileSetUrl
   },
   "endingRoom": {
-    mapKey: 'endingRoom',
-    mapUrl: endingRoomUrl,
+    mapKey: 'readyRoom',
+    mapUrl: readyRoomUrl,
     tilesetKey: 'forestTileSet',
     tilesetUrl: forestTileSetUrl
   }
