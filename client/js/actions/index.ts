@@ -1,4 +1,4 @@
-import collisionCategories from './collisionCategories'
+import collisionCategories from '../scene/basescene/collisionCategories'
 import { getLocalUserData } from '../user'
 import { tab } from './tab'
 import { throws } from './throws'
@@ -28,20 +28,26 @@ export const perform = (scene, performer, action, target, options) => {
   if (performer.interface === 'Monster') {
     collisionCategory = collisionCategories.CATEGORY_MOSNTER_BULLET
     collisionTargets = [
-      collisionCategories.CATEGORY_PLAYER,
+      collisionCategories.CATEGORY_TEAM_RED_PLAYER,
+      collisionCategories.CATEGORY_TEAM_BLUE_PLAYER,
       collisionCategories.CATEGORY_MAP_BLOCK
     ]
   } else {
-    if (performer.id === getLocalUserData().userId) {
-      collisionCategory = collisionCategories.CATEGORY_PLAYER_BULLET
-    } else {
-      collisionCategory = collisionCategories.CATEGORY_ENEMY_BULLET
+    if (performer.team === 'red') {
+      collisionCategory = collisionCategories.CATEGORY_TEAM_RED_BULLET
+      collisionTargets = [
+        collisionCategories.CATEGORY_TEAM_BLUE_PLAYER,
+        collisionCategories.CATEGORY_MAP_BLOCK,
+        collisionCategories.CATEGORY_MONSTER
+      ]
+    } else if (performer.team === 'blue') {
+      collisionCategory = collisionCategories.CATEGORY_TEAM_BLUE_BULLET
+      collisionTargets = [
+        collisionCategories.CATEGORY_TEAM_RED_PLAYER,
+        collisionCategories.CATEGORY_MAP_BLOCK,
+        collisionCategories.CATEGORY_MONSTER
+      ]
     }
-    collisionTargets = [
-      collisionCategories.CATEGORY_PLAYER,
-      collisionCategories.CATEGORY_MAP_BLOCK,
-      collisionCategories.CATEGORY_MONSTER
-    ]
   }
 
   actions[action]({

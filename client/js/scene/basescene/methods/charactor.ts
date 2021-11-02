@@ -58,28 +58,33 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
     container.setFriction(0, 0, 0)
   }
 
-  const collisionCategory = isMonster
-    ? collisionCategories.CATEGORY_MONSTER
-    : collisionCategories.CATEGORY_PLAYER
-  phaserObject.setCollisionCategory(collisionCategory)
-  const collideTargets = isMonster ? [
-    collisionCategories.CATEGORY_PLAYER_BULLET,
-    collisionCategories.CATEGORY_ENEMY_BULLET,
-    collisionCategories.CATEGORY_MAP_BLOCK
-  ] : (
-    isUser ? [
-      collisionCategories.CATEGORY_ENEMY_BULLET,
+  let collisionCategory, collisionTargets
+  if (constructor.team === 'red') {
+    collisionCategory = collisionCategories.CATEGORY_TEAM_RED_PLAYER
+    collisionTargets = [
+      collisionCategories.CATEGORY_TEAM_BLUE_BULLET,
       collisionCategories.CATEGORY_MOSNTER_BULLET,
       collisionCategories.CATEGORY_ITEM,
-      collisionCategories.CATEGORY_MAP_BLOCK
-    ] : [
-      collisionCategories.CATEGORY_PLAYER_BULLET,
-      collisionCategories.CATEGORY_ITEM,
-      collisionCategories.CATEGORY_MOSNTER_BULLET,
       collisionCategories.CATEGORY_MAP_BLOCK
     ]
-  )
-  phaserObject.setCollidesWith(collideTargets)
+  } else if (constructor.team === 'blue') {
+    collisionCategory = collisionCategories.CATEGORY_TEAM_BLUE_PLAYER
+    collisionTargets = [
+      collisionCategories.CATEGORY_TEAM_RED_BULLET,
+      collisionCategories.CATEGORY_MOSNTER_BULLET,
+      collisionCategories.CATEGORY_ITEM,
+      collisionCategories.CATEGORY_MAP_BLOCK
+    ]
+  } else {
+    collisionCategory = collisionCategories.CATEGORY_MONSTER
+    collisionTargets = [
+      collisionCategories.CATEGORY_TEAM_RED_BULLET,
+      collisionCategories.CATEGORY_TEAM_BLUE_BULLET,
+      collisionCategories.CATEGORY_MAP_BLOCK
+    ]
+  }
+  phaserObject.setCollisionCategory(collisionCategory)
+  phaserObject.setCollidesWith(collisionTargets)
 
   phaserObject.setVelocityY(-1)
 

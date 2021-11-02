@@ -1,5 +1,5 @@
 import { v4 } from 'uuid'
-import collisionCategories from './collisionCategories'
+import collisionCategories from '../scene/basescene/collisionCategories'
 import { playAnimation, normalizeMatter } from './utils'
 import items from '../items/index'
 
