@@ -29,7 +29,7 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   const maximumBar = scene.add.rectangle(-healthBarLength / 2, -charatorHeight / 2 - 2, healthBarLength, 4, 0xDDDDDD)
   maximumBar.setOrigin(0, 0.5)
   maximumBar.name = 'maximum-bar'
-  const allyColor = 0x3f9e34
+  const allyColor = 0x2e65b8
   const enemyColor = 0xda4e38
   const healthBarColor = constructor.team === userTeam ? allyColor : enemyColor
   const healthBar = scene.add.rectangle(-healthBarLength / 2 + 1, -charatorHeight / 2 - 2, healthBarLength - 2, 2, healthBarColor)
