@@ -5,7 +5,7 @@
   },
   "processing": {
     "scene": "dungeon",
-    "map": "battle_field.json"
+    "map": "dota_field.json"
   },
   "ending": {
     "scene": "endingRoom",
