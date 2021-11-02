@@ -28,7 +28,7 @@ const buySkin = (skinKey) => {
     return false
   }
 
-  const price = 10
+  const price = 100
   if (coins < price) {
     console.log("You don't have enough coins to buy the skin")
     return false

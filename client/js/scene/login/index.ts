@@ -40,7 +40,7 @@ const updateSkinButton = (skinKey, skinButton) => {
     skinButton.name = 'activate'
     skinButton.className = 'activate'
   } else {
-    skinButton.textContent = `Buy`
+    skinButton.textContent = `100 coins`
     skinButton.name = 'buy'
     skinButton.className = 'buy'
   }
@@ -234,6 +234,10 @@ function create() {
     callbackScope: scene,
     loop: true
   })
+
+  // socketMethods.changeRoom(getLocalUserData())
+  // scene.scene.stop('GUI')
+  // scene.scene.launch('GUI')
 }
 
 const randomSkins = []
