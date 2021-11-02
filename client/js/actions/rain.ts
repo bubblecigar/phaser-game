@@ -6,14 +6,13 @@ export const rain = ({
   scene,
   itemStorage,
   performer,
-  target,
+  from,
+  to,
   collisionCategory,
   collisionTargets,
   options
 }) => {
   const id = v4()
-  const from = performer.position
-  const to = target
 
   const randomString = options.randomNumber.toFixed(5)
   const randomIndex_1 = randomString[2]

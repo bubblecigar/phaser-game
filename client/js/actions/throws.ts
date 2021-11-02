@@ -37,14 +37,13 @@ export const throws = ({
   scene,
   itemStorage,
   performer,
-  target,
+  from,
+  to,
   collisionCategory,
   collisionTargets,
   options
 }) => {
   const velocity = 7
-  const from = performer.position
-  const to = target
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
   const id = v4()

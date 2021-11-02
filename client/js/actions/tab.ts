@@ -6,14 +6,13 @@ export const tab = ({
   scene,
   itemStorage,
   performer,
-  target,
+  from,
+  to,
   collisionCategory,
   collisionTargets,
   options
 }) => {
   const id = v4()
-  const from = performer.position
-  const to = target
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 
   const item = items[options.item] || items["dagger"]
@@ -30,10 +29,10 @@ export const tab = ({
 
   let distance = 0
   const update = (t, dt) => {
-    if (performer) {
+    if (performer?.phaserObject) {
       distance += dt * 0.1
-      matter.setX(performer.position.x + distance * Math.cos(angle))
-      matter.setY(performer.position.y + distance * Math.sin(angle))
+      matter.setX(performer.phaserObject.x + distance * Math.cos(angle))
+      matter.setY(performer.phaserObject.y + distance * Math.sin(angle))
     }
   }
   const destroy = () => {

@@ -6,15 +6,14 @@ export const summon = ({
   scene,
   itemStorage,
   performer,
-  target,
+  from,
+  to,
   collisionCategory,
   collisionTargets,
   options
 }) => {
   const velocity = 2
   const id = v4()
-  const from = performer.position
-  const to = target
 
   const item = items[options.item] || items["muddy"]
   const { size, origin, type } = item.matterConfig

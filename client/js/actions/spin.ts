@@ -6,13 +6,12 @@ export const spin = ({
   scene,
   itemStorage,
   performer,
-  target,
+  from,
+  to,
   collisionCategory,
   collisionTargets,
   options
 }) => {
-  const from = performer.position
-  const to = target
   const velocity = 4
   const angle = Math.atan2(to.y - from.y, to.x - from.x)
 

@@ -50,11 +50,15 @@ export const perform = (scene, performer, action, target, options) => {
     }
   }
 
+  const from = { x: performer.phaserObject.x, y: performer.phaserObject.y }
+  const to = target
+
   actions[action]({
     scene,
     itemStorage,
     performer,
-    target,
+    from,
+    to,
     collisionCategory,
     collisionTargets,
     options
