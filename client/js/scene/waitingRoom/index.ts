@@ -2,18 +2,24 @@ import basescene from '../basescene/index'
 import gameState from '../../game/state'
 import setting from '../../../../share/setting.json'
 
-let readyHintText
+let redTeamReadyHintText
+let blueTeamReadyHintText
 
 const updateReadyHintText = () => {
   const players = gameState.players
   const totalPlayers = Math.max(players.length, setting.minumumPlayers)
-  const playersReady = players.filter(player => player.ready).length
+  const playersRequired = totalPlayers + (totalPlayers % 2 === 1 ? 1 : 0)
+  const eachTeamRequired = playersRequired / 2
+  const redTeamPlayersReady = players.filter(player => player.ready && player.team === 'red').length
+  const blueTeamPlayersReady = players.filter(player => player.ready && player.team === 'blue').length
 
-  if (playersReady === totalPlayers) {
+  if (redTeamPlayersReady === eachTeamRequired && blueTeamPlayersReady === eachTeamRequired) {
     const countDownInSeconds = Math.ceil(gameState.gameStartCountDown / 1000) || 1
-    readyHintText.setText(countDownInSeconds)
+    redTeamReadyHintText.setText(countDownInSeconds)
+    blueTeamReadyHintText.setText(countDownInSeconds)
   } else {
-    readyHintText.setText(`${playersReady}/${totalPlayers}`)
+    redTeamReadyHintText.setText(`${redTeamPlayersReady}/${eachTeamRequired}`)
+    blueTeamReadyHintText.setText(`${blueTeamPlayersReady}/${eachTeamRequired}`)
   }
 }
 
@@ -23,15 +29,25 @@ function create() {
 
   try {
     const sensorLayer = this.map.objects.find(layer => layer.name === 'sensor_layer')
-    const readyZone = sensorLayer.objects.find(object => object.name === 'ready_zone')
-    const readyZoneCenter = {
-      x: readyZone.x + readyZone.width * 0.5,
-      y: readyZone.y + readyZone.height * 0.35
+    const redTeamReadyZone = sensorLayer.objects.find(object => object.name === 'red_team_ready_zone')
+    const redTeamReadyZoneCenter = {
+      x: redTeamReadyZone.x + redTeamReadyZone.width * 0.5,
+      y: redTeamReadyZone.y + redTeamReadyZone.height * 0.35
     }
-    readyHintText = this.add.text(readyZoneCenter.x, readyZoneCenter.y, '', {
+    redTeamReadyHintText = this.add.text(redTeamReadyZoneCenter.x, redTeamReadyZoneCenter.y, '', {
       fontSize: setting.fontSize,
     })
-    readyHintText.setOrigin(0.5, 0.5)
+    redTeamReadyHintText.setOrigin(0.5, 0.5)
+
+    const blueTeamReadyZone = sensorLayer.objects.find(object => object.name === 'blue_team_ready_zone')
+    const blueTeamReadyZoneCenter = {
+      x: blueTeamReadyZone.x + blueTeamReadyZone.width * 0.5,
+      y: blueTeamReadyZone.y + blueTeamReadyZone.height * 0.35
+    }
+    blueTeamReadyHintText = this.add.text(blueTeamReadyZoneCenter.x, blueTeamReadyZoneCenter.y, '', {
+      fontSize: setting.fontSize,
+    })
+    blueTeamReadyHintText.setOrigin(0.5, 0.5)
   } catch (error) {
     console.log(error)
   }

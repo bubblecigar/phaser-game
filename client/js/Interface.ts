@@ -30,6 +30,7 @@ export interface Charactor {
     damage: number,
     jump: number
   },
+  team: 'red' | 'blue' | 'neutral',
   phaserObject: any,
   health: number,
 }

@@ -137,8 +137,12 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
       }
     } else if (player && player.isUser && sensor) {
       switch (sensor.data.name) {
-        case ('ready_zone'): {
-          methods.changeReadyState(true)
+        case ('blue_team_ready_zone'): {
+          methods.changeReadyState(true, 'blue')
+          break
+        }
+        case ('red_team_ready_zone'): {
+          methods.changeReadyState(true, 'red')
           break
         }
         case ('exit_room_zone'): {
@@ -184,7 +188,11 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
     const { player, bullet, terrainBlock, item, sensor } = collistionTargets
     if (player && player.isUser && sensor) {
       switch (sensor.data.name) {
-        case ('ready_zone'): {
+        case ('red_team_ready_zone'): {
+          methods.changeReadyState(false)
+          break
+        }
+        case ('blue_team_ready_zone'): {
           methods.changeReadyState(false)
           break
         }

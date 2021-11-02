@@ -78,9 +78,10 @@ const gameMethods = scene => {
       const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
       return spawnPoint
     },
-    changeReadyState: (ready: boolean) => {
+    changeReadyState: (ready: boolean, team: 'red' | 'blue') => {
       const player = methods.getPlayer(userId)
       player.ready = ready
+      player.team = team
     },
     rebuildPlayer: (playerConstructor: Player): void => {
       methods.removePlayer(playerConstructor.id)

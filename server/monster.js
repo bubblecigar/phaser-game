@@ -98,6 +98,7 @@ const createMonster = (room) => {
       damage: 1,
       jump: 1
     },
+    team: 'neutral',
     health: rolledMonster.health,
     itemDrop: rolledDrop.key,
     expDrop: 5,
