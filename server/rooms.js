@@ -102,7 +102,7 @@ const connectToRoom = (roomId, userState, socket) => {
     const mapUrl = `../share/map/${mapFile}`
     const map = require(mapUrl)
     const infoLayer = map.layers.find(o => o.name === 'info_layer')
-    const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
+    const spawnPoint = infoLayer.objects.find(o => o.name === 'red_team_spawn_point' || o.name === 'blue_team_spawn_point')
     const initHealth = setting.initHealth
     const playerConstructor = {
       interface: 'Player',

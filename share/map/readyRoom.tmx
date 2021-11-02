@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="21">
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="22">
  <editorsettings>
   <export target="readyRoom.json" format="json"/>
  </editorsettings>
@@ -70,7 +70,10 @@
   </object>
  </objectgroup>
  <objectgroup id="5" name="info_layer">
-  <object id="7" name="spawn_point" x="206.574" y="94.717">
+  <object id="7" name="red_team_spawn_point" x="207.148" y="92.4188">
+   <point/>
+  </object>
+  <object id="21" name="blue_team_spawn_point" x="206.263" y="92.5022">
    <point/>
   </object>
  </objectgroup>
@@ -106,7 +109,7 @@
   <object id="15" x="11.8193" y="103.189" width="28.0707" height="18.8438">
    <text wrap="1">Exit</text>
   </object>
-  <object id="16" x="185.333" y="66.993" width="46.4562" height="18.8438">
+  <object id="16" x="186.482" y="92.8476" width="46.4562" height="18.8438">
    <text wrap="1">Team</text>
   </object>
   <object id="19" x="156.031" y="107.211" width="30.3688" height="18.8438">

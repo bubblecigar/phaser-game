@@ -26,7 +26,7 @@ const gameMethods = scene => {
 
       const comeFromOtherScene = player.scene !== scene.scene.key
       if (comeFromOtherScene) {
-        const spawnPoint = methods.getSpawnPoint()
+        const spawnPoint = methods.getSpawnPoint(player.team)
         player.position = spawnPoint
         player.coins = 0
         player.ready = false
@@ -72,10 +72,10 @@ const gameMethods = scene => {
         }
       )
     },
-    getSpawnPoint: () => {
+    getSpawnPoint: (team) => {
       const map = scene.map
       const infoLayer = map.objects.find(layer => layer.name === 'info_layer')
-      const spawnPoint = infoLayer.objects.find(o => o.name === 'spawn_point')
+      const spawnPoint = infoLayer.objects.find(o => o.name === (team === 'red' ? 'red_team_spawn_point' : 'blue_team_spawn_point'))
       return spawnPoint
     },
     changeReadyState: (ready: boolean, team: 'red' | 'blue') => {

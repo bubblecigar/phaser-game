@@ -149,7 +149,7 @@
 </data>
  </layer>
  <objectgroup id="4" name="info_layer">
-  <object id="1" name="spawn_point" x="76.0112" y="265.134">
+  <object id="1" name="red_team_spawn_point" x="76.0112" y="265.134">
    <point/>
   </object>
   <object id="2" name="monster_point" x="248.846" y="283.232">
@@ -167,7 +167,7 @@
    </properties>
    <point/>
   </object>
-  <object id="5" name="spawn_point" x="725.726" y="266.944">
+  <object id="5" name="blue_team_spawn_point" x="725.726" y="266.944">
    <point/>
   </object>
  </objectgroup>

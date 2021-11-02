@@ -54,7 +54,7 @@
                 {
                  "height":0,
                  "id":1,
-                 "name":"spawn_point",
+                 "name":"red_team_spawn_point",
                  "point":true,
                  "rotation":0,
                  "type":"",
@@ -114,7 +114,7 @@
                 {
                  "height":0,
                  "id":5,
-                 "name":"spawn_point",
+                 "name":"blue_team_spawn_point",
                  "point":true,
                  "rotation":0,
                  "type":"",

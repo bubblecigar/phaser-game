@@ -74,14 +74,26 @@
                 {
                  "height":0,
                  "id":7,
-                 "name":"spawn_point",
+                 "name":"red_team_spawn_point",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":206.573723498995,
-                 "y":94.7169852628555
+                 "x":207.148271042804,
+                 "y":92.4187950876185
+                }, 
+                {
+                 "height":0,
+                 "id":21,
+                 "name":"blue_team_spawn_point",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":206.262568227521,
+                 "y":92.5021545532893
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -147,8 +159,8 @@
                  "type":"",
                  "visible":true,
                  "width":46.4562,
-                 "x":185.33280350474,
-                 "y":66.992957196208
+                 "x":186.481898592359,
+                 "y":92.8475966676242
                 }, 
                 {
                  "height":18.84375,
@@ -189,7 +201,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":21,
+ "nextobjectid":22,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.0",
