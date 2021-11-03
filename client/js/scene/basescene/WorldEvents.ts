@@ -204,26 +204,34 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
   })
 }
 
+const dropCoins = (scene, methods, socketMethods, builderId, position, coinsToDrop) => {
+  if (coinsToDrop > 0) {
+    const coinConstructor: Item = {
+      interface: 'Item',
+      builderId,
+      id: v4(),
+      itemKey: 'coin',
+      isDrop: true,
+      position,
+      velocity: { x: Math.random() - 0.5, y: - 3 },
+      phaserObject: null
+    }
+    const player = methods.getPlayer(builderId)
+    player.coins--
+    socketMethods.clientsInScene(scene.scene.key, methods, 'addItem', coinConstructor)
+    socketMethods.server('addItem', coinConstructor)
+
+    scene.time.delayedCall(100, () => dropCoins(scene, methods, socketMethods, builderId, position, coinsToDrop - 1), null, scene)
+  }
+}
+
 const playerOnHit = (scene, socketMethods, methods, player, damage) => {
   socketMethods.clientsInScene(scene.scene.key, methods, 'onHit', player.data.id, damage)
   scene.cameras.main.shake(100, 0.01)
   const _player = methods.getPlayer(player.data.id)
   if (_player.health <= 0) {
     socketMethods.clientsInScene(scene.scene.key, methods, 'onDead', player.data.id)
-
-    const coinConstructor: Item = {
-      interface: 'Item',
-      builderId: player.data.id,
-      id: v4(),
-      itemKey: 'coin',
-      isDrop: true,
-      position: _player.position,
-      velocity: { x: Math.random() - 0.5, y: - 3 },
-      phaserObject: null
-    }
-
-    socketMethods.clientsInScene(scene.scene.key, methods, 'addItem', coinConstructor)
-    socketMethods.server('addItem', coinConstructor)
+    dropCoins(scene, methods, socketMethods, player.data.id, _player.position, _player.coins)
   }
 }
 

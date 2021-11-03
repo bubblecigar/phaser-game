@@ -179,8 +179,6 @@ const gameMethods = scene => {
       Phaser.Physics.Matter.Matter.Body.scale(player.phaserObject.body, sizeFactor * widthScale, sizeFactor * heightScale)
       sprite.setScale(sizeFactor)
       sprite.play(skull.animsConfig.idle.key)
-      const halfCoinsCount = Math.floor((player.coins) / 2)
-      player.coins = halfCoinsCount
       player.phaserObject.setCollisionCategory(collisionCategories.CATEGORY_TRANSPARENT)
       player.phaserObject.setCollidesWith([collisionCategories.CATEGORY_MAP_BLOCK])
 
