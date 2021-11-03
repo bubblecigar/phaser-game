@@ -66,15 +66,33 @@ const createCoin = () => {
 }
 
 const detectWinners = room => {
-  const winners = []
+  const blueTeamMembers = []
+  const redTeamMembers = []
+
+  let redTeamCoins = 0
+  let blueTeamCoins = 0
+
   room.players.forEach(
     player => {
-      if (player.coins >= setting.coinsToWin) {
-        winners.push(player)
+      if (player.team === 'red') {
+        redTeamCoins += player.coins
+        redTeamMembers.push(player)
+      }
+      if (player.team === 'blue') {
+        blueTeamCoins += player.coins
+        blueTeamMembers.push(player)
       }
     }
   )
-  return winners
+
+  if (redTeamCoins >= setting.coinsToWin) {
+    return redTeamMembers
+  }
+  if (blueTeamCoins >= setting.coinsToWin) {
+    return blueTeamMembers
+  }
+
+  return []
 }
 
 const registerProcessingIntervals = room => setInterval(
