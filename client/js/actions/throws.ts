@@ -63,9 +63,9 @@ export const throws = ({
     if (itemStorage[id]) {
       delete itemStorage[id]
       scene.matter.world.remove(constraint)
-      headMatter.destroy()
-      featherMatter.destroy()
     }
+    headMatter.destroy()
+    featherMatter.destroy()
   }
   headMatter.setData({
     id,

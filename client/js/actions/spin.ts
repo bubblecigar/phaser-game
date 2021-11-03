@@ -46,8 +46,8 @@ export const spin = ({
   const destroy = () => {
     if (itemStorage[id]) {
       delete itemStorage[id]
-      matter.destroy()
     }
+    matter.destroy()
   }
 
   matter.setData({

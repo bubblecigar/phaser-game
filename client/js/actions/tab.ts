@@ -33,6 +33,12 @@ export const tab = ({
       distance += dt * 0.1
       matter.setX(performer.phaserObject.x + distance * Math.cos(angle))
       matter.setY(performer.phaserObject.y + distance * Math.sin(angle))
+    } else {
+      matter.destroy()
+      if (itemStorage[id]) {
+        delete itemStorage[id]
+        matter.destroy()
+      }
     }
   }
   const destroy = () => {
@@ -51,9 +57,9 @@ export const tab = ({
   scene.time.delayedCall(
     200,
     () => {
+      matter.destroy()
       if (itemStorage[id]) {
         delete itemStorage[id]
-        matter.destroy()
       }
     },
     null,

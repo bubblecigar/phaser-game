@@ -45,8 +45,8 @@ export const shoot = ({
   const destroy = () => {
     if (itemStorage[id]) {
       delete itemStorage[id]
-      matter.destroy()
     }
+    matter.destroy()
   }
 
   matter.setData({
