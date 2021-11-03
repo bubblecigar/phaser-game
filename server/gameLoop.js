@@ -57,6 +57,7 @@ const createCoin = () => {
     id: uuid(),
     builderId: 'server',
     itemKey: 'coin',
+    isDrop: false,
     position: { x: coinSpawnPoint.x, y: coinSpawnPoint.y },
     velocity: { x: 0, y: 0 },
     phaserObject: null
