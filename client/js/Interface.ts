@@ -59,7 +59,8 @@ export interface Item {
   position: Point,
   velocity: Point,
   phaserObject: any
-  type?: string
+  type?: string,
+  isDrop: boolean
 }
 export interface Sensor {
   interface: 'Sensor',

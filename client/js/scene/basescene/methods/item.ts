@@ -4,14 +4,15 @@ import items from '../../../items'
 import { Bullet, Item } from '../../../Interface'
 import collisionCategories from '../collisionCategories'
 
-export const createItemMatter = (scene, itemConstructor: Item | Bullet) => {
+export const createItemMatter = (scene, itemConstructor: Item) => {
   const item = items[itemConstructor.itemKey]
   const { size, origin } = item.matterConfig
   const { x, y } = itemConstructor.position
   const Bodies = Phaser.Physics.Matter.Matter.Bodies
   let body
   const options = {
-    ignoreGravity: true
+    ignoreGravity: !itemConstructor.isDrop,
+    isSensor: !itemConstructor.isDrop
   }
   if (item.matterConfig.type === 'circle') {
     body = Bodies.circle(x, y, size.radius, options)
@@ -25,7 +26,6 @@ export const createItemMatter = (scene, itemConstructor: Item | Bullet) => {
   phaserObject.setExistingBody(body)
   item.animsConfig.idle && phaserObject.play(item.animsConfig.idle.key)
   phaserObject.setOrigin(origin.x, origin.y)
-  phaserObject.setSensor(true)
   phaserObject.setData(itemConstructor)
   phaserObject.setVelocityX(itemConstructor.velocity.x)
   phaserObject.setVelocityY(itemConstructor.velocity.y)
@@ -34,9 +34,13 @@ export const createItemMatter = (scene, itemConstructor: Item | Bullet) => {
   phaserObject.setAngle(degree)
   phaserObject.setCollisionCategory(collisionCategories.CATEGORY_ITEM)
 
-  if (itemConstructor.itemKey === 'potion') {
-    phaserObject.setSensor(false)
-    phaserObject.setIgnoreGravity(false)
+
+  if (itemConstructor.isDrop) {
+    scene.time.delayedCall(5000, () => {
+      if (phaserObject) {
+        phaserObject.destroy()
+      }
+    }, null, scene)
   }
 
   return phaserObject

@@ -216,8 +216,9 @@ const playerOnHit = (scene, socketMethods, methods, player, damage) => {
       builderId: player.data.id,
       id: v4(),
       itemKey: 'coin',
+      isDrop: true,
       position: _player.position,
-      velocity: { x: 0, y: -0.1 },
+      velocity: { x: Math.random() - 0.5, y: - 3 },
       phaserObject: null
     }
 
@@ -245,6 +246,7 @@ const monsterOnHit = (scene, socketMethods, methods, monster, damage) => {
         id: v4(),
         itemKey: monster.data.itemDrop,
         type: '?',
+        isDrop: true,
         position: deadPosition,
         velocity: { x: 0.0001, y: -0 },
         phaserObject: null
