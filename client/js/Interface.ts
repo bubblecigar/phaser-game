@@ -79,6 +79,6 @@ export interface GameState {
   monstersById: any,
   gameStatus: 'waiting' | 'processing' | 'ending',
   scene: 'loginScene',
-  winner: null | Player,
+  winners: null | Player[],
   gameStartCountDown: number
 }

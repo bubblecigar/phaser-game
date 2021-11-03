@@ -23,7 +23,6 @@ function create() {
     scene.scene.stop()
   })
 
-  // const winner = data
   const padding = 64
   let redTeamIndex = 1
   let blueTeamIndex = 1

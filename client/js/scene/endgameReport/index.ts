@@ -13,6 +13,16 @@ function preload() {
 }
 
 
+const drawWinner = (scene, winner) => {
+  const skin = skins[winner.skin]
+  const spriteSheetKey = skin.spritesheetConfig.spritesheetKey
+  const { origin } = skin.matterConfig
+  const winnerSprite = scene.add.sprite(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, spriteSheetKey)
+  winnerSprite.setOrigin(origin.x, origin.y)
+  winnerSprite.setScale(2, 2)
+  winnerSprite.play(skin.animsConfig.idle.key)
+}
+
 function create() {
   const scene = this
   const messageBox = this.add.rectangle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, gameConfig.canvasWidth, gameConfig.canvasHeight, 0x000000)
@@ -22,16 +32,11 @@ function create() {
     scene.scene.stop()
   })
 
-  const winner = data
-  const skin = skins[winner.skin]
-  const spriteSheetKey = skin.spritesheetConfig.spritesheetKey
-  const { origin } = skin.matterConfig
-  const winnerSprite = scene.add.sprite(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, spriteSheetKey)
-  winnerSprite.setOrigin(origin.x, origin.y)
-  winnerSprite.setScale(2, 2)
-  winnerSprite.play(skin.animsConfig.idle.key)
+  const winners = data
 
-  const text = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + 32, winner.name + ' ' + 'win!', {
+  drawWinner(this, winners[0])
+
+  const text = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + 32, `${winners[0].team} team win!`, {
     fontSize: setting.fontSize
   })
   text.setOrigin(0.5, 0.5)
