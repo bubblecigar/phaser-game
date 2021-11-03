@@ -24,23 +24,27 @@ function create() {
   })
 
   // const winner = data
-  const padding = 68
-  let offsetIndex = (players.length % 2 === 0) ? 1 : 0
+  const padding = 64
+  let redTeamIndex = 1
+  let blueTeamIndex = 1
   players.forEach(
     player => {
       const skin = skins[player.skin]
-      const offsetX = offsetIndex * padding
-      if (offsetIndex <= 0) {
-        offsetIndex *= -1
-        offsetIndex++
-      } else {
-        offsetIndex *= -1
+      let offsetX = 0
+      if (player.team === 'red') {
+        offsetX = -((0.5 + redTeamIndex) * padding)
+        redTeamIndex++
       }
+      if (player.team === 'blue') {
+        offsetX = ((0.5 + blueTeamIndex) * padding)
+        blueTeamIndex++
+      }
+
       const spriteSheetKey = skin.spritesheetConfig.spritesheetKey
       const { origin } = skin.matterConfig
       const playerSprite = scene.add.sprite(gameConfig.canvasWidth / 2 + offsetX, gameConfig.canvasHeight / 2 - padding, spriteSheetKey)
       playerSprite.setOrigin(origin.x, origin.y)
-      playerSprite.setFlipX(offsetIndex >= 0 ? false : true)
+      playerSprite.setFlipX(player.team === 'red' ? false : true)
       playerSprite.play(skin.animsConfig.idle.key)
 
       const text = this.add.text(gameConfig.canvasWidth / 2 + offsetX, gameConfig.canvasHeight / 2 + padding / 4 - padding, player.name, {
