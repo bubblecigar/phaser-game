@@ -8,7 +8,6 @@ import skins from '../../skins/index'
 
 let randomSkin
 
-let coinGroup, coinCount
 let resurrectCountDownText
 let transitionScreen
 
@@ -20,8 +19,6 @@ function preload() {
 
 function create() {
   const padding = 32
-
-  createCoinGroup(this, padding, padding)
 
   const centerX = gameConfig.canvasWidth / 2
   const centerY = gameConfig.canvasHeight / 2
@@ -36,24 +33,6 @@ function create() {
   char.play(randomSkin.animsConfig.move.key)
 
   transitionScreen.add([text, char])
-}
-
-const createCoinGroup = (scene, x, y) => {
-  coinGroup = scene.add.group({ classType: Phaser.GameObjects.Sprite })
-  coinGroup.add(scene.add.sprite(x, y))
-  coinGroup.playAnimation(items.coin.animsConfig.idle.key, 0)
-  coinGroup.setVisible(false)
-
-  coinCount = scene.add.text(x + 8, y + 1, ``, {
-    fontSize: setting.fontSize
-  })
-  coinGroup.add(coinCount)
-  coinCount.setOrigin(0, 0.5)
-}
-
-const showCoinCount = count => {
-  coinGroup.setVisible(true)
-  coinCount.setText(`x ${count}`)
 }
 
 const createResurrectCountDownText = (scene, x, y) => {
@@ -76,17 +55,13 @@ function update() {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (gameState.scene === 'loginScene') {
     transitionScreen.setVisible(false)
-    coinGroup.setVisible(false)
     resurrectCountDownText.setVisible(false)
   } else if (!player || !player.phaserObject) {
     transitionScreen.setVisible(true)
-    coinGroup.setVisible(false)
     resurrectCountDownText.setVisible(false)
   } else {
     transitionScreen.setVisible(false)
-    coinGroup.setVisible(true)
     resurrectCountDownText.setVisible(true)
-    showCoinCount(player.coins)
     showResurrectCountDown(player)
   }
 }
