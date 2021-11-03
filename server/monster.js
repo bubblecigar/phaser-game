@@ -78,7 +78,7 @@ const createMonster = (room) => {
   const rolledPool = monsterPossibilityPool.find(p => p.possibility >= Math.random())
   const rolledMonsterKey = rolledPool.keys[Math.floor(Math.random() * rolledPool.keys.length)] || 'tinyZombie'
   const rolledMonster = neutrals[rolledMonsterKey]
-  const dropPossibilityPool = getItemDropPossibilityPool(rolledPool.itemRarity)
+  const dropPossibilityPool = []
   const rolledDrop = dropPossibilityPool.find(p => p.possibility >= Math.random())
 
   const monster = {
