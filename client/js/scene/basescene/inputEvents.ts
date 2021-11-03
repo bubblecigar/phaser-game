@@ -8,8 +8,25 @@ import { playerGainExp } from './cards/level'
 
 const registerInputEvents = (scene, methods, socketMethods) => {
   scene.input.keyboard.on(
+    'keyup', e => {
+      switch (e.key) {
+        case ' ': {
+          scene.scene.stop('tabPanel')
+          break
+        }
+        default: {
+          // do nothing
+        }
+      }
+    }
+  )
+  scene.input.keyboard.on(
     'keydown', e => {
       switch (e.key) {
+        case ' ': {
+          scene.scene.launch('tabPanel')
+          break
+        }
         case 'w': {
           scene.scale.toggleFullscreen();
           break
