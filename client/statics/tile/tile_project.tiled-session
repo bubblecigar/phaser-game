@@ -115,8 +115,8 @@
             "scale": 0.8722,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 391.53863792708097,
-                "y": 253.9555147901858
+                "x": 378.92685163953223,
+                "y": 148.47512038523274
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx#forestTileSet": {
@@ -162,8 +162,8 @@
             "scale": 1.7405,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 171.50244182706118,
-                "y": 100.25854639471416
+                "x": 160.01149095087618,
+                "y": 80.1493823613904
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx#forestTileSet": {
@@ -319,10 +319,10 @@
     "project": "",
     "property.type": "int",
     "recentFiles": [
+        "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/endingRoom.tmx",
-        "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/login.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/jumpPlatForm.tmx",
         "endingRoom.tmx",
