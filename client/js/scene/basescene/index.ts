@@ -108,12 +108,14 @@ function create() {
     'down', () => {
       const player = methods.getPlayer(userId)
       const playerData = player.phaserObject.data.values
-      if (player.health && playerData.touched) {
-        if (!playerData.touchTop) {
+      if (player.health) {
+        if (!playerData.touchTop && playerData.touched) {
           scene.sound.play('quickJump')
           player.phaserObject.setVelocityY(-(4 + player.attributes.jump))
-          player.phaserObject.setVelocityX(playerData.touchLeft ? 0.1 : -0.1)
+          player.phaserObject.setVelocityX(playerData.touchLeft ? 1 : -1)
           player.phaserObject.setData({ touched: false })
+        } else {
+          player.phaserObject.setVelocityY(-1)
         }
       }
     }
