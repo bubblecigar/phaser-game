@@ -8,7 +8,7 @@ import skins from '../../skins/index'
 
 let randomSkin
 
-let coinGroup
+let coinGroup, coinCount
 let resurrectCountDownText
 let transitionScreen
 
@@ -21,13 +21,11 @@ function preload() {
 function create() {
   const padding = 32
 
-  const coinX = padding
-  const coinY = gameConfig.canvasHeight - padding
-  createCoinGroup(this, coinX, coinY)
+  createCoinGroup(this, padding, padding)
 
   const centerX = gameConfig.canvasWidth / 2
   const centerY = gameConfig.canvasHeight / 2
-  createResurrectCountDownText(this, centerX, coinY)
+  createResurrectCountDownText(this, centerX, gameConfig.canvasHeight - padding)
 
   transitionScreen = this.add.container(0, 0)
   const text = this.add.text(centerX, centerY, 'loading...', {
@@ -42,16 +40,20 @@ function create() {
 
 const createCoinGroup = (scene, x, y) => {
   coinGroup = scene.add.group({ classType: Phaser.GameObjects.Sprite })
-  for (let i = 0; i < 10; i++) {
-    coinGroup.add(scene.add.sprite(x + 10 * i, y))
-  }
+  coinGroup.add(scene.add.sprite(x, y))
   coinGroup.playAnimation(items.coin.animsConfig.idle.key, 0)
   coinGroup.setVisible(false)
+
+  coinCount = scene.add.text(x + 8, y + 1, ``, {
+    fontSize: setting.fontSize
+  })
+  coinGroup.add(coinCount)
+  coinCount.setOrigin(0, 0.5)
 }
 
 const showCoinCount = count => {
   coinGroup.setVisible(true)
-  coinGroup.setVisible(false, count, 1)
+  coinCount.setText(`x ${count}`)
 }
 
 const createResurrectCountDownText = (scene, x, y) => {

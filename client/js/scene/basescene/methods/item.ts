@@ -36,7 +36,7 @@ export const createItemMatter = (scene, itemConstructor: Item) => {
 
 
   if (itemConstructor.isDrop) {
-    scene.time.delayedCall(5000, () => {
+    scene.time.delayedCall(10000, () => {
       if (phaserObject) {
         phaserObject.destroy()
       }
