@@ -13,11 +13,11 @@ function preload() {
 }
 
 
-const drawWinner = (scene, winner) => {
+const drawWinner = (scene, winner, position) => {
   const skin = skins[winner.skin]
   const spriteSheetKey = skin.spritesheetConfig.spritesheetKey
   const { origin } = skin.matterConfig
-  const winnerSprite = scene.add.sprite(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, spriteSheetKey)
+  const winnerSprite = scene.add.sprite(position.x, position.y, spriteSheetKey)
   winnerSprite.setOrigin(origin.x, origin.y)
   winnerSprite.setScale(2, 2)
   winnerSprite.play(skin.animsConfig.idle.key)
@@ -34,7 +34,16 @@ function create() {
 
   const winners = data
 
-  drawWinner(this, winners[0])
+  const interval = gameConfig.canvasWidth / (winners.length + 1)
+
+
+  winners.forEach(
+    (winner, i) => {
+      const x = interval * (i + 1)
+      const y = gameConfig.canvasHeight / 2
+      drawWinner(this, winner, { x, y })
+    }
+  )
 
   const text = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + 32, `${winners[0].team} team win!`, {
     fontSize: setting.fontSize
