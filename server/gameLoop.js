@@ -115,18 +115,44 @@ const registerProcessingIntervals = room => setInterval(
       }
     }
 
-    if (Object.keys(room.monstersById).length >= setting.maxMonsters) {
-      room.monsterSpawnTime = 0
-    } else {
-      if (room.monsterSpawnTime >= setting.monsterSpawnInterval) {
-        const monster = createMonster(room)
-        room.monstersById[monster.id] = monster
-        room.monsterSpawnTime = 0
-        io.in(room.id).emit('dungeon', 'createMonster', monster)
+    const redFarmMonsters = []
+    const blueFarmMonsters = []
+    const centralParkMonsters = []
+    const skyParkMonsters = []
+    Object.keys(room.monstersById).forEach(
+      monsterId => {
+        const monster = room.monstersById[monsterId]
+        if (monster.builderId === 'red_farm') {
+          redFarmMonsters.push(monster)
+        } else if (monster.builderId === 'blue_farm') {
+          blueFarmMonsters.push(monster)
+        } else if (monster.builderId === 'central_park') {
+          centralParkMonsters.push(monster)
+        } else if (monster.builderId === 'sky_park') {
+          skyParkMonsters.push(monster)
+        }
+      }
+    )
+
+    const spawnMonster = (spawnLocation, locationMonsters) => {
+      if (locationMonsters.length >= 3) {
+        room.monsterSpawnTime[spawnLocation] = 0
       } else {
-        room.monsterSpawnTime += intervalTimeStep
+        if (room.monsterSpawnTime[spawnLocation] >= setting.monsterSpawnInterval) {
+          const monster = createMonster(room, spawnLocation)
+          room.monstersById[monster.id] = monster
+          room.monsterSpawnTime[spawnLocation] = 0
+          io.in(room.id).emit('dungeon', 'createMonster', monster)
+        } else {
+          room.monsterSpawnTime[spawnLocation] += intervalTimeStep
+        }
       }
     }
+    spawnMonster('red_farm', redFarmMonsters)
+    spawnMonster('blue_farm', blueFarmMonsters)
+    spawnMonster('central_park', centralParkMonsters)
+    spawnMonster('sky_park', skyParkMonsters)
+
     Object.keys(room.monstersById).forEach(
       id => {
         const monster = room.monstersById[id]

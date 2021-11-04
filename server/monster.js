@@ -65,14 +65,13 @@ const getMonsterPossibilityPool = (monsterKilled) => {
   return possibilityPool
 }
 
-const createMonster = (room) => {
+const createMonster = (room, spawnLocation) => {
   const mapFile = serverMap.processing.map
   const mapUrl = `../share/map/${mapFile}`
   const map = require(mapUrl)
   const infoLayer = map.layers.find(layer => layer.name === 'info_layer')
-  const monsterSpawnPoints = infoLayer.objects.filter(object => object.name === 'monster_point')
-  const randomMonsterSpawnIndex = Math.floor(Math.random() * (monsterSpawnPoints.length))
-  const monsterSpawnPoint = monsterSpawnPoints[randomMonsterSpawnIndex]
+  const monsterSpawnPoints = infoLayer.objects.filter(object => object.name === spawnLocation)
+  const monsterSpawnPoint = monsterSpawnPoints[0]
 
   const monsterPossibilityPool = getMonsterPossibilityPool(room.monsterKilled)
   const rolledPool = monsterPossibilityPool.find(p => p.possibility >= Math.random())
@@ -85,9 +84,9 @@ const createMonster = (room) => {
     interface: 'Monster',
     id: uuid(),
     properties: monsterSpawnPoint.properties,
-    builderId: 'server',
+    builderId: spawnLocation,
     skin: rolledMonster.key,
-    item: 'dagger',
+    item: 'arrow',
     action: 'tab',
     attributes: {
       maxHealth: 20,
@@ -95,7 +94,7 @@ const createMonster = (room) => {
       vision: 75,
       healthRegen: 1,
       attackSpeed: 1,
-      damage: 1,
+      damage: 0,
       jump: 1
     },
     team: 'neutral',

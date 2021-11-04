@@ -37,7 +37,12 @@ const createRoom = (roomId) => {
     players: [],
     items: [],
     monstersById: {},
-    monsterSpawnTime: 0,
+    monsterSpawnTime: {
+      red_farm: 0,
+      blue_farm: 0,
+      central_park: 0,
+      sky_park: 0
+    },
     monsterKilled: 0,
     disconnectedPlayers: [],
     idleTime: 0,
