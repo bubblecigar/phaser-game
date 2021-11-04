@@ -169,10 +169,10 @@ const registerProcessingIntervals = room => setInterval(
         }
       }
     }
-    spawnMonster('red_farm', redFarmMonsters, getMonsterPossibilityPool(1), 3, 1000)
-    spawnMonster('blue_farm', blueFarmMonsters, getMonsterPossibilityPool(1), 3, 1000)
-    spawnMonster('central_park', centralParkMonsters, getMonsterPossibilityPool(2), 2, 2000)
-    spawnMonster('sky_park', skyParkMonsters, getMonsterPossibilityPool(3), 1, 5000)
+    spawnMonster('red_farm', redFarmMonsters, getMonsterPossibilityPool(1), 3, 3000)
+    spawnMonster('blue_farm', blueFarmMonsters, getMonsterPossibilityPool(1), 3, 3000)
+    spawnMonster('central_park', centralParkMonsters, getMonsterPossibilityPool(2), 2, 6000)
+    spawnMonster('sky_park', skyParkMonsters, getMonsterPossibilityPool(3), 1, 12000)
 
     Object.keys(room.monstersById).forEach(
       id => {

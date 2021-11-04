@@ -12,7 +12,7 @@ const getLevelupExpRequirement = player => {
   // 2     | ~7
   // 3     | ~8
   // 4     | 10
-  return Math.sqrt(player.level) * base_level_exp_unit
+  return player.level * base_level_exp_unit
 }
 
 const isAbleToLevelUp = player => {
