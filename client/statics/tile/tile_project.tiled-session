@@ -120,7 +120,8 @@
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx#forestTileSet": {
-            "scaleInDock": 2.4131
+            "scaleInDock": 2.4131,
+            "scaleInEditor": 2.83
         },
         "/Users/roywang/Desktop/typeScript/share/map/endingRoom.tmx": {
             "scale": 2.205,
@@ -159,11 +160,11 @@
             "scaleInDock": 2.2353
         },
         "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx": {
-            "scale": 1.7405,
+            "scale": 1.74,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 160.01149095087618,
-                "y": 80.1493823613904
+                "x": 160.0574712643678,
+                "y": 80.17241379310346
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx#forestTileSet": {
