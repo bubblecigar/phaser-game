@@ -145,6 +145,18 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
           methods.changeReadyState(true, 'red')
           break
         }
+        case ('red_fountain'): {
+          if (player.data.team === 'red') {
+            player.body.gameObject.setData({ isInFountain: true })
+          }
+          break
+        }
+        case ('blue_fountain'): {
+          if (player.data.team === 'blue') {
+            player.body.gameObject.setData({ isInFountain: true })
+          }
+          break
+        }
         case ('exit_room_zone'): {
           socketMethods.leaveRoom()
           scene.scene.start('loginScene')
@@ -192,8 +204,16 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
           methods.changeReadyState(false)
           break
         }
-        case ('blue_team_ready_zone'): {
-          methods.changeReadyState(false)
+        case ('red_fountain'): {
+          if (player.data.team === 'red') {
+            player.body.gameObject.setData({ isInFountain: false })
+          }
+          break
+        }
+        case ('blue_fountain'): {
+          if (player.data.team === 'blue') {
+            player.body.gameObject.setData({ isInFountain: false })
+          }
           break
         }
         default: {

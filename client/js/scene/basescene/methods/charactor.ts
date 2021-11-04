@@ -52,7 +52,7 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   phaserObject.setExistingBody(compound)
   phaserObject.setDepth(3)
   phaserObject.setData(constructor)
-  phaserObject.setData({ touched: true, invincible: false })
+  phaserObject.setData({ touched: true, invincible: false, isInFountain: false })
 
   if (isMonster) {
     container.setFriction(0, 0, 0)

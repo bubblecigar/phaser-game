@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="16">
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="18">
  <editorsettings>
   <export target="dota_field.json" format="json"/>
  </editorsettings>
@@ -202,5 +202,9 @@
    </properties>
    <point/>
   </object>
+ </objectgroup>
+ <objectgroup id="7" name="sensor_layer">
+  <object id="16" name="red_fountain" x="128.765" y="239.769" width="77.703" height="48.1018"/>
+  <object id="17" name="blue_fountain" x="433.286" y="239.399" width="77.703" height="48.1018"/>
  </objectgroup>
 </map>

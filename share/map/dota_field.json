@@ -271,9 +271,42 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":7,
+         "name":"sensor_layer",
+         "objects":[
+                {
+                 "height":48.101827869459,
+                 "id":16,
+                 "name":"red_fountain",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":77.7029527122031,
+                 "x":128.764893065937,
+                 "y":239.769111226227
+                }, 
+                {
+                 "height":48.1018,
+                 "id":17,
+                 "name":"blue_fountain",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":77.703,
+                 "x":433.286441241767,
+                 "y":239.399111100422
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":7,
- "nextobjectid":16,
+ "nextlayerid":8,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.0",

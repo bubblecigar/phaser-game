@@ -192,7 +192,8 @@ function update(t, dt) {
     } else {
       if (restTime >= setting.healInterval) {
         restTime = 0
-        socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, player.attributes.maxHealth * player.attributes.healthRegen * 0.01)
+        const fountainBonus = player.phaserObject.data.values.isInFountain ? 20 : 1
+        socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, player.attributes.maxHealth * player.attributes.healthRegen * 0.01 * fountainBonus)
       }
       restTime += dt
     }
