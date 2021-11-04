@@ -201,11 +201,11 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
     if (player && player.isUser && sensor) {
       switch (sensor.data.name) {
         case ('red_team_ready_zone'): {
-          methods.changeReadyState(false, 'neutral')
+          methods.changeReadyState(false, 'red')
           break
         }
         case ('blue_team_ready_zone'): {
-          methods.changeReadyState(false, 'neutral')
+          methods.changeReadyState(false, 'blue')
           break
         }
         case ('red_fountain'): {
