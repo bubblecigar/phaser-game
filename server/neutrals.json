@@ -1,62 +1,110 @@
 {
   "tinyZombie": {
     "key": "tinyZombie",
-    "shootType": "knife",
-    "shootInterval": 3000,
-    "health": 20
+    "skin": "tinyZombie",
+    "action": "tab",
+    "item": "dagger",
+    "shootInterval": 1000,
+    "maxHealth": 20,
+    "damage": 0.2
+  },
+  "imp": {
+    "key": "imp",
+    "skin": "imp",
+    "action": "tab",
+    "item": "dagger",
+    "shootInterval": 1000,
+    "maxHealth": 20,
+    "damage": 0.2
+  },
+  "skeleton": {
+    "key": "skeleton",
+    "skin": "skeleton",
+    "action": "tab",
+    "item": "dagger",
+    "shootInterval": 1000,
+    "maxHealth": 20,
+    "damage": 0.2
   },
   "wizzardMale": {
     "key": "wizzardMale",
-    "shootType": "ice",
-    "shootInterval": 600,
-    "health": 51
+    "skin": "wizzardMale",
+    "action": "rain",
+    "item": "iceFlask",
+    "maxHealth": 30,
+    "damage": 1,
+    "shootInterval": 500
   },
   "knightFemale": {
     "key": "knightFemale",
-    "shootType": "knife",
-    "shootInterval": 500,
-    "health": 51
+    "skin": "knightFemale",
+    "action": "tab",
+    "item": "dagger",
+    "maxHealth": 50,
+    "damage": 1,
+    "shootInterval": 500
   },
   "elfFemale": {
     "key": "elfFemale",
-    "shootType": "arrow",
-    "shootInterval": 500,
-    "health": 51
+    "skin": "elfFemale",
+    "action": "throws",
+    "item": "arrow",
+    "maxHealth": 30,
+    "damage": 1,
+    "shootInterval": 1000
   },
   "elfMale": {
     "key": "elfMale",
-    "shootType": "arrow",
-    "shootInterval": 500,
-    "health": 51
+    "skin": "elfMale",
+    "action": "throws",
+    "item": "arrow",
+    "maxHealth": 30,
+    "damage": 1,
+    "shootInterval": 1000
   },
   "chort": {
     "key": "chort",
-    "shootType": "fireball",
-    "shootInterval": 800,
-    "health": 48
+    "skin": "chort",
+    "action": "shoot",
+    "item": "fireball",
+    "maxHealth": 30,
+    "damage": 1,
+    "shootInterval": 2000
   },
   "lizardFemale": {
     "key": "lizardFemale",
-    "shootType": "coin",
-    "shootInterval": 500,
-    "health": 51
+    "skin": "lizardFemale",
+    "action": "spin",
+    "item": "coin",
+    "maxHealth": 30,
+    "damage": 1,
+    "shootInterval": 300
   },
   "orge": {
     "key": "orge",
-    "shootType": "soundwave",
-    "shootInterval": 1000,
-    "health": 112
+    "skin": "orge",
+    "action": "throws",
+    "item": "potion",
+    "maxHealth": 90,
+    "damage": 1,
+    "shootInterval": 2000
   },
   "giantDemon": {
     "key": "giantDemon",
-    "shootType": "shadowball",
-    "shootInterval": 1500,
-    "health": 96
+    "skin": "giantDemon",
+    "action": "shoot",
+    "item": "shadowBall",
+    "maxHealth": 90,
+    "damage": 1,
+    "shootInterval": 1000
   },
   "giantZombie": {
     "key": "giantZombie",
-    "shootType": "muddy",
-    "shootInterval": 1000,
-    "health": 96
+    "skin": "giantZombie",
+    "action": "summon",
+    "item": "muddy",
+    "maxHealth": 90,
+    "damage": 1,
+    "shootInterval": 800
   }
 }
