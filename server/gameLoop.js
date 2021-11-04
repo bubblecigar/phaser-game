@@ -95,6 +95,28 @@ const detectWinners = room => {
   return []
 }
 
+
+const getMonsterPossibilityPool = (rarity) => {
+  let possibilityPool
+  if (rarity <= 1) {
+    possibilityPool = [
+      { possibility: 1.00, keys: ['tinyZombie'], itemRarity: 1 }
+    ]
+  } else if (rarity <= 2) {
+    possibilityPool = [
+      { possibility: 0.80, keys: ['tinyZombie'], itemRarity: 1 },
+      { possibility: 0.92, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 },
+      { possibility: 1.00, keys: ['chort', 'lizardFemale'], itemRarity: 2 }
+    ]
+  } else {
+    possibilityPool = [
+      { possibility: 1.00, keys: ['orge', 'giantDemon', 'giantZombie'], itemRarity: 3 }
+    ]
+  }
+  return possibilityPool
+}
+
+
 const registerProcessingIntervals = room => setInterval(
   () => {
     const { io } = require('./index.js')
@@ -134,12 +156,12 @@ const registerProcessingIntervals = room => setInterval(
       }
     )
 
-    const spawnMonster = (spawnLocation, locationMonsters) => {
-      if (locationMonsters.length >= 3) {
+    const spawnMonster = (spawnLocation, locationMonsters, monsterPossibilityPool, monsterLimit) => {
+      if (locationMonsters.length >= monsterLimit) {
         room.monsterSpawnTime[spawnLocation] = 0
       } else {
         if (room.monsterSpawnTime[spawnLocation] >= setting.monsterSpawnInterval) {
-          const monster = createMonster(room, spawnLocation)
+          const monster = createMonster(room, spawnLocation, monsterPossibilityPool)
           room.monstersById[monster.id] = monster
           room.monsterSpawnTime[spawnLocation] = 0
           io.in(room.id).emit('dungeon', 'createMonster', monster)
@@ -148,10 +170,10 @@ const registerProcessingIntervals = room => setInterval(
         }
       }
     }
-    spawnMonster('red_farm', redFarmMonsters)
-    spawnMonster('blue_farm', blueFarmMonsters)
-    spawnMonster('central_park', centralParkMonsters)
-    spawnMonster('sky_park', skyParkMonsters)
+    spawnMonster('red_farm', redFarmMonsters, getMonsterPossibilityPool(1), 3)
+    spawnMonster('blue_farm', blueFarmMonsters, getMonsterPossibilityPool(1), 3)
+    spawnMonster('central_park', centralParkMonsters, getMonsterPossibilityPool(2), 3)
+    spawnMonster('sky_park', skyParkMonsters, getMonsterPossibilityPool(3), 1)
 
     Object.keys(room.monstersById).forEach(
       id => {

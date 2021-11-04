@@ -37,35 +37,7 @@ const getItemDropPossibilityPool = (rarity) => {
   return possibilityPool
 }
 
-const getMonsterPossibilityPool = (monsterKilled) => {
-  let possibilityPool
-  if (monsterKilled < 5) {
-    possibilityPool = [
-      { possibility: 1.00, keys: ['tinyZombie'], itemRarity: 1 }
-    ]
-  } else if (monsterKilled < 10) {
-    possibilityPool = [
-      { possibility: 0.90, keys: ['tinyZombie'], itemRarity: 1 },
-      { possibility: 1.00, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 }
-    ]
-  } else if (monsterKilled < 15) {
-    possibilityPool = [
-      { possibility: 0.80, keys: ['tinyZombie'], itemRarity: 1 },
-      { possibility: 0.92, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 },
-      { possibility: 1.00, keys: ['chort', 'lizardFemale'], itemRarity: 2 }
-    ]
-  } else {
-    possibilityPool = [
-      { possibility: 0.70, keys: ['tinyZombie'], itemRarity: 1 },
-      { possibility: 0.84, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 },
-      { possibility: 0.94, keys: ['chort', 'lizardFemale'], itemRarity: 2 },
-      { possibility: 1.00, keys: ['orge', 'giantDemon', 'giantZombie'], itemRarity: 3 }
-    ]
-  }
-  return possibilityPool
-}
-
-const createMonster = (room, spawnLocation) => {
+const createMonster = (room, spawnLocation, monsterPossibilityPool) => {
   const mapFile = serverMap.processing.map
   const mapUrl = `../share/map/${mapFile}`
   const map = require(mapUrl)
@@ -73,7 +45,6 @@ const createMonster = (room, spawnLocation) => {
   const monsterSpawnPoints = infoLayer.objects.filter(object => object.name === spawnLocation)
   const monsterSpawnPoint = monsterSpawnPoints[0]
 
-  const monsterPossibilityPool = getMonsterPossibilityPool(room.monsterKilled)
   const rolledPool = monsterPossibilityPool.find(p => p.possibility >= Math.random())
   const rolledMonsterKey = rolledPool.keys[Math.floor(Math.random() * rolledPool.keys.length)] || 'tinyZombie'
   const rolledMonster = neutrals[rolledMonsterKey]
