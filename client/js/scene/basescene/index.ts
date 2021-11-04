@@ -16,7 +16,7 @@ import { sounds } from '../../sounds/index'
 const userId = getLocalUserData().userId
 
 let methods
-let cursors, pointer
+let cursors, pointer, wasd
 let aim, aimDirection
 let readyToShoot = true
 let restTime = 0
@@ -46,9 +46,9 @@ const updateAim = (scene, player) => {
 const movePlayer = (scene, player: Player) => {
   const { movementSpeed } = player.attributes
   const velocity = { x: 0, y: 0 }
-  if (cursors.left.isDown) {
+  if (cursors.left.isDown || wasd.a.isDown) {
     velocity.x = -movementSpeed
-  } else if (cursors.right.isDown) {
+  } else if (cursors.right.isDown || wasd.d.isDown) {
     velocity.x = movementSpeed
   } else {
     velocity.x = 0
@@ -91,6 +91,12 @@ function create() {
   this.game.scene.getScene('GUI').cameras.main.fadeIn(1500, 0, 0, 0)
 
   cursors = this.input.keyboard.createCursorKeys()
+  wasd = this.input.keyboard.addKeys({
+    a: Phaser.Input.Keyboard.KeyCodes.A,
+    s: Phaser.Input.Keyboard.KeyCodes.S,
+    d: Phaser.Input.Keyboard.KeyCodes.D,
+    w: Phaser.Input.Keyboard.KeyCodes.W
+  });
   pointer = this.input.activePointer
   registerAimingTarget(this)
   backgroundMap.registerMap(this, clientMap[this.scene.key])
@@ -104,22 +110,22 @@ function create() {
   methods.createMonsters()
 
   const scene = this
-  cursors.up.on(
-    'down', () => {
-      const player = methods.getPlayer(userId)
-      const playerData = player.phaserObject.data.values
-      if (player.health) {
-        if (!playerData.touchTop && playerData.touched) {
-          scene.sound.play('quickJump')
-          player.phaserObject.setVelocityY(-(4 + player.attributes.jump))
-          player.phaserObject.setVelocityX(playerData.touchLeft ? 1 : -1)
-          player.phaserObject.setData({ touched: false })
-        } else {
-          player.phaserObject.setVelocityY(-1)
-        }
+  const jump = () => {
+    const player = methods.getPlayer(userId)
+    const playerData = player.phaserObject.data.values
+    if (player.health) {
+      if (!playerData.touchTop && playerData.touched) {
+        scene.sound.play('quickJump')
+        player.phaserObject.setVelocityY(-(4 + player.attributes.jump))
+        player.phaserObject.setVelocityX(playerData.touchLeft ? 1 : -1)
+        player.phaserObject.setData({ touched: false })
+      } else {
+        player.phaserObject.setVelocityY(-1)
       }
     }
-  )
+  }
+  cursors.up.on('down', jump)
+  wasd.w.on('down', jump)
   this.input.on('pointerdown', function () {
     const player = methods.getPlayer(userId)
     if (!player || player.health <= 0) return
