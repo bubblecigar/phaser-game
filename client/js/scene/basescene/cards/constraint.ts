@@ -93,27 +93,27 @@ export const createSkinPool = (level, equippedSkin) => {
 }
 
 export const skinAttributeConstraint = {
-  "tinyZombie": ['maxhealth1'],
-  "imp": ['vision1'],
-  "skeleton": ['healthRegen1'],
-  "wizzardMale": ['maxhealth1', 'vision1'],
-  "knightFemale": ['healthRegen3', 'maxhealth3'],
-  "elfFemale": ['vision3', 'maxhealth1'],
-  "elfMale": ['vision3', 'maxhealth1'],
-  "lizardFemale": ['movementSpeed', 'maxhealth1'],
-  "chort": ['jump', 'maxhealth1'],
-  "orge": ['vision2', 'maxhealth2', 'vision3', 'maxhealth3', 'healthRegen2'],
-  "giantDemon": ['vision2', 'maxhealth2', 'vision3', 'maxhealth3', 'healthRegen2'],
-  "giantZombie": ['vision2', 'maxhealth2', 'vision3', 'maxhealth3', 'healthRegen2']
+  "tinyZombie": ['maxhealth1', 'vision1'],
+  "imp": ['vision1', 'healthRegen1'],
+  "skeleton": ['healthRegen1', 'maxhealth1'],
+  "wizzardMale": ['damage1', 'damage2', 'damage3'],
+  "knightFemale": ['damage1', 'healthRegen3', 'maxhealth3'],
+  "elfFemale": ['damage1', 'vision3'],
+  "elfMale": ['damage1', 'vision3'],
+  "lizardFemale": ['damage1', 'attackSpeed1', 'attackSpeed2', 'movementSpeed'],
+  "chort": ['damage1', 'attackSpeed1', 'attackSpeed2', 'jump'],
+  "orge": ['vision3', 'maxhealth3', 'healthRegen3', 'damage3', 'attackSpeed3'],
+  "giantDemon": ['vision3', 'maxhealth3', 'healthRegen3', 'damage3', 'attackSpeed3'],
+  "giantZombie": ['vision3', 'maxhealth3', 'healthRegen3', 'damage3', 'attackSpeed3']
 }
 
 export const itemAttributeConstraint = {
-  dagger: ['attackSpeed1'],
+  dagger: ['attackSpeed1', 'damage1'],
   coin: ['attackSpeed3'],
   iceFlask: ['attackSpeed2'],
   shadowBall: ['damage3'],
   fireball: ['damage2'],
-  arrow: ['damage1'],
+  arrow: ['damage2'],
   potion: ['damage2', 'healthRegen2'],
   muddy: ['damage2', 'vision2']
 }

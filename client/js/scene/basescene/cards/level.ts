@@ -8,11 +8,11 @@ const base_level_exp_unit = 3
 const getLevelupExpRequirement = player => {
   // current formula leads to 
   // level | exp requirement
-  // 1     | 3
-  // 2     | 6
-  // 3     | 9
-  // 4     | 12
-  return player.level * base_level_exp_unit
+  // 1     | 5
+  // 2     | ~7
+  // 3     | ~8
+  // 4     | 10
+  return Math.sqrt(player.level) * base_level_exp_unit
 }
 
 const isAbleToLevelUp = player => {
@@ -80,7 +80,7 @@ const openLevelUpPanel = (scene, methods, player) => {
         value: drawFromPool(attributePool.pool)
       },
       drawCard(),
-      player.level > 14 ? {
+      player.level > 10 ? {
         type: 'resurrect',
         value: ''
       } : drawCard()
