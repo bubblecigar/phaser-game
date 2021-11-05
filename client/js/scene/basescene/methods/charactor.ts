@@ -20,8 +20,7 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   const rect = Bodies.rectangle(x, y, size.width, size.height)
   const compound = Phaser.Physics.Matter.Matter.Body.create({
     parts: [rect],
-    inertia: Infinity,
-    ignoreGravity: (isUser || isMonster) ? false : true
+    inertia: Infinity
   })
 
   const charatorHeight = skin.spritesheetConfig.options.frameHeight
