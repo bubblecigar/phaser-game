@@ -144,23 +144,15 @@ const registerProcessingIntervals = room => setInterval(
       }
     }
 
-    const redFarmMonsters = []
-    const blueFarmMonsters = []
-    const centralParkMonsters = []
-    const skyParkMonsters = []
-    Object.keys(room.monstersById).forEach(
-      monsterId => {
-        const monster = room.monstersById[monsterId]
-        if (monster.builderId === 'red_farm') {
-          redFarmMonsters.push(monster)
-        } else if (monster.builderId === 'blue_farm') {
-          blueFarmMonsters.push(monster)
-        } else if (monster.builderId === 'central_park') {
-          centralParkMonsters.push(monster)
-        } else if (monster.builderId === 'sky_park') {
-          skyParkMonsters.push(monster)
+    const monsterBySpawnLocation = Object.keys(room.monstersById).reduce(
+      (acc, key) => {
+        const monster = room.monstersById[key]
+        if (!acc[monster.builderId]) {
+          acc[monster.builderId] = []
         }
-      }
+        acc[monster.builderId].push(monster)
+        return acc
+      }, {}
     )
 
     const spawnMonster = (spawnLocation, locationMonsters, monsterPossibilityPool, monsterLimit, spawnInterval) => {
@@ -177,10 +169,14 @@ const registerProcessingIntervals = room => setInterval(
         }
       }
     }
-    spawnMonster('red_farm', redFarmMonsters, getMonsterPossibilityPool(1), 3, 3000)
-    spawnMonster('blue_farm', blueFarmMonsters, getMonsterPossibilityPool(1), 3, 3000)
-    spawnMonster('central_park', centralParkMonsters, getMonsterPossibilityPool(2), 2, 6000)
-    spawnMonster('sky_park', skyParkMonsters, getMonsterPossibilityPool(3), 1, 12000)
+    spawnMonster('west_farm', monsterBySpawnLocation['west_farm'] || [], getMonsterPossibilityPool(1), 2, 3000)
+    spawnMonster('east_farm', monsterBySpawnLocation['east_farm'] || [], getMonsterPossibilityPool(1), 2, 3000)
+    spawnMonster('west_underground', monsterBySpawnLocation['west_underground'] || [], getMonsterPossibilityPool(1), 3, 3000)
+    spawnMonster('east_underground', monsterBySpawnLocation['east_underground'] || [], getMonsterPossibilityPool(1), 3, 3000)
+    spawnMonster('west_park', monsterBySpawnLocation['west_park'] || [], getMonsterPossibilityPool(2), 1, 10000)
+    spawnMonster('east_park', monsterBySpawnLocation['east_park'] || [], getMonsterPossibilityPool(2), 1, 10000)
+    spawnMonster('central_park', monsterBySpawnLocation['central_park'] || [], getMonsterPossibilityPool(2), 1, 10000)
+    spawnMonster('sky_park', monsterBySpawnLocation['sky_park'] || [], getMonsterPossibilityPool(3), 1, 20000)
 
     Object.keys(room.monstersById).forEach(
       id => {

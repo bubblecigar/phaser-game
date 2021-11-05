@@ -8,9 +8,13 @@ const registerRoomMethods = room => {
       room.allPlayerReadyTime = 0
       room.coinSpawnTime = 0
       room.monsterSpawnTime = {
-        red_farm: 0,
-        blue_farm: 0,
+        east_farm: 0,
+        west_farm: 0,
         central_park: 0,
+        east_park: 0,
+        west_park: 0,
+        east_underground: 0,
+        west_underground: 0,
         sky_park: 0
       }
     },
