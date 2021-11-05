@@ -112,11 +112,11 @@
             "scaleInEditor": 3.5
         },
         "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx": {
-            "scale": 0.7088,
-            "selectedLayer": 1,
+            "scale": 1.0511,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 320.25959367945825,
-                "y": 232.0823927765237
+                "x": 314.9081914185139,
+                "y": 283.03681857102083
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx#forestTileSet": {
