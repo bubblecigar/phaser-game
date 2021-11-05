@@ -209,7 +209,7 @@ const gameMethods = scene => {
       updatePlayerHealthBar(player)
     },
     addItem: (itemConstructor: Item): Item => {
-      const { id, position, itemKey, velocity, builderId } = itemConstructor
+      const { id, position, itemKey, velocity, builderId, isDrop } = itemConstructor
       if (!items[itemKey]) {
         return // invalid itemKey
       }
@@ -217,6 +217,7 @@ const gameMethods = scene => {
         interface: 'Item',
         builderId,
         id,
+        isDrop,
         position,
         itemKey,
         velocity,
