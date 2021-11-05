@@ -27,11 +27,19 @@ const registerWaitingIntervals = room => setInterval(
     const allPlayerReady = !room.players.some(player => !player.ready)
     const enoughPlayers = room.players.length >= setting.minumumPlayers
     const readyForEnoughTime = room.allPlayerReadyTime >= setting.gameStartCountDown
-    const redTeamMemberCount = room.players.reduce((acc, cur) => acc + (cur.team === 'red' ? 1 : 0), 0)
-    const blueTeamMemberCount = room.players.reduce((acc, cur) => acc + (cur.team === 'blue' ? 1 : 0), 0)
-    if (enoughPlayers && allPlayerReady && redTeamMemberCount === blueTeamMemberCount) {
+    if (enoughPlayers && allPlayerReady) {
       if (readyForEnoughTime) {
         room.allPlayerReadyTime = 0
+        const teamMemberCount = Math.ceil(room.players.length / 2)
+        room.players.forEach(
+          (player, i) => {
+            if (i < teamMemberCount) {
+              player.team = 'red'
+            } else {
+              player.team = 'blue'
+            }
+          }
+        )
         changeGameStatus(room, 'processing')
         io.to(room.id).emit('game', 'showStartGameScreen', room.players)
       } else {

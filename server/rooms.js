@@ -114,7 +114,7 @@ const connectToRoom = (roomId, userState, socket) => {
       id: userId,
       name: username,
       ready: false,
-      team: 'neutral',
+      team: 'red',
       scene: 'waitingRoom',
       skin: activatedSkin,
       action: 'tab',
