@@ -246,23 +246,6 @@ const gameMethods = scene => {
 
       item.phaserObject.destroy()
     },
-    collectItem: (playerId: string, item: Item) => {
-      const player = methods.getPlayer(playerId)
-      if (!player) {
-        console.log('no player for collectItem')
-        return
-      }
-      switch (item.itemKey) {
-        case 'coin': {
-          player.coins++
-          break
-        }
-        default: {
-          console.log('unhandled itemKey')
-        }
-      }
-      methods.removeItem(item.id)
-    },
     createMonsters: () => {
       Object.keys(gameState.monstersById).forEach(
         id => {

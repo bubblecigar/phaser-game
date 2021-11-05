@@ -8,22 +8,21 @@ const getItemDropPossibilityPool = (rarity) => {
   switch (rarity) {
     case 1: {
       possibilityPool = [
-        { possibility: 0.90, key: '' },
-        { possibility: 1.00, key: 'coin' }
+        { possibility: 0.95, key: '' },
+        { possibility: 1.00, key: 'potion' }
       ]
       break
     }
     case 2: {
       possibilityPool = [
-        { possibility: 0.10, key: '' },
-        { possibility: 0.50, key: 'potion' },
+        { possibility: 0.80, key: '' },
+        { possibility: 0.90, key: 'potion' },
         { possibility: 1.00, key: 'coin' }
       ]
       break
     }
     case 3: {
       possibilityPool = [
-        { possibility: 0.4, key: 'potion' },
         { possibility: 1.00, key: 'coin' }
       ]
       break
@@ -45,11 +44,13 @@ const createMonster = (room, spawnLocation, monsterPossibilityPool) => {
   const monsterSpawnPoints = infoLayer.objects.filter(object => object.name === spawnLocation)
   const monsterSpawnPoint = monsterSpawnPoints[0]
 
-  const rolledPool = monsterPossibilityPool.find(p => p.possibility >= Math.random())
+  const randomNumber1 = Math.random()
+  const rolledPool = monsterPossibilityPool.find(p => p.possibility >= randomNumber1)
   const rolledMonsterKey = rolledPool.keys[Math.floor(Math.random() * rolledPool.keys.length)] || 'tinyZombie'
   const rolledMonster = neutrals[rolledMonsterKey]
-  const dropPossibilityPool = [rolledPool.itemRarity]
-  const rolledDrop = dropPossibilityPool.find(p => p.possibility >= Math.random())
+  const dropPossibilityPool = getItemDropPossibilityPool(rolledPool.itemRarity)
+  const randomNumber2 = Math.random()
+  const rolledDrop = dropPossibilityPool.find(p => p.possibility >= randomNumber2)
 
   const monster = {
     interface: 'Monster',
@@ -70,7 +71,7 @@ const createMonster = (room, spawnLocation, monsterPossibilityPool) => {
     },
     team: 'neutral',
     health: rolledMonster.maxHealth,
-    itemDrop: '',
+    itemDrop: rolledDrop.key,
     expDrop: 3 * rolledPool.itemRarity * rolledPool.itemRarity,
     position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },
     velocity: { x: 0, y: 0 }

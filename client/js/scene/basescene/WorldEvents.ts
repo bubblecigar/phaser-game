@@ -180,11 +180,15 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
       bullet.data.destroy()
     } else if (player && item) {
       if (player.isUser) {
-        socketMethods.clientsInScene(scene.scene.key, methods, 'collectItem', player.data.id, _.omit(item.data, 'phaserObject'))
+        socketMethods.clientsInScene(scene.scene.key, methods, 'removeItem', item.data.id)
         socketMethods.server('collectItem', item.data.id)
         scene.sound.play('collect')
         if (item.data.itemKey === 'coin') {
+          const _player = methods.getPlayer(player.data.id)
+          _player.coins++
           countUpCoin()
+        } else if (item.data.itemKey === 'potion') {
+          socketMethods.clientsInScene(scene.scene.key, methods, 'onHeal', player.data.id, 15)
         }
       }
       item.data.phaserObject.destroy()
