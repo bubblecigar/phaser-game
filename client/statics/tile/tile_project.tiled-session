@@ -10,7 +10,7 @@
     "fileStates": {
         "": {
             "scaleInDock": 2.4261,
-            "scaleInEditor": 2.83
+            "scaleInEditor": 3.5
         },
         "/Users/roywang/Desktop/tile_trial/dungeion_tileset.tsx": {
             "scaleInDock": 1,
@@ -103,8 +103,8 @@
             "scale": 0.9556,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 294.0560904143993,
-                "y": 272.6035998325659
+                "x": 240.6864796986187,
+                "y": 160.63206362494765
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx#forestTileSet": {
@@ -112,11 +112,11 @@
             "scaleInEditor": 3.5
         },
         "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx": {
-            "scale": 1.5728,
+            "scale": 0.7088,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 350.33062054933885,
-                "y": 250.82655137334692
+                "x": 320.25959367945825,
+                "y": 232.0823927765237
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx#forestTileSet": {
@@ -163,8 +163,8 @@
             "scale": 1.4,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 219.2857142857143,
-                "y": 127.50000000000003
+                "x": 208.57142857142858,
+                "y": 80.35714285714289
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx#forestTileSet": {
@@ -321,8 +321,8 @@
     "project": "",
     "property.type": "int",
     "recentFiles": [
-        "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx",
+        "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/endingRoom.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/login.tmx",
