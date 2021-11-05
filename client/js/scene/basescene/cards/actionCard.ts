@@ -32,4 +32,6 @@ export const drawActionCard = (scene, emptyCard, methods) => action => {
     player.action = action
     levelUp(scene)
   }, scene)
+
+  return itemCell
 }

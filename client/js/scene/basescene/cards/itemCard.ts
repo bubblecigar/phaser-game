@@ -31,4 +31,6 @@ export const drawItemCard = (scene, emptyCard, methods) => item => {
     player.item = item
     levelUp(scene)
   }, scene)
+
+  return itemCell
 }

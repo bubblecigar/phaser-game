@@ -36,4 +36,6 @@ export const drawResurrectCard = (scene, emptyCard, methods) => () => {
     socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
     scene.scene.stop()
   }, scene)
+
+  return itemCell
 }

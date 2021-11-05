@@ -34,4 +34,6 @@ export const drawSkinCard = (scene, emptyCard, methods) => skin => {
     socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
     levelUp(scene)
   }, scene)
+
+  return itemCell
 }

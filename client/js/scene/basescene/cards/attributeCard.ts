@@ -32,4 +32,6 @@ export const drawAttributeCard = (scene, emptyCard, methods) => attribute => {
     socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
     levelUp(scene)
   }, scene)
+
+  return itemCell
 }
