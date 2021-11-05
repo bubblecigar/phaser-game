@@ -87,16 +87,16 @@
     "item": "potion",
     "maxHealth": 90,
     "damage": 1,
-    "shootInterval": 2000
+    "shootInterval": 1000
   },
   "giantDemon": {
     "key": "giantDemon",
     "skin": "giantDemon",
-    "action": "shoot",
+    "action": "rain",
     "item": "shadowBall",
     "maxHealth": 90,
     "damage": 1,
-    "shootInterval": 1000
+    "shootInterval": 500
   },
   "giantZombie": {
     "key": "giantZombie",
@@ -105,6 +105,6 @@
     "item": "muddy",
     "maxHealth": 90,
     "damage": 1,
-    "shootInterval": 800
+    "shootInterval": 700
   }
 }

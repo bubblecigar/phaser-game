@@ -34,7 +34,7 @@ const setUpRayCaster = (scene) => {
   const wallLayerData = scene.map.layers.find(o => o.name === 'wall_layer')
   raycaster.mapGameObjects([wallLayerData.tilemapLayer], false, {
     //array of tile types which collide with rays
-    collisionTiles: [1, 2, 3, 9, 11, 17, 18, 19, 22, 30, 31, 32, 38, 40]
+    collisionTiles: [1, 2, 3, 9, 10, 11, 17, 18, 19, 22, 30, 31, 32, 38, 40]
   })
 
   return raycaster

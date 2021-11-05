@@ -31,11 +31,11 @@ function create() {
       const skin = skins[player.skin]
       let offsetX = 0
       if (player.team === 'red') {
-        offsetX = -((0.5 + redTeamIndex) * padding)
+        offsetX = -((0.5 + redTeamIndex) * padding / 2)
         redTeamIndex++
       }
       if (player.team === 'blue') {
-        offsetX = ((0.5 + blueTeamIndex) * padding)
+        offsetX = ((0.5 + blueTeamIndex) * padding / 2)
         blueTeamIndex++
       }
 
