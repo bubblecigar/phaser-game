@@ -60,10 +60,15 @@ function create() {
   })
   hint1.setOrigin(0.5, 0.5)
 
-  const hint2 = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding * 1, `(space to toggle status panel)`, {
+  const hint2 = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding * 1, `SPACE to toggle status panel`, {
     fontSize: setting.fontSize
   })
   hint2.setOrigin(0.5, 0.5)
+
+  const hint3 = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding * 1.25, `CLICK to shoot`, {
+    fontSize: setting.fontSize
+  })
+  hint3.setOrigin(0.5, 0.5)
 }
 
 function update(t, dt) {
