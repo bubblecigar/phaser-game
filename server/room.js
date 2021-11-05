@@ -17,7 +17,12 @@ const registerRoomMethods = room => {
     writePlayer: (playerState) => {
       const playerIndex = room.players.findIndex(player => player.id === playerState.id)
       if (playerIndex > -1) {
-        room.players[playerIndex] = playerState
+        const player = room.players[playerIndex]
+        Object.keys(playerState).forEach(
+          key => {
+            player[key] = playerState[key]
+          }
+        )
       } else {
         room.players.push(playerState)
       }
