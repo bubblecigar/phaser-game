@@ -5,7 +5,7 @@ import { drawItemCard } from './itemCard'
 import { drawActionCard } from './actionCard'
 import { drawAttributeCard } from './attributeCard'
 import { drawResurrectCard } from './resurrectCard'
-import { Card } from './level'
+import { Card, levelUp } from './level'
 import setting from '../../../../../share/setting.json'
 
 let methods
@@ -62,24 +62,34 @@ const createEmptyCard = (scene, position, size, n) => {
 
 let levelUpText
 
-const drawCard = (scene, emptyCard, options: Card) => {
+const drawCard = (scene, emptyCard, options: Card, onFinished) => {
+  let drawFunction
   switch (options.type) {
     case 'skin': {
-      return drawSkinCard(scene, emptyCard, methods)(options.value)
+      drawFunction = drawSkinCard
+      break
     }
     case 'item': {
-      return drawItemCard(scene, emptyCard, methods)(options.value)
+      drawFunction = drawItemCard
+      break
     }
     case 'action': {
-      return drawActionCard(scene, emptyCard, methods)(options.value)
+      drawFunction = drawActionCard
+      break
     }
     case 'attribute': {
-      return drawAttributeCard(scene, emptyCard, methods)(options.value)
+      drawFunction = drawAttributeCard
+      break
     }
     case 'resurrect': {
-      return drawResurrectCard(scene, emptyCard, methods)()
+      drawFunction = drawResurrectCard
+      break
+    }
+    default: {
+      drawFunction = () => () => { }
     }
   }
+  return drawFunction(scene, emptyCard, methods, onFinished)(options.value)
 }
 
 function create() {
@@ -100,9 +110,11 @@ function create() {
     y: gameConfig.canvasHeight - cardSize.height
   }, cardSize, 3)
 
-  const card1 = drawCard(this, emptyCard1, cards[0])
-  const card2 = drawCard(this, emptyCard2, cards[1])
-  const card3 = drawCard(this, emptyCard3, cards[2])
+  const onFinished = () => levelUp(this, methods)
+
+  const card1 = drawCard(this, emptyCard1, cards[0], onFinished)
+  const card2 = drawCard(this, emptyCard2, cards[1], onFinished)
+  const card3 = drawCard(this, emptyCard3, cards[2], onFinished)
 
   levelUpText = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'level up', {
     fontSize: setting.fontSize

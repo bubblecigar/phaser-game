@@ -4,9 +4,8 @@ import { Player } from '../../../Interface'
 import { getLocalUserData } from '../../../user'
 import _ from 'lodash'
 import { socketMethods } from '../../../index'
-import { levelUp } from './level'
 
-export const drawSkinCard = (scene, emptyCard, methods) => skin => {
+export const drawSkinCard = (scene, emptyCard, methods, onFinished) => skin => {
   const {
     itemCell,
     imageContainer,
@@ -29,10 +28,8 @@ export const drawSkinCard = (scene, emptyCard, methods) => skin => {
 
   itemCell.on('pointerdown', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
-    const _player = _.omit(_.clone(player), 'phaserObject')
-    _player.skin = skin
-    socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
-    levelUp(scene)
+    player.skin = skin
+    onFinished()
   }, scene)
 
   return itemCell

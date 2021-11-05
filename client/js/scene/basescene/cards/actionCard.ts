@@ -1,11 +1,9 @@
-import { actions } from '../../../actions/index'
 import setting from '../../../../../share/setting.json'
 import { Player } from '../../../Interface'
 import { getLocalUserData } from '../../../user'
 import _ from 'lodash'
-import { levelUp } from './level'
 
-export const drawActionCard = (scene, emptyCard, methods) => action => {
+export const drawActionCard = (scene, emptyCard, methods, onFinished) => action => {
   const {
     itemCell,
     imageContainer,
@@ -30,7 +28,7 @@ export const drawActionCard = (scene, emptyCard, methods) => action => {
   itemCell.on('pointerdown', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
     player.action = action
-    levelUp(scene)
+    onFinished()
   }, scene)
 
   return itemCell

@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { socketMethods } from '../../../index'
 import skull from '../../../skins/skull'
 
-export const drawResurrectCard = (scene, emptyCard, methods) => () => {
+export const drawResurrectCard = (scene, emptyCard, methods, onFinished) => () => {
   const {
     itemCell,
     imageContainer,
@@ -27,14 +27,12 @@ export const drawResurrectCard = (scene, emptyCard, methods) => () => {
 
   itemCell.on('pointerdown', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
-    const _player = _.omit(_.clone(player), 'phaserObject')
-    _player.skin = getLocalUserData().activatedSkin
-    _player.exp = 0
-    _player.level = 0
-    _player.action = 'tab'
-    _player.item = 'dagger'
-    socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
-    scene.scene.stop()
+    player.skin = getLocalUserData().activatedSkin
+    player.exp = 0
+    player.level = 0
+    player.action = 'tab'
+    player.item = 'dagger'
+    onFinished()
   }, scene)
 
   return itemCell

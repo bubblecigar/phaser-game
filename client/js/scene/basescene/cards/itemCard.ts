@@ -3,9 +3,8 @@ import setting from '../../../../../share/setting.json'
 import { Player } from '../../../Interface'
 import { getLocalUserData } from '../../../user'
 import _ from 'lodash'
-import { levelUp } from './level'
 
-export const drawItemCard = (scene, emptyCard, methods) => item => {
+export const drawItemCard = (scene, emptyCard, methods, onFinished) => item => {
   const {
     itemCell,
     imageContainer,
@@ -29,7 +28,7 @@ export const drawItemCard = (scene, emptyCard, methods) => item => {
   itemCell.on('pointerdown', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
     player.item = item
-    levelUp(scene)
+    onFinished()
   }, scene)
 
   return itemCell

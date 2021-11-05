@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { getLocalUserData } from '../../../user'
 import gameState from '../../../game/state'
 import { createActionPool, createAttributePool, createItemPool, createSkinPool } from './constraint'
+import { socketMethods } from '../../../index'
 
 const base_level_exp_unit = 3
 
@@ -94,12 +95,14 @@ const openLevelUpPanel = (scene, methods, player) => {
   }
 }
 
-export const levelUp = (scene) => {
+export const levelUp = (scene, methods) => {
   scene.scene.stop('cards')
   const player = gameState.players.find(player => player.id === getLocalUserData().userId)
   const levelupExpRequirement = getLevelupExpRequirement(player)
   player.exp -= levelupExpRequirement
   player.level++
+  const _player: Player = _.omit(_.clone(player), 'phaserObject')
+  socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
 }
 
 export const playerGainExp = (scene, methods, expGain) => {
