@@ -48,6 +48,16 @@ export const createCharactor = (scene, constructor: Player | Monster) => {
   sprite.name = 'charactor-sprite'
 
   const container = scene.add.container(x, y, [sprite, maximumBar, healthBar])
+
+  if (constructor.interface === 'Player') {
+    const username = scene.add.text(0, -charatorHeight / 2 - 6, `lv.${constructor.level}\n${constructor.name}`, {
+      fontSize: '7px'
+    })
+    username.name = 'name'
+    username.setOrigin(0.5, 1)
+    container.add(username)
+  }
+
   const phaserObject = scene.matter.add.gameObject(container)
   phaserObject.setExistingBody(compound)
   phaserObject.setDepth(3)
@@ -116,6 +126,11 @@ export const updatePlayerHealthBar = player => {
   const maxBar = player.phaserObject.getByName('maximum-bar')
   const percentage = player.health / maximumHealth
   const healthBar = player.phaserObject.getByName('health-bar')
+
+  if (player.interface === 'Player') {
+    const name = player.phaserObject.getByName('name')
+    name.setText(`lv.${player.level}\n${player.name}`)
+  }
   healthBar.setSize(percentage * (maxBar.width - 2), healthBar.height)
 }
 
