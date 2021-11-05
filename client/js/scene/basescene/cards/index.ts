@@ -30,10 +30,10 @@ const createEmptyCard = (scene, position, size, n) => {
     cursor: 'pointer'
   })
   itemCell.on('pointermove', function (pointer, x, y, event) {
-    container.setY(position.y - 10)
+    container.setScale(1.1)
   })
   itemCell.on('pointerout', function (pointer, x, y, event) {
-    container.setY(position.y)
+    container.setScale(1)
   })
 
   const upperPosition = {
@@ -54,6 +54,7 @@ const createEmptyCard = (scene, position, size, n) => {
   container.add([itemCell, imageContainer, descriptionContainer, keyHint])
 
   return {
+    container,
     itemCell,
     imageContainer,
     descriptionContainer
@@ -92,29 +93,30 @@ const drawCard = (scene, emptyCard, options: Card, onFinished) => {
   return drawFunction(scene, emptyCard, methods, onFinished)(options.value)
 }
 
+const cardSize = { width: 90, height: 70, padding: 3 }
+
 function create() {
   const center = { x: gameConfig.canvasWidth / 2, y: gameConfig.canvasHeight / 2 }
 
-  const cardSize = { width: 90, height: 70, padding: 3 }
 
-  const emptyCard1 = createEmptyCard(this, {
+  this.emptyCard1 = createEmptyCard(this, {
     x: center.x - cardSize.width * 1.2,
-    y: gameConfig.canvasHeight - cardSize.height
+    y: gameConfig.canvasHeight
   }, cardSize, 1)
-  const emptyCard2 = createEmptyCard(this, {
+  this.emptyCard2 = createEmptyCard(this, {
     x: center.x,
-    y: gameConfig.canvasHeight - cardSize.height
+    y: gameConfig.canvasHeight
   }, cardSize, 2)
-  const emptyCard3 = createEmptyCard(this, {
+  this.emptyCard3 = createEmptyCard(this, {
     x: center.x + cardSize.width * 1.2,
-    y: gameConfig.canvasHeight - cardSize.height
+    y: gameConfig.canvasHeight
   }, cardSize, 3)
 
   const onFinished = () => levelUp(this, methods)
 
-  const card1 = drawCard(this, emptyCard1, cards[0], onFinished)
-  const card2 = drawCard(this, emptyCard2, cards[1], onFinished)
-  const card3 = drawCard(this, emptyCard3, cards[2], onFinished)
+  const card1 = drawCard(this, this.emptyCard1, cards[0], onFinished)
+  const card2 = drawCard(this, this.emptyCard2, cards[1], onFinished)
+  const card3 = drawCard(this, this.emptyCard3, cards[2], onFinished)
 
   levelUpText = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'level up', {
     fontSize: setting.fontSize
@@ -139,6 +141,15 @@ function create() {
 function update(t, dt) {
   if (levelUpText) {
     levelUpText.y -= dt / 5
+  }
+  if (this.emptyCard1.container.y >= gameConfig.canvasHeight - cardSize.height) {
+    this.emptyCard1.container.y -= dt / 5
+  }
+  if (this.emptyCard2.container.y >= gameConfig.canvasHeight - cardSize.height) {
+    this.emptyCard2.container.y -= dt / 5
+  }
+  if (this.emptyCard3.container.y >= gameConfig.canvasHeight - cardSize.height) {
+    this.emptyCard3.container.y -= dt / 5
   }
 }
 
