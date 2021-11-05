@@ -38,6 +38,7 @@ export interface Charactor {
 export interface Player extends Omit<Charactor, 'interface'> {
   interface: 'Player',
   ready: boolean,
+  name: string,
   scene: string,
   phaserObject: any,
   coins: number,
