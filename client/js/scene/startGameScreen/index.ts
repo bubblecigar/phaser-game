@@ -55,10 +55,15 @@ function create() {
 
   const coinSprite = this.add.sprite(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding / 2, coin.spritesheetConfig.spritesheetKey)
   coinSprite.play(coin.animsConfig.idle.key)
-  const hint = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding * 0.75, `Collect ${setting.coinsToWin} coins to win!`, {
+  const hint1 = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding * 0.75, `Collect ${setting.coinsToWin} coins to win!`, {
     fontSize: setting.fontSize
   })
-  hint.setOrigin(0.5, 0.5)
+  hint1.setOrigin(0.5, 0.5)
+
+  const hint2 = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding * 1, `(space to toggle status panel)`, {
+    fontSize: setting.fontSize
+  })
+  hint2.setOrigin(0.5, 0.5)
 }
 
 function update(t, dt) {
