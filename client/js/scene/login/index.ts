@@ -166,9 +166,13 @@ function create() {
   inputRoomId.value = getLocalUserData().roomId || ''
 
   const bgmusic = document.getElementById('bgmusic')
-
-
   const skinButton = element.getChildByID('skin-button')
+  const soundButton = element.getChildByName('sound-checkbox')
+  if (bgmusic.muted) {
+    soundButton.checked = false
+  } else {
+    soundButton.checked = true
+  }
 
   createSkinBoundingBox(scene)
   const currentSkin = browseSkin(0)
