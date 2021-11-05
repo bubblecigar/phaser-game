@@ -100,11 +100,11 @@
             "scaleInDock": 3.189
         },
         "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx": {
-            "scale": 1.5,
+            "scale": 0.9556,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 245.33333333333331,
-                "y": 201
+                "x": 294.0560904143993,
+                "y": 272.6035998325659
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx#forestTileSet": {
@@ -160,11 +160,11 @@
             "scaleInDock": 2.2353
         },
         "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx": {
-            "scale": 1.74,
+            "scale": 1.4,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 160.0574712643678,
-                "y": 80.7471264367816
+                "x": 219.2857142857143,
+                "y": 127.50000000000003
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx#forestTileSet": {
