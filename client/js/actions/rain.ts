@@ -1,8 +1,47 @@
 import { v4 } from 'uuid'
 import items from '../items/index'
 import { playAnimation } from './utils'
+import _ from 'lodash'
 
 export const rain = ({
+  scene,
+  itemStorage,
+  performer,
+  from,
+  to,
+  collisionCategory,
+  collisionTargets,
+  options
+}) => {
+  const randomNumber1 = options.randomNumber
+  const randomNumber2 = options.randomNumber * 10000 % 1
+  const option1 = _.clone(options)
+  option1.randomNumber = randomNumber1
+  const option2 = _.clone(options)
+  option2.randomNumber = randomNumber2
+  _rain({
+    scene,
+    itemStorage,
+    performer,
+    from,
+    to,
+    collisionCategory,
+    collisionTargets,
+    options: option1
+  })
+  _rain({
+    scene,
+    itemStorage,
+    performer,
+    from,
+    to,
+    collisionCategory,
+    collisionTargets,
+    options: option2
+  })
+}
+
+export const _rain = ({
   scene,
   itemStorage,
   performer,
