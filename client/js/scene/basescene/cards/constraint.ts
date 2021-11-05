@@ -65,9 +65,13 @@ const availableAttributes = {
     property: 'damage',
     value: 0.3
   },
+  damage4: {
+    property: 'damage',
+    value: 0.4
+  },
   jump: {
     property: 'jump',
-    value: 1
+    value: 0.5
   }
 }
 
@@ -112,7 +116,7 @@ export const itemAttributeConstraint = {
   coin: ['attackSpeed3'],
   iceFlask: ['attackSpeed2'],
   shadowBall: ['damage3'],
-  fireball: ['damage2'],
+  fireball: ['damage4'],
   arrow: ['damage2'],
   potion: ['damage2', 'healthRegen2'],
   muddy: ['damage2', 'vision2']
@@ -175,7 +179,7 @@ export const actionItemConstraint = {
   spin: ['coin', 'iceFlask', 'dagger', 'shadowBall', 'potion'],
   summon: ['muddy', 'coin', 'iceFlask', 'shadowBall'],
   tab: ['iceFlask', 'shadowBall', 'coin', 'fireball', 'dagger'],
-  throws: ['iceFlask', 'shadowBall', 'coin', 'fireball', 'dagger', 'potion', 'arrow', 'muddy']
+  throws: ['iceFlask', 'shadowBall', 'coin', 'dagger', 'potion', 'arrow', 'muddy']
 }
 
 export const itemActionConstraint = {

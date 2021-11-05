@@ -3,6 +3,7 @@ import { getLocalUserData } from '../../../user'
 import gameState from '../../../game/state'
 import { createActionPool, createAttributePool, createItemPool, createSkinPool } from './constraint'
 import { socketMethods } from '../../../index'
+import { Player } from '../../../Interface'
 
 const base_level_exp_unit = 3
 
@@ -64,10 +65,22 @@ const openLevelUpPanel = (scene, methods, player) => {
     }
 
 
-    const drawCard = () => {
+    const drawCard = (): Card => {
       const typePool = [skinPool, itemPool, actionPool, attributePool]
       const nonEmptyPools = typePool.filter(pool => pool.pool.length)
+      if (nonEmptyPools.length === 0) {
+        return {
+          type: 'resurrect',
+          value: ''
+        }
+      }
       const randomPool = drawFromPool(nonEmptyPools)
+      if (randomPool.pool.length === 0) {
+        return {
+          type: 'resurrect',
+          value: ''
+        }
+      }
       const randomCard: Card = {
         type: randomPool.type,
         value: drawFromPool(randomPool.pool)
