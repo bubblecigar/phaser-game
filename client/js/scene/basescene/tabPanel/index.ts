@@ -32,7 +32,7 @@ function create() {
       if (x && y) {
         const sprite = this.add.sprite(x, y, skins[player.skin].spritesheetConfig.spritesheetKey)
         sprite.setFlipX(flip)
-        const playerInfo = `hp ${player.attributes.maxHealth.toFixed(0)} dmg ${player.attributes.damage.toFixed(1)} ₵ ${player.coins.toFixed(0)}`
+        const playerInfo = `${player.name}\nhp ${player.attributes.maxHealth.toFixed(0)} dmg ${player.attributes.damage.toFixed(1)} ₵ ${player.coins.toFixed(0)}`
         const text = this.add.text(x + 15 * (flip ? -1 : 1), y, playerInfo, {
           fontSize: setting.fontSize
         })
