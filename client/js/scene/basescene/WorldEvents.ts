@@ -128,13 +128,7 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
     const collistionTargets = classifyCollisionTargets(bodyA, bodyB)
     const { player, monster, bullet, terrainBlock, item, sensor } = collistionTargets
     if (player && player.isUser && terrainBlock) {
-      const playerTileXY = scene.map.worldToTileXY(player.body.position.x, player.body.position.y)
-      const blockTileXY = scene.map.worldToTileXY(terrainBlock.body.position.x, terrainBlock.body.position.y)
-      const blockAtTop = playerTileXY.y > blockTileXY.y && playerTileXY.x === blockTileXY.x
-      const blockAtLeft = playerTileXY.x > blockTileXY.x
-      if (!blockAtTop) {
-        player.body.gameObject.setData({ touched: true, touchTop: blockAtTop, touchLeft: blockAtLeft })
-      }
+
     } else if (player && player.isUser && sensor) {
       switch (sensor.data.name) {
         case ('ready_zone'): {
