@@ -1,7 +1,7 @@
 {
   "initCharactor": "tinyZombie",
   "initHealth": 20,
-  "healInterval": 1000,
+  "healInterval": 5000,
   "minumumPlayers": 1,
   "maxMonsters": 5,
   "resurrectCountDown": 5000,
