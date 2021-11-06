@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import gameMethods from './methods/index'
+import gameConfig from '../../game/config'
 import { Player } from '../../Interface'
 import { getLocalUserData } from '../../user'
 import clientMap from '../../../../share/clientMap'
@@ -12,6 +13,7 @@ import setting from '../../../../share/setting.json'
 import { itemsStorageKey } from '../../actions/index'
 import collisionCategories from './collisionCategories'
 import { sounds } from '../../sounds/index'
+import { popText } from './popText'
 
 const userId = getLocalUserData().userId
 
@@ -193,10 +195,12 @@ function update(t, dt) {
         )
       }
     } else {
-      if (restTime >= setting.healInterval) {
+      if (restTime >= setting.healInterval && player.health < player.attributes.maxHealth) {
         restTime = 0
-        const fountainBonus = player.phaserObject.data.values.isInFountain ? 20 : 1
-        socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, player.attributes.maxHealth * player.attributes.healthRegen * 0.01 * fountainBonus)
+        const fountainBonus = player.phaserObject.data.values.isInFountain ? 4 : 1
+        const heal = 5 * player.attributes.maxHealth * player.attributes.healthRegen * 0.01 * fountainBonus
+        socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, heal)
+        popText(this, player.position, `+${heal.toFixed(0)}`, { fontSize: '8px', color: gameConfig.healColor })
       }
       restTime += dt
     }

@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { v4 } from 'uuid'
 import { Item } from '../../Interface'
 import { playerGainExp } from './cards/level'
+import gameConfig from '../../game/config'
 import { popText } from './popText'
 
 const classifyCollisionTargets = (bodyA, bodyB) => {
@@ -184,7 +185,7 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
           countUpCoin()
         } else if (item.data.itemKey === 'potion') {
           socketMethods.clientsInScene(scene.scene.key, methods, 'onHeal', player.data.id, 15)
-          popText(scene, _player.position, `+${15}`, { fontSize: '8px', color: '#34b366' })
+          popText(scene, _player.position, `+${15}`, { fontSize: '8px', color: gameConfig.healColor })
         }
       }
       item.data.phaserObject.destroy()
@@ -245,7 +246,7 @@ const playerOnHit = (scene, socketMethods, methods, player, damage) => {
   socketMethods.clientsInScene(scene.scene.key, methods, 'onHit', player.data.id, damage)
   scene.cameras.main.shake(100, 0.01)
   const _player = methods.getPlayer(player.data.id)
-  popText(scene, _player.position, `-${damage.toFixed(0)}`, { fontSize: '8px', color: '#da4e38' })
+  popText(scene, _player.position, `-${damage.toFixed(0)}`, { fontSize: '8px', color: gameConfig.damageColor })
   if (_player.health <= 0) {
     socketMethods.clientsInScene(scene.scene.key, methods, 'onDead', player.data.id)
     dropCoins(scene, methods, socketMethods, player.data.id, _player.position, _player.coins)
