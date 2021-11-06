@@ -143,21 +143,6 @@ export const createAttributePool = (player) => {
   return availAttributePool
 }
 
-export const skinActionConstraint = {
-  "tinyZombie": ['tab'],
-  "imp": ['tab'],
-  "skeleton": ['tab'],
-  "wizzardMale": ['tab', 'rain', 'shoot'],
-  "knightFemale": ['tab'],
-  "elfFemale": ['tab', 'throws'],
-  "elfMale": ['tab', 'throws'],
-  "lizardFemale": ['tab', 'spin'],
-  "chort": ['tab', 'shoot'],
-  "orge": ['tab', 'throws', 'shoot'],
-  "giantDemon": ['tab', 'rain', 'shoot', 'throws'],
-  "giantZombie": ['tab', 'summon', 'throws']
-}
-
 export const skinItemConstraint = {
   tinyZombie: ['dagger'],
   imp: ['dagger'],
@@ -193,10 +178,9 @@ export const itemActionConstraint = {
   muddy: ['summon', 'throws']
 }
 
-export const createActionPool = (skin, item, equippedAction) => {
-  const availableSkinActions = skinActionConstraint[skin]
+export const createActionPool = (item, equippedAction) => {
   const availableItemActions = itemActionConstraint[item]
-  return _.intersection(availableSkinActions, availableItemActions).filter(action => action !== equippedAction)
+  return availableItemActions.filter(action => action !== equippedAction)
 }
 
 export const createItemPool = (skin, action, equippedItem) => {

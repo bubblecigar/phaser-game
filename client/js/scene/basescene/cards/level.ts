@@ -57,7 +57,7 @@ const openLevelUpPanel = (scene, methods, player) => {
     }
     const actionPool = {
       type: 'action',
-      pool: createActionPool(player.skin, player.item, player.action)
+      pool: createActionPool(player.item, player.action)
     }
     const attributePool = {
       type: 'attribute',
