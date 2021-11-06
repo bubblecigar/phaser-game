@@ -53,6 +53,7 @@ export const getSocketMethods = socket => {
             } else {
               // switch scene
               const sceneToStop = scenesActived.filter(key => (key !== sceneToRun && key !== 'GUI'))[0]
+              game.scene.stop('cards')
               game.scene.stop(sceneToStop)
               game.scene.start(sceneToRun, serverGameState)
               game.scene.bringToTop('GUI')
