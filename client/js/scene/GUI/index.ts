@@ -2,13 +2,10 @@ import _ from 'lodash'
 import gameState from '../../game/state'
 import gameConfig from '../../game/config'
 import { getLocalUserData } from '../../user'
-import items from '../../items/index'
 import setting from '../../../../share/setting.json'
 import skins from '../../skins/index'
 
 let randomSkin
-
-let resurrectCountDownText
 let transitionScreen
 
 function preload() {
@@ -22,7 +19,6 @@ function create() {
 
   const centerX = gameConfig.canvasWidth / 2
   const centerY = gameConfig.canvasHeight / 2
-  createResurrectCountDownText(this, centerX, gameConfig.canvasHeight - padding)
 
   transitionScreen = this.add.container(0, 0)
   const text = this.add.text(centerX, centerY, 'loading...', {
@@ -35,34 +31,14 @@ function create() {
   transitionScreen.add([text, char])
 }
 
-const createResurrectCountDownText = (scene, x, y) => {
-  resurrectCountDownText = scene.add.text(x, y, '', {
-    fontSize: setting.fontSize
-  })
-}
-
-const showResurrectCountDown = player => {
-  if (player.health > 0) {
-    resurrectCountDownText.setVisible(false)
-  } else {
-    resurrectCountDownText.setVisible(true)
-    const countdown = (player.resurrectCountDown / 1000).toFixed(2)
-    resurrectCountDownText.setText(countdown)
-  }
-}
-
 function update() {
   const player = gameState.players.find(p => p.id === getLocalUserData().userId)
   if (gameState.scene === 'loginScene') {
     transitionScreen.setVisible(false)
-    resurrectCountDownText.setVisible(false)
   } else if (!player || !player.phaserObject) {
     transitionScreen.setVisible(true)
-    resurrectCountDownText.setVisible(false)
   } else {
     transitionScreen.setVisible(false)
-    resurrectCountDownText.setVisible(true)
-    showResurrectCountDown(player)
   }
 }
 

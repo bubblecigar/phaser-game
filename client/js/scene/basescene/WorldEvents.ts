@@ -4,7 +4,7 @@ import { v4 } from 'uuid'
 import { Item } from '../../Interface'
 import { playerGainExp } from './cards/level'
 import gameConfig from '../../game/config'
-import { popText } from './popText'
+import { popText, resurrectText } from './popText'
 
 const classifyCollisionTargets = (bodyA, bodyB) => {
   const collisionTargets = {
@@ -250,6 +250,7 @@ const playerOnHit = (scene, socketMethods, methods, player, damage) => {
   if (_player.health <= 0) {
     socketMethods.clientsInScene(scene.scene.key, methods, 'onDead', player.data.id)
     dropCoins(scene, methods, socketMethods, player.data.id, _player.position, _player.coins)
+    resurrectText(scene, _player)
   }
 }
 

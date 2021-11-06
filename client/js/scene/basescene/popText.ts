@@ -1,3 +1,27 @@
+export const resurrectText = (scene, player) => {
+  const text = scene.add.text(player.position.x, player.position.y + 10, '', {
+    fontSize: '8px'
+  })
+  text.setDepth(10)
+  text.setOrigin(0.5, 0.5)
+
+  const timer = scene.time.addEvent({
+    delay: 50,                // ms
+    callback: () => {
+      if (text) {
+        const countdown = (player.resurrectCountDown / 1000).toFixed(2)
+        text.setText(countdown)
+      }
+      if (player.resurrectCountDown <= 0) {
+        text.destroy()
+        timer.remove()
+      }
+    },
+    callbackScope: scene,
+    repeat: 100
+  });
+}
+
 export const popText = (scene, position: { x: number, y: number }, string: string, options) => {
   const dx = (Math.random() - 0.5) * 20
   const dy = -Math.random() * 5
@@ -18,5 +42,5 @@ export const popText = (scene, position: { x: number, y: number }, string: strin
     },
     callbackScope: scene,
     repeat: repeat
-  });
+  })
 }
