@@ -8,34 +8,40 @@ const getItemDropPossibilityPool = (rarity) => {
   switch (rarity) {
     case 1: {
       possibilityPool = [
-        { possibility: 0.95, key: '' },
-        { possibility: 1.00, key: 'potion' }
+        { possibility: 0.80, keys: ['' ]},
+        { possibility: 0.90, keys: ['coin' ]},
+        { possibility: 1.00, keys: ['potion'] }
       ]
       break
     }
     case 2: {
       possibilityPool = [
-        { possibility: 0.80, key: '' },
-        { possibility: 0.90, key: 'potion' },
-        { possibility: 1.00, key: 'coin' }
+        { possibility: 0.50, keys: ['']},
+        { possibility: 0.70, keys: ['potion']},
+        { possibility: 1.00, keys: ['coin'] }
       ]
       break
     }
     case 3: {
       possibilityPool = [
-        { possibility: 1.00, key: 'coin' }
+        { possibility: 0.20, keys: ['potion'] },
+        { possibility: 0.80, keys: ['coin'] },
+        { possibility: 1.00, keys: ['coin', 'coin'] }
       ]
       break
     }
     case 4: {
       possibilityPool = [
-        { possibility: 1.00, key: 'coin' }
+        { possibility: 0.30, keys: ['coin'] },
+        { possibility: 0.60, keys: ['coin', 'coin'] },
+        { possibility: 0.90, keys: ['coin', 'coin', 'coin'] },
+        { possibility: 1.00, keys: ['coin', 'coin', 'coin', 'coin'] }
       ]
       break
     }
     default: {
       possibilityPool = [
-        { possibility: 1.00, key: '' }
+        { possibility: 1.00, keys: [] }
       ]
     }
   }
@@ -77,7 +83,7 @@ const createMonster = (room, spawnLocation, monsterPossibilityPool) => {
     },
     team: 'neutral',
     health: rolledMonster.maxHealth,
-    itemDrop: rolledDrop.key,
+    itemDrop: rolledDrop.keys,
     expDrop: 3 * rolledPool.itemRarity * rolledPool.itemRarity,
     position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },
     velocity: { x: 0, y: 0 }

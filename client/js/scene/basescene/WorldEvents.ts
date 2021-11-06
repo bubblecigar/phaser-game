@@ -184,8 +184,8 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
           _player.coins++
           countUpCoin()
         } else if (item.data.itemKey === 'potion') {
-          socketMethods.clientsInScene(scene.scene.key, methods, 'onHeal', player.data.id, 15)
-          popText(scene, _player.position, `+${15}`, { fontSize: '8px', color: gameConfig.healColor })
+          socketMethods.clientsInScene(scene.scene.key, methods, 'onHeal', player.data.id, 10)
+          popText(scene, _player.position, `+${10}`, { fontSize: '8px', color: gameConfig.healColor })
         }
       }
       item.data.phaserObject.destroy()
@@ -266,22 +266,25 @@ const monsterOnHit = (scene, socketMethods, methods, monster, damage) => {
 
     playerGainExp(scene, methods, monster.data.expDrop)
 
-    if (monster.data.itemDrop) {
-      const itemConstructor: Item = {
-        interface: 'Item',
-        builderId: monster.data.id,
-        id: v4(),
-        itemKey: monster.data.itemDrop,
-        type: '?',
-        isDrop: true,
-        position: deadPosition,
-        velocity: { x: 0.0001, y: -0 },
-        phaserObject: null
-      }
 
-      socketMethods.clientsInScene(scene.scene.key, methods, 'addItem', itemConstructor)
-      socketMethods.server('addItem', itemConstructor)
-    }
+    monster.data.itemDrop.forEach(
+      itemKey => {
+        const itemConstructor: Item = {
+          interface: 'Item',
+          builderId: monster.data.id,
+          id: v4(),
+          itemKey,
+          type: '?',
+          isDrop: true,
+          position: deadPosition,
+          velocity: { x: (Math.random() - 0.5) * 3, y: -1 },
+          phaserObject: null
+        }
+
+        socketMethods.clientsInScene(scene.scene.key, methods, 'addItem', itemConstructor)
+        socketMethods.server('addItem', itemConstructor)
+      }
+    )
   }
 }
 
