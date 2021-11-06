@@ -121,6 +121,7 @@ const openLevelUpPanel = (scene, methods, player) => {
     )
 
     scene.scene.launch('cards', { methods, cards })
+    scene.sound.play('collect')
   }
 }
 

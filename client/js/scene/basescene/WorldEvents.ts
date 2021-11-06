@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { v4 } from 'uuid'
 import { Item } from '../../Interface'
 import { playerGainExp } from './cards/level'
+import { popText } from './popText'
 
 const classifyCollisionTargets = (bodyA, bodyB) => {
   const collisionTargets = {
@@ -177,12 +178,13 @@ const registerWorldEvents = (scene, methods, socketMethods) => {
         socketMethods.clientsInScene(scene.scene.key, methods, 'removeItem', item.data.id)
         socketMethods.server('collectItem', item.data.id)
         scene.sound.play('collect')
+        const _player = methods.getPlayer(player.data.id)
         if (item.data.itemKey === 'coin') {
-          const _player = methods.getPlayer(player.data.id)
           _player.coins++
           countUpCoin()
         } else if (item.data.itemKey === 'potion') {
           socketMethods.clientsInScene(scene.scene.key, methods, 'onHeal', player.data.id, 15)
+          popText(scene, _player.position, `+${15}`, { fontSize: '8px', color: '#34b366' })
         }
       }
       item.data.phaserObject.destroy()
@@ -243,6 +245,7 @@ const playerOnHit = (scene, socketMethods, methods, player, damage) => {
   socketMethods.clientsInScene(scene.scene.key, methods, 'onHit', player.data.id, damage)
   scene.cameras.main.shake(100, 0.01)
   const _player = methods.getPlayer(player.data.id)
+  popText(scene, _player.position, `-${damage.toFixed(0)}`, { fontSize: '8px', color: '#da4e38' })
   if (_player.health <= 0) {
     socketMethods.clientsInScene(scene.scene.key, methods, 'onDead', player.data.id)
     dropCoins(scene, methods, socketMethods, player.data.id, _player.position, _player.coins)
@@ -255,6 +258,7 @@ const monsterOnHit = (scene, socketMethods, methods, monster, damage) => {
 
   const _monster = methods.getMonster(monster.data.id)
   const deadPosition = { x: _monster.phaserObject.x, y: _monster.phaserObject.y }
+  popText(scene, deadPosition, `-${damage.toFixed(0)}`, { fontSize: '8px' })
   if (_monster.health <= 0) {
     socketMethods.clientsInScene(scene.scene.key, methods, 'onMonsterDead', monster.data.id, deadPosition)
     socketMethods.server('onMonsterDead', monster.data.id)

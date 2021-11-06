@@ -61,8 +61,6 @@ const createEmptyCard = (scene, position, size, n) => {
   }
 }
 
-let levelUpText
-
 const drawCard = (scene, emptyCard, options: Card, onFinished) => {
   let drawFunction
   switch (options.type) {
@@ -118,14 +116,6 @@ function create() {
   const card2 = drawCard(this, this.emptyCard2, cards[1], onFinished)
   const card3 = drawCard(this, this.emptyCard3, cards[2], onFinished)
 
-  levelUpText = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 'level up', {
-    fontSize: setting.fontSize
-  })
-  this.sound.play('collect')
-  levelUpText.setOrigin(0.5, 0.5)
-  this.time.delayedCall(150, () => {
-    levelUpText && levelUpText.destroy()
-  }, null, this)
 
   this.input.keyboard.on('keydown', e => {
     if (e.key === '1') {
@@ -139,9 +129,6 @@ function create() {
 }
 
 function update(t, dt) {
-  if (levelUpText) {
-    levelUpText.y -= dt / 5
-  }
   if (this.emptyCard1.container.y >= gameConfig.canvasHeight - cardSize.height) {
     this.emptyCard1.container.y -= dt / 5
   }
