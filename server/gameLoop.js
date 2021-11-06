@@ -112,7 +112,10 @@ const getMonsterPossibilityPool = (rarity) => {
     ]
   } else if (rarity <= 2) {
     possibilityPool = [
-      { possibility: 0.5, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 },
+      { possibility: 1.00, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 }
+    ]
+  } else if (rarity <= 3) {
+    possibilityPool = [
       { possibility: 1.00, keys: ['chort', 'lizardFemale'], itemRarity: 2 }
     ]
   } else {
@@ -175,8 +178,8 @@ const registerProcessingIntervals = room => setInterval(
     spawnMonster('east_underground', monsterBySpawnLocation['east_underground'] || [], getMonsterPossibilityPool(1), 3, 3000)
     spawnMonster('west_park', monsterBySpawnLocation['west_park'] || [], getMonsterPossibilityPool(2), 1, 10000)
     spawnMonster('east_park', monsterBySpawnLocation['east_park'] || [], getMonsterPossibilityPool(2), 1, 10000)
-    spawnMonster('central_park', monsterBySpawnLocation['central_park'] || [], getMonsterPossibilityPool(2), 1, 10000)
-    spawnMonster('sky_park', monsterBySpawnLocation['sky_park'] || [], getMonsterPossibilityPool(3), 1, 20000)
+    spawnMonster('central_park', monsterBySpawnLocation['central_park'] || [], getMonsterPossibilityPool(3), 1, 10000)
+    spawnMonster('sky_park', monsterBySpawnLocation['sky_park'] || [], getMonsterPossibilityPool(4), 1, 20000)
 
     Object.keys(room.monstersById).forEach(
       id => {
