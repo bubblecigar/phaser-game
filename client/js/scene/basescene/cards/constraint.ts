@@ -75,25 +75,16 @@ const availableAttributes = {
   }
 }
 
-export const skinLevelConstraint = {
-  "tinyZombie": 0,
-  "imp": 0,
-  "skeleton": 0,
-  "wizzardMale": 3,
-  "knightFemale": 3,
-  "elfFemale": 3,
-  "elfMale": 3,
-  "lizardFemale": 5,
-  "chort": 5,
-  "orge": 8,
-  "giantDemon": 8,
-  "giantZombie": 8,
-}
+export const levelSkinConstraint = [
+  { level: 10, skins: ["orge", "giantDemon", "giantZombie"] },
+  { level: 8, skins: ["lizardFemale", "chort"] },
+  { level: 5, skins: ["wizzardMale", "knightFemale", "elfFemale", "elfMale",] },
+  { level: 0, skins: ["tinyZombie", "imp", "skeleton"] }
+]
 
 export const createSkinPool = (level, equippedSkin) => {
-  return Object.keys(skinLevelConstraint).filter(
-    skin => level >= skinLevelConstraint[skin] && skin !== equippedSkin
-  )
+  const pool = levelSkinConstraint.find(p => p.level <= level)
+  return pool.skins.filter(s => s !== equippedSkin)
 }
 
 export const skinAttributeConstraint = {

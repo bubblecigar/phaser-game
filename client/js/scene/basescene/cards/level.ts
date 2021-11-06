@@ -5,16 +5,32 @@ import { createActionPool, createAttributePool, createItemPool, createSkinPool }
 import { socketMethods } from '../../../index'
 import { Player } from '../../../Interface'
 
-const base_level_exp_unit = 3
+const base_level_exp_unit = 1
 
 const getLevelupExpRequirement = player => {
   // current formula leads to 
-  // level | exp requirement
-  // 1     | 5
-  // 2     | ~7
-  // 3     | ~8
-  // 4     | 10
-  return player.level * base_level_exp_unit
+  // lv | exp | tinyMonsters
+  // 1 1 1
+  // 2 3 1
+  // 3 4 2
+  // 4 5 2
+  // 5 6 2
+  // 6 8 3
+  // 7 9 3
+  // 8 10 4
+  // 9 12 4
+  // 10 13 5
+  // 11 14 5
+  // 12 16 6
+  // 13 17 6
+  // 14 19 7
+  // 15 20 7
+  // 16 22 8
+  // 17 23 8
+  // 18 25 9
+  // 19 26 9
+  // 20 27 9
+  return Math.pow(player.level, 1.1) * base_level_exp_unit
 }
 
 const isAbleToLevelUp = player => {
@@ -94,7 +110,7 @@ const openLevelUpPanel = (scene, methods, player) => {
         value: drawFromPool(attributePool.pool)
       },
       drawCard(),
-      player.level > 10 ? {
+      player.level > 30 ? {
         type: 'resurrect',
         value: ''
       } : drawCard()
@@ -114,6 +130,7 @@ export const levelUp = (scene, methods) => {
   const levelupExpRequirement = getLevelupExpRequirement(player)
   player.exp -= levelupExpRequirement
   player.level++
+  player.attributes.maxHealth += 3
   const _player: Player = _.omit(_.clone(player), 'phaserObject')
   socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
 }
