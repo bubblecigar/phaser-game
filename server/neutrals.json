@@ -3,7 +3,7 @@
     "key": "tinyZombie",
     "skin": "tinyZombie",
     "action": "tab",
-    "item": "dagger",
+    "item": "shadowBall",
     "shootInterval": 1000,
     "maxHealth": 20,
     "damage": 0.2
@@ -12,7 +12,7 @@
     "key": "imp",
     "skin": "imp",
     "action": "tab",
-    "item": "dagger",
+    "item": "fireball",
     "shootInterval": 1000,
     "maxHealth": 20,
     "damage": 0.2
@@ -26,28 +26,19 @@
     "maxHealth": 20,
     "damage": 0.2
   },
-  "wizzardMale": {
-    "key": "wizzardMale",
-    "skin": "wizzardMale",
-    "action": "rain",
-    "item": "iceFlask",
-    "maxHealth": 30,
-    "damage": 1,
-    "shootInterval": 500
-  },
   "knightFemale": {
     "key": "knightFemale",
     "skin": "knightFemale",
     "action": "tab",
     "item": "dagger",
     "maxHealth": 50,
-    "damage": 1,
-    "shootInterval": 500
+    "damage": 1.5,
+    "shootInterval": 300
   },
   "elfFemale": {
     "key": "elfFemale",
     "skin": "elfFemale",
-    "action": "throws",
+    "action": "shoot",
     "item": "arrow",
     "maxHealth": 30,
     "damage": 1,
@@ -56,8 +47,17 @@
   "elfMale": {
     "key": "elfMale",
     "skin": "elfMale",
-    "action": "throws",
-    "item": "arrow",
+    "action": "shoot",
+    "item": "dagger",
+    "maxHealth": 30,
+    "damage": 1,
+    "shootInterval": 1000
+  },
+  "wizzardMale": {
+    "key": "wizzardMale",
+    "skin": "wizzardMale",
+    "action": "rain",
+    "item": "iceFlask",
     "maxHealth": 30,
     "damage": 1,
     "shootInterval": 1000
@@ -69,7 +69,7 @@
     "item": "fireball",
     "maxHealth": 30,
     "damage": 1,
-    "shootInterval": 2000
+    "shootInterval": 1000
   },
   "lizardFemale": {
     "key": "lizardFemale",
@@ -78,16 +78,16 @@
     "item": "coin",
     "maxHealth": 30,
     "damage": 1,
-    "shootInterval": 300
+    "shootInterval": 500
   },
   "orge": {
     "key": "orge",
     "skin": "orge",
-    "action": "throws",
-    "item": "potion",
+    "action": "spin",
+    "item": "dagger",
     "maxHealth": 90,
     "damage": 1,
-    "shootInterval": 1000
+    "shootInterval": 700
   },
   "giantDemon": {
     "key": "giantDemon",
@@ -96,7 +96,7 @@
     "item": "shadowBall",
     "maxHealth": 90,
     "damage": 1,
-    "shootInterval": 500
+    "shootInterval": 700
   },
   "giantZombie": {
     "key": "giantZombie",
