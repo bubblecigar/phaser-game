@@ -112,15 +112,15 @@ const getMonsterPossibilityPool = (rarity) => {
     ]
   } else if (rarity <= 2) {
     possibilityPool = [
-      { possibility: 1.00, keys: ['wizzardMale', 'knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 }
+      { possibility: 1.00, keys: ['knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 }
     ]
   } else if (rarity <= 3) {
     possibilityPool = [
-      { possibility: 1.00, keys: ['chort', 'lizardFemale'], itemRarity: 2 }
+      { possibility: 1.00, keys: ['wizzardMale', 'chort', 'lizardFemale'], itemRarity: 3 }
     ]
   } else {
     possibilityPool = [
-      { possibility: 1.00, keys: ['orge', 'giantDemon', 'giantZombie'], itemRarity: 3 }
+      { possibility: 1.00, keys: ['orge', 'giantDemon', 'giantZombie'], itemRarity: 4 }
     ]
   }
   return possibilityPool

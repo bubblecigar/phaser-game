@@ -27,6 +27,12 @@ const getItemDropPossibilityPool = (rarity) => {
       ]
       break
     }
+    case 4: {
+      possibilityPool = [
+        { possibility: 1.00, key: 'coin' }
+      ]
+      break
+    }
     default: {
       possibilityPool = [
         { possibility: 1.00, key: '' }
