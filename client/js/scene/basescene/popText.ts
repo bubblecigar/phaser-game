@@ -1,3 +1,6 @@
+import { getLocalUserData } from '../../user'
+import gameState from '../../game/state'
+
 export const resurrectText = (scene, player) => {
   const text = scene.add.text(player.position.x, player.position.y + 10, '', {
     fontSize: '8px'
@@ -8,11 +11,12 @@ export const resurrectText = (scene, player) => {
   const timer = scene.time.addEvent({
     delay: 50,                // ms
     callback: () => {
+      const _player = gameState.players.find(p => p.id === getLocalUserData().userId)
       if (text) {
-        const countdown = (player.resurrectCountDown / 1000).toFixed(2)
+        const countdown = (_player.resurrectCountDown / 1000).toFixed(2)
         text.setText(countdown)
       }
-      if (player.resurrectCountDown <= 0) {
+      if (_player.resurrectCountDown <= 0) {
         text.destroy()
         timer.remove()
       }
