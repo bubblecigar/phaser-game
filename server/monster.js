@@ -8,16 +8,16 @@ const getItemDropPossibilityPool = (rarity) => {
   switch (rarity) {
     case 1: {
       possibilityPool = [
-        { possibility: 0.80, keys: ['' ]},
-        { possibility: 0.90, keys: ['coin' ]},
+        { possibility: 0.80, keys: [] },
+        { possibility: 0.90, keys: ['coin'] },
         { possibility: 1.00, keys: ['potion'] }
       ]
       break
     }
     case 2: {
       possibilityPool = [
-        { possibility: 0.50, keys: ['']},
-        { possibility: 0.70, keys: ['potion']},
+        { possibility: 0.50, keys: [] },
+        { possibility: 0.70, keys: ['potion'] },
         { possibility: 1.00, keys: ['coin'] }
       ]
       break
