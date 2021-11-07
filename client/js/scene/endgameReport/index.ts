@@ -45,7 +45,7 @@ function create() {
     }
   )
 
-  const text = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + 32, `${winners[0].team} team win!`, {
+  const text = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + 32, `${winners[0].team === 'blue' ? 'Team East' : 'Team West'} win!`, {
     fontSize: setting.fontSize
   })
   text.setOrigin(0.5, 0.5)

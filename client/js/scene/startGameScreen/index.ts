@@ -24,6 +24,15 @@ function create() {
   })
 
   const padding = 64
+  const teamText1 = this.add.text(gameConfig.canvasWidth / 4, gameConfig.canvasHeight / 2 - 2 * padding, 'Team West', {
+    fontSize: setting.fontSize
+  })
+  const teamText2 = this.add.text(gameConfig.canvasWidth * 3 / 4, gameConfig.canvasHeight / 2 - 2 * padding, 'Team East', {
+    fontSize: setting.fontSize
+  })
+  teamText1.setOrigin(0.5, 0.5)
+  teamText2.setOrigin(0.5, 0.5)
+
   let redTeamIndex = 1
   let blueTeamIndex = 1
   players.forEach(
