@@ -15,6 +15,31 @@ function preload() {
 }
 
 function create() {
+  const bgmusic = document.getElementById('bgmusic')
+  const soundButton = this.add.text(10, gameConfig.canvasHeight - 10, 'sound', {
+    fontSize: '10px'
+  })
+  if (bgmusic.muted) {
+    soundButton.setText('sound off')
+  } else {
+    soundButton.setText('sound on')
+  }
+  soundButton.setInteractive({
+    cursor: 'pointer'
+  })
+  const scene = this
+  soundButton.on('pointerdown', function (pointer, x, y, event) {
+    bgmusic.muted = !bgmusic.muted
+    if (!bgmusic.muted) {
+      bgmusic.play()
+      scene.game.sound.mute = false
+      soundButton.setText('sound on')
+    } else {
+      scene.game.sound.mute = true
+      soundButton.setText('sound off')
+    }
+  })
+
   const padding = 32
 
   const centerX = gameConfig.canvasWidth / 2
