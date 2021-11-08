@@ -16,7 +16,8 @@ export const resurrectText = (scene, player) => {
         const countdown = (_player.resurrectCountDown / 1000).toFixed(2)
         text.setText(countdown)
       }
-      if (_player.resurrectCountDown <= 0) {
+      const remaining = timer.getRepeatCount()
+      if (remaining <= 0) {
         text.destroy()
         timer.remove()
       }
