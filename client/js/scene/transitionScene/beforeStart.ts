@@ -79,6 +79,16 @@ function create() {
     color: '#ff0000'
   })
   continueKey.setOrigin(0.5, 0.5)
+  this.tweens.add({
+    targets: continueKey,
+    scaleX: 1,
+    ease: 'Sine.easeInOut',
+    duration: 800,
+    alpha: 0,
+    repeat: -1,
+    yoyo: true
+  })
+
   this.input.keyboard.on('keydown', e => {
     if (e.key === 'Enter') {
       scene.scene.start('dungeon')
