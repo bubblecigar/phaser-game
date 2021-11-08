@@ -73,6 +73,10 @@ function create() {
     fontSize: setting.fontSize
   })
   hint3.setOrigin(0.5, 0.5)
+
+  this.input.keyboard.on('keydown', e => {
+    scene.scene.start('dungeon')
+  })
 }
 
 function update(t, dt) {

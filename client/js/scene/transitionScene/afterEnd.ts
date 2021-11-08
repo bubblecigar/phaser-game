@@ -44,6 +44,10 @@ function create() {
     fontSize: setting.fontSize
   })
   text.setOrigin(0.5, 0.5)
+
+  this.input.keyboard.on('keydown', e => {
+    scene.scene.start('waitingRoom')
+  })
 }
 
 function update(t, dt) {

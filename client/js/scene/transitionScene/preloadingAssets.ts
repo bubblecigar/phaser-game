@@ -27,6 +27,8 @@ function create() {
   char.play(this.randomSkin.animsConfig.move.key)
 
   this.transitionScreen.add([text, char])
+
+  this.scene.start('waitingRoom')
 }
 
 function update() {

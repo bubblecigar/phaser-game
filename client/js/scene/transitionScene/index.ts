@@ -45,15 +45,6 @@ function create() {
   if (transitionContent) {
     transitionContent.create.apply(this)
   }
-
-  const scene = this
-  if (transitionConfig.autoStart) {
-    scene.scene.start(sceneToRun)
-  } else {
-    this.input.keyboard.on('keydown', e => {
-      scene.scene.start(sceneToRun)
-    })
-  }
 }
 
 function update(...args) {
