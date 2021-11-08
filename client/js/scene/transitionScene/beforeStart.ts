@@ -20,10 +20,10 @@ function create() {
   messageBox.setOrigin(0.5, 0.5)
 
   const padding = 50
-  const teamText1 = this.add.text(gameConfig.canvasWidth / 4, gameConfig.canvasHeight / 2 - 2 * padding, 'Team West', {
+  const teamText1 = this.add.text(gameConfig.canvasWidth / 4, gameConfig.canvasHeight / 4, 'Team West', {
     fontSize: setting.fontSize
   })
-  const teamText2 = this.add.text(gameConfig.canvasWidth * 3 / 4, gameConfig.canvasHeight / 2 - 2 * padding, 'Team East', {
+  const teamText2 = this.add.text(gameConfig.canvasWidth * 3 / 4, gameConfig.canvasHeight / 4, 'Team East', {
     fontSize: setting.fontSize
   })
   teamText1.setOrigin(0.5, 0.5)
@@ -34,27 +34,34 @@ function create() {
   gameState.players.forEach(
     player => {
       const skin = skins[player.skin]
-      let offsetX = 0
+      let x, y
       if (player.team === 'red') {
-        offsetX = -((0.5 + redTeamIndex) * padding / 2)
+        x = gameConfig.canvasWidth / 4
+        y = gameConfig.canvasHeight / 4 + padding * redTeamIndex * 0.5
         redTeamIndex++
+
+        const text = this.add.text(x + 16, y, player.name, {
+          fontSize: setting.fontSize
+        })
+        text.setOrigin(0, 0.5)
       }
       if (player.team === 'blue') {
-        offsetX = ((0.5 + blueTeamIndex) * padding / 2)
+        x = gameConfig.canvasWidth * 3 / 4
+        y = gameConfig.canvasHeight / 4 + padding * blueTeamIndex * 0.5
         blueTeamIndex++
+
+        const text = this.add.text(x - 16, y, player.name, {
+          fontSize: setting.fontSize
+        })
+        text.setOrigin(1, 0.5)
       }
 
       const spriteSheetKey = skin.spritesheetConfig.spritesheetKey
       const { origin } = skin.matterConfig
-      const playerSprite = scene.add.sprite(gameConfig.canvasWidth / 2 + offsetX, gameConfig.canvasHeight / 2 - padding, spriteSheetKey)
+      const playerSprite = scene.add.sprite(x, y, spriteSheetKey)
       playerSprite.setOrigin(origin.x, origin.y)
       playerSprite.setFlipX(player.team === 'red' ? false : true)
       playerSprite.play(skin.animsConfig.idle.key)
-
-      const text = this.add.text(gameConfig.canvasWidth / 2 + offsetX, gameConfig.canvasHeight / 2 + padding / 4 - padding, player.name, {
-        fontSize: setting.fontSize
-      })
-      text.setOrigin(0.5, 0.5)
     }
   )
 
