@@ -3,6 +3,7 @@ import gameState from '../../game/state'
 import skins from '../../skins/index'
 import setting from '../../../../share/setting.json'
 import coin from '../../items/coin'
+import { socketMethods } from '../../index'
 
 
 function init() {
@@ -91,7 +92,7 @@ function create() {
 
   this.input.keyboard.on('keydown', e => {
     if (e.key === 'Enter') {
-      scene.scene.start('dungeon')
+      socketMethods.enterDungeon()
     }
   })
 }

@@ -83,6 +83,9 @@ export const getSocketMethods = socket => {
         }
       })
     },
+    enterDungeon: () => {
+      socket.emit('enter-dungeon')
+    },
     updateRoomLog: () => {
       socket.emit('update-room-log')
     },
