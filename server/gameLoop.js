@@ -41,7 +41,6 @@ const registerWaitingIntervals = room => setInterval(
           }
         )
         changeGameStatus(room, 'processing')
-        io.to(room.id).emit('game', 'showStartGameScreen', room.players)
       } else {
         room.allPlayerReadyTime += intervalTimeStep
         io.in(room.id).emit('game', 'gameStartCountDown', setting.gameStartCountDown - room.allPlayerReadyTime)
@@ -192,7 +191,6 @@ const registerProcessingIntervals = room => setInterval(
     if (winners.length > 0) {
       room.winners = winners
       changeGameStatus(room, 'ending')
-      io.to(room.id).emit('game', 'showEndgameReport', room.winners)
     }
   }, intervalTimeStep
 )
