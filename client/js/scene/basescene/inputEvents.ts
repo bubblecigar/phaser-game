@@ -1,4 +1,5 @@
 import _ from 'lodash'
+// import gameState from '../../game/state'
 // import { Player } from '../../Interface'
 // import { getLocalUserData } from '../../user'
 // import skins from '../../skins/index'
@@ -27,6 +28,14 @@ const registerInputEvents = (scene, methods, socketMethods) => {
           scene.scene.launch('tabPanel')
           break
         }
+        // case 'c': {
+        //   scene.scene.start('beforeStart')
+        //   break
+        // }
+        // case 'v': {
+        //   scene.scene.start('afterEnd', { serverGameState: { winners: [gameState.players[0]] } })
+        //   break
+        // }
         // case 'f': {
         //   scene.scale.toggleFullscreen();
         //   break
