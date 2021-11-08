@@ -191,6 +191,26 @@ const registerProcessingIntervals = room => setInterval(
     if (winners.length > 0) {
       room.winners = winners
       changeGameStatus(room, 'ending')
+      io.in(room.id).emit('game', 'resetPlayer', {
+        ready: false,
+        team: 'red',
+        action: 'tab',
+        attributes: {
+          maxHealth: 20,
+          movementSpeed: 1,
+          vision: 75,
+          healthRegen: 1,
+          attackSpeed: 1,
+          damage: 1,
+          jump: 1
+        },
+        item: 'dagger',
+        health: 20,
+        resurrectCountDown: setting.resurrectCountDown,
+        coins: 0,
+        exp: 0,
+        level: 1,
+      })
     }
   }, intervalTimeStep
 )

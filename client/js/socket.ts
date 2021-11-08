@@ -3,6 +3,7 @@ import io from 'socket.io-client'
 import { getLocalUserData } from './user'
 import serverMap from '../../share/serverMap.json'
 import gameState, { initGameState } from './game/state'
+import { Player } from './Interface'
 
 export const connectToServer = () => {
   const socket = io.connect({
@@ -24,6 +25,15 @@ export const getSocketMethods = socket => {
           },
           gameStartCountDown: time => {
             gameState.gameStartCountDown = time
+          },
+          resetPlayer: (playerConstructor: Player) => {
+            const player = gameState.players.find(player => player.id === getLocalUserData().userId)
+            Object.keys(playerConstructor).forEach(
+              key => {
+                player[key] = playerConstructor[key]
+              }
+            )
+            player.skin = getLocalUserData().activatedSkin
           },
           updateGameStatus: serverGameState => {
             const { gameStatus } = serverGameState
