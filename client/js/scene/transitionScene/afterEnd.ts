@@ -45,8 +45,16 @@ function create() {
   })
   text.setOrigin(0.5, 0.5)
 
+  const continueKey = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.8, 'PRESS ENTER TO CONTINUE', {
+    fontSize: setting.fontSize,
+    color: '#ff0000'
+  })
+  continueKey.setOrigin(0.5, 0.5)
+
   this.input.keyboard.on('keydown', e => {
-    scene.scene.start('waitingRoom')
+    if (e.key === 'Enter') {
+      scene.scene.start('waitingRoom')
+    }
   })
 }
 
