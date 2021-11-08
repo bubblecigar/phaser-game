@@ -19,6 +19,7 @@ function create() {
   const soundButton = this.add.text(10, gameConfig.canvasHeight - 10, 'sound', {
     fontSize: '10px'
   })
+  soundButton.setOrigin(0, 1)
   if (bgmusic.muted) {
     soundButton.setText('sound off')
   } else {
