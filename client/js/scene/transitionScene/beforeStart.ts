@@ -6,7 +6,7 @@ import coin from '../../items/coin'
 
 
 function init() {
-  console.log('ho')
+
 }
 
 function preload() {
