@@ -23,6 +23,11 @@ io.on('connection', async function (socket) {
       io.to(socket.id).emit('loginScene', 'updateRoomLog', roomMethods.getLogs())
     })
 
+    socket.on('enter-dungeon', () => {
+      const gameState = roomMethods.getEmittableFieldOfRoom(room)
+      io.to(socket.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun: 'dungeon' })
+    })
+
     socket.on('leave-room', () => {
       if (room) {
         roomMethods.leaveRoom(room, userState.userId, socket)
