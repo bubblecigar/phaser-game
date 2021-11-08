@@ -5,10 +5,8 @@ import gameConfig from './game/config'
 import dungeonScene from './scene/dungeon/index'
 import waitingRoomScene from './scene/waitingRoom/index'
 import tabPanel from './scene/basescene/tabPanel/index'
-import GUIScene from './scene/GUI/index'
 import loginScene from './scene/login/index'
-import endgameReport from './scene/endgameReport/index'
-import startGameScreen from './scene/startGameScreen/index'
+import transitionScene from './scene/transitionScene/index'
 import cards from './scene/basescene/cards/index'
 import { connectToServer, getSocketMethods } from './socket'
 
@@ -38,7 +36,7 @@ const game = new Phaser.Game({
   dom: {
     createContainer: true
   },
-  scene: [loginScene, waitingRoomScene, dungeonScene, startGameScreen, endgameReport, tabPanel, GUIScene, cards],
+  scene: [loginScene, transitionScene, waitingRoomScene, dungeonScene, tabPanel, cards],
   plugins: {
     scene: [
       {

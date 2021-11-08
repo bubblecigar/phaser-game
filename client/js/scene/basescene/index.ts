@@ -90,8 +90,6 @@ function preload() {
 }
 
 function create() {
-  this.game.scene.getScene('GUI').cameras.main.fadeIn(1500, 0, 0, 0)
-
   cursors = this.input.keyboard.createCursorKeys()
   wasd = this.input.keyboard.addKeys({
     a: Phaser.Input.Keyboard.KeyCodes.A,

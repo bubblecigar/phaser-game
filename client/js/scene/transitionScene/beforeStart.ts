@@ -1,27 +1,22 @@
 import gameConfig from '../../game/config'
+import gameState from '../../game/state'
 import skins from '../../skins/index'
 import setting from '../../../../share/setting.json'
 import coin from '../../items/coin'
 
-let players
 
-function init(data) {
-  players = data
+function init() {
+  console.log('ho')
 }
 
 function preload() {
 
 }
 
-
 function create() {
   const scene = this
   const messageBox = this.add.rectangle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, gameConfig.canvasWidth, gameConfig.canvasHeight, 0x000000)
   messageBox.setOrigin(0.5, 0.5)
-  messageBox.setInteractive()
-  scene.input.on('gameobjectdown', () => {
-    scene.scene.stop()
-  })
 
   const padding = 64
   const teamText1 = this.add.text(gameConfig.canvasWidth / 4, gameConfig.canvasHeight / 2 - 2 * padding, 'Team West', {
@@ -35,7 +30,7 @@ function create() {
 
   let redTeamIndex = 1
   let blueTeamIndex = 1
-  players.forEach(
+  gameState.players.forEach(
     player => {
       const skin = skins[player.skin]
       let offsetX = 0
@@ -85,7 +80,6 @@ function update(t, dt) {
 }
 
 export default {
-  key: 'startGameScreen',
   init,
   preload,
   create,

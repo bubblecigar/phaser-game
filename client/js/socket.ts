@@ -19,16 +19,6 @@ export const getSocketMethods = socket => {
     registerGameSocketEvents: game => {
       socket.on('game', (key, ...args) => {
         const methods = {
-          showStartGameScreen: (data) => {
-            const gui = game.scene.getScene('GUI')
-            gui.scene.launch('startGameScreen', data)
-            game.scene.bringToTop('startGameScreen')
-          },
-          showEndgameReport: (data) => {
-            const gui = game.scene.getScene('GUI')
-            gui.scene.launch('endgameReport', data)
-            game.scene.bringToTop('endgameReport')
-          },
           connectionFail: errorMessage => {
             window.alert(errorMessage)
           },
@@ -38,7 +28,7 @@ export const getSocketMethods = socket => {
           updateGameStatus: serverGameState => {
             const { gameStatus } = serverGameState
             const sceneToRun = serverMap[gameStatus].scene
-            const scenesActived = game.scene.getScenes(true).map(s => s.scene.key)
+            const scenesActived = game.scene.getScenes(true)
 
             Object.keys(serverGameState).forEach(
               key => {
@@ -47,18 +37,16 @@ export const getSocketMethods = socket => {
             )
             gameState.scene = sceneToRun
 
-            const isSynced = scenesActived.includes(sceneToRun)
-            if (isSynced) {
-              // do nothing
-            } else {
-              // switch scene
-              const sceneToStop = scenesActived.filter(key => (key !== sceneToRun && key !== 'GUI'))[0]
-              game.scene.stop('cards')
-              game.scene.stop(sceneToStop)
-              game.scene.start(sceneToRun, serverGameState)
-              game.scene.bringToTop('GUI')
-            }
-
+            scenesActived.forEach(
+              (scene, i) => {
+                const reverseIndex = scenesActived.length - i - 1
+                if (reverseIndex === 0) {
+                  scenesActived[0].scene.start('transitionScene', { sceneToRun, serverGameState })
+                } else {
+                  scenesActived[scenesActived.length - i - 1].scene.stop()
+                }
+              }
+            )
           }
         }
         try {

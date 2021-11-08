@@ -165,9 +165,6 @@ const gameMethods = scene => {
         resurrectCountDown: setting.resurrectCountDown
       }
       methods.rebuildPlayer(playerConstructor)
-      if (player.id === getLocalUserData().userId) {
-        scene.game.scene.getScene('GUI').cameras.main.fadeIn(1500, 0, 0, 0)
-      }
     },
     onDead: (playerId: string) => {
       const player = methods.getPlayer(playerId)

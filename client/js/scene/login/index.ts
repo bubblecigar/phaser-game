@@ -195,8 +195,6 @@ function create() {
           roomId: inputRoomId.value
         })
         socketMethods.changeRoom(getLocalUserData())
-        scene.scene.stop('GUI')
-        scene.scene.launch('GUI')
       }
     } else if (event.target.name === 'sound-checkbox') {
       if (event.target.checked) {
@@ -241,8 +239,6 @@ function create() {
   })
 
   // socketMethods.changeRoom(getLocalUserData())
-  // scene.scene.stop('GUI')
-  // scene.scene.launch('GUI')
 }
 
 const randomSkins = []

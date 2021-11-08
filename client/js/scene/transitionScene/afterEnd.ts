@@ -2,10 +2,10 @@ import gameConfig from '../../game/config'
 import setting from '../../../../share/setting.json'
 import skins from '../../skins/index'
 
-let data
+let serverGameState
 
 function init(_data) {
-  data = _data
+  serverGameState = _data
 }
 
 function preload() {
@@ -27,12 +27,7 @@ function create() {
   const scene = this
   const messageBox = this.add.rectangle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, gameConfig.canvasWidth, gameConfig.canvasHeight, 0x000000)
   messageBox.setOrigin(0.5, 0.5)
-  messageBox.setInteractive()
-  scene.input.on('gameobjectdown', () => {
-    scene.scene.stop()
-  })
-
-  const winners = data
+  const winners = serverGameState.winners
 
   const interval = gameConfig.canvasWidth / (winners.length + 1)
 
