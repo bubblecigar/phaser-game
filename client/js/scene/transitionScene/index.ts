@@ -51,9 +51,7 @@ function create() {
     scene.scene.start(sceneToRun)
   } else {
     this.input.keyboard.on('keydown', e => {
-      if (e.key === ' ') {
-        scene.scene.start(sceneToRun)
-      }
+      scene.scene.start(sceneToRun)
     })
   }
 }
