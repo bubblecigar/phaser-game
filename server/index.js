@@ -47,7 +47,8 @@ io.on('connection', async function (socket) {
         io.to(socket.id).emit('game', 'connectionFail', errorMessage)
       } else {
         const gameState = roomMethods.getEmittableFieldOfRoom(room)
-        io.to(socket.id).emit('game', 'updateGameStatus', gameState)
+        const currentScene = gameState.gameStatus === 'processing' ? 'dungeon' : 'waitingRoom'
+        io.to(socket.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun: currentScene })
         const player = gameState.players.find(player => player.id === userState.userId)
         socket.to(room.id).emit('all-scene', 'createPlayer', player)
       }

@@ -5,7 +5,7 @@ import skins from '../../skins/index'
 let serverGameState
 
 function init(_data) {
-  serverGameState = _data
+  serverGameState = _data.serverGameState
 }
 
 function preload() {
@@ -55,7 +55,7 @@ function update(t, dt) {
 }
 
 export default {
-  key: 'endgameReport',
+  key: 'afterEnd',
   init,
   preload,
   create,

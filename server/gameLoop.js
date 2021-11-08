@@ -222,13 +222,17 @@ const changeGameStatus = (room, newGameStatus) => {
 
   room.methods.initialize()
 
+  let sceneToRun
   if (newGameStatus === 'waiting') {
     gameStatusIntervals.push(registerWaitingIntervals(room))
+    sceneToRun = 'waitingRoom'
   } else if (newGameStatus === 'processing') {
     room.disconnectedPlayers = []
     gameStatusIntervals.push(registerProcessingIntervals(room))
+    sceneToRun = 'beforeStart'
   } else if (newGameStatus === 'ending') {
     gameStatusIntervals.push(registerWaitingIntervals(room))
+    sceneToRun = 'afterEnd'
   } else {
     // wrong status, throw
   }
@@ -237,7 +241,7 @@ const changeGameStatus = (room, newGameStatus) => {
   const { io } = require('./index.js')
   const roomMethods = require('./rooms').roomMethods
   const gameState = roomMethods.getEmittableFieldOfRoom(room)
-  io.to(room.id).emit('game', 'updateGameStatus', gameState)
+  io.to(room.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun })
 }
 
 const registerGameLoop = room => {

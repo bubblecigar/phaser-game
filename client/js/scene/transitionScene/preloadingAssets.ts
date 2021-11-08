@@ -36,6 +36,7 @@ function update() {
 }
 
 export default {
+  key: 'preloadingAssets',
   init,
   preload,
   create,

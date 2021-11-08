@@ -84,6 +84,7 @@ function update(t, dt) {
 }
 
 export default {
+  key: 'beforeStart',
   init,
   preload,
   create,
