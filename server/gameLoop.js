@@ -180,12 +180,7 @@ const registerProcessingIntervals = room => setInterval(
     spawnMonster('central_park', monsterBySpawnLocation['central_park'] || [], getMonsterPossibilityPool(3), 1, 10000)
     spawnMonster('sky_park', monsterBySpawnLocation['sky_park'] || [], getMonsterPossibilityPool(4), 1, 20000)
 
-    Object.keys(room.monstersById).forEach(
-      id => {
-        const monster = room.monstersById[id]
-        io.in(room.id).emit('dungeon', 'writeMonster', monster)
-      }
-    )
+    io.in(room.id).emit('dungeon', 'writeMonsters', room.monstersById)
 
     const winners = detectWinners(room)
     if (winners.length > 0) {

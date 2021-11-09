@@ -104,6 +104,26 @@ const gameMethods = scene => {
         player.phaserObject.setY(player.position.y)
       }
     },
+    writeMonsters: (monstersById) => {
+      const diff = _.difference(Object.keys(gameState.monstersById), Object.keys(monstersById))
+
+      diff.forEach(
+        id => {
+          if (monstersById[id] && !gameState.monstersById[id]) {
+            methods.createMonster(monstersById[id])
+          } else if (!monstersById[id] && gameState.monstersById[id]) {
+            methods.removeMonster(id)
+          }
+        }
+      )
+
+      Object.keys(monstersById).forEach(
+        key => {
+          const monster = monstersById[key]
+          methods.writeMonster(monster)
+        }
+      )
+    },
     writeMonster: (_monster: Monster) => {
       const monster = methods.getMonster(_monster.id)
       if (!monster || !monster.phaserObject || !monster.phaserObject.body) {
