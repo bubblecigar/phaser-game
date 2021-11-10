@@ -48,14 +48,31 @@ const getItemDropPossibilityPool = (rarity) => {
   return possibilityPool
 }
 
-const createMonster = (room, spawnLocation, monsterPossibilityPool) => {
-  const mapFile = serverMap[room.mapInUse].file
-  const mapUrl = `../share/map/${mapFile}`
-  const map = require(mapUrl)
-  const infoLayer = map.layers.find(layer => layer.name === 'info_layer')
-  const monsterSpawnPoints = infoLayer.objects.filter(object => object.name === spawnLocation)
-  const monsterSpawnPoint = monsterSpawnPoints[0]
 
+const getMonsterPossibilityPool = (rarity) => {
+  let possibilityPool
+  if (rarity <= 1) {
+    possibilityPool = [
+      { possibility: 1.00, keys: ['tinyZombie', 'imp', 'skeleton'], itemRarity: 1 }
+    ]
+  } else if (rarity <= 2) {
+    possibilityPool = [
+      { possibility: 1.00, keys: ['knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 }
+    ]
+  } else if (rarity <= 3) {
+    possibilityPool = [
+      { possibility: 1.00, keys: ['wizzardMale', 'chort', 'lizardFemale'], itemRarity: 3 }
+    ]
+  } else {
+    possibilityPool = [
+      { possibility: 1.00, keys: ['orge', 'giantDemon', 'giantZombie'], itemRarity: 4 }
+    ]
+  }
+  return possibilityPool
+}
+
+const createMonster = (room, spawnPoint, spawnPointProperty) => {
+  const monsterPossibilityPool = getMonsterPossibilityPool(spawnPointProperty.pool)
   const randomNumber1 = Math.random()
   const rolledPool = monsterPossibilityPool.find(p => p.possibility >= randomNumber1)
   const rolledMonsterKey = rolledPool.keys[Math.floor(Math.random() * rolledPool.keys.length)] || 'tinyZombie'
@@ -67,8 +84,8 @@ const createMonster = (room, spawnLocation, monsterPossibilityPool) => {
   const monster = {
     interface: 'Monster',
     id: uuid(),
-    properties: monsterSpawnPoint.properties,
-    builderId: spawnLocation,
+    properties: spawnPointProperty,
+    builderId: spawnPoint.id,
     skin: rolledMonster.skin,
     item: rolledMonster.item,
     action: rolledMonster.action,
@@ -85,7 +102,7 @@ const createMonster = (room, spawnLocation, monsterPossibilityPool) => {
     health: rolledMonster.maxHealth,
     itemDrop: rolledDrop.keys,
     expDrop: 3 * rolledPool.itemRarity * rolledPool.itemRarity,
-    position: { x: monsterSpawnPoint.x, y: monsterSpawnPoint.y },
+    position: { x: spawnPoint.x, y: spawnPoint.y },
     velocity: { x: 0, y: 0 }
   }
 
@@ -130,7 +147,7 @@ const runMonsterScript = (room, monster) => {
   }
   setTimeout(() => shoot(), neutrals[monster.skin].shootInterval)
 
-  const dx = monster.properties ? monster.properties[0].value : 0
+  const dx = monster.properties.move
   const centralPosition = { x: monster.position.x, y: monster.position.y }
   const leftPosition = { x: centralPosition.x - dx, y: centralPosition.y }
   const rightPosition = { x: centralPosition.x + dx, y: centralPosition.y }

@@ -65,24 +65,6 @@
                 }, 
                 {
                  "height":0,
-                 "id":2,
-                 "name":"west_underground",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"move",
-                         "type":"int",
-                         "value":100
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":159.078,
-                 "y":426.729
-                }, 
-                {
-                 "height":0,
                  "id":3,
                  "name":"coin_point",
                  "point":true,
@@ -91,43 +73,7 @@
                  "visible":true,
                  "width":0,
                  "x":318.402,
-                 "y":255.716860911271
-                }, 
-                {
-                 "height":0,
-                 "id":4,
-                 "name":"east_underground",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"move",
-                         "type":"int",
-                         "value":100
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":481.051,
-                 "y":425.875
-                }, 
-                {
-                 "height":0,
-                 "id":6,
-                 "name":"sky_park",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"move",
-                         "type":"int",
-                         "value":40
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":321.841232613909,
-                 "y":168.760908872902
+                 "y":255.717
                 }, 
                 {
                  "height":0,
@@ -143,24 +89,6 @@
                 }, 
                 {
                  "height":0,
-                 "id":8,
-                 "name":"central_park",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"move",
-                         "type":"int",
-                         "value":0
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":319.641,
-                 "y":321.15209352518
-                }, 
-                {
-                 "height":0,
                  "id":19,
                  "name":"coin_point",
                  "point":true,
@@ -168,80 +96,272 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":319.513863039953,
-                 "y":96.0783915148642
-                }, 
-                {
-                 "height":0,
-                 "id":25,
-                 "name":"east_park",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"move",
-                         "type":"int",
-                         "value":10
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":434.951,
-                 "y":251.208
-                }, 
-                {
-                 "height":0,
-                 "id":26,
-                 "name":"west_park",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"move",
-                         "type":"int",
-                         "value":10
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":209.456,
-                 "y":253.416
+                 "x":319.514,
+                 "y":96.0784
                 }, 
                 {
                  "height":0,
                  "id":27,
-                 "name":"west_farm",
+                 "name":"monster_point",
                  "point":true,
                  "properties":[
+                        {
+                         "name":"max",
+                         "type":"int",
+                         "value":2
+                        }, 
                         {
                          "name":"move",
                          "type":"int",
                          "value":10
+                        }, 
+                        {
+                         "name":"pool",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"spawn_interval",
+                         "type":"int",
+                         "value":3000
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":158.495045563549,
-                 "y":353.013930455636
+                 "x":158.495,
+                 "y":353.014
                 }, 
                 {
                  "height":0,
-                 "id":28,
-                 "name":"east_farm",
+                 "id":31,
+                 "name":"monster_point",
                  "point":true,
                  "properties":[
+                        {
+                         "name":"max",
+                         "type":"int",
+                         "value":2
+                        }, 
                         {
                          "name":"move",
                          "type":"int",
                          "value":10
+                        }, 
+                        {
+                         "name":"pool",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"spawn_interval",
+                         "type":"int",
+                         "value":3000
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":476.86928057554,
-                 "y":354.139697841727
+                 "x":477.664750110571,
+                 "y":352.35146690255
+                }, 
+                {
+                 "height":0,
+                 "id":32,
+                 "name":"monster_point",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"max",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"move",
+                         "type":"int",
+                         "value":100
+                        }, 
+                        {
+                         "name":"pool",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"spawn_interval",
+                         "type":"int",
+                         "value":3000
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":161.432994250332,
+                 "y":421.642341146985
+                }, 
+                {
+                 "height":0,
+                 "id":33,
+                 "name":"monster_point",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"max",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"move",
+                         "type":"int",
+                         "value":100
+                        }, 
+                        {
+                         "name":"pool",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"spawn_interval",
+                         "type":"int",
+                         "value":3000
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":475.453339230429,
+                 "y":426.802299867315
+                }, 
+                {
+                 "height":0,
+                 "id":34,
+                 "name":"monster_point",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"max",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"move",
+                         "type":"int",
+                         "value":15
+                        }, 
+                        {
+                         "name":"pool",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"spawn_interval",
+                         "type":"int",
+                         "value":10000
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":320.654577620522,
+                 "y":319.917440660475
+                }, 
+                {
+                 "height":0,
+                 "id":35,
+                 "name":"monster_point",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"max",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"move",
+                         "type":"int",
+                         "value":30
+                        }, 
+                        {
+                         "name":"pool",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"spawn_interval",
+                         "type":"int",
+                         "value":5000
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":203.449800973021,
+                 "y":255.78652513637
+                }, 
+                {
+                 "height":0,
+                 "id":36,
+                 "name":"monster_point",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"max",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"move",
+                         "type":"int",
+                         "value":30
+                        }, 
+                        {
+                         "name":"pool",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"spawn_interval",
+                         "type":"int",
+                         "value":5000
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":431.225121627598,
+                 "y":255.78652513637
+                }, 
+                {
+                 "height":0,
+                 "id":37,
+                 "name":"monster_point",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"max",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"move",
+                         "type":"int",
+                         "value":40
+                        }, 
+                        {
+                         "name":"pool",
+                         "type":"int",
+                         "value":4
+                        }, 
+                        {
+                         "name":"spawn_interval",
+                         "type":"int",
+                         "value":20000
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":320.654577620522,
+                 "y":167.330089930709
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -283,7 +403,7 @@
          "y":0
         }],
  "nextlayerid":10,
- "nextobjectid":31,
+ "nextobjectid":38,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.0",

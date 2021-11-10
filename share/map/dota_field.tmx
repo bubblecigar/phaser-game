@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="31">
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="38">
  <editorsettings>
   <export target="dota_field.json" format="json"/>
  </editorsettings>
@@ -222,60 +222,84 @@
   <object id="1" name="red_team_spawn_point" x="80.0893" y="270.694">
    <point/>
   </object>
-  <object id="2" name="west_underground" x="159.078" y="426.729">
-   <properties>
-    <property name="move" type="int" value="100"/>
-   </properties>
-   <point/>
-  </object>
   <object id="3" name="coin_point" x="318.402" y="255.717">
-   <point/>
-  </object>
-  <object id="4" name="east_underground" x="481.051" y="425.875">
-   <properties>
-    <property name="move" type="int" value="100"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="6" name="sky_park" x="321.841" y="168.761">
-   <properties>
-    <property name="move" type="int" value="40"/>
-   </properties>
    <point/>
   </object>
   <object id="7" name="blue_team_spawn_point" x="557.98" y="269.964">
    <point/>
   </object>
-  <object id="8" name="central_park" x="319.641" y="321.152">
-   <properties>
-    <property name="move" type="int" value="0"/>
-   </properties>
-   <point/>
-  </object>
   <object id="19" name="coin_point" x="319.514" y="96.0784">
    <point/>
   </object>
-  <object id="25" name="east_park" x="434.951" y="251.208">
+  <object id="27" name="monster_point" x="158.495" y="353.014">
    <properties>
+    <property name="max" type="int" value="2"/>
     <property name="move" type="int" value="10"/>
+    <property name="pool" type="int" value="1"/>
+    <property name="spawn_interval" type="int" value="3000"/>
    </properties>
    <point/>
   </object>
-  <object id="26" name="west_park" x="209.456" y="253.416">
+  <object id="31" name="monster_point" x="477.665" y="352.351">
    <properties>
+    <property name="max" type="int" value="2"/>
     <property name="move" type="int" value="10"/>
+    <property name="pool" type="int" value="1"/>
+    <property name="spawn_interval" type="int" value="3000"/>
    </properties>
    <point/>
   </object>
-  <object id="27" name="west_farm" x="158.495" y="353.014">
+  <object id="32" name="monster_point" x="161.433" y="421.642">
    <properties>
-    <property name="move" type="int" value="10"/>
+    <property name="max" type="int" value="3"/>
+    <property name="move" type="int" value="100"/>
+    <property name="pool" type="int" value="1"/>
+    <property name="spawn_interval" type="int" value="3000"/>
    </properties>
    <point/>
   </object>
-  <object id="28" name="east_farm" x="476.869" y="354.14">
+  <object id="33" name="monster_point" x="475.453" y="426.802">
    <properties>
-    <property name="move" type="int" value="10"/>
+    <property name="max" type="int" value="3"/>
+    <property name="move" type="int" value="100"/>
+    <property name="pool" type="int" value="1"/>
+    <property name="spawn_interval" type="int" value="3000"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="34" name="monster_point" x="320.655" y="319.917">
+   <properties>
+    <property name="max" type="int" value="1"/>
+    <property name="move" type="int" value="15"/>
+    <property name="pool" type="int" value="3"/>
+    <property name="spawn_interval" type="int" value="10000"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="35" name="monster_point" x="203.45" y="255.787">
+   <properties>
+    <property name="max" type="int" value="1"/>
+    <property name="move" type="int" value="30"/>
+    <property name="pool" type="int" value="2"/>
+    <property name="spawn_interval" type="int" value="5000"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="36" name="monster_point" x="431.225" y="255.787">
+   <properties>
+    <property name="max" type="int" value="1"/>
+    <property name="move" type="int" value="30"/>
+    <property name="pool" type="int" value="2"/>
+    <property name="spawn_interval" type="int" value="5000"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="37" name="monster_point" x="321.392" y="164.382">
+   <properties>
+    <property name="max" type="int" value="1"/>
+    <property name="move" type="int" value="40"/>
+    <property name="pool" type="int" value="4"/>
+    <property name="spawn_interval" type="int" value="20000"/>
    </properties>
    <point/>
   </object>
