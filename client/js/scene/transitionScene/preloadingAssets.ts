@@ -43,7 +43,7 @@ function create() {
     }
   )
   loader.once(Phaser.Loader.Events.COMPLETE, () => {
-    scene.scene.start('waitingRoom')
+    scene.scene.start('waitingRoom', { mapKey: 'readyRoom' })
   });
   loader.start()
 }

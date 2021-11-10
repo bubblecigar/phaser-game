@@ -35,7 +35,7 @@ export const getSocketMethods = socket => {
             )
             player.skin = getLocalUserData().activatedSkin
           },
-          changeScene: ({ sceneToRun, serverGameState }) => {
+          changeScene: ({ sceneToRun, mapKey, serverGameState }) => {
             Object.keys(serverGameState).forEach(
               key => {
                 gameState[key] = serverGameState[key]
@@ -47,7 +47,7 @@ export const getSocketMethods = socket => {
               (scene, i) => {
                 const reverseIndex = scenesActived.length - i - 1
                 if (reverseIndex === 0) {
-                  scenesActived[0].scene.start(sceneToRun, { serverGameState })
+                  scenesActived[0].scene.start(sceneToRun, { serverGameState, mapKey })
                 } else {
                   scenesActived[scenesActived.length - i - 1].scene.stop()
                 }

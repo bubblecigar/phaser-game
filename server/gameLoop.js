@@ -236,7 +236,7 @@ const changeGameStatus = (room, newGameStatus) => {
   const { io } = require('./index.js')
   const roomMethods = require('./rooms').roomMethods
   const gameState = roomMethods.getEmittableFieldOfRoom(room)
-  io.to(room.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun })
+  io.to(room.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun, mapKey: gameState.gameStatus === 'processing' ? 'dotaField' : 'readyRoom' })
 }
 
 const registerGameLoop = room => {

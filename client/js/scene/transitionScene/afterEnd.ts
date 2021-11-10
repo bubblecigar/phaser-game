@@ -62,7 +62,7 @@ function create() {
 
   this.input.keyboard.on('keydown', e => {
     if (e.key === 'Enter') {
-      scene.scene.start('waitingRoom')
+      scene.scene.start('waitingRoom', { mapKey: 'readyRoom' })
     }
   })
 }
