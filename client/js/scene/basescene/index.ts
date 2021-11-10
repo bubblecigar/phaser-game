@@ -193,10 +193,11 @@ function update(t, dt) {
         )
       }
     } else {
-      if (restTime >= setting.healInterval && player.health < player.attributes.maxHealth) {
+      const isInFountain = player.phaserObject.data.values.isInFountain
+      const healInterval = isInFountain ? setting.fountainHealingInterval : setting.healInterval
+      if (restTime >= healInterval) {
         restTime = 0
-        const fountainBonus = player.phaserObject.data.values.isInFountain ? 4 : 1
-        const heal = 5 * player.attributes.maxHealth * player.attributes.healthRegen * 0.01 * fountainBonus
+        const heal = 5 * player.attributes.maxHealth * player.attributes.healthRegen * 0.01
         socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, heal)
         popText(this, player.position, `+${heal.toFixed(0)}`, { fontSize: '8px', color: gameConfig.healColor })
       }
