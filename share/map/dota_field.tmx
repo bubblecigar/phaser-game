@@ -294,7 +294,7 @@
    </properties>
    <point/>
   </object>
-  <object id="37" name="monster_point" x="321.392" y="164.382">
+  <object id="37" name="monster_point" x="320.655" y="167.33">
    <properties>
     <property name="max" type="int" value="1"/>
     <property name="move" type="int" value="40"/>
