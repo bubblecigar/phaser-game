@@ -2,7 +2,6 @@ import _ from 'lodash'
 import gameConfig from '../../game/config'
 import setting from '../../../../share/setting.json'
 import skins from '../../skins/index'
-import clientMap from '../../../../share/clientMap'
 import targetUrl from '../../../statics/tile/target.png'
 import { sounds } from '../../sounds/index'
 
@@ -34,16 +33,13 @@ function create() {
   const scene = this
   const loader = new Phaser.Loader.LoaderPlugin(this);
   loader.image('target', targetUrl)
-  const mapConfig = clientMap['dungeon']
-  loader.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
-  loader.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
   Object.keys(sounds).forEach(
     key => {
       loader.audio(key, sounds[key].url)
     }
   )
   loader.once(Phaser.Loader.Events.COMPLETE, () => {
-    scene.scene.start('waitingRoom')
+    scene.scene.start('waitingRoom', { mapKey: 'readyRoom' })
   });
   loader.start()
 }

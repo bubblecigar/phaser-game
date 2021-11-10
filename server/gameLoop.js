@@ -31,13 +31,11 @@ const registerWaitingIntervals = room => setInterval(
       if (readyForEnoughTime) {
         room.allPlayerReadyTime = 0
         const teamMemberCount = Math.ceil(room.players.length / 2)
+        const teams = [...new Array(teamMemberCount).fill('red'), ...new Array(teamMemberCount).fill('blue')]
+        teams.sort(() => Math.random() - 0.5)
         room.players.forEach(
           (player, i) => {
-            if (i < teamMemberCount) {
-              player.team = 'red'
-            } else {
-              player.team = 'blue'
-            }
+            player.team = teams[i]
           }
         )
         changeGameStatus(room, 'processing')
@@ -51,8 +49,8 @@ const registerWaitingIntervals = room => setInterval(
   }, intervalTimeStep
 )
 
-const createCoin = () => {
-  const mapFile = serverMap.processing.map
+const createCoin = (room) => {
+  const mapFile = serverMap[room.mapInUse].file
   const mapUrl = `../share/map/${mapFile}`
   const map = require(mapUrl)
   const infoLayer = map.layers.find(layer => layer.name === 'info_layer')
@@ -73,6 +71,8 @@ const createCoin = () => {
 }
 
 const detectWinners = room => {
+  const coinsToWin = room.coinsToWin
+
   const blueTeamMembers = []
   const redTeamMembers = []
 
@@ -92,39 +92,36 @@ const detectWinners = room => {
     }
   )
 
-  if (redTeamCoins >= setting.coinsToWin) {
+  if (redTeamCoins >= coinsToWin) {
     return redTeamMembers
   }
-  if (blueTeamCoins >= setting.coinsToWin) {
+  if (blueTeamCoins >= coinsToWin) {
     return blueTeamMembers
   }
 
   return []
 }
 
-
-const getMonsterPossibilityPool = (rarity) => {
-  let possibilityPool
-  if (rarity <= 1) {
-    possibilityPool = [
-      { possibility: 1.00, keys: ['tinyZombie', 'imp', 'skeleton'], itemRarity: 1 }
-    ]
-  } else if (rarity <= 2) {
-    possibilityPool = [
-      { possibility: 1.00, keys: ['knightFemale', 'elfFemale', 'elfMale'], itemRarity: 2 }
-    ]
-  } else if (rarity <= 3) {
-    possibilityPool = [
-      { possibility: 1.00, keys: ['wizzardMale', 'chort', 'lizardFemale'], itemRarity: 3 }
-    ]
-  } else {
-    possibilityPool = [
-      { possibility: 1.00, keys: ['orge', 'giantDemon', 'giantZombie'], itemRarity: 4 }
-    ]
-  }
-  return possibilityPool
-}
-
+const registerMonsterSpawnInterval = (room, spawnPoint, spawnPointProperty) => setInterval(
+  () => {
+    const { io } = require('./index.js')
+    const aliveMonsters = Object.keys(room.monstersById).reduce(
+      (acc, key) => room.monstersById[key].builderId === spawnPoint.id ? acc + 1 : acc, 0
+    )
+    if (aliveMonsters >= spawnPointProperty.max) {
+      room.monsterSpawnTime[spawnPoint.id] = 0
+    } else {
+      if (room.monsterSpawnTime[spawnPoint.id] >= spawnPointProperty.spawn_interval) {
+        const monster = createMonster(room, spawnPoint, spawnPointProperty)
+        room.monstersById[monster.id] = monster
+        room.monsterSpawnTime[spawnPoint.id] = 0
+        io.in(room.id).emit('dungeon', 'createMonster', monster)
+      } else {
+        room.monsterSpawnTime[spawnPoint.id] += intervalTimeStep
+      }
+    }
+  }, intervalTimeStep
+)
 
 const registerProcessingIntervals = room => setInterval(
   () => {
@@ -137,7 +134,7 @@ const registerProcessingIntervals = room => setInterval(
       room.coinSpawnTime = 0
     } else {
       if (room.coinSpawnTime >= setting.coinSpawnInterval) {
-        const coinConstructor = createCoin()
+        const coinConstructor = createCoin(room)
         room.items.push(coinConstructor)
         io.in(room.id).emit('dungeon', 'addItem', coinConstructor)
         room.coinSpawnTime = 0
@@ -146,46 +143,7 @@ const registerProcessingIntervals = room => setInterval(
       }
     }
 
-    const monsterBySpawnLocation = Object.keys(room.monstersById).reduce(
-      (acc, key) => {
-        const monster = room.monstersById[key]
-        if (!acc[monster.builderId]) {
-          acc[monster.builderId] = []
-        }
-        acc[monster.builderId].push(monster)
-        return acc
-      }, {}
-    )
-
-    const spawnMonster = (spawnLocation, locationMonsters, monsterPossibilityPool, monsterLimit, spawnInterval) => {
-      if (locationMonsters.length >= monsterLimit) {
-        room.monsterSpawnTime[spawnLocation] = 0
-      } else {
-        if (room.monsterSpawnTime[spawnLocation] >= spawnInterval) {
-          const monster = createMonster(room, spawnLocation, monsterPossibilityPool)
-          room.monstersById[monster.id] = monster
-          room.monsterSpawnTime[spawnLocation] = 0
-          io.in(room.id).emit('dungeon', 'createMonster', monster)
-        } else {
-          room.monsterSpawnTime[spawnLocation] += intervalTimeStep
-        }
-      }
-    }
-    spawnMonster('west_farm', monsterBySpawnLocation['west_farm'] || [], getMonsterPossibilityPool(1), 2, 3000)
-    spawnMonster('east_farm', monsterBySpawnLocation['east_farm'] || [], getMonsterPossibilityPool(1), 2, 3000)
-    spawnMonster('west_underground', monsterBySpawnLocation['west_underground'] || [], getMonsterPossibilityPool(1), 3, 3000)
-    spawnMonster('east_underground', monsterBySpawnLocation['east_underground'] || [], getMonsterPossibilityPool(1), 3, 3000)
-    spawnMonster('west_park', monsterBySpawnLocation['west_park'] || [], getMonsterPossibilityPool(2), 1, 10000)
-    spawnMonster('east_park', monsterBySpawnLocation['east_park'] || [], getMonsterPossibilityPool(2), 1, 10000)
-    spawnMonster('central_park', monsterBySpawnLocation['central_park'] || [], getMonsterPossibilityPool(3), 1, 10000)
-    spawnMonster('sky_park', monsterBySpawnLocation['sky_park'] || [], getMonsterPossibilityPool(4), 1, 20000)
-
-    Object.keys(room.monstersById).forEach(
-      id => {
-        const monster = room.monstersById[id]
-        io.in(room.id).emit('dungeon', 'writeMonster', monster)
-      }
-    )
+    io.in(room.id).emit('dungeon', 'writeMonsters', room.monstersById)
 
     const winners = detectWinners(room)
     if (winners.length > 0) {
@@ -228,7 +186,28 @@ const changeGameStatus = (room, newGameStatus) => {
     sceneToRun = 'waitingRoom'
   } else if (newGameStatus === 'processing') {
     room.disconnectedPlayers = []
+    room.coinsToWin = room.players.length * 5
+    const maps = ['dotaField', 'simpleMap']
+    maps.sort(() => Math.random() - 0.5)
+    room.mapInUse = maps[0]
     gameStatusIntervals.push(registerProcessingIntervals(room))
+    const mapFile = serverMap[room.mapInUse].file
+    const mapUrl = `../share/map/${mapFile}`
+    const map = require(mapUrl)
+    const infoLayer = map.layers.find(layer => layer.name === 'info_layer')
+    const monsterSpawnPoints = infoLayer.objects.filter(object => object.name === 'monster_point')
+    monsterSpawnPoints.forEach(
+      spawnPoint => {
+        room.monsterSpawnTime[spawnPoint.id] = 0
+        const spawnPointProperty = spawnPoint.properties.reduce(
+          (acc, cur) => {
+            acc[cur.name] = cur.value
+            return acc
+          }, {}
+        )
+        gameStatusIntervals.push(registerMonsterSpawnInterval(room, spawnPoint, spawnPointProperty))
+      }
+    )
     sceneToRun = 'beforeStart'
   } else if (newGameStatus === 'ending') {
     gameStatusIntervals.push(registerWaitingIntervals(room))
@@ -241,7 +220,7 @@ const changeGameStatus = (room, newGameStatus) => {
   const { io } = require('./index.js')
   const roomMethods = require('./rooms').roomMethods
   const gameState = roomMethods.getEmittableFieldOfRoom(room)
-  io.to(room.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun })
+  io.to(room.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun, mapKey: gameState.gameStatus === 'processing' ? gameState.mapInUse : 'readyRoom' })
 }
 
 const registerGameLoop = room => {

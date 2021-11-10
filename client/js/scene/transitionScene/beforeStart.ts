@@ -6,8 +6,11 @@ import coin from '../../items/coin'
 import { socketMethods } from '../../index'
 
 
-function init() {
+let serverGameState
 
+function init(data) {
+  serverGameState = data.serverGameState
+  console.log(serverGameState)
 }
 
 function preload() {
@@ -67,7 +70,7 @@ function create() {
 
   const coinSprite = this.add.sprite(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding / 2, coin.spritesheetConfig.spritesheetKey)
   coinSprite.play(coin.animsConfig.idle.key)
-  const hint1 = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding * 0.75, `Collect ${setting.coinsToWin} coins to win!`, {
+  const hint1 = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding * 0.75, `Collect ${serverGameState.coinsToWin} coins to win!`, {
     fontSize: setting.fontSize
   })
   hint1.setOrigin(0.5, 0.5)

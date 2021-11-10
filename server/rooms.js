@@ -35,18 +35,11 @@ const createRoom = (roomId) => {
   const room = {
     id: roomId,
     players: [],
+    coinsToWin: 10,
     items: [],
     monstersById: {},
-    monsterSpawnTime: {
-      east_farm: 0,
-      west_farm: 0,
-      central_park: 0,
-      east_park: 0,
-      west_park: 0,
-      east_underground: 0,
-      west_underground: 0,
-      sky_park: 0
-    },
+    monsterSpawnTime: {},
+    mapInUse: 'simpleMap',
     monsterKilled: 0,
     disconnectedPlayers: [],
     idleTime: 0,
@@ -107,7 +100,7 @@ const connectToRoom = (roomId, userState, socket) => {
 
   const reconnectSuccess = reconnectPlayer(room, userId)
   if (!reconnectSuccess) {
-    const mapFile = serverMap.waiting.map
+    const mapFile = serverMap['readyRoom'].file
     const mapUrl = `../share/map/${mapFile}`
     const map = require(mapUrl)
     const infoLayer = map.layers.find(o => o.name === 'info_layer')
@@ -179,17 +172,21 @@ const disconnectFromRoom = (room, userId, socket) => {
 const getEmittableFieldOfRoom = (room) => {
   const {
     players,
+    mapInUse,
     items,
     gameStatus,
     winners,
+    coinsToWin,
     monstersById
   } = room
 
   return {
     players,
+    mapInUse,
     items,
     gameStatus,
     winners,
+    coinsToWin,
     monstersById
   }
 }

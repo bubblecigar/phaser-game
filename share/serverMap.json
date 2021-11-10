@@ -1,14 +1,11 @@
 {
-  "waiting": {
-    "scene": "waitingRoom",
-    "map": "readyRoom.json"
+  "readyRoom": {
+    "file": "readyRoom.json"
   },
-  "processing": {
-    "scene": "dungeon",
-    "map": "dota_field.json"
+  "dotaField": {
+    "file": "dota_field.json"
   },
-  "ending": {
-    "scene": "waitingRoom",
-    "map": "readyRoom.json"
+  "simpleMap": {
+    "file": "simple_map.json"
   }
 }

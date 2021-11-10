@@ -3,7 +3,7 @@ import gameMethods from './methods/index'
 import gameConfig from '../../game/config'
 import { Player } from '../../Interface'
 import { getLocalUserData } from '../../user'
-import clientMap from '../../../../share/clientMap'
+import { maps } from '../../../../share/clientMap'
 import backgroundMap from './backgroundMap'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
@@ -18,6 +18,7 @@ import { popText } from './popText'
 const userId = getLocalUserData().userId
 
 let methods
+let mapKey
 let cursors, pointer, wasd
 let aim, aimDirection
 let readyToShoot = true
@@ -70,14 +71,15 @@ const movePlayer = (scene, player: Player) => {
   }
 }
 
-function init() {
+function init(data) {
   methods = gameMethods(this)
+  mapKey = data.mapKey
   readyToShoot = true
 }
 
 function preload() {
   this.load.image('target', targetUrl)
-  const mapConfig = clientMap[this.scene.key]
+  const mapConfig = maps[mapKey]
   this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
   this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
 
@@ -99,7 +101,7 @@ function create() {
   });
   pointer = this.input.activePointer
   registerAimingTarget(this)
-  backgroundMap.registerMap(this, clientMap[this.scene.key])
+  backgroundMap.registerMap(this, maps[mapKey])
 
   socketMethods.registerSceneSocketEvents(this.scene.key, methods)
   registerWorldEvents(this, methods, socketMethods)
@@ -193,10 +195,11 @@ function update(t, dt) {
         )
       }
     } else {
-      if (restTime >= setting.healInterval && player.health < player.attributes.maxHealth) {
+      const isInFountain = player.phaserObject.data.values.isInFountain
+      const healInterval = isInFountain ? setting.fountainHealingInterval : setting.healInterval
+      if (restTime >= healInterval) {
         restTime = 0
-        const fountainBonus = player.phaserObject.data.values.isInFountain ? 4 : 1
-        const heal = 5 * player.attributes.maxHealth * player.attributes.healthRegen * 0.01 * fountainBonus
+        const heal = 5 * player.attributes.maxHealth * player.attributes.healthRegen * 0.01
         socketMethods.clientsInScene(this.scene.key, methods, 'onHeal', userId, heal)
         popText(this, player.position, `+${heal.toFixed(0)}`, { fontSize: '8px', color: gameConfig.healColor })
       }
