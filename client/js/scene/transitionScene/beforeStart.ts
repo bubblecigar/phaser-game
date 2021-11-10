@@ -10,7 +10,6 @@ let serverGameState
 
 function init(data) {
   serverGameState = data.serverGameState
-  console.log(serverGameState)
 }
 
 function preload() {
