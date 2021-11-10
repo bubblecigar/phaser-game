@@ -186,6 +186,9 @@ const changeGameStatus = (room, newGameStatus) => {
     sceneToRun = 'waitingRoom'
   } else if (newGameStatus === 'processing') {
     room.disconnectedPlayers = []
+    const maps = ['dotaField', 'simpleMap']
+    maps.sort(() => Math.random() - 0.5)
+    room.mapInUse = maps[0]
     gameStatusIntervals.push(registerProcessingIntervals(room))
     const mapFile = serverMap[room.mapInUse].file
     const mapUrl = `../share/map/${mapFile}`
