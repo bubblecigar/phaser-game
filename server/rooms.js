@@ -47,6 +47,7 @@ const createRoom = (roomId) => {
       west_underground: 0,
       sky_park: 0
     },
+    mapInUse: 'dota_field',
     monsterKilled: 0,
     disconnectedPlayers: [],
     idleTime: 0,
@@ -107,7 +108,7 @@ const connectToRoom = (roomId, userState, socket) => {
 
   const reconnectSuccess = reconnectPlayer(room, userId)
   if (!reconnectSuccess) {
-    const mapFile = serverMap.waiting.map
+    const mapFile = serverMap['readyRoom'].file
     const mapUrl = `../share/map/${mapFile}`
     const map = require(mapUrl)
     const infoLayer = map.layers.find(o => o.name === 'info_layer')
@@ -179,6 +180,7 @@ const disconnectFromRoom = (room, userId, socket) => {
 const getEmittableFieldOfRoom = (room) => {
   const {
     players,
+    mapInUse,
     items,
     gameStatus,
     winners,
@@ -187,6 +189,7 @@ const getEmittableFieldOfRoom = (room) => {
 
   return {
     players,
+    mapInUse,
     items,
     gameStatus,
     winners,

@@ -25,7 +25,7 @@ io.on('connection', async function (socket) {
 
     socket.on('enter-dungeon', () => {
       const gameState = roomMethods.getEmittableFieldOfRoom(room)
-      io.to(socket.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun: 'dungeon', mapKey: 'dotaField' })
+      io.to(socket.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun: 'dungeon', mapKey: gameState.mapInUse })
     })
 
     socket.on('leave-room', () => {
@@ -53,7 +53,7 @@ io.on('connection', async function (socket) {
       } else {
         const gameState = roomMethods.getEmittableFieldOfRoom(room)
         const currentScene = gameState.gameStatus === 'processing' ? 'dungeon' : 'preloadingAssets'
-        io.to(socket.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun: currentScene, mapKey: gameState.gameStatus === 'processing' ? 'dotaField' : "readyRoom" })
+        io.to(socket.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun: currentScene, mapKey: gameState.gameStatus === 'processing' ? gameState.mapInUse : "readyRoom" })
         const player = gameState.players.find(player => player.id === userState.userId)
         socket.to(room.id).emit('all-scene', 'createPlayer', player)
       }

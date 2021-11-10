@@ -3,6 +3,7 @@ import readyRoomUrl from './map/readyRoom.json'
 import endingRoomUrl from './map/endingRoom.json'
 import battleFieldUrl from './map/battle_field.json'
 import dotaFieldUrl from './map/dota_field.json'
+import simpleMapUrl from './map/simple_map.json'
 
 export const maps = {
   "dotaField": {
@@ -11,28 +12,13 @@ export const maps = {
     tilesetKey: 'forestTileSet',
     tilesetUrl: forestTileSetUrl
   },
+  "simpleMap": {
+    mapKey: 'simpleMap',
+    mapUrl: simpleMapUrl,
+    tilesetKey: 'forestTileSet',
+    tilesetUrl: forestTileSetUrl
+  },
   "readyRoom": {
-    mapKey: 'readyRoom',
-    mapUrl: readyRoomUrl,
-    tilesetKey: 'forestTileSet',
-    tilesetUrl: forestTileSetUrl
-  }
-}
-
-export default {
-  "dungeon": {
-    mapKey: 'dotaField',
-    mapUrl: dotaFieldUrl,
-    tilesetKey: 'forestTileSet',
-    tilesetUrl: forestTileSetUrl
-  },
-  "waitingRoom": {
-    mapKey: 'readyRoom',
-    mapUrl: readyRoomUrl,
-    tilesetKey: 'forestTileSet',
-    tilesetUrl: forestTileSetUrl
-  },
-  "endingRoom": {
     mapKey: 'readyRoom',
     mapUrl: readyRoomUrl,
     tilesetKey: 'forestTileSet',

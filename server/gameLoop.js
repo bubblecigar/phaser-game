@@ -51,8 +51,8 @@ const registerWaitingIntervals = room => setInterval(
   }, intervalTimeStep
 )
 
-const createCoin = () => {
-  const mapFile = serverMap.processing.map
+const createCoin = (room) => {
+  const mapFile = serverMap[room.mapInUse].file
   const mapUrl = `../share/map/${mapFile}`
   const map = require(mapUrl)
   const infoLayer = map.layers.find(layer => layer.name === 'info_layer')
@@ -137,7 +137,7 @@ const registerProcessingIntervals = room => setInterval(
       room.coinSpawnTime = 0
     } else {
       if (room.coinSpawnTime >= setting.coinSpawnInterval) {
-        const coinConstructor = createCoin()
+        const coinConstructor = createCoin(room)
         room.items.push(coinConstructor)
         io.in(room.id).emit('dungeon', 'addItem', coinConstructor)
         room.coinSpawnTime = 0
@@ -236,7 +236,7 @@ const changeGameStatus = (room, newGameStatus) => {
   const { io } = require('./index.js')
   const roomMethods = require('./rooms').roomMethods
   const gameState = roomMethods.getEmittableFieldOfRoom(room)
-  io.to(room.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun, mapKey: gameState.gameStatus === 'processing' ? 'dotaField' : 'readyRoom' })
+  io.to(room.id).emit('game', 'changeScene', { serverGameState: gameState, sceneToRun, mapKey: gameState.gameStatus === 'processing' ? gameState.mapInUse : 'readyRoom' })
 }
 
 const registerGameLoop = room => {

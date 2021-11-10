@@ -49,7 +49,7 @@ const getItemDropPossibilityPool = (rarity) => {
 }
 
 const createMonster = (room, spawnLocation, monsterPossibilityPool) => {
-  const mapFile = serverMap.processing.map
+  const mapFile = serverMap[room.mapInUse].file
   const mapUrl = `../share/map/${mapFile}`
   const map = require(mapUrl)
   const infoLayer = map.layers.find(layer => layer.name === 'info_layer')
