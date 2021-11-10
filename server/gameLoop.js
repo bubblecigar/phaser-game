@@ -31,13 +31,11 @@ const registerWaitingIntervals = room => setInterval(
       if (readyForEnoughTime) {
         room.allPlayerReadyTime = 0
         const teamMemberCount = Math.ceil(room.players.length / 2)
+        const teams = [...new Array(teamMemberCount).fill('red'), ...new Array(teamMemberCount).fill('blue')]
+        teams.sort(() => Math.random() - 0.5)
         room.players.forEach(
           (player, i) => {
-            if (i < teamMemberCount) {
-              player.team = 'red'
-            } else {
-              player.team = 'blue'
-            }
+            player.team = teams[i]
           }
         )
         changeGameStatus(room, 'processing')
@@ -73,6 +71,8 @@ const createCoin = (room) => {
 }
 
 const detectWinners = room => {
+  const coinsToWin = room.coinsToWin
+
   const blueTeamMembers = []
   const redTeamMembers = []
 
@@ -92,10 +92,10 @@ const detectWinners = room => {
     }
   )
 
-  if (redTeamCoins >= setting.coinsToWin) {
+  if (redTeamCoins >= coinsToWin) {
     return redTeamMembers
   }
-  if (blueTeamCoins >= setting.coinsToWin) {
+  if (blueTeamCoins >= coinsToWin) {
     return blueTeamMembers
   }
 
@@ -186,6 +186,7 @@ const changeGameStatus = (room, newGameStatus) => {
     sceneToRun = 'waitingRoom'
   } else if (newGameStatus === 'processing') {
     room.disconnectedPlayers = []
+    room.coinsToWin = room.players.length * 5
     const maps = ['dotaField', 'simpleMap']
     maps.sort(() => Math.random() - 0.5)
     room.mapInUse = maps[0]

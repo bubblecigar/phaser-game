@@ -35,10 +35,11 @@ const createRoom = (roomId) => {
   const room = {
     id: roomId,
     players: [],
+    coinsToWin: 10,
     items: [],
     monstersById: {},
     monsterSpawnTime: {},
-    mapInUse: 'dotaField',
+    mapInUse: 'simpleMap',
     monsterKilled: 0,
     disconnectedPlayers: [],
     idleTime: 0,
@@ -175,6 +176,7 @@ const getEmittableFieldOfRoom = (room) => {
     items,
     gameStatus,
     winners,
+    coinsToWin,
     monstersById
   } = room
 
@@ -184,6 +186,7 @@ const getEmittableFieldOfRoom = (room) => {
     items,
     gameStatus,
     winners,
+    coinsToWin,
     monstersById
   }
 }

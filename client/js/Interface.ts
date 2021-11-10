@@ -77,6 +77,7 @@ export interface Bullet extends Omit<Item, 'interface'> {
 export interface GameState {
   players: Player[],
   items: Item[],
+  coinsToWin: number,
   monstersById: any,
   gameStatus: 'waiting' | 'processing' | 'ending',
   scene: 'loginScene',

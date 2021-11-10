@@ -2,6 +2,7 @@ const registerRoomMethods = room => {
   room.methods = {
     initialize: () => {
       room.items = []
+      room.coinsToWin = 10
       room.monstersById = {}
       room.monsterKilled = 0
       room.idleTime = 0
