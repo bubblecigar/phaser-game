@@ -7,5 +7,8 @@
   },
   "simpleMap": {
     "file": "simple_map.json"
+  },
+  "treeMap": {
+    "file": "tree_map.json"
   }
 }

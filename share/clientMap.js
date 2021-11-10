@@ -4,6 +4,7 @@ import endingRoomUrl from './map/endingRoom.json'
 import battleFieldUrl from './map/battle_field.json'
 import dotaFieldUrl from './map/dota_field.json'
 import simpleMapUrl from './map/simple_map.json'
+import treeMapUrl from './map/tree_map.json'
 
 export const maps = {
   "dotaField": {
@@ -15,6 +16,12 @@ export const maps = {
   "simpleMap": {
     mapKey: 'simpleMap',
     mapUrl: simpleMapUrl,
+    tilesetKey: 'forestTileSet',
+    tilesetUrl: forestTileSetUrl
+  },
+  "treeMap": {
+    mapKey: 'treeMap',
+    mapUrl: treeMapUrl,
     tilesetKey: 'forestTileSet',
     tilesetUrl: forestTileSetUrl
   },
