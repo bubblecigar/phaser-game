@@ -7,7 +7,7 @@ import { maps } from '../../../../share/clientMap'
 import backgroundMap from './backgroundMap'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
-import targetUrl from '../../../statics/tile/target.png'
+import soundIconUrl from '../../../statics/soundIcon.png'
 import { socketMethods } from '../../index'
 import setting from '../../../../share/setting.json'
 import { itemsStorageKey } from '../../actions/index'
@@ -68,7 +68,7 @@ function init(data) {
 }
 
 function preload() {
-  this.load.image('target', targetUrl)
+  this.load.image('soundIcon', soundIconUrl)
   const mapConfig = maps[mapKey]
   this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
   this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
@@ -85,7 +85,7 @@ const registerMobileInputs = (scene, jump, shoot) => {
 
   const dmgColor = Phaser.Display.Color.HexStringToColor("#990f02").color;
 
-  const baseRadius = gameConfig.canvasWidth / 8
+  const baseRadius = gameConfig.canvasWidth / 10
   const base = scene.add.circle(0, 0, baseRadius, 0xffffff)
   const thumb = scene.add.circle(0, 0, baseRadius / 2, dmgColor)
   base.setDepth(100)
@@ -140,6 +140,34 @@ const changeShootButton = (spriteKey) => {
 }
 
 function create() {
+  const onColor = 0xffffff
+  const offColor = 0xff00ff
+  const bgmusicButton = this.add.image(10, 10, 'soundIcon')
+  bgmusicButton.setScale(0.6)
+  bgmusicButton.setScrollFactor(0)
+  bgmusicButton.setDepth(100)
+  bgmusicButton.setInteractive()
+  const bgmusic = document.getElementById('bgmusic')
+  if (bgmusic.muted) {
+    bgmusicButton.setAlpha(0.3)
+  } else {
+    bgmusicButton.setAlpha(0.9)
+  }
+  bgmusicButton.on('pointerdown', () => {
+    bgmusic.muted = !bgmusic.muted
+    if (bgmusic.muted) {
+      bgmusicButton.setAlpha(0.3)
+      scene.game.sound.mute = true
+      bgmusic.muted = true
+    } else {
+      bgmusicButton.setAlpha(0.9)
+      bgmusic.muted = false
+      bgmusic.volume = 0.4
+      bgmusic.play()
+      scene.game.sound.mute = false
+    }
+  })
+
   cursors = this.input.keyboard.createCursorKeys()
   wasd = this.input.keyboard.addKeys({
     a: Phaser.Input.Keyboard.KeyCodes.A,
