@@ -82,11 +82,14 @@ function preload() {
 }
 
 const registerMobileInputs = (scene, jump, shoot) => {
+
+  const dmgColor = Phaser.Display.Color.HexStringToColor("#990f02").color;
+
   const baseRadius = gameConfig.canvasWidth / 8
   const base = scene.add.circle(0, 0, baseRadius, 0xffffff)
-  const thumb = scene.add.circle(0, 0, baseRadius / 2, 0xff0000)
+  const thumb = scene.add.circle(0, 0, baseRadius / 2, dmgColor)
   base.setDepth(100)
-  base.setAlpha(0.3)
+  base.setAlpha(0.2)
   thumb.setDepth(101)
   thumb.setAlpha(0.7)
   joyStick = scene.plugins.get('rexVirtualJoystick').add(scene, {
@@ -102,14 +105,22 @@ const registerMobileInputs = (scene, jump, shoot) => {
   })
 
   const clickbuttonRadius = baseRadius * 0.7
-  const jumpbutton = scene.add.circle(gameConfig.canvasWidth - 2.5 * clickbuttonRadius, gameConfig.canvasHeight - clickbuttonRadius, clickbuttonRadius, 0xff0000)
+  const jumpbutton = scene.add.circle(gameConfig.canvasWidth - 2.5 * clickbuttonRadius, gameConfig.canvasHeight - clickbuttonRadius, clickbuttonRadius, 0xffffff)
   jumpbutton.setScrollFactor(0)
   jumpbutton.setDepth(100)
-  jumpbutton.setAlpha(0.5)
+  jumpbutton.setAlpha(0.2)
   jumpbutton.setInteractive()
   jumpbutton.on('pointerdown', jump)
+  const jumpIcon = scene.add.text(jumpbutton.x, jumpbutton.y, '↑', {
+    fontSize: '25px',
+    color: "#ffffff"
+  })
+  jumpIcon.setAlpha(0.7)
+  jumpIcon.setOrigin(0.5, 0.5)
+  jumpIcon.setDepth(101)
+  jumpIcon.setScrollFactor(0)
 
-  const shootbutton = scene.add.circle(jumpbutton.x + 1.6 * clickbuttonRadius, jumpbutton.y - 1.6 * clickbuttonRadius, clickbuttonRadius, 0xff0000)
+  const shootbutton = scene.add.circle(jumpbutton.x + 1.6 * clickbuttonRadius, jumpbutton.y - 1.6 * clickbuttonRadius, clickbuttonRadius, dmgColor)
   shootbutton.setScrollFactor(0)
   shootbutton.setDepth(100)
   shootbutton.setAlpha(0.5)
