@@ -118,11 +118,11 @@ function create() {
 
   this.input.keyboard.on('keydown', e => {
     if (e.key === '1') {
-      card1.emit('pointerdown')
+      card1.emit('pointerup')
     } else if (e.key === '2') {
-      card2.emit('pointerdown')
+      card2.emit('pointerup')
     } else if (e.key === '3') {
-      card3.emit('pointerdown')
+      card3.emit('pointerup')
     }
   })
 }
