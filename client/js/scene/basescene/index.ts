@@ -16,8 +16,6 @@ import { popText } from './popText'
 
 const userId = getLocalUserData().userId
 
-const isMobile = true
-
 let methods
 let mapKey
 let cursors, wasd, joyStick
