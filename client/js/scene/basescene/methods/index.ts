@@ -37,9 +37,9 @@ const gameMethods = scene => {
         const camera = scene.cameras.main
         camera.startFollow(player.phaserObject, true, 0.5, 0.5)
         const vision = player.attributes.vision
-        // const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, vision)
-        // const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
-        // camera.setMask(mask)
+        const circle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, vision)
+        const mask = new Phaser.Display.Masks.GeometryMask(scene, circle)
+        camera.setMask(mask)
       }
 
       if (player.health === 0) {

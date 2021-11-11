@@ -115,7 +115,7 @@
             "scale": 0.8344,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 309.2042186001918,
+                "x": 310.4026845637583,
                 "y": 231.9031639501438
             }
         },
@@ -149,11 +149,11 @@
             "scaleInDock": 1
         },
         "/Users/roywang/Desktop/typeScript/share/map/layer_map.tmx": {
-            "scale": 0.9284,
-            "selectedLayer": 3,
+            "scale": 1.2926,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 227.27272727272734,
-                "y": 282.744506678156
+                "x": 232.86399504873896,
+                "y": 290.49976790963956
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/layer_map.tmx#forestTileSet": {
@@ -338,18 +338,16 @@
     "openFiles": [
         "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx",
-        "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx",
-        "/Users/roywang/Desktop/typeScript/share/map/simple_map.tmx",
-        "/Users/roywang/Desktop/typeScript/share/map/layer_map.tmx"
+        "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx"
     ],
     "project": "",
     "property.type": "int",
     "recentFiles": [
         "/Users/roywang/Desktop/typeScript/share/map/layer_map.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/simple_map.tmx",
+        "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx",
-        "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/endingRoom.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/login.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/jumpPlatForm.tmx",

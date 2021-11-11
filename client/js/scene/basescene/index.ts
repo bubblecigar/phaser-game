@@ -19,7 +19,7 @@ const userId = getLocalUserData().userId
 
 let methods
 let mapKey
-let cursors, pointer, wasd, joystick, jumpbutton
+let cursors, pointer, wasd
 let aim, aimDirection
 let readyToShoot = true
 let restTime = 0
@@ -49,9 +49,9 @@ const updateAim = (scene, player) => {
 const movePlayer = (scene, player: Player) => {
   const { movementSpeed } = player.attributes
   const velocity = { x: 0, y: 0 }
-  if (cursors.left.isDown || wasd.a.isDown || joystick.left) {
+  if (cursors.left.isDown || wasd.a.isDown) {
     velocity.x = -movementSpeed
-  } else if (cursors.right.isDown || wasd.d.isDown || joystick.right) {
+  } else if (cursors.right.isDown || wasd.d.isDown) {
     velocity.x = movementSpeed
   } else {
     velocity.x = 0
@@ -114,6 +114,7 @@ function create() {
   const scene = this
   const jump = () => {
     const player = methods.getPlayer(userId)
+    const playerData = player.phaserObject.data.values
     if (player.health) {
       const previousPositionImpulse = player.phaserObject.body.previousPositionImpulse
       if (Math.abs(previousPositionImpulse.x) >= 0.001 || previousPositionImpulse.y <= -0.001) {
@@ -152,27 +153,6 @@ function create() {
       )
     }
   })
-
-  jumpbutton = scene.add.circle(gameConfig.canvasWidth - 100, gameConfig.canvasHeight / 2, 100, 0xff0000)
-  jumpbutton.setInteractive({
-    cursor: 'pointer'
-  })
-  jumpbutton.on(
-    'pointerdown', () => {
-      jump()
-    }
-  )
-  joystick = scene.plugins.get('rexVirtualJoystick').add(scene, {
-    x: gameConfig.canvasHeight / 2,
-    y: gameConfig.canvasWidth / 2,
-    radius: 100,
-    // base: baseGameObject,
-    // thumb: thumbGameObject,
-    dir: 'left&right',
-    // forceMin: 16,
-    // fixed: true,
-    // enable: true
-  });
 }
 
 function update(t, dt) {
