@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import io from 'socket.io-client'
 import { getLocalUserData } from './user'
-import serverMap from '../../share/serverMap.json'
 import gameState, { initGameState } from './game/state'
 import { Player } from './Interface'
 
