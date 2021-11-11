@@ -1,4 +1,5 @@
 import { v4 } from 'uuid'
+import store from 'store'
 
 const localKey = 'farm-user'
 
@@ -32,12 +33,12 @@ const defaultUserData: User = {
 
 const getLocalUserData = (): User => {
   try {
-    const localUserData = localStorage.getItem(localKey)
+    const localUserData = store.get(localKey)
     if (!localUserData) {
-      localStorage.setItem(localKey, JSON.stringify(defaultUserData))
+      localStorage.set(localKey, defaultUserData)
       return defaultUserData
     } else {
-      const userData = JSON.parse(localUserData)
+      const userData = localUserData
       return userData
     }
   } catch (err) {
@@ -56,7 +57,7 @@ const setLocalUserData = data => {
       }
     }
   )
-  localStorage.setItem(localKey, JSON.stringify(mergedData))
+  store.set(localKey, mergedData)
 }
 
 
