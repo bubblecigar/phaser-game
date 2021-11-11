@@ -8,7 +8,7 @@ import backgroundMap from './backgroundMap'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
 import targetUrl from '../../../statics/tile/target.png'
-import { socketMethods } from '../../index'
+import game, { socketMethods } from '../../index'
 import setting from '../../../../share/setting.json'
 import { itemsStorageKey } from '../../actions/index'
 import collisionCategories from './collisionCategories'
@@ -17,41 +17,20 @@ import { popText } from './popText'
 
 const userId = getLocalUserData().userId
 
+const isMobile = true
+
 let methods
 let mapKey
-let cursors, pointer, wasd
-let aim, aimDirection
+let cursors, wasd, joyStick
 let readyToShoot = true
 let restTime = 0
-
-const registerAimingTarget = scene => {
-  aim = scene.matter.add.image(-20, -20, 'target', undefined, {
-    isSensor: true,
-    ignoreGravity: true
-  })
-  aim.setCollisionGroup(collisionCategories.CATEGORY_TRANSPARENT)
-  aim.setDepth(11)
-}
-
-const updateAim = (scene, player) => {
-  const position = pointer.positionToCamera(scene.cameras.main)
-  aim.setX(position.x)
-  aim.setY(position.y)
-
-  const newDirection = position.x < player.position.x ? 'left' : 'right'
-  const changeDirection = aimDirection !== newDirection
-  if (changeDirection) {
-    socketMethods.clientsInScene(scene.scene.key, methods, 'updatePlayerDirection', userId, newDirection)
-
-  }
-}
 
 const movePlayer = (scene, player: Player) => {
   const { movementSpeed } = player.attributes
   const velocity = { x: 0, y: 0 }
-  if (cursors.left.isDown || wasd.a.isDown) {
+  if (cursors.left.isDown || wasd.a.isDown || joyStick.left) {
     velocity.x = -movementSpeed
-  } else if (cursors.right.isDown || wasd.d.isDown) {
+  } else if (cursors.right.isDown || wasd.d.isDown || joyStick.right) {
     velocity.x = movementSpeed
   } else {
     velocity.x = 0
@@ -68,6 +47,19 @@ const movePlayer = (scene, player: Player) => {
   const changeAnimation = newAnimation !== oldAnimation
   if (changeAnimation) {
     socketMethods.clientsInScene(scene.scene.key, methods, 'updatePlayerAnimation', userId, newAnimation)
+  }
+
+  let newDirection = player.velocity.x < 0 ? 'left' : 'right'
+  if (player.velocity.x === 0) {
+    newDirection = 'none'
+  }
+  let oldDirection = prevVelocity < 0 ? 'left' : 'right'
+  if (prevVelocity === 0) {
+    oldDirection = 'none'
+  }
+  const changeDirection = oldDirection !== newDirection
+  if (changeDirection && newDirection !== 'none') {
+    socketMethods.clientsInScene(scene.scene.key, methods, 'updatePlayerDirection', userId, newDirection)
   }
 }
 
@@ -98,9 +90,25 @@ function create() {
     s: Phaser.Input.Keyboard.KeyCodes.S,
     d: Phaser.Input.Keyboard.KeyCodes.D,
     w: Phaser.Input.Keyboard.KeyCodes.W
-  });
-  pointer = this.input.activePointer
-  registerAimingTarget(this)
+  })
+  const baseRadius = gameConfig.canvasWidth / 8
+  const base = this.add.circle(0, 0, baseRadius, 0xffffff)
+  const thumb = this.add.circle(0, 0, baseRadius / 2, 0xff0000)
+  base.setDepth(100)
+  base.setAlpha(0.3)
+  thumb.setDepth(101)
+  thumb.setAlpha(0.7)
+  joyStick = this.plugins.get('rexVirtualJoystick').add(this, {
+    x: baseRadius,
+    y: gameConfig.canvasHeight - baseRadius,
+    radius: gameConfig.canvasWidth / 4,
+    base,
+    thumb,
+    dir: 'left&right',
+    forceMin: 1,
+    // fixed: true,
+    // enable: true
+  })
   backgroundMap.registerMap(this, maps[mapKey])
 
   socketMethods.registerSceneSocketEvents(this.scene.key, methods)
@@ -114,7 +122,6 @@ function create() {
   const scene = this
   const jump = () => {
     const player = methods.getPlayer(userId)
-    const playerData = player.phaserObject.data.values
     if (player.health) {
       const previousPositionImpulse = player.phaserObject.body.previousPositionImpulse
       if (Math.abs(previousPositionImpulse.x) >= 0.001 || previousPositionImpulse.y <= -0.001) {
@@ -125,16 +132,27 @@ function create() {
   }
   cursors.up.on('down', jump)
   wasd.w.on('down', jump)
-  this.input.on('pointerdown', function () {
+  const clickbuttonRadius = baseRadius * 0.7
+  const jumpbutton = this.add.circle(gameConfig.canvasWidth - 2.5 * clickbuttonRadius, gameConfig.canvasHeight - clickbuttonRadius, clickbuttonRadius, 0xff0000)
+  jumpbutton.setScrollFactor(0)
+  jumpbutton.setDepth(100)
+  jumpbutton.setAlpha(0.5)
+  jumpbutton.setInteractive()
+  jumpbutton.on('pointerdown', jump)
+
+  const shoot = () => {
     const player = methods.getPlayer(userId)
     if (!player || player.health <= 0) return
+
+    const sprite = player.phaserObject.getByName('charactor-sprite')
+    const direction = sprite.flipX ? -1 : 1
 
     if (readyToShoot && player) {
       scene.sound.play('shoot')
       socketMethods.clientsInScene(scene.scene.key, methods, 'performAction', {
         performerId: player.id,
         action: player.action,
-        target: { x: aim.x, y: aim.y },
+        target: { x: player.position.x + 50 * direction, y: player.position.y },
         options: {
           item: player.item,
           damage: player.attributes.damage,
@@ -152,7 +170,14 @@ function create() {
         scene
       )
     }
-  })
+  }
+
+  const shootbutton = this.add.circle(jumpbutton.x + 1.6 * clickbuttonRadius, jumpbutton.y - 1.6 * clickbuttonRadius, clickbuttonRadius, 0xff0000)
+  shootbutton.setScrollFactor(0)
+  shootbutton.setDepth(100)
+  shootbutton.setAlpha(0.5)
+  shootbutton.setInteractive()
+  shootbutton.on('pointerdown', shoot)
 }
 
 function update(t, dt) {
@@ -163,7 +188,6 @@ function update(t, dt) {
     if (player.health > 0) {
       movePlayer(this, player)
     }
-    updateAim(this, player)
 
     if (this[itemsStorageKey]) {
       Object.keys(this[itemsStorageKey]).forEach(
