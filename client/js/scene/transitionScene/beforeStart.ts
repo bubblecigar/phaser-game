@@ -21,11 +21,11 @@ function create() {
   const messageBox = this.add.rectangle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, gameConfig.canvasWidth, gameConfig.canvasHeight, 0x000000)
   messageBox.setOrigin(0.5, 0.5)
 
-  const padding = 50
-  const teamText1 = this.add.text(gameConfig.canvasWidth / 4, gameConfig.canvasHeight / 4, 'Team West', {
+  const padding = 25
+  const teamText1 = this.add.text(gameConfig.canvasWidth / 4, padding, 'Team West', {
     fontSize: setting.fontSize
   })
-  const teamText2 = this.add.text(gameConfig.canvasWidth * 3 / 4, gameConfig.canvasHeight / 4, 'Team East', {
+  const teamText2 = this.add.text(gameConfig.canvasWidth * 3 / 4, padding, 'Team East', {
     fontSize: setting.fontSize
   })
   teamText1.setOrigin(0.5, 0.5)
@@ -39,7 +39,7 @@ function create() {
       let x, y
       if (player.team === 'red') {
         x = gameConfig.canvasWidth / 4
-        y = gameConfig.canvasHeight / 4 + padding * redTeamIndex * 0.5
+        y = padding + 20 * redTeamIndex
         redTeamIndex++
 
         const text = this.add.text(x + 16, y, player.name, {
@@ -49,7 +49,7 @@ function create() {
       }
       if (player.team === 'blue') {
         x = gameConfig.canvasWidth * 3 / 4
-        y = gameConfig.canvasHeight / 4 + padding * blueTeamIndex * 0.5
+        y = padding + 20 * blueTeamIndex
         blueTeamIndex++
 
         const text = this.add.text(x - 16, y, player.name, {
@@ -69,22 +69,19 @@ function create() {
 
   const coinSprite = this.add.sprite(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding / 2, coin.spritesheetConfig.spritesheetKey)
   coinSprite.play(coin.animsConfig.idle.key)
-  const hint1 = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding * 0.75, `Collect ${serverGameState.coinsToWin} coins to win!`, {
+  const hint1 = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.7, `Collect ${serverGameState.coinsToWin} coins to win!`, {
     fontSize: setting.fontSize
   })
   hint1.setOrigin(0.5, 0.5)
 
-  const hint2 = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding * 1, `SPACE to toggle status panel`, {
-    fontSize: setting.fontSize
-  })
-  hint2.setOrigin(0.5, 0.5)
+  if (!IS_TOUCH) {
+    const hint2 = this.add.text(gameConfig.canvasWidth / 2, hint1.y + 10, `SPACE to shoot`, {
+      fontSize: setting.fontSize
+    })
+    hint2.setOrigin(0.5, 0.5)
+  }
 
-  const hint3 = this.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + padding * 1.25, `CLICK to shoot`, {
-    fontSize: setting.fontSize
-  })
-  hint3.setOrigin(0.5, 0.5)
-
-  const continueKey = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.8, 'PRESS ENTER TO CONTINUE', {
+  const continueKey = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, `PRESS ${IS_TOUCH ? '' : 'ENTER '}TO CONTINUE`, {
     fontSize: setting.fontSize,
     color: '#ff0000'
   })
@@ -104,6 +101,12 @@ function create() {
       socketMethods.enterDungeon()
     }
   })
+  if (IS_TOUCH) {
+    continueKey.setInteractive()
+    continueKey.on('pointerdown', () => {
+      socketMethods.enterDungeon()
+    })
+  }
 }
 
 function update(t, dt) {

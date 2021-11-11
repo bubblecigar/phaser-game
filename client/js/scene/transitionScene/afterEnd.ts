@@ -35,17 +35,17 @@ function create() {
   winners.forEach(
     (winner, i) => {
       const x = interval * (i + 1)
-      const y = gameConfig.canvasHeight / 2
+      const y = gameConfig.canvasHeight / 2 - 32
       drawWinner(this, winner, { x, y })
     }
   )
 
-  const text = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2 + 32, `${winners[0].team === 'blue' ? 'Team East' : 'Team West'} win!`, {
+  const text = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, `${winners[0].team === 'blue' ? 'Team East' : 'Team West'} win!`, {
     fontSize: setting.fontSize
   })
   text.setOrigin(0.5, 0.5)
 
-  const continueKey = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.8, 'PRESS ENTER TO CONTINUE', {
+  const continueKey = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.8, `PRESS ${IS_TOUCH ? '' : 'ENTER '}TO CONTINUE`, {
     fontSize: setting.fontSize,
     color: '#ff0000'
   })
@@ -65,6 +65,12 @@ function create() {
       scene.scene.start('waitingRoom', { mapKey: 'readyRoom' })
     }
   })
+  if (IS_TOUCH) {
+    continueKey.setInteractive()
+    continueKey.on('pointerdown', () => {
+      scene.scene.start('waitingRoom', { mapKey: 'readyRoom' })
+    })
+  }
 }
 
 function update(t, dt) {
