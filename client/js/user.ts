@@ -1,7 +1,7 @@
 import { v4 } from 'uuid'
 import store from 'store'
 
-const localKey = 'farm-user'
+const localKey = 'pixel-fighter'
 
 interface User {
   userId: string,
