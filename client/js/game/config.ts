@@ -1,7 +1,7 @@
 
 const gameConfig = {
-  canvasWidth: 400,
-  canvasHeight: 300,
+  canvasWidth: 300,
+  canvasHeight: 150,
   healColor: '#5cad44',
   damageColor: '#da4e38'
 }
