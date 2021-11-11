@@ -17,6 +17,8 @@ import { popText } from './popText'
 
 const userId = getLocalUserData().userId
 
+const joystickSize = 100
+
 let methods
 let mapKey
 let cursors, pointer, wasd, joystick, jumpbutton
@@ -152,7 +154,6 @@ function create() {
       )
     }
   })
-
   jumpbutton = scene.add.circle(gameConfig.canvasWidth - 100, gameConfig.canvasHeight / 2, 100, 0xff0000)
   jumpbutton.setInteractive({
     cursor: 'pointer'
@@ -163,16 +164,16 @@ function create() {
     }
   )
   joystick = scene.plugins.get('rexVirtualJoystick').add(scene, {
-    x: gameConfig.canvasHeight / 2,
-    y: gameConfig.canvasWidth / 2,
-    radius: 100,
+    x: joystickSize,
+    y: gameConfig.canvasHeight - joystickSize,
+    radius: joystickSize,
     // base: baseGameObject,
     // thumb: thumbGameObject,
     dir: 'left&right',
     // forceMin: 16,
     // fixed: true,
     // enable: true
-  });
+  })
 }
 
 function update(t, dt) {
@@ -184,6 +185,10 @@ function update(t, dt) {
       movePlayer(this, player)
     }
     updateAim(this, player)
+
+    const camera = this.cameras.main
+    jumpbutton.x = gameConfig.canvasWidth + camera.scrollX - joystickSize
+    jumpbutton.y = gameConfig.canvasHeight + camera.scrollY - joystickSize
 
     if (this[itemsStorageKey]) {
       Object.keys(this[itemsStorageKey]).forEach(
