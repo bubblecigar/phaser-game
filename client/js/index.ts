@@ -23,9 +23,6 @@ const game = new Phaser.Game({
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
   },
-  input: {
-    activePointers: 3
-  },
   physics: {
     default: 'matter',
     matter: {
