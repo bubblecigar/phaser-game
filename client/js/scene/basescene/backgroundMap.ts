@@ -117,7 +117,20 @@ const registerMap = (scene, config) => {
 
   scene.rendererBoundary = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.05 } })
   const mask = setUpFOVmask(scene, scene.rendererBoundary)
-  setUpBackgroundRenderer(scene, mask, tileLayers)
+  const renderTexture = setUpBackgroundRenderer(scene, mask, tileLayers)
+
+
+  scene.visionCircle = new Phaser.GameObjects.Graphics(scene).fillCircle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, 50)
+  scene.visionCircle.setScrollFactor(0)
+  const visionMask = new Phaser.Display.Masks.GeometryMask(scene, scene.visionCircle)
+
+  visionMask.setInvertAlpha(true)
+  const renderTexture2 = scene.add.renderTexture(0, 0, scene.map.widthInPixels, scene.map.heightInPixels)
+  renderTexture2.setDepth(11)
+  renderTexture2.setMask(visionMask)
+  renderTexture2.clear()
+  renderTexture2.fill(0x101010)
+  renderTexture2.draw(renderTexture)
 }
 
 const updateFOV = (scene, position) => {
