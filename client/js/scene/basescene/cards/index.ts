@@ -29,14 +29,15 @@ const createEmptyCard = (scene, position, size, n) => {
   itemCell.setInteractive({
     cursor: 'pointer'
   })
+  container.setScale(0.9)
   itemCell.on('pointermove', function (pointer, x, y, event) {
-    container.setScale(1.1)
+    container.setScale(1)
   })
   itemCell.on('pointerdown', function (pointer, x, y, event) {
-    container.setScale(1.1)
+    container.setScale(1)
   })
   itemCell.on('pointerout', function (pointer, x, y, event) {
-    container.setScale(1)
+    container.setScale(0.9)
   })
 
   const upperPosition = {
@@ -96,7 +97,7 @@ function create() {
 
 
   this.emptyCard1 = createEmptyCard(this, {
-    x: center.x - cardSize.width * 1.2,
+    x: center.x - cardSize.width * 1,
     y: -20
   }, cardSize, 1)
   this.emptyCard2 = createEmptyCard(this, {
@@ -104,7 +105,7 @@ function create() {
     y: -20
   }, cardSize, 2)
   this.emptyCard3 = createEmptyCard(this, {
-    x: center.x + cardSize.width * 1.2,
+    x: center.x + cardSize.width * 1,
     y: -20
   }, cardSize, 3)
 
@@ -127,13 +128,13 @@ function create() {
 }
 
 function update(t, dt) {
-  if (this.emptyCard1.container.y <= gameConfig.canvasHeight * 0.25) {
+  if (this.emptyCard1.container.y <= gameConfig.canvasHeight * 0.5) {
     this.emptyCard1.container.y += dt / 3
   }
-  if (this.emptyCard2.container.y <= gameConfig.canvasHeight * 0.25) {
+  if (this.emptyCard2.container.y <= gameConfig.canvasHeight * 0.5) {
     this.emptyCard2.container.y += dt / 3
   }
-  if (this.emptyCard3.container.y <= gameConfig.canvasHeight * 0.25) {
+  if (this.emptyCard3.container.y <= gameConfig.canvasHeight * 0.5) {
     this.emptyCard3.container.y += dt / 3
   }
 }
