@@ -11,7 +11,7 @@ const registerInputEvents = (scene, methods, socketMethods) => {
   scene.input.keyboard.on(
     'keyup', e => {
       switch (e.key) {
-        case ' ': {
+        case 'z': {
           scene.scene.stop('tabPanel')
           break
         }
@@ -24,7 +24,7 @@ const registerInputEvents = (scene, methods, socketMethods) => {
   scene.input.keyboard.on(
     'keydown', e => {
       switch (e.key) {
-        case ' ': {
+        case 'z': {
           scene.scene.launch('tabPanel')
           break
         }
