@@ -48,8 +48,8 @@ const updateSkinButton = (skinKey, skinButton) => {
 
 let displayedSkin
 const skinBoxCenter = {
-  x: gameConfig.canvasWidth / 2 - 31,
-  y: gameConfig.canvasHeight / 2 - 16
+  x: gameConfig.canvasWidth / 2 - 27,
+  y: gameConfig.canvasHeight / 2 - 5
 }
 const displaySkin = (scene, skin, skinButton) => {
   if (displayedSkin) {
@@ -96,7 +96,7 @@ const displayCurrentCoins = (scene) => {
     coin.destroy()
   }
   const coinConfig = items.coin
-  const padding = 32
+  const padding = 42
   coin = scene.add.sprite(padding, padding, coinConfig.spritesheetConfig.spritesheetKey)
   coin.play(coinConfig.animsConfig.idle.key)
   if (coinCount) {
@@ -113,7 +113,7 @@ function create() {
   const scene = this
 
   const sceneKey = scene.scene.key
-  const logsText = scene.add.text(32, gameConfig.canvasHeight - 5, '', {
+  const logsText = scene.add.text(5, gameConfig.canvasHeight - 5, '', {
     fontSize: setting.fontSize,
     lineSpacing: 5
   })
@@ -165,14 +165,7 @@ function create() {
   inputUsername.value = getLocalUserData().username || ''
   inputRoomId.value = getLocalUserData().roomId || ''
 
-  const bgmusic = document.getElementById('bgmusic')
   const skinButton = element.getChildByID('skin-button')
-  const soundButton = element.getChildByName('sound-checkbox')
-  if (bgmusic.muted) {
-    soundButton.checked = false
-  } else {
-    soundButton.checked = true
-  }
 
   createSkinBoundingBox(scene)
   const currentSkin = browseSkin(0)
@@ -196,16 +189,6 @@ function create() {
         })
         socketMethods.changeRoom(getLocalUserData())
       }
-    } else if (event.target.name === 'sound-checkbox') {
-      if (event.target.checked) {
-        bgmusic.muted = false
-        bgmusic.volume = 0.4
-        bgmusic.play()
-        scene.game.sound.mute = false
-      } else {
-        scene.game.sound.mute = true
-        bgmusic.muted = true
-      }
     } else if (event.target.name === 'buy') {
       buySkin(browseSkin(0).key)
       displayCurrentCoins(scene)
@@ -217,7 +200,7 @@ function create() {
     }
   })
 
-  const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.73, gameConfig.canvasWidth * 0.45, 100)
+  const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight, gameConfig.canvasWidth * 0.45 + 20, 65)
   scene.matter.add.gameObject(rectangle, {
     isStatic: true
   })
