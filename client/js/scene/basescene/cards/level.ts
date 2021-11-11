@@ -4,6 +4,8 @@ import gameState from '../../../game/state'
 import { createActionPool, createAttributePool, createItemPool, createSkinPool } from './constraint'
 import { socketMethods } from '../../../index'
 import { Player } from '../../../Interface'
+import { changeShootButton } from '../index'
+import items from '../../../items'
 
 const base_level_exp_unit = 1
 
@@ -134,6 +136,7 @@ export const levelUp = (scene, methods) => {
   player.attributes.maxHealth += 3
   const _player: Player = _.omit(_.clone(player), 'phaserObject')
   socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
+  changeShootButton(items[_player.item].spritesheetConfig.spritesheetKey)
 }
 
 export const playerGainExp = (scene, methods, expGain) => {

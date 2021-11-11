@@ -13,6 +13,7 @@ import setting from '../../../../share/setting.json'
 import { itemsStorageKey } from '../../actions/index'
 import { sounds } from '../../sounds/index'
 import { popText } from './popText'
+import items from '../../items/index'
 
 const userId = getLocalUserData().userId
 
@@ -114,6 +115,17 @@ const registerMobileInputs = (scene, jump, shoot) => {
   shootbutton.setAlpha(0.5)
   shootbutton.setInteractive()
   shootbutton.on('pointerdown', shoot)
+  const player = methods.getPlayer(userId)
+  shootItem = scene.add.sprite(jumpbutton.x + 1.6 * clickbuttonRadius, jumpbutton.y - 1.6 * clickbuttonRadius, items[player.item].spritesheetConfig.spritesheetKey)
+  shootItem.setScrollFactor(0)
+  shootItem.setDepth(101)
+}
+
+let shootItem
+const changeShootButton = (spriteKey) => {
+  if (shootItem) {
+    shootItem.setTexture(spriteKey)
+  }
 }
 
 function create() {
@@ -246,3 +258,5 @@ export default {
   create,
   update
 }
+
+export { changeShootButton }
