@@ -97,12 +97,12 @@ const displayCurrentCoins = (scene) => {
   }
   const coinConfig = items.coin
   const padding = 42
-  coin = scene.add.sprite(padding, padding, coinConfig.spritesheetConfig.spritesheetKey)
+  coin = scene.add.sprite(gameConfig.canvasWidth - padding - 18, 20, coinConfig.spritesheetConfig.spritesheetKey)
   coin.play(coinConfig.animsConfig.idle.key)
   if (coinCount) {
     coinCount.destroy()
   }
-  coinCount = scene.add.text(padding + 8, padding + 1, `x ${userData.coins}`, {
+  coinCount = scene.add.text(gameConfig.canvasWidth - padding - 8, 21, `x ${userData.coins}`, {
     fontSize: setting.fontSize
   })
   coinCount.setOrigin(0, 0.5)
