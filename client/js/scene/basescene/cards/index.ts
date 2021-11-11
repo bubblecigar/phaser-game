@@ -46,12 +46,7 @@ const createEmptyCard = (scene, position, size, n) => {
   const imageContainer = scene.add.container(upperPosition.x, upperPosition.y)
   const descriptionContainer = scene.add.container(lowerPosition.x, lowerPosition.y)
 
-  const keyHint = scene.add.text(0, size.height * 0.625, `(${n})`, {
-    fontSize: setting.fontSize
-  })
-  keyHint.setOrigin(0.5, 0.5)
-
-  container.add([itemCell, imageContainer, descriptionContainer, keyHint])
+  container.add([itemCell, imageContainer, descriptionContainer])
 
   return {
     container,
@@ -91,7 +86,7 @@ const drawCard = (scene, emptyCard, options: Card, onFinished) => {
   return drawFunction(scene, emptyCard, methods, onFinished)(options.value)
 }
 
-const cardSize = { width: 90, height: 70, padding: 3 }
+const cardSize = { width: 70, height: 58, padding: 3 }
 
 function create() {
   const center = { x: gameConfig.canvasWidth / 2, y: gameConfig.canvasHeight / 2 }
@@ -99,15 +94,15 @@ function create() {
 
   this.emptyCard1 = createEmptyCard(this, {
     x: center.x - cardSize.width * 1.2,
-    y: gameConfig.canvasHeight
+    y: -20
   }, cardSize, 1)
   this.emptyCard2 = createEmptyCard(this, {
     x: center.x,
-    y: gameConfig.canvasHeight
+    y: -20
   }, cardSize, 2)
   this.emptyCard3 = createEmptyCard(this, {
     x: center.x + cardSize.width * 1.2,
-    y: gameConfig.canvasHeight
+    y: -20
   }, cardSize, 3)
 
   const onFinished = () => levelUp(this, methods)
@@ -129,14 +124,14 @@ function create() {
 }
 
 function update(t, dt) {
-  if (this.emptyCard1.container.y >= gameConfig.canvasHeight - cardSize.height) {
-    this.emptyCard1.container.y -= dt / 5
+  if (this.emptyCard1.container.y <= gameConfig.canvasHeight * 0.25) {
+    this.emptyCard1.container.y += dt / 3
   }
-  if (this.emptyCard2.container.y >= gameConfig.canvasHeight - cardSize.height) {
-    this.emptyCard2.container.y -= dt / 5
+  if (this.emptyCard2.container.y <= gameConfig.canvasHeight * 0.25) {
+    this.emptyCard2.container.y += dt / 3
   }
-  if (this.emptyCard3.container.y >= gameConfig.canvasHeight - cardSize.height) {
-    this.emptyCard3.container.y -= dt / 5
+  if (this.emptyCard3.container.y <= gameConfig.canvasHeight * 0.25) {
+    this.emptyCard3.container.y += dt / 3
   }
 }
 
