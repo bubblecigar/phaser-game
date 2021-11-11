@@ -14,6 +14,7 @@ import { itemsStorageKey } from '../../actions/index'
 import { sounds } from '../../sounds/index'
 import { popText } from './popText'
 import items from '../../items/index'
+import { isMobile } from '../../deviceDetection'
 
 const userId = getLocalUserData().userId
 
@@ -232,7 +233,7 @@ function create() {
     }
   }
   wasd.space.on('down', shoot)
-  if (IS_TOUCH) {
+  if (isMobile) {
     registerMobileInputs(this, jump, shoot)
   }
 }

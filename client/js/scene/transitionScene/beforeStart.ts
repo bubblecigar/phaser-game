@@ -4,7 +4,7 @@ import skins from '../../skins/index'
 import setting from '../../../../share/setting.json'
 import coin from '../../items/coin'
 import { socketMethods } from '../../index'
-
+import { isMobile } from '../../deviceDetection'
 
 let serverGameState
 
@@ -74,14 +74,14 @@ function create() {
   })
   hint1.setOrigin(0.5, 0.5)
 
-  if (!IS_TOUCH) {
+  if (!isMobile) {
     const hint2 = this.add.text(gameConfig.canvasWidth / 2, hint1.y + 10, `SPACE to shoot`, {
       fontSize: setting.fontSize
     })
     hint2.setOrigin(0.5, 0.5)
   }
 
-  const continueKey = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, `PRESS ${IS_TOUCH ? '' : 'ENTER '}TO CONTINUE`, {
+  const continueKey = scene.add.text(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2, `PRESS ${isMobile ? '' : 'ENTER '}TO CONTINUE`, {
     fontSize: setting.fontSize,
     color: '#ff0000'
   })
@@ -101,7 +101,7 @@ function create() {
       socketMethods.enterDungeon()
     }
   })
-  if (IS_TOUCH) {
+  if (isMobile) {
     continueKey.setInteractive()
     continueKey.on('pointerdown', () => {
       socketMethods.enterDungeon()
