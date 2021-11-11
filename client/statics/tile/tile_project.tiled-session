@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx",
+    "activeFile": "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -115,8 +115,8 @@
             "scale": 0.8344,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 310.4026845637583,
-                "y": 231.9031639501438
+                "x": 321.18887823585806,
+                "y": 233.10162991371038
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx#forestTileSet": {
@@ -171,11 +171,11 @@
             "scaleInDock": 2.2353
         },
         "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx": {
-            "scale": 1.4,
-            "selectedLayer": 0,
+            "scale": 1.9449,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 208.57142857142858,
-                "y": 80.35714285714289
+                "x": 224.69021543524087,
+                "y": 80.98102730217491
             }
         },
         "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx#forestTileSet": {
@@ -343,11 +343,11 @@
     "project": "",
     "property.type": "int",
     "recentFiles": [
+        "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx",
+        "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx",
+        "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/layer_map.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/simple_map.tmx",
-        "/Users/roywang/Desktop/typeScript/share/map/dota_field.tmx",
-        "/Users/roywang/Desktop/typeScript/share/map/readyRoom.tmx",
-        "/Users/roywang/Desktop/typeScript/share/map/battle_field.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/endingRoom.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/login.tmx",
         "/Users/roywang/Desktop/typeScript/share/map/jumpPlatForm.tmx",
