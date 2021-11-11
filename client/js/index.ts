@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import _ from 'lodash'
+import VirtualJoystickPlugin from 'phaser3-rex-plugins/plugins/virtualjoystick-plugin.js'
 import PhaserRaycaster from 'phaser-raycaster'
 import gameConfig from './game/config'
 import dungeonScene from './scene/dungeon/index'
@@ -40,6 +41,11 @@ const game = new Phaser.Game({
   },
   scene: [loginScene, afterEnd, beforeStart, preloadingAssets, waitingRoomScene, dungeonScene, tabPanel, cards],
   plugins: {
+    global: [{
+      key: 'rexVirtualJoystick',
+      plugin: VirtualJoystickPlugin,
+      start: true
+    }],
     scene: [
       {
         key: 'PhaserRaycaster',
