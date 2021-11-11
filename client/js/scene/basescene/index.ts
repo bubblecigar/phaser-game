@@ -8,10 +8,9 @@ import backgroundMap from './backgroundMap'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
 import targetUrl from '../../../statics/tile/target.png'
-import game, { socketMethods } from '../../index'
+import { socketMethods } from '../../index'
 import setting from '../../../../share/setting.json'
 import { itemsStorageKey } from '../../actions/index'
-import collisionCategories from './collisionCategories'
 import { sounds } from '../../sounds/index'
 import { popText } from './popText'
 
@@ -28,9 +27,9 @@ let restTime = 0
 const movePlayer = (scene, player: Player) => {
   const { movementSpeed } = player.attributes
   const velocity = { x: 0, y: 0 }
-  if (cursors.left.isDown || wasd.a.isDown || joyStick.left) {
+  if (cursors.left.isDown || wasd.a.isDown || joyStick?.left) {
     velocity.x = -movementSpeed
-  } else if (cursors.right.isDown || wasd.d.isDown || joyStick.right) {
+  } else if (cursors.right.isDown || wasd.d.isDown || joyStick?.right) {
     velocity.x = movementSpeed
   } else {
     velocity.x = 0
@@ -83,22 +82,15 @@ function preload() {
   )
 }
 
-function create() {
-  cursors = this.input.keyboard.createCursorKeys()
-  wasd = this.input.keyboard.addKeys({
-    a: Phaser.Input.Keyboard.KeyCodes.A,
-    s: Phaser.Input.Keyboard.KeyCodes.S,
-    d: Phaser.Input.Keyboard.KeyCodes.D,
-    w: Phaser.Input.Keyboard.KeyCodes.W
-  })
+const registerMobileInputs = (scene, jump, shoot) => {
   const baseRadius = gameConfig.canvasWidth / 8
-  const base = this.add.circle(0, 0, baseRadius, 0xffffff)
-  const thumb = this.add.circle(0, 0, baseRadius / 2, 0xff0000)
+  const base = scene.add.circle(0, 0, baseRadius, 0xffffff)
+  const thumb = scene.add.circle(0, 0, baseRadius / 2, 0xff0000)
   base.setDepth(100)
   base.setAlpha(0.3)
   thumb.setDepth(101)
   thumb.setAlpha(0.7)
-  joyStick = this.plugins.get('rexVirtualJoystick').add(this, {
+  joyStick = scene.plugins.get('rexVirtualJoystick').add(scene, {
     x: baseRadius,
     y: gameConfig.canvasHeight - baseRadius,
     radius: gameConfig.canvasWidth / 4,
@@ -108,6 +100,32 @@ function create() {
     forceMin: 1,
     // fixed: true,
     // enable: true
+  })
+
+  const clickbuttonRadius = baseRadius * 0.7
+  const jumpbutton = scene.add.circle(gameConfig.canvasWidth - 2.5 * clickbuttonRadius, gameConfig.canvasHeight - clickbuttonRadius, clickbuttonRadius, 0xff0000)
+  jumpbutton.setScrollFactor(0)
+  jumpbutton.setDepth(100)
+  jumpbutton.setAlpha(0.5)
+  jumpbutton.setInteractive()
+  jumpbutton.on('pointerdown', jump)
+
+  const shootbutton = scene.add.circle(jumpbutton.x + 1.6 * clickbuttonRadius, jumpbutton.y - 1.6 * clickbuttonRadius, clickbuttonRadius, 0xff0000)
+  shootbutton.setScrollFactor(0)
+  shootbutton.setDepth(100)
+  shootbutton.setAlpha(0.5)
+  shootbutton.setInteractive()
+  shootbutton.on('pointerdown', shoot)
+}
+
+function create() {
+  cursors = this.input.keyboard.createCursorKeys()
+  wasd = this.input.keyboard.addKeys({
+    a: Phaser.Input.Keyboard.KeyCodes.A,
+    s: Phaser.Input.Keyboard.KeyCodes.S,
+    d: Phaser.Input.Keyboard.KeyCodes.D,
+    w: Phaser.Input.Keyboard.KeyCodes.W,
+    space: Phaser.Input.Keyboard.KeyCodes.SPACE
   })
   backgroundMap.registerMap(this, maps[mapKey])
 
@@ -132,13 +150,6 @@ function create() {
   }
   cursors.up.on('down', jump)
   wasd.w.on('down', jump)
-  const clickbuttonRadius = baseRadius * 0.7
-  const jumpbutton = this.add.circle(gameConfig.canvasWidth - 2.5 * clickbuttonRadius, gameConfig.canvasHeight - clickbuttonRadius, clickbuttonRadius, 0xff0000)
-  jumpbutton.setScrollFactor(0)
-  jumpbutton.setDepth(100)
-  jumpbutton.setAlpha(0.5)
-  jumpbutton.setInteractive()
-  jumpbutton.on('pointerdown', jump)
 
   const shoot = () => {
     const player = methods.getPlayer(userId)
@@ -171,13 +182,10 @@ function create() {
       )
     }
   }
-
-  const shootbutton = this.add.circle(jumpbutton.x + 1.6 * clickbuttonRadius, jumpbutton.y - 1.6 * clickbuttonRadius, clickbuttonRadius, 0xff0000)
-  shootbutton.setScrollFactor(0)
-  shootbutton.setDepth(100)
-  shootbutton.setAlpha(0.5)
-  shootbutton.setInteractive()
-  shootbutton.on('pointerdown', shoot)
+  wasd.space.on('down', shoot)
+  if (IS_TOUCH) {
+    registerMobileInputs(this, jump, shoot)
+  }
 }
 
 function update(t, dt) {
