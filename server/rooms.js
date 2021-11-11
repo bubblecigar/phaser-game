@@ -118,7 +118,7 @@ const connectToRoom = (roomId, userState, socket) => {
       attributes: {
         maxHealth: 20,
         movementSpeed: 1,
-        vision: 75,
+        vision: 50,
         healthRegen: 1,
         attackSpeed: 1,
         damage: 1,
