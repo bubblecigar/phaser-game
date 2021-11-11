@@ -24,7 +24,7 @@ export const drawAttributeCard = (scene, emptyCard, methods, onFinished) => attr
   imageContainer.add(property)
   descriptionContainer.add(value)
 
-  itemCell.on('pointerdown', () => {
+  itemCell.on('pointerup', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
     player.attributes[attribute.property] += attribute.value
     onFinished()

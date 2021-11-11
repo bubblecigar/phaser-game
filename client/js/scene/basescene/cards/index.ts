@@ -32,6 +32,9 @@ const createEmptyCard = (scene, position, size, n) => {
   itemCell.on('pointermove', function (pointer, x, y, event) {
     container.setScale(1.1)
   })
+  itemCell.on('pointerdown', function (pointer, x, y, event) {
+    container.setScale(1.1)
+  })
   itemCell.on('pointerout', function (pointer, x, y, event) {
     container.setScale(1)
   })

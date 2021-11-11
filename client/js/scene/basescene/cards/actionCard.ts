@@ -25,7 +25,7 @@ export const drawActionCard = (scene, emptyCard, methods, onFinished) => action 
   imageContainer.add(target)
   descriptionContainer.add(text)
 
-  itemCell.on('pointerdown', () => {
+  itemCell.on('pointerup', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
     player.action = action
     onFinished()

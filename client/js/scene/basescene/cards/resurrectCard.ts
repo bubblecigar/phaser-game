@@ -25,7 +25,7 @@ export const drawResurrectCard = (scene, emptyCard, methods, onFinished) => () =
   imageContainer.add(target)
   descriptionContainer.add(text)
 
-  itemCell.on('pointerdown', () => {
+  itemCell.on('pointerup', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
     player.skin = getLocalUserData().activatedSkin
     player.exp = 0

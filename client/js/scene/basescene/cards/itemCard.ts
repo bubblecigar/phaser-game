@@ -25,7 +25,7 @@ export const drawItemCard = (scene, emptyCard, methods, onFinished) => item => {
   imageContainer.add(sprite)
   descriptionContainer.add(text)
 
-  itemCell.on('pointerdown', () => {
+  itemCell.on('pointerup', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
     player.item = item
     onFinished()

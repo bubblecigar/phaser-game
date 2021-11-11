@@ -26,7 +26,7 @@ export const drawSkinCard = (scene, emptyCard, methods, onFinished) => skin => {
   imageContainer.add(sprite)
   descriptionContainer.add(text)
 
-  itemCell.on('pointerdown', () => {
+  itemCell.on('pointerup', () => {
     const player: Player = methods.getPlayer(getLocalUserData().userId)
     player.skin = skin
     onFinished()
