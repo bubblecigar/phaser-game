@@ -8,6 +8,7 @@ import backgroundMap from './backgroundMap'
 import registerWorldEvents from './WorldEvents'
 import registerInputEvents from './inputEvents'
 import soundIconUrl from '../../../statics/soundIcon.png'
+import targetUrl from '../../../statics/target.png'
 import { socketMethods } from '../../index'
 import setting from '../../../../share/setting.json'
 import { itemsStorageKey } from '../../actions/index'
@@ -70,6 +71,7 @@ function init(data) {
 
 function preload() {
   this.load.image('soundIcon', soundIconUrl)
+  this.load.image('target', targetUrl)
   const mapConfig = maps[mapKey]
   this.load.image(mapConfig.tilesetKey, mapConfig.tilesetUrl)
   this.load.tilemapTiledJSON(mapConfig.mapKey, mapConfig.mapUrl)
