@@ -13,6 +13,9 @@ import preloadingAssets from './scene/transitionScene/preloadingAssets'
 import cards from './scene/basescene/cards/index'
 import { connectToServer, getSocketMethods } from './socket'
 
+const aspectRatio = window.innerHeight / window.innerWidth
+gameConfig.canvasHeight = gameConfig.canvasWidth * aspectRatio
+
 const game = new Phaser.Game({
   type: Phaser.AUTO,
   width: gameConfig.canvasWidth,
