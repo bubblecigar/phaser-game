@@ -207,6 +207,7 @@ function create() {
   <div class="login">
     <input type="text" placeholder="Username" maxlength="6" id="username" name="username" />
     <input type="text" placeholder="Room-ID" maxlength="6" id="Room-ID" name="Room-ID" />
+    <input type="submit" value="Join" name="joinButton" />
   </div>
 `)
   domElement.setOrigin(0.5, 0)
@@ -214,6 +215,19 @@ function create() {
   const inputRoomId = domElement.getChildByName('Room-ID')
   inputUsername.value = getLocalUserData().username || ''
   inputRoomId.value = getLocalUserData().roomId || ''
+
+  domElement.addListener('click')
+  domElement.on('click', function (event) {
+    if (event.target.name === 'joinButton') {
+      if (inputUsername.value !== '' && inputRoomId.value !== '') {
+        setLocalUserData({
+          username: inputUsername.value,
+          roomId: inputRoomId.value
+        })
+        socketMethods.changeRoom(getLocalUserData())
+      }
+    }
+  }
 
   const playbutton = scene.add.rectangle(domElement.x + domElement.width / 4, domElement.y + 17, 15, 15)
   playbutton.setStrokeStyle(2, 0xffffff)
