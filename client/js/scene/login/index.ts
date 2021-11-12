@@ -75,16 +75,17 @@ const displaySkin = (scene, skin, skinButton) => {
 
   updateSkinButton(skin.key, skinButton)
 }
-const createSkinBoundingBox = (scene) => {
+const createSkinBox = (scene) => {
   const skinBoxSize = 40
   const wallThickness = 5
-  const leftWall = scene.add.rectangle(skinBoxCenter.x - skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness)
+  const wallColor = 0xff0000
+  const leftWall = scene.add.rectangle(skinBoxCenter.x - skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness, wallColor)
   scene.matter.add.gameObject(leftWall, { isStatic: true })
-  const rightWall = scene.add.rectangle(skinBoxCenter.x + skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness)
+  const rightWall = scene.add.rectangle(skinBoxCenter.x + skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness, wallColor)
   scene.matter.add.gameObject(rightWall, { isStatic: true })
-  const topWall = scene.add.rectangle(skinBoxCenter.x, skinBoxCenter.y - skinBoxSize / 2, skinBoxSize + wallThickness, wallThickness)
+  const topWall = scene.add.rectangle(skinBoxCenter.x, skinBoxCenter.y - skinBoxSize / 2, skinBoxSize + wallThickness, wallThickness, wallColor)
   scene.matter.add.gameObject(topWall, { isStatic: true })
-  const downWall = scene.add.rectangle(skinBoxCenter.x, skinBoxCenter.y + skinBoxSize / 2, skinBoxSize + wallThickness, wallThickness)
+  const downWall = scene.add.rectangle(skinBoxCenter.x, skinBoxCenter.y + skinBoxSize / 2, skinBoxSize + wallThickness, wallThickness, wallColor)
   scene.matter.add.gameObject(downWall, { isStatic: true })
 }
 
@@ -167,7 +168,7 @@ function create() {
 
   const skinButton = element.getChildByID('skin-button')
 
-  createSkinBoundingBox(scene)
+  createSkinBox(scene)
   const currentSkin = browseSkin(0)
   displaySkin(scene, currentSkin, skinButton)
 
