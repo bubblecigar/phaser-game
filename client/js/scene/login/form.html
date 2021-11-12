@@ -1,161 +1,23 @@
 <style>
   .login {
-    width: 100%;
+    width: 99%;
     transform: scale(.5);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
   }
 
-  input[type="text"],
-  #skin-box {
+  input[type="text"] {
     background: linear-gradient(top, #d6d7d7, #dee0e0);
     border: 1px solid #a1a3a3;
     border-radius: 4px;
     box-shadow: 0 1px #fff;
     box-sizing: border-box;
     color: #696969;
-    height: 39px;
-    margin: 31px 0 0;
-    padding-left: 20px;
-    transition: box-shadow 0.3s;
-    width: 47%;
-  }
-
-  #Room-ID {
-    margin-left: 4%;
-    margin-right: 10px;
   }
 
   input[type="text"]:focus {
     box-shadow: 0 0 4px 1px rgba(55, 166, 155, 0.3);
     outline: 0;
   }
-
-  input[type="submit"],
-  #skin-button {
-    height: 35px;
-    display: block;
-    font-family: Arial, "Helvetica", sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    text-decoration: none;
-    text-transform: uppercase;
-    text-align: center;
-    text-shadow: 1px 1px 0px #37a69b;
-    padding-top: 6px;
-    margin: 29px 0 0 0;
-    position: relative;
-    cursor: pointer;
-    border: none;
-    background-color: #37a69b;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #497a78, 0px 5px 5px #999;
-  }
-
-  input[type="submit"]:active {
-    top: 3px;
-    box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #31524d, 0px 0px 3px #999;
-  }
-
-  #sound {
-    margin-top: 28px;
-    margin-right: 2px;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: end;
-  }
-
-  #sound-checkbox {
-    border-radius: 5px;
-    cursor: pointer;
-    height: 16px;
-    width: 16px;
-    margin: 0px;
-    margin-right: 10px;
-  }
-
-  label {
-    cursor: pointer;
-  }
-
-  #store {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-
-  #skin-menu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  #skin-box {
-    width: 80px;
-    height: 80px;
-    margin: 0 10px 0 9px;
-  }
-
-  #skin-button {
-    width: 80px;
-    height: 20px;
-    margin: 0;
-    font-size: 12px;
-    text-transform: none;
-  }
-
-
-  #skin-button.activated {
-    background-color: #31524d;
-    text-shadow: none;
-    top: 3px;
-    box-shadow: inset 0px 1px 0px #555;
-  }
-
-  #skin-button.activate {
-    background-color: indianred;
-    box-shadow: inset 0px 1px 0px #ec7e2a, 0px 5px 0px 0px #59190e, 0px 5px 5px #999;
-  }
-
-  #skin-button.buy {
-    background-color: indianred;
-    box-shadow: inset 0px 1px 0px #ec7e2a, 0px 5px 0px 0px #59190e, 0px 5px 5px #999;
-  }
-
-  #skin-button.activate:active,
-  #skin-button.buy:active {
-    top: 3px;
-    box-shadow: inset 0px 1px 0px #ec7e2a, 0px 2px 0px 0px #59190e, 0px 0px 3px #999;
-  }
-
-  .arrow {
-    color: #37a69b;
-    background-color: transparent;
-    font-size: 20px;
-    text-shadow: 0px -1px 1px #2ab7ec, 0px 3px 3px #31524d, 0px 0px 3px #999;
-    cursor: pointer;
-    position: relative;
-    user-select: none;
-  }
-
-  .arrow:active {
-    top: 3px;
-    text-shadow: 0px 0px 3px #31524d, 0px 0px 3px #999;
-  }
-
-  #info {
-    display: flex;
-    align-items: center;
-  }
 </style>
-
-<div class="login">
-  <div id="info">
-    <input type="text" placeholder="Username" maxlength="6" id="username" name="username" />
-    <input type="text" placeholder="Room-ID" maxlength="6" id="Room-ID" name="Room-ID" />
-    <input type="submit" value="Join" name="joinButton" />
-  </div>
-</div>

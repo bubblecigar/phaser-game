@@ -7,7 +7,16 @@ import setting from '../../../../share/setting.json'
 import { browseSkin, buySkin, activateSkin } from './skins'
 import skins from '../../skins/index'
 
+let displayedSkin
+const skinBoxSize = 40
+const skinBoxCenter = {
+  x: 0,
+  y: 0
+}
+
 function init() {
+  skinBoxCenter.x = gameConfig.canvasWidth / 2 - skinBoxSize
+  skinBoxCenter.y = gameConfig.canvasHeight / 2 - skinBoxSize / 2
 }
 
 function preload() {
@@ -25,13 +34,6 @@ function preload() {
   )
 }
 
-let element
-
-let displayedSkin
-const skinBoxCenter = {
-  x: gameConfig.canvasWidth / 2 - 27,
-  y: gameConfig.canvasHeight / 2 - 5
-}
 const displaySkin = (scene, skin) => {
   if (displayedSkin) {
     displayedSkin.destroy()
@@ -68,19 +70,20 @@ const updateSkinButtonText = (skinKey, skinButtonText) => {
 }
 
 const createSkinBox = (scene) => {
-  const skinBoxSize = 40
   const wallThickness = 2
   const wallColor = 0xffffff
-  const leftWall = scene.add.rectangle(skinBoxCenter.x - skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness, wallColor)
+  const leftWall = scene.add.rectangle(skinBoxCenter.x - skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness)
   scene.matter.add.gameObject(leftWall, { isStatic: true })
-  const rightWall = scene.add.rectangle(skinBoxCenter.x + skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness, wallColor)
+  const rightWall = scene.add.rectangle(skinBoxCenter.x + skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness)
   scene.matter.add.gameObject(rightWall, { isStatic: true })
-  const topWall = scene.add.rectangle(skinBoxCenter.x, skinBoxCenter.y - skinBoxSize / 2, skinBoxSize + wallThickness, wallThickness, wallColor)
+  const topWall = scene.add.rectangle(skinBoxCenter.x, skinBoxCenter.y - skinBoxSize / 2, skinBoxSize + wallThickness, wallThickness)
   scene.matter.add.gameObject(topWall, { isStatic: true })
-  const downWall = scene.add.rectangle(skinBoxCenter.x, skinBoxCenter.y + skinBoxSize / 2, skinBoxSize + wallThickness, wallThickness, wallColor)
+  const downWall = scene.add.rectangle(skinBoxCenter.x, skinBoxCenter.y + skinBoxSize / 2, skinBoxSize + wallThickness, wallThickness)
   scene.matter.add.gameObject(downWall, { isStatic: true })
+  const wall = scene.add.rectangle(skinBoxCenter.x, skinBoxCenter.y, skinBoxSize, skinBoxSize)
+  wall.setStrokeStyle(2.5, wallColor)
 
-  const skinButton = scene.add.rectangle(rightWall.x + skinBoxSize, rightWall.y, skinBoxSize * 1.2, skinBoxSize / 2)
+  const skinButton = scene.add.rectangle(rightWall.x + skinBoxSize * 1.1, rightWall.y, skinBoxSize * 1.2, skinBoxSize / 2)
   skinButton.setStrokeStyle(2, 0xffffff)
   const skinButtonText = scene.add.text(skinButton.x, skinButton.y, '', {
     fontSize: '10px'
@@ -134,13 +137,12 @@ const displayCurrentCoins = (scene) => {
     coin.destroy()
   }
   const coinConfig = items.coin
-  const padding = 42
-  coin = scene.add.sprite(gameConfig.canvasWidth - padding - 18, 20, coinConfig.spritesheetConfig.spritesheetKey)
+  coin = scene.add.sprite(skinBoxCenter.x + skinBoxSize * 2.5, skinBoxCenter.y, coinConfig.spritesheetConfig.spritesheetKey)
   coin.play(coinConfig.animsConfig.idle.key)
   if (coinCount) {
     coinCount.destroy()
   }
-  coinCount = scene.add.text(gameConfig.canvasWidth - padding - 8, 21, `x ${userData.coins}`, {
+  coinCount = scene.add.text(coin.x + 12, coin.y, `x ${userData.coins}`, {
     fontSize: setting.fontSize
   })
   coinCount.setOrigin(0, 0.5)
@@ -197,28 +199,38 @@ function create() {
     }
   )
 
-  element = this.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight * 0.6).createFromHTML(formHtml)
-  const inputUsername = element.getChildByName('username')
-  const inputRoomId = element.getChildByName('Room-ID')
+  createSkinBox(scene)
+  displayCurrentCoins(scene)
+
+  this.add.dom(0, 0).createFromHTML(formHtml)
+  const domElement = scene.add.dom(gameConfig.canvasWidth / 2, gameConfig.canvasHeight / 2).createFromHTML(`
+  <div class="login">
+    <input type="text" placeholder="Username" maxlength="6" id="username" name="username" />
+    <input type="text" placeholder="Room-ID" maxlength="6" id="Room-ID" name="Room-ID" />
+  </div>
+`)
+  domElement.setOrigin(0.5, 0)
+  const inputUsername = domElement.getChildByName('username')
+  const inputRoomId = domElement.getChildByName('Room-ID')
   inputUsername.value = getLocalUserData().username || ''
   inputRoomId.value = getLocalUserData().roomId || ''
 
-  const skinButton = element.getChildByID('skin-button')
+  const playbutton = scene.add.rectangle(domElement.x + domElement.width / 4, domElement.y + 17, 16, 16)
+  playbutton.setStrokeStyle(2, 0xffffff)
+  playbutton.setOrigin(0, 0)
+  const goText = scene.add.text(playbutton.x + playbutton.width / 2, playbutton.y + playbutton.height / 2, '→', {
+    fontSize: setting.fontSize
+  })
+  goText.setOrigin(0.5, 0.5)
 
-  createSkinBox(scene)
-
-  displayCurrentCoins(scene)
-
-  element.addListener('click')
-  element.on('click', function (event) {
-    if (event.target.name === 'joinButton') {
-      if (inputUsername.value !== '' && inputRoomId.value !== '') {
-        setLocalUserData({
-          username: inputUsername.value,
-          roomId: inputRoomId.value
-        })
-        socketMethods.changeRoom(getLocalUserData())
-      }
+  playbutton.setInteractive({ cursor: 'pointer' })
+  playbutton.on('pointerdown', () => {
+    if (inputUsername.value !== '' && inputRoomId.value !== '') {
+      setLocalUserData({
+        username: inputUsername.value,
+        roomId: inputRoomId.value
+      })
+      socketMethods.changeRoom(getLocalUserData())
     }
   })
 
