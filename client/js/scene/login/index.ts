@@ -231,16 +231,16 @@ function create() {
     }
   }
 
-  const playbutton = scene.add.rectangle(domElement.x + domElement.width / 4, domElement.y + 17, 15, 15)
-  playbutton.setStrokeStyle(2, 0xffffff)
-  playbutton.setOrigin(0, 0)
-  const k = 2
-  const goIcon = scene.add.triangle(playbutton.x + playbutton.width / 2, playbutton.y + playbutton.height / 2, 0, -2 * k, 0, 2 * k, 4 * k, 0, 0xffffff)
-  goIcon.setOrigin(0.5, 0)
-  playbutton.setInteractive({ cursor: 'pointer' })
-  playbutton.on('pointerup', () => {
-    inputSubmit.click()
-  })
+  // const playbutton = scene.add.rectangle(domElement.x + domElement.width / 4, domElement.y + 17, 15, 15)
+  // playbutton.setStrokeStyle(2, 0xffffff)
+  // playbutton.setOrigin(0, 0)
+  // const k = 2
+  // const goIcon = scene.add.triangle(playbutton.x + playbutton.width / 2, playbutton.y + playbutton.height / 2, 0, -2 * k, 0, 2 * k, 4 * k, 0, 0xffffff)
+  // goIcon.setOrigin(0.5, 0)
+  // playbutton.setInteractive({ cursor: 'pointer' })
+  // playbutton.on('pointerup', () => {
+  //   inputSubmit.click()
+  // })
 
   const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight, gameConfig.canvasWidth, 5)
   scene.matter.add.gameObject(rectangle, {
