@@ -1,5 +1,4 @@
 import { v4 } from 'uuid'
-import store from 'store'
 
 const localKey = 'pixel-fighter'
 
@@ -33,12 +32,12 @@ const defaultUserData: User = {
 
 const getLocalUserData = (): User => {
   try {
-    const localUserData = store.get(localKey)
+    const localUserData = localStorage.getItem(localKey)
     if (!localUserData) {
-      localStorage.set(localKey, defaultUserData)
+      localStorage.setItem(localKey, JSON.stringify(defaultUserData))
       return defaultUserData
     } else {
-      const userData = localUserData
+      const userData = JSON.parse(localUserData)
       return userData
     }
   } catch (err) {
@@ -57,7 +56,7 @@ const setLocalUserData = data => {
       }
     }
   )
-  store.set(localKey, mergedData)
+  localStorage.setItem(localKey, JSON.stringify(mergedData))
 }
 
 
