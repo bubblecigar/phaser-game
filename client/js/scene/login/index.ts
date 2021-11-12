@@ -27,36 +27,17 @@ function preload() {
 
 let element
 
-
-const updateSkinButton = (skinKey, skinButton) => {
-  const { skins, activatedSkin } = getLocalUserData()
-
-  if (activatedSkin === skinKey) {
-    skinButton.textContent = 'Activated'
-    skinButton.name = 'activated'
-    skinButton.className = 'activated'
-  } else if (skins.includes(skinKey)) {
-    skinButton.textContent = 'Activate'
-    skinButton.name = 'activate'
-    skinButton.className = 'activate'
-  } else {
-    skinButton.textContent = `100 coins`
-    skinButton.name = 'buy'
-    skinButton.className = 'buy'
-  }
-}
-
 let displayedSkin
 const skinBoxCenter = {
   x: gameConfig.canvasWidth / 2 - 27,
   y: gameConfig.canvasHeight / 2 - 5
 }
-const displaySkin = (scene, skin, skinButton) => {
+const displaySkin = (scene, skin) => {
   if (displayedSkin) {
     displayedSkin.destroy()
   }
 
-  const offsetY = -20
+  const offsetY = -10
   const sprite = scene.add.sprite(skinBoxCenter.x, skinBoxCenter.y + offsetY)
   const { size, origin } = skin.matterConfig
   displayedSkin = scene.matter.add.gameObject(sprite, {
@@ -72,13 +53,24 @@ const displaySkin = (scene, skin, skinButton) => {
   sprite.setOrigin(origin.x, origin.y)
   sprite.play(skins[skin.key].animsConfig.idle.key)
   displayedSkin.setBounce(1)
-
-  updateSkinButton(skin.key, skinButton)
 }
+
+const updateSkinButtonText = (skinKey, skinButtonText) => {
+  const { skins, activatedSkin } = getLocalUserData()
+
+  if (activatedSkin === skinKey) {
+    skinButtonText.setText('In use')
+  } else if (skins.includes(skinKey)) {
+    skinButtonText.setText('Use')
+  } else {
+    skinButtonText.setText('100 $')
+  }
+}
+
 const createSkinBox = (scene) => {
   const skinBoxSize = 40
-  const wallThickness = 5
-  const wallColor = 0xff0000
+  const wallThickness = 2
+  const wallColor = 0xffffff
   const leftWall = scene.add.rectangle(skinBoxCenter.x - skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness, wallColor)
   scene.matter.add.gameObject(leftWall, { isStatic: true })
   const rightWall = scene.add.rectangle(skinBoxCenter.x + skinBoxSize / 2, skinBoxCenter.y, wallThickness, skinBoxSize + wallThickness, wallColor)
@@ -87,6 +79,51 @@ const createSkinBox = (scene) => {
   scene.matter.add.gameObject(topWall, { isStatic: true })
   const downWall = scene.add.rectangle(skinBoxCenter.x, skinBoxCenter.y + skinBoxSize / 2, skinBoxSize + wallThickness, wallThickness, wallColor)
   scene.matter.add.gameObject(downWall, { isStatic: true })
+
+  const skinButton = scene.add.rectangle(rightWall.x + skinBoxSize, rightWall.y, skinBoxSize * 1.2, skinBoxSize / 2)
+  skinButton.setStrokeStyle(2, 0xffffff)
+  const skinButtonText = scene.add.text(skinButton.x, skinButton.y, '', {
+    fontSize: '10px'
+  })
+  skinButtonText.setOrigin(0.5, 0.5)
+  skinButton.setInteractive({ cursor: 'pointer' })
+  skinButton.on('pointerdown', () => {
+    const { skins, activatedSkin } = getLocalUserData()
+    const browsedSkin = browseSkin(0)
+    if (activatedSkin === browsedSkin.key) {
+      // do nothing
+    } else if (skins.includes(browsedSkin.key)) {
+      activateSkin(browseSkin(0).key)
+      updateSkinButtonText(browsedSkin.key, skinButtonText)
+    } else {
+      buySkin(browseSkin(0).key)
+      displayCurrentCoins(scene)
+      updateSkinButtonText(browsedSkin.key, skinButtonText)
+    }
+  })
+
+  const k = 2
+  const leftButton = scene.add.triangle(leftWall.x - wallThickness - 2, leftWall.y, 0, -2 * k, 0, 2 * k, -4 * k, 0, 0xffffff)
+  leftButton.setOrigin(0, 0)
+  leftButton.setInteractive(new Phaser.Geom.Circle(0, 0, 10), Phaser.Geom.Circle.Contains)
+  const rightButton = scene.add.triangle(rightWall.x + wallThickness + 2, rightWall.y, 0, -2 * k, 0, 2 * k, 4 * k, 0, 0xffffff)
+  rightButton.setOrigin(0, 0)
+  rightButton.setInteractive(new Phaser.Geom.Circle(0, 0, 10), Phaser.Geom.Circle.Contains)
+
+  const skin = browseSkin(0)
+  displaySkin(scene, skin)
+  updateSkinButtonText(skin.key, skinButtonText)
+
+  leftButton.on('pointerdown', () => {
+    const skin = browseSkin(-1)
+    displaySkin(scene, skin)
+    updateSkinButtonText(skin.key, skinButtonText)
+  })
+  rightButton.on('pointerdown', () => {
+    const skin = browseSkin(-1)
+    displaySkin(scene, skin)
+    updateSkinButtonText(skin.key, skinButtonText)
+  })
 }
 
 let coinCount
@@ -169,20 +206,12 @@ function create() {
   const skinButton = element.getChildByID('skin-button')
 
   createSkinBox(scene)
-  const currentSkin = browseSkin(0)
-  displaySkin(scene, currentSkin, skinButton)
 
   displayCurrentCoins(scene)
 
   element.addListener('click')
   element.on('click', function (event) {
-    if (event.target.name === 'skin-left') {
-      const skin = browseSkin(-1)
-      displaySkin(scene, skin, skinButton)
-    } else if (event.target.name === 'skin-right') {
-      const skin = browseSkin(1)
-      displaySkin(scene, skin, skinButton)
-    } else if (event.target.name === 'joinButton') {
+    if (event.target.name === 'joinButton') {
       if (inputUsername.value !== '' && inputRoomId.value !== '') {
         setLocalUserData({
           username: inputUsername.value,
@@ -190,14 +219,6 @@ function create() {
         })
         socketMethods.changeRoom(getLocalUserData())
       }
-    } else if (event.target.name === 'buy') {
-      buySkin(browseSkin(0).key)
-      displayCurrentCoins(scene)
-      updateSkinButton(browseSkin(0).key, skinButton)
-    } else if (event.target.name === 'activate') {
-      // activate the skin
-      activateSkin(browseSkin(0).key)
-      updateSkinButton(browseSkin(0).key, skinButton)
     }
   })
 
