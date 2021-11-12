@@ -14,7 +14,8 @@ import cards from './scene/basescene/cards/index'
 import { connectToServer, getSocketMethods } from './socket'
 
 const aspectRatio = window.innerHeight / window.innerWidth
-gameConfig.canvasHeight = gameConfig.canvasWidth * aspectRatio
+
+gameConfig.canvasHeight = gameConfig.canvasWidth * (aspectRatio > 1 ? 1 / aspectRatio : aspectRatio)
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,

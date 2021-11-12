@@ -56,6 +56,9 @@ const gameMethods = scene => {
       player.phaserObject.destroy()
     },
     createPlayers: () => {
+      const txt = scene.add.text(10, 10, gameState.players.length.toString())
+      txt.setScrollFactor(0)
+      txt.setDepth(102)
       gameState.players.forEach(
         player => {
           methods.createPlayer(player)
