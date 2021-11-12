@@ -222,7 +222,7 @@ function create() {
   const goIcon = scene.add.triangle(playbutton.x + playbutton.width / 2, playbutton.y + playbutton.height / 2, 0, -2 * k, 0, 2 * k, 4 * k, 0, 0xffffff)
   goIcon.setOrigin(0.5, 0)
   playbutton.setInteractive({ cursor: 'pointer' })
-  playbutton.on('pointerdown', () => {
+  playbutton.on('pointerup', () => {
     if (inputUsername.value !== '' && inputRoomId.value !== '') {
       setLocalUserData({
         username: inputUsername.value,
