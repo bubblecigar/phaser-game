@@ -13,9 +13,8 @@ import items from '../../../items'
 import { perform } from '../../../actions'
 import skull from '../../../skins/skull'
 
-const userId = getLocalUserData().userId
-
 const gameMethods = scene => {
+  const userId = getLocalUserData().userId
   const methods = {
     getPlayer: (id: string): Player => gameState.players.find(p => p.id === id),
     createPlayer: (player: Player) => {
