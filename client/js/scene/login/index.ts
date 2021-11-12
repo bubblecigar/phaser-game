@@ -213,6 +213,8 @@ function create() {
   domElement.setOrigin(0.5, 0)
   const inputUsername = domElement.getChildByName('username')
   const inputRoomId = domElement.getChildByName('Room-ID')
+  const inputSubmit = domElement.getChildByName('joinButton')
+  inputSubmit.x =  '-100px'
   inputUsername.value = getLocalUserData().username || ''
   inputRoomId.value = getLocalUserData().roomId || ''
 
@@ -237,13 +239,7 @@ function create() {
   goIcon.setOrigin(0.5, 0)
   playbutton.setInteractive({ cursor: 'pointer' })
   playbutton.on('pointerup', () => {
-    if (inputUsername.value !== '' && inputRoomId.value !== '') {
-      setLocalUserData({
-        username: inputUsername.value,
-        roomId: inputRoomId.value
-      })
-      socketMethods.changeRoom(getLocalUserData())
-    }
+    inputSubmit.click()
   })
 
   const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight, gameConfig.canvasWidth, 5)
