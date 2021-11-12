@@ -142,7 +142,7 @@ const displayCurrentCoins = (scene) => {
   if (coinCount) {
     coinCount.destroy()
   }
-  coinCount = scene.add.text(coin.x + 12, coin.y, `x ${userData.coins}`, {
+  coinCount = scene.add.text(coin.x + 12, coin.y + 1, `x ${userData.coins}`, {
     fontSize: setting.fontSize
   })
   coinCount.setOrigin(0, 0.5)
@@ -232,7 +232,7 @@ function create() {
     }
   })
 
-  const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight, gameConfig.canvasWidth * 0.45 + 20, 65)
+  const rectangle = scene.add.rectangle(gameConfig.canvasWidth / 2, gameConfig.canvasHeight, gameConfig.canvasWidth, 5)
   scene.matter.add.gameObject(rectangle, {
     isStatic: true
   })
