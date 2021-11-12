@@ -140,8 +140,8 @@ const changeShootButton = (spriteKey) => {
   }
 }
 
-function create() {
-  const bgmusicButton = this.add.image(10, 10, 'soundIcon')
+const addBgmusicButton = (scene) => {
+  const bgmusicButton = scene.add.image(10, 10, 'soundIcon')
   bgmusicButton.setScale(0.6)
   bgmusicButton.setScrollFactor(0)
   bgmusicButton.setDepth(100)
@@ -166,6 +166,10 @@ function create() {
       scene.game.sound.mute = false
     }
   })
+}
+
+function create() {
+  addBgmusicButton(this)
 
   cursors = this.input.keyboard.createCursorKeys()
   wasd = this.input.keyboard.addKeys({
