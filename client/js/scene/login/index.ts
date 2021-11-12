@@ -153,11 +153,11 @@ function create() {
   const scene = this
 
   const sceneKey = scene.scene.key
-  const logsText = scene.add.text(5, gameConfig.canvasHeight - 5, '', {
-    fontSize: setting.fontSize,
-    lineSpacing: 5
+  const logsText = scene.add.text(5, 5, '', {
+    fontSize: '6px',
+    lineSpacing: 3
   })
-  logsText.setOrigin(0, 1)
+  logsText.setOrigin(0, 0)
 
   socketMethods.registerSceneSocketEvents(sceneKey, {
     updateRoomLog: (logs) => {
@@ -215,14 +215,12 @@ function create() {
   inputUsername.value = getLocalUserData().username || ''
   inputRoomId.value = getLocalUserData().roomId || ''
 
-  const playbutton = scene.add.rectangle(domElement.x + domElement.width / 4, domElement.y + 17, 16, 16)
+  const playbutton = scene.add.rectangle(domElement.x + domElement.width / 4, domElement.y + 17, 15, 15)
   playbutton.setStrokeStyle(2, 0xffffff)
   playbutton.setOrigin(0, 0)
-  const goText = scene.add.text(playbutton.x + playbutton.width / 2, playbutton.y + playbutton.height / 2, '→', {
-    fontSize: setting.fontSize
-  })
-  goText.setOrigin(0.5, 0.5)
-
+  const k = 2
+  const goIcon = scene.add.triangle(playbutton.x + playbutton.width / 2, playbutton.y + playbutton.height / 2, 0, -2 * k, 0, 2 * k, 4 * k, 0, 0xffffff)
+  goIcon.setOrigin(0.5, 0)
   playbutton.setInteractive({ cursor: 'pointer' })
   playbutton.on('pointerdown', () => {
     if (inputUsername.value !== '' && inputRoomId.value !== '') {
