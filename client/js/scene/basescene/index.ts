@@ -141,8 +141,6 @@ const changeShootButton = (spriteKey) => {
 }
 
 function create() {
-  const onColor = 0xffffff
-  const offColor = 0xff00ff
   const bgmusicButton = this.add.image(10, 10, 'soundIcon')
   bgmusicButton.setScale(0.6)
   bgmusicButton.setScrollFactor(0)
