@@ -5,6 +5,7 @@ import battleFieldUrl from './map/battle_field.json'
 import dotaFieldUrl from './map/dota_field.json'
 import simpleMapUrl from './map/simple_map.json'
 import treeMapUrl from './map/tree_map.json'
+import caveMapUrl from './map/cave_map.json'
 
 export const maps = {
   "dotaField": {
@@ -22,6 +23,12 @@ export const maps = {
   "treeMap": {
     mapKey: 'treeMap',
     mapUrl: treeMapUrl,
+    tilesetKey: 'forestTileSet',
+    tilesetUrl: forestTileSetUrl
+  },
+  "caveMap": {
+    mapKey: 'caveMap',
+    mapUrl: caveMapUrl,
     tilesetKey: 'forestTileSet',
     tilesetUrl: forestTileSetUrl
   },

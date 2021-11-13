@@ -187,7 +187,7 @@ const changeGameStatus = (room, newGameStatus) => {
   } else if (newGameStatus === 'processing') {
     room.disconnectedPlayers = []
     room.coinsToWin = room.players.length * 5
-    const maps = ['simpleMap', 'treeMap']
+    const maps = ['simpleMap', 'treeMap', 'caveMap']
     maps.sort(() => Math.random() - 0.5)
     room.mapInUse = maps[0]
     gameStatusIntervals.push(registerProcessingIntervals(room))

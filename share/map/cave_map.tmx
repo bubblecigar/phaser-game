@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="38">
+ <editorsettings>
+  <export target="cave_map.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="forestTileSet" tilewidth="16" tileheight="16" tilecount="48" columns="8">
+  <image source="forestTileSet.png" width="128" height="96"/>
+  <tile id="0">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="1">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="2">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="3">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="4">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="5">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="6">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="8">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="9">
+   <objectgroup draworder="index" id="2">
+    <object id="2" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="10">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="13">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="16">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="2" y="0" width="14" height="15"/>
+   </objectgroup>
+  </tile>
+  <tile id="17">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="18">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="14" height="15"/>
+   </objectgroup>
+  </tile>
+  <tile id="19">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="20">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="21">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="29">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="30">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="31">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="37">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+  <tile id="39">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
+ </tileset>
+ <layer id="8" name="bg_layer" width="30" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+26,0,0,0,0,0,33,34,34,0,0,0,0,0,0,0,0,0,0,0,0,34,34,2147483681,0,0,0,0,0,2147483674,
+0,0,0,0,0,0,33,34,34,0,0,0,0,0,34,34,0,0,0,0,0,34,34,2147483681,0,0,0,0,0,0,
+0,0,0,0,0,0,33,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,2147483681,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="5" name="wall_layer" width="30" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,1,2,2,3,0,0,0,0,0,0,0,0,0,0,1,2,2,2147483649,0,0,0,0,0,0,
+3,27,0,0,0,0,33,0,0,11,0,0,0,2,26,26,2,0,0,0,9,0,0,0,0,0,0,0,2147483675,2147483651,
+34,34,27,0,0,0,33,0,0,2,2,2,2,2,41,43,2,2,2,2,2,0,0,0,0,0,0,2147483675,2147483682,2147483682,
+34,34,34,3,0,0,33,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2147483651,2147483682,2147483682,2147483682
+</data>
+ </layer>
+ <layer id="9" name="fg_layer" width="30" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="4" name="info_layer">
+  <object id="1" name="red_team_spawn_point" x="17.3773" y="141.58">
+   <point/>
+  </object>
+  <object id="3" name="coin_point" x="238.378" y="92.9051">
+   <point/>
+  </object>
+  <object id="7" name="blue_team_spawn_point" x="462.904" y="141.491">
+   <point/>
+  </object>
+  <object id="27" name="monster_point" x="109.964" y="143.7">
+   <properties>
+    <property name="max" type="int" value="2"/>
+    <property name="move" type="int" value="10"/>
+    <property name="pool" type="int" value="1"/>
+    <property name="spawn_interval" type="int" value="5000"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="31" name="monster_point" x="366.305" y="144.498">
+   <properties>
+    <property name="max" type="int" value="2"/>
+    <property name="move" type="int" value="10"/>
+    <property name="pool" type="int" value="1"/>
+    <property name="spawn_interval" type="int" value="5000"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="32" name="monster_point" x="239.019" y="140.309">
+   <properties>
+    <property name="max" type="int" value="1"/>
+    <property name="move" type="int" value="10"/>
+    <property name="pool" type="int" value="2"/>
+    <property name="spawn_interval" type="int" value="15000"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="34" name="monster_point" x="184.313" y="111.829">
+   <properties>
+    <property name="max" type="int" value="1"/>
+    <property name="move" type="int" value="0"/>
+    <property name="pool" type="int" value="3"/>
+    <property name="spawn_interval" type="int" value="30000"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="37" name="monster_point" x="296.667" y="114">
+   <properties>
+    <property name="max" type="int" value="1"/>
+    <property name="move" type="int" value="0"/>
+    <property name="pool" type="int" value="3"/>
+    <property name="spawn_interval" type="int" value="30000"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="sensor_layer">
+  <object id="16" name="red_fountain" x="0.223916" y="124.874" width="45.8066" height="36.1829"/>
+  <object id="17" name="blue_fountain" x="432.937" y="125.75" width="47.0031" height="34.606"/>
+ </objectgroup>
+</map>

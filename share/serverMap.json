@@ -8,6 +8,9 @@
   "simpleMap": {
     "file": "simple_map.json"
   },
+  "caveMap": {
+    "file": "cave_map.json"
+  },
   "treeMap": {
     "file": "tree_map.json"
   }
