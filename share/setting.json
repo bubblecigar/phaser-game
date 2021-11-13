@@ -7,7 +7,7 @@
   "maxMonsters": 5,
   "resurrectCountDown": 5000,
   "gameStartCountDown": 3000,
-  "coinSpawnInterval": 10000,
+  "coinSpawnInterval": 30000,
   "endGameMapConfigKey": "waitingRoomConfig",
   "roomAutoCloseIdleTime": 20000,
   "fontSize": "10px"
