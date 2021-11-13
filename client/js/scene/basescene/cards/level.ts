@@ -134,8 +134,10 @@ export const levelUp = (scene, methods) => {
   player.exp -= levelupExpRequirement
   player.level++
   player.attributes.maxHealth += 3
+  const direction = player.phaserObject.getByName('charactor-sprite').flipX ? 'left' : 'right'
   const _player: Player = _.omit(_.clone(player), 'phaserObject')
   socketMethods.clientsInScene('all-scene', methods, 'rebuildPlayer', _player)
+  socketMethods.clientsInScene('all-scene', methods, 'updatePlayerDirection', _player.id, direction)
   changeShootButton(items[_player.item].spritesheetConfig.spritesheetKey)
 }
 
