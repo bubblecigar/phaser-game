@@ -214,7 +214,6 @@ function create() {
   const inputUsername = domElement.getChildByName('username')
   const inputRoomId = domElement.getChildByName('Room-ID')
   const inputSubmit = domElement.getChildByName('joinButton')
-  inputSubmit.x =  '-100px'
   inputUsername.value = getLocalUserData().username || ''
   inputRoomId.value = getLocalUserData().roomId || ''
 

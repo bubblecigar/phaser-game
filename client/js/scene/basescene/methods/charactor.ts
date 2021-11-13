@@ -7,7 +7,6 @@ import { Player, Monster } from '../../../Interface'
 import collisionCategories from '../collisionCategories'
 
 export const createCharactor = (scene, constructor: Player | Monster) => {
-  const isUser = constructor.id === getLocalUserData().userId
   const userTeam = gameState.players.find(player => player.id === getLocalUserData().userId).team
   const isMonster = constructor.interface === "Monster"
 
