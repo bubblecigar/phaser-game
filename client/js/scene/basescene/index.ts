@@ -16,6 +16,7 @@ import { sounds } from '../../sounds/index'
 import { popText } from './popText'
 import items from '../../items/index'
 import { isMobile } from '../../deviceDetection'
+import gameState from '../../game/state'
 
 const userId = getLocalUserData().userId
 
@@ -170,8 +171,60 @@ const addBgmusicButton = (scene) => {
   })
 }
 
+const createStatusBar = (scene) => {
+  const coin = scene.add.sprite(gameConfig.canvasWidth / 2, 10,
+    items.coin.spritesheetConfig.spritesheetKey)
+  coin.setScrollFactor(0)
+  coin.setOrigin(0.5, 0.5)
+  coin.play(items.coin.animsConfig.idle.key)
+  coin.setDepth(100)
+
+  const redcoinCount = scene.add.text(coin.x - 10, coin.y + 1, '0', {
+    fontSize: '10px'
+  })
+  redcoinCount.setOrigin(1, 0.5)
+  redcoinCount.setScrollFactor(0)
+  redcoinCount.setDepth(100)
+  const bluecoinCount = scene.add.text(coin.x + 10, coin.y + 1, '0', {
+    fontSize: '10px'
+  })
+  bluecoinCount.setOrigin(0, 0.5)
+  bluecoinCount.setScrollFactor(0)
+  bluecoinCount.setDepth(100)
+
+  scene.redcoinCount = redcoinCount
+  scene.bluecoinCount = bluecoinCount
+}
+
+const updateStatusBar = (scene) => {
+  if (!scene.redcoinCount || !scene.bluecoinCount) {
+    return
+  }
+  let redcoins = 0
+  let bluecoins = 0
+  gameState.players.forEach(
+    player => {
+      if (player.team === 'red') {
+        redcoins += player.coins
+      }
+      if (player.team === 'blue') {
+        bluecoins += player.coins
+      }
+    }
+  )
+  scene.redcoinCount.setText(redcoins)
+  scene.bluecoinCount.setText(bluecoins)
+}
+
 function create() {
   addBgmusicButton(this)
+  createStatusBar(this)
+  this.time.addEvent({
+    delay: 200,
+    callback: () => updateStatusBar(this),
+    callbackScope: this,
+    loop: true
+  })
 
   cursors = this.input.keyboard.createCursorKeys()
   wasd = this.input.keyboard.addKeys({
