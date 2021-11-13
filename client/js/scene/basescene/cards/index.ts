@@ -6,7 +6,6 @@ import { drawActionCard } from './actionCard'
 import { drawAttributeCard } from './attributeCard'
 import { drawResurrectCard } from './resurrectCard'
 import { Card, levelUp } from './level'
-import setting from '../../../../../share/setting.json'
 
 let methods
 let cards
@@ -29,7 +28,8 @@ const createEmptyCard = (scene, position, size, n) => {
   itemCell.setInteractive({
     cursor: 'pointer'
   })
-  container.setScale(0.9)
+
+  container.setScale(0.95)
   itemCell.on('pointermove', function (pointer, x, y, event) {
     container.setScale(1)
   })
@@ -37,7 +37,7 @@ const createEmptyCard = (scene, position, size, n) => {
     container.setScale(1)
   })
   itemCell.on('pointerout', function (pointer, x, y, event) {
-    container.setScale(0.9)
+    container.setScale(0.95)
   })
 
   const upperPosition = {
